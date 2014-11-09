@@ -1,5 +1,6 @@
 PrivateInternetAccess OpenVPN - Transmission
 ===
+This Docker container lets you run Transmission with WebUI while connecting to PIA VPN for security. You can be up and running in no time, please read the instructions below.
 
 # Building and running the container
 To build this container, clone the repository and cd into it. There are a few options on how to configure the container, let's look at the simplest one first. In order to connect to PIA VPN you need to put your username and password in the piaconfig/credentials.txt file.
@@ -16,6 +17,15 @@ sudo docker run --privileged  -d -v /your/storage/path/:/data -p 9091:9091 docke
 ```
 
 This will build the image with default settings. What this means is that the VPN connects to PIA Netherlands with your credentials, starts Transmission WebUI with authentication disabled and Transmission will store your torrents to /your/storage/path/completed. Transmission assumes "completed, incomplete and watch" exists in /your/storage/path
+
+### But I want to provide my own Transmission settings!
+OK, so you're advanced. If you want to change the Transmission settings from the defaults, create your own settings.json file or base it on the default config. Then make the container use it like this:
+```
+sudo docker run --privileged  -d -v /your/storage/path/:/data -v /your/path/to/settings.json:/etc/transmission-daemon/settings.json -p 9091:9091 docker-transmission-openvpn
+```
+
+The container will now use your local settings.json file for its configuration.
+NB: do not change this file while container is running. Transmission persist its config on shutdown, and this will override your changes. Stop the contaienr, do configurations, then start it again.
 
 ### Access the WebUI
 But what's going on? My http://my-host:9091 isn't responding?
