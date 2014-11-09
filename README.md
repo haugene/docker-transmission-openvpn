@@ -9,6 +9,7 @@ Once this is done, you're ready to build and start your container.
 
 ### Build it:
 ```
+cd /repo/location/docker-transmission-openvpn
 docker build -t="docker-transmission-openvpn" .
 ```
 ### Run it:
