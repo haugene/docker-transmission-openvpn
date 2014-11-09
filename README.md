@@ -14,7 +14,7 @@ docker build -t="docker-transmission-openvpn" .
 ```
 ### Run it:
 ```
-sudo docker run --privileged  -d -v /your/storage/path/:/data -p 9091:9091 docker-transmission-openvpn
+docker run --privileged  -d -v /your/storage/path/:/data -p 9091:9091 docker-transmission-openvpn
 ```
 
 This will build the image with default settings. What this means is that the VPN connects to PIA Netherlands with your credentials, starts Transmission WebUI with authentication disabled and Transmission will store your torrents to /your/storage/path/completed. Transmission assumes "completed, incomplete and watch" exists in /your/storage/path
@@ -22,7 +22,7 @@ This will build the image with default settings. What this means is that the VPN
 ### But I want to provide my own Transmission settings!
 OK, so you're advanced. If you want to change the Transmission settings from the defaults, create your own settings.json file or base it on the default config. Then make the container use it like this:
 ```
-sudo docker run --privileged  -d -v /your/storage/path/:/data -v /your/path/to/settings.json:/etc/transmission-daemon/settings.json -p 9091:9091 docker-transmission-openvpn
+docker run --privileged  -d -v /your/storage/path/:/data -v /your/path/to/settings.json:/etc/transmission-daemon/settings.json -p 9091:9091 docker-transmission-openvpn
 ```
 
 The container will now use your local settings.json file for its configuration.
@@ -55,4 +55,19 @@ http {
 Your Transmission WebUI should now be avaliable at "your.host.ip.addr:8080/transmission/web/".
 Change the port in the docker run command if 8080 is not suitable for you.
 
-Good luck!
+### What if I want to run the container interactively.
+If you want do have access inside the container while running, do like this.
+```
+docker run --privileged -v /mnt/disk1/Torrents/:/data -p 9091:9091 -it --entrypoint=/bin/bash docker-transmission-openvpn
+```
+
+This will start the container and give you a bash shell to work from. The container has screen installed, so you can use screen to start supervisord which starts openVPN and Transmission. Then you can detach from screen and continue to use bash inside the running container. If you're unfamiliar with screen, read up on it. The commands are as follows:
+``` 
+screen
+```
+Accept the terms, then run supervisord and detach.
+```
+/usr/bin/supervisord
+CTRL+A + d
+```
+You should now be detached and both services should be running.
