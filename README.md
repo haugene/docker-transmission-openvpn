@@ -51,7 +51,7 @@ http {
   }
 }
 ```
-Your Transmission WebUI should now be avaliable at "http://your.host.ip.addr:8080/
+Your Transmission WebUI should now be avaliable at "your.host.ip.addr:8080/transmission/web/".
 Change the port in the docker run command if 8080 is not suitable for you.
 
 Good luck!
