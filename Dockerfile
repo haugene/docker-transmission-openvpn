@@ -19,24 +19,32 @@ RUN apt-get update
 RUN apt-get install -y transmission-cli
 RUN apt-get install -y transmission-common
 RUN apt-get install -y transmission-daemon
-RUN apt-get install -y supervisor
 RUN apt-get install -y openvpn
 RUN apt-get install -y curl
 RUN apt-get install -y screen
 
-# Create directories
-RUN mkdir -p /var/log/supervisor
+# Transmission service
+RUN mkdir -p /etc/service/transmission/
+ADD transmission/run.sh /etc/service/transmission/run
+
+# Transmission port updater
+RUN mkdir -p /etc/service/portupdater/
+ADD transmission/runUpdates.sh /etc/service/portupdater/run
+
+# OpenVPN service
+RUN mkdir -p /etc/service/openvpn/
+ADD runOpenVpn.sh /etc/service/openvpn/run
 
 # Add configuration and scripts
 ADD piaconfig/config.ovpn /etc/openvpn/config.ovpn
 ADD piaconfig/credentials.txt /etc/openvpn/credentials.txt
 ADD piaconfig/ca.crt /etc/openvpn/ca.crt
 ADD piaconfig/crl.pem /etc/openvpn/crl.pem
-ADD startOpenVPN.sh /etc/openvpn/start.sh
-ADD transmissionSettings.json /etc/transmission-daemon/settings.json
-ADD updateTransmissionPort.sh /etc/transmission-daemon/updatePort.sh
-ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+ADD runOpenVpn.sh /etc/openvpn/start.sh
+ADD transmission/transmissionSettings.json /etc/transmission-daemon/settings.json
+ADD transmission/updateTransmissionPort.sh /etc/transmission-daemon/updatePort.sh
+ADD transmission/periodicUpdates.sh /etc/transmission-daemon/periodicUpdates.sh
 
-# Expose port and run supervisord
+# Expose port and run. Use baseimage-docker's init system
 EXPOSE 9091
-CMD ["/usr/bin/supervisord"]
+CMD ["/sbin/my_init"]
