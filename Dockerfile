@@ -2,7 +2,7 @@
 #
 # Version 0.9
 
-FROM ubuntu:14.04
+FROM phusion/baseimage:latest
 MAINTAINER Kristian Haugene
 
 VOLUME /data
