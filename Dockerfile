@@ -27,9 +27,6 @@ RUN apt-get install -y screen
 # Create directories
 RUN mkdir -p /var/log/supervisor
 
-# Screen directory needs permission 777 to run
-chmod 777 /var/run/screen
-
 # Add configuration and scripts
 ADD piaconfig/config.ovpn /etc/openvpn/config.ovpn
 ADD piaconfig/credentials.txt /etc/openvpn/credentials.txt
