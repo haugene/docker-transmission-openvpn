@@ -7,6 +7,7 @@ username=$(head -1 $PIA_PASSWD_FILE)
 passwd=$(tail -1 $PIA_PASSWD_FILE)
 local_vpn_ip=$(ip addr show tun0 | grep inet | awk '{ print $2 }')
 pia_client_id_file=/etc/transmission-daemon/pia_client_id
+transmission_settings_file=/etc/transmission-daemon/settings.json
 port_assignment_url=https://www.privateinternetaccess.com/vpninfo/port_forward_assignment
 
 #
@@ -34,7 +35,7 @@ echo "Got new port $new_port from pia"
 #
 
 # Check if transmission remote is set up with authentication
-auth_enabled=$(grep 'rpc-authentication-required\"' settings.json | grep -oE 'true|false')
+auth_enabled=$(grep 'rpc-authentication-required\"' $transmission_settings_file | grep -oE 'true|false')
 if [[ "true" = "$auth_enabled" ]]
   then
     echo "transmission auth required"
