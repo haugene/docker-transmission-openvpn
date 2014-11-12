@@ -2,7 +2,7 @@
 #
 # Version 0.9
 
-FROM phusion/baseimage:latest
+FROM phusion/baseimage:0.9.15
 MAINTAINER Kristian Haugene
 
 VOLUME /data
@@ -48,3 +48,6 @@ ADD transmission/periodicUpdates.sh /etc/transmission-daemon/periodicUpdates.sh
 # Expose port and run. Use baseimage-docker's init system
 EXPOSE 9091
 CMD ["/sbin/my_init"]
+
+# Clean up APT when done.
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
