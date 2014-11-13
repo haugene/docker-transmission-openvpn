@@ -26,7 +26,7 @@ docker run --privileged  -d -v /your/storage/path/:/data -v /your/path/to/settin
 ```
 
 The container will now use your local settings.json file for its configuration.
-NB: do not change this file while container is running. Transmission persist its config on shutdown, and this will override your changes. Stop the contaienr, do configurations, then start it again.
+NB: do not change this file while container is running. Transmission persist its config on shutdown, and this will override your changes. Stop the container, do configurations, then start it again.
 
 ### Access the WebUI
 But what's going on? My http://my-host:9091 isn't responding?
@@ -67,7 +67,7 @@ screen
 ```
 Accept the terms, then run supervisord and detach.
 ```
-/usr/bin/supervisord
+/sbin/my_init
 CTRL+A + d
 ```
 You should now be detached and both services should be running.
