@@ -1,14 +1,24 @@
 #/bin/bash
 
 # Settings
-PIA_PASSWD_FILE=/etc/openvpn/credentials.txt
+PIA_PASSWD_FILE=/config/pia-credentials.txt
+TRANSMISSION_PASSWD_FILE=/config/transmission-credentials.txt
 
-username=$(head -1 $PIA_PASSWD_FILE)
-passwd=$(tail -1 $PIA_PASSWD_FILE)
+pia_username=$(head -1 $PIA_PASSWD_FILE)
+pia_passwd=$(tail -1 $PIA_PASSWD_FILE)
+transmission_username=$(head -1 $TRANSMISSION_PASSWD_FILE)
+transmission_passwd=$(tail -1 $TRANSMISSION_PASSWD_FILE)
 local_vpn_ip=$(ip addr show tun0 | grep inet | awk '{ print $2 }')
 pia_client_id_file=/etc/transmission-daemon/pia_client_id
 transmission_settings_file=/etc/transmission-daemon/settings.json
 port_assignment_url=https://www.privateinternetaccess.com/vpninfo/port_forward_assignment
+
+if [ -f /config/transmission/settings.json ];
+then
+   transmission_settings_file=/config/transmission/settings.json
+else
+   transmission_settings_file=/etc/transmission-daemon/settings.json
+fi
 
 #
 # First get a port from PIA
@@ -25,7 +35,7 @@ if [[ -z "$pia_client_id" ]]; then
 fi
 
 # Get the port
-pia_response=$(curl -d "user=$username&pass=$passwd&client_id=$pia_client_id&local_ip=$local_vpn_ip" $port_assignment_url)
+pia_response=$(curl -d "user=$pia_username&pass=$pia_passwd&client_id=$pia_client_id&local_ip=$local_vpn_ip" $port_assignment_url)
 
 new_port=$(echo $pia_response | grep -oE "[0-9]+")
 echo "Got new port $new_port from pia"
@@ -39,7 +49,7 @@ auth_enabled=$(grep 'rpc-authentication-required\"' $transmission_settings_file 
 if [[ "true" = "$auth_enabled" ]]
   then
     echo "transmission auth required"
-    myauth="--auth username:password"
+    myauth="--auth $transmission_username:$transmission_passwd"
   else
     echo "transmission auth not required"
     myauth=""

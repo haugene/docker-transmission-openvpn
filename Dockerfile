@@ -35,13 +35,14 @@ ADD transmission/runUpdates.sh /etc/service/portupdater/run
 RUN mkdir -p /etc/service/openvpn/
 ADD runOpenVpn.sh /etc/service/openvpn/run
 
+VOLUME /config
+
 # Add configuration and scripts
 ADD piaconfig/config.ovpn /etc/openvpn/config.ovpn
-ADD piaconfig/credentials.txt /etc/openvpn/credentials.txt
 ADD piaconfig/ca.crt /etc/openvpn/ca.crt
 ADD piaconfig/crl.pem /etc/openvpn/crl.pem
 ADD runOpenVpn.sh /etc/openvpn/start.sh
-ADD transmission/transmissionSettings.json /etc/transmission-daemon/settings.json
+ADD transmission/defaultSettings.json /etc/transmission-daemon/settings.json
 ADD transmission/updateTransmissionPort.sh /etc/transmission-daemon/updatePort.sh
 ADD transmission/periodicUpdates.sh /etc/transmission-daemon/periodicUpdates.sh
 
