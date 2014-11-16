@@ -2,10 +2,21 @@ PrivateInternetAccess OpenVPN - Transmission
 ===
 This Docker container lets you run Transmission with WebUI while connecting to PIA VPN for security. You can be up and running in no time, please read the instructions below.
 
-# Building and running the container
-To build this container, clone the repository and cd into it. There are a few options on how to configure the container, let's look at the simplest one first. In order to connect to PIA VPN you need to put your username and password in the piaconfig/credentials.txt file.
+# Run container from Docker registry
+The container is available from the Docker registry and this is the simplest way to get it. To run the container use this command:
 
-Once this is done, you're ready to build and start your container.
+```
+docker run --privileged  -d -v /your/storage/path/:/data -v /your/config/path/:/config -p 9091:9091 haugene/transmission-openvpn
+```
+
+As you can see, the container expects two volumes to be mounted. One is used for storing your downloads from Transmission, and the other provides configurations. The container comes with a default Transmission settings.json file that expects the folders "completed, incomplete and watch" to be present in /your/storage/path (aka /data). This is where Transmission will store your downloads, incomplete downloads and a watch directory to look for new .torrent files.
+
+The only mandatory configuration is a pia-credentials.txt file that needs to be put in /your/config/path/ directory. In the file you supply your username and password for Private Internet Access VPN connections. The file should have two lines; your username on line 1 and your password on line 2. The container will connect to the Private Internet Access VPN servers in Netherlands by default.
+
+NB: Instructions on how to use your own Transmission settings, and how to connect to the WebUI, is further down in the README.
+
+# Building the container yourself
+To build this container, clone the repository and cd into it.
 
 ### Build it:
 ```
@@ -14,19 +25,17 @@ docker build -t="docker-transmission-openvpn" .
 ```
 ### Run it:
 ```
-docker run --privileged  -d -v /your/storage/path/:/data -p 9091:9091 docker-transmission-openvpn
+docker run --privileged  -d -v /your/storage/path/:/data -v /your/config/path/:/config -p 9091:9091 docker-transmission-openvpn
 ```
 
-This will build the image with default settings. What this means is that the VPN connects to PIA Netherlands with your credentials, starts Transmission WebUI with authentication disabled and Transmission will store your torrents to /your/storage/path/completed. Transmission assumes "completed, incomplete and watch" exists in /your/storage/path
+As described in the "Run container from Docker registry" section, this will start a container with default settings. This means that you should have the folders "completed, incomplete and watch" in /your/storage/path, and pia-credentials.txt in /your/config/path.
 
 ### But I want to provide my own Transmission settings!
-OK, so you're advanced. If you want to change the Transmission settings from the defaults, create your own settings.json file or base it on the default config. Then make the container use it like this:
-```
-docker run --privileged  -d -v /your/storage/path/:/data -v /your/path/to/settings.json:/etc/transmission-daemon/settings.json -p 9091:9091 docker-transmission-openvpn
-```
+OK, so you're advanced. If you want to change the Transmission settings from the defaults, create your own settings.json file or base it on the default config. Then make the container use it by adding a folder called "transmission" in /your/config/path and place your settings.json there.
 
-The container will now use your local settings.json file for its configuration.
-NB: do not change this file while container is running. Transmission persist its config on shutdown, and this will override your changes. Stop the container, do configurations, then start it again.
+On container startup it checks for /config/transmission/settings.json and uses /config/transmission as config directory if the settings file is present. This also means that Transmission will store its state here, so that you don't have to add torrents again when the container restarts.
+
+NB: Do not change the settings.json file while container is running. Transmission persist its config on shutdown, and this will override your changes. Stop the container, do configurations, then start it again.
 
 ### Access the WebUI
 But what's going on? My http://my-host:9091 isn't responding?
@@ -45,7 +54,7 @@ events {
 
 http {
   server {
-    listen 80;
+    listen 8080;
     location / {
       proxy_pass http://host.ip.address.here:9091;
     }
@@ -58,14 +67,14 @@ Change the port in the docker run command if 8080 is not suitable for you.
 ### What if I want to run the container interactively.
 If you want do have access inside the container while running, do like this.
 ```
-docker run --privileged -v /mnt/disk1/Torrents/:/data -p 9091:9091 -it --entrypoint=/bin/bash docker-transmission-openvpn
+docker run --privileged -v /mnt/disk1/Torrents/:/data -v /your/config/path/:/config -p 9091:9091 -it --entrypoint=/bin/bash docker-transmission-openvpn
 ```
 
-This will start the container and give you a bash shell to work from. The container has screen installed, so you can use screen to start supervisord which starts openVPN and Transmission. Then you can detach from screen and continue to use bash inside the running container. If you're unfamiliar with screen, read up on it. The commands are as follows:
+This will start the container and give you a bash shell to work from. The container has screen installed, so you can use screen to start the init system which starts openVPN and Transmission. Then you can detach from screen and continue to use bash inside the running container. If you're unfamiliar with screen, read up on it. The commands are as follows:
 ``` 
 screen
 ```
-Accept the terms, then run supervisord and detach.
+Accept the terms, then run my_init and detach.
 ```
 /sbin/my_init
 CTRL+A + d
