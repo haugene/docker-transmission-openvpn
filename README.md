@@ -1,4 +1,4 @@
-PrivateInternetAccess OpenVPN - Transmission
+Private Internet Access OpenVPN - Transmission
 ===
 This Docker container lets you run Transmission with WebUI while connecting to PIA VPN for security. You can be up and running in no time, please read the instructions below.
 
