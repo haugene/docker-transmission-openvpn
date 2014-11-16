@@ -43,10 +43,12 @@ This is because the VPN is active, and since docker is running in a different ip
 
 ### How to fix this
 There are several ways to fix this. You can pipe and do fancy iptables or ip route configurations on the host and in the Docker image. But I found that the simplest solution is just to proxy my traffic. Start a Nginx container like this:
+
 ```
 docker run -d -v /path/to/nginx.conf:/etc/nginx.conf:ro -p 8080:80 nginx
 ```
 Where /path/to/nginx.conf has this content:
+
 ```
 events {
   worker_connections 1024;
@@ -66,15 +68,18 @@ Change the port in the docker run command if 8080 is not suitable for you.
 
 ### What if I want to run the container interactively.
 If you want do have access inside the container while running, do like this.
+
 ```
 docker run --privileged -v /mnt/disk1/Torrents/:/data -v /your/config/path/:/config -p 9091:9091 -it --entrypoint=/bin/bash docker-transmission-openvpn
 ```
 
 This will start the container and give you a bash shell to work from. The container has screen installed, so you can use screen to start the init system which starts openVPN and Transmission. Then you can detach from screen and continue to use bash inside the running container. If you're unfamiliar with screen, read up on it. The commands are as follows:
+
 ``` 
 screen
 ```
 Accept the terms, then run my_init and detach.
+
 ```
 /sbin/my_init
 CTRL+A + d
