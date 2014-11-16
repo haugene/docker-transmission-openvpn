@@ -1,6 +1,6 @@
 Private Internet Access OpenVPN - Transmission
 ===
-This Docker container lets you run Transmission with WebUI while connecting to PIA VPN for security. You can be up and running in no time, please read the instructions below.
+This Docker container lets you run Transmission with WebUI while connecting to PIA VPN. It updates Transmission hourly with assigned open port from PIA. Please read the instructions below.
 
 # Run container from Docker registry
 The container is available from the Docker registry and this is the simplest way to get it. To run the container use this command:
@@ -34,6 +34,8 @@ As described in the "Run container from Docker registry" section, this will star
 OK, so you're advanced. If you want to change the Transmission settings from the defaults, create your own settings.json file or base it on the default config. Then make the container use it by adding a folder called "transmission" in /your/config/path and place your settings.json there.
 
 On container startup it checks for /config/transmission/settings.json and uses /config/transmission as config directory if the settings file is present. This also means that Transmission will store its state here, so that you don't have to add torrents again when the container restarts.
+
+If you enable rpc-authentication in your Transmission settings, you need to provide your credentials in a file called transmission-credentials.txt and place it in your config directory. The file is on the same format as pia-credentials.txt, username and password. This is needed because we run a script hourly to get an open port, making us connectable, from PIA. To set this port in Transmission the script needs to know your rpc-authentication username and password.
 
 NB: Do not change the settings.json file while container is running. Transmission persist its config on shutdown, and this will override your changes. Stop the container, do configurations, then start it again.
 
