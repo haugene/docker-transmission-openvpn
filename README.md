@@ -6,7 +6,7 @@ This Docker container lets you run Transmission with WebUI while connecting to P
 The container is available from the Docker registry and this is the simplest way to get it. To run the container use this command:
 
 ```
-docker run --privileged  -d -v /your/storage/path/:/data -v /your/config/path/:/config -p 9091:9091 haugene/transmission-openvpn
+$ docker run --privileged  -d -v /your/storage/path/:/data -v /your/config/path/:/config -p 9091:9091 haugene/transmission-openvpn
 ```
 
 As you can see, the container expects two volumes to be mounted. One is used for storing your downloads from Transmission, and the other provides configurations. The container comes with a default Transmission settings.json file that expects the folders "completed, incomplete and watch" to be present in /your/storage/path (aka /data). This is where Transmission will store your downloads, incomplete downloads and a watch directory to look for new .torrent files.
@@ -20,12 +20,12 @@ To build this container, clone the repository and cd into it.
 
 ### Build it:
 ```
-cd /repo/location/docker-transmission-openvpn
-docker build -t="docker-transmission-openvpn" .
+$ cd /repo/location/docker-transmission-openvpn
+$ docker build -t="docker-transmission-openvpn" .
 ```
 ### Run it:
 ```
-docker run --privileged  -d -v /your/storage/path/:/data -v /your/config/path/:/config -p 9091:9091 docker-transmission-openvpn
+$ docker run --privileged  -d -v /your/storage/path/:/data -v /your/config/path/:/config -p 9091:9091 docker-transmission-openvpn
 ```
 
 As described in the "Run container from Docker registry" section, this will start a container with default settings. This means that you should have the folders "completed, incomplete and watch" in /your/storage/path, and pia-credentials.txt in /your/config/path.
@@ -47,7 +47,7 @@ This is because the VPN is active, and since docker is running in a different ip
 There are several ways to fix this. You can pipe and do fancy iptables or ip route configurations on the host and in the Docker image. But I found that the simplest solution is just to proxy my traffic. Start a Nginx container like this:
 
 ```
-docker run -d -v /path/to/nginx.conf:/etc/nginx.conf:ro -p 8080:80 nginx
+$ docker run -d -v /path/to/nginx.conf:/etc/nginx.conf:ro -p 8080:80 nginx
 ```
 Where /path/to/nginx.conf has this content:
 
@@ -69,21 +69,18 @@ Your Transmission WebUI should now be avaliable at "your.host.ip.addr:8080/trans
 Change the port in the docker run command if 8080 is not suitable for you.
 
 ### What if I want to run the container interactively.
-If you want do have access inside the container while running, do like this.
+If you want do have access inside the container while running you have two choices. To have a look inside an already running container, use docker exec to get a terminal inside the container.
 
 ```
-docker run --privileged -v /mnt/disk1/Torrents/:/data -v /your/config/path/:/config -p 9091:9091 -it --entrypoint=/bin/bash docker-transmission-openvpn
+$ docker ps | grep transmission-openvpn | awk '{print $1}' // Prints container id
+$ af4dd385916d
+$ docker exec -it af4dd bash
 ```
 
-This will start the container and give you a bash shell to work from. The container has screen installed, so you can use screen to start the init system which starts openVPN and Transmission. Then you can detach from screen and continue to use bash inside the running container. If you're unfamiliar with screen, read up on it. The commands are as follows:
-
-``` 
-screen
-```
-Accept the terms, then run my_init and detach.
+If you want to start the container without it starting OpenVPN on boot, then run the image without daemonizing and use bash as entrypoint.
 
 ```
-/sbin/my_init
-CTRL+A + d
+$ docker run --privileged -it transmission-openvpn bash
 ```
-You should now be detached and both services should be running.
+
+From there you can start the service yourself, or do whatever (probably developer-related) you came to do.
