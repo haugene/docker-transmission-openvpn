@@ -15,6 +15,11 @@ The only mandatory configuration is a pia-credentials.txt file that needs to be 
 
 NB: Instructions on how to use your own Transmission settings, and how to connect to the WebUI, is further down in the README.
 
+## Environment options
+| Variable | Function | Example |
+|----------|----------|-------|
+|`RESOLV_OVERRIDE` | The value of this variable will be written to `/etc/resolv.conf`. | "RESOLV_OVERRIDE=nameserver 8.8.8.8\nnameserver 8.8.4.4\n"|
+
 # Building the container yourself
 To build this container, clone the repository and cd into it.
 

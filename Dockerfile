@@ -36,6 +36,9 @@ ADD transmission/runUpdates.sh /etc/transmission-daemon/startPortUpdates.sh
 ADD transmission/down.sh /etc/transmission-daemon/stop.sh
 ADD runOpenVpn.sh /etc/openvpn/start.sh
 
+# Optional resolv.conf override
+ENV RESOLV_OVERRIDE **None**
+
 # Expose port and run. Use baseimage-docker's init system
 EXPOSE 9091
 CMD ["/etc/openvpn/start.sh"]
