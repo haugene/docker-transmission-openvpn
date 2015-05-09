@@ -6,7 +6,20 @@ This Docker container lets you run Transmission with WebUI while connecting to P
 The container is available from the Docker registry and this is the simplest way to get it. To run the container use this command:
 
 ```
-$ docker run --privileged  -d -v /your/storage/path/:/data -v /your/config/path/:/config -p 9091:9091 haugene/transmission-openvpn
+$ docker run --privileged  -d \
+              -v /your/storage/path/:/data \
+              -v /your/config/path/:/config \
+              -p 9091:9091 \
+              haugene/transmission-openvpn
+```
+or you could optionally specify which vpn server to use by setting an environment variable to one of the ovpn configs avaliable in <a href="https://github.com/haugene/docker-transmission-openvpn/tree/master/piaconfig">this folder</a>. 
+```
+$ docker run --privileged  -d \
+              -v /your/storage/path/:/data \
+              -v /your/config/path/:/config \
+              -p 9091:9091 \
+              -e "OPEN_VPN_CONFIG=US West" \
+              haugene/transmission-openvpn
 ```
 
 As you can see, the container expects two volumes to be mounted. One is used for storing your downloads from Transmission, and the other provides configurations. The container comes with a default Transmission settings.json file that expects the folders "completed, incomplete and watch" to be present in /your/storage/path (aka /data). This is where Transmission will store your downloads, incomplete downloads and a watch directory to look for new .torrent files.
@@ -25,7 +38,11 @@ $ docker build -t="docker-transmission-openvpn" .
 ```
 ### Run it:
 ```
-$ docker run --privileged  -d -v /your/storage/path/:/data -v /your/config/path/:/config -p 9091:9091 docker-transmission-openvpn
+$ docker run --privileged  -d \
+              -v /your/storage/path/:/data \
+              -v /your/config/path/:/config \
+              -p 9091:9091 \
+              docker-transmission-openvpn
 ```
 
 As described in the "Run container from Docker registry" section, this will start a container with default settings. This means that you should have the folders "completed, incomplete and watch" in /your/storage/path, and pia-credentials.txt in /your/config/path.
