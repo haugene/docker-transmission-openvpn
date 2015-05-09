@@ -11,22 +11,22 @@ $ docker run --privileged  -d -v /your/storage/path/:/data -e "PIA_USERNAME=asdf
 
 As you can see, the container expects a data volume to be mounted. It is used for storing your downloads from Transmission. The container comes with a default Transmission settings.json file that expects the folders "completed, incomplete and watch" to be present in /your/storage/path (aka /data). This is where Transmission will store your downloads, incomplete downloads and a watch directory to look for new .torrent files.
 
-The only mandatory configuration is to set two environment variables for your PIA username and password. You must the environment variables `PIA_USERNAME` and `PIA_PASSWORD` to your login credentials. The container will connect to the Private Internet Access VPN servers in Netherlands by default.
+The only mandatory configuration is to set two environment variables for your PIA username and password. You must set the environment variables `PIA_USERNAME` and `PIA_PASSWORD` to your login credentials. The container will connect to the Private Internet Access VPN servers in Netherlands by default.
 
 NB: Instructions on how to use your own Transmission settings, and how to connect to the WebUI, is further down in the README.
 
 ## Required environment options
 | Variable | Function | Example |
 |----------|----------|-------|
-|`PIA_USERNAME`|Your login username for PIA|"PIA_USERNAME=asdf" *required*|
-|`PIA_PASSWORD`|Your login password for PIA|"PIA_PASSWORD=asdf" *required*|
+|`PIA_USERNAME`|Your login username for PIA|`PIA_USERNAME=asdf`|
+|`PIA_PASSWORD`|Your login password for PIA|`PIA_PASSWORD=asdf`|
 
 ## Network configuration options
 | Variable | Function | Example |
 |----------|----------|-------|
-|`PIA_OPENVPN_HOSTNAME`| Set the PIA VPN endpoint that you want to connect to. | "PIA_OPENVPN_HOSTNAME=nl.privateinternetaccess.com" *default*|
-|`PIA_OPENVPN_PORT`| Set the PIA VPN endpoint port that you want to connect to. | "PIA_OPENVPN_PORT=1194" *default*|
-|`RESOLV_OVERRIDE` | The value of this variable will be written to `/etc/resolv.conf`. | "RESOLV_OVERRIDE=nameserver 8.8.8.8\nnameserver 8.8.4.4\n"|
+|`PIA_OPENVPN_HOSTNAME`| Set the PIA VPN endpoint that you want to connect to. | `PIA_OPENVPN_HOSTNAME=nl.privateinternetaccess.com`|
+|`PIA_OPENVPN_PORT`| Set the PIA VPN endpoint port that you want to connect to. | `PIA_OPENVPN_PORT=1194`|
+|`RESOLV_OVERRIDE` | The value of this variable will be written to `/etc/resolv.conf`. | `RESOLV_OVERRIDE=nameserver 8.8.8.8\nnameserver 8.8.4.4\n`|
 
 ## Transmission configuration options
 
