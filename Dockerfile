@@ -25,7 +25,7 @@ RUN apt-get install -y curl
 VOLUME /config
 
 # Add configuration and scripts
-ADD piaconfig/config.ovpn /etc/openvpn/config.ovpn
+ADD piaconfig/* /etc/openvpn/
 ADD piaconfig/ca.crt /etc/openvpn/ca.crt
 ADD piaconfig/crl.pem /etc/openvpn/crl.pem
 ADD transmission/defaultSettings.json /etc/transmission-daemon/settings.json
