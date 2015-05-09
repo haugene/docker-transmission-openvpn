@@ -18,6 +18,8 @@ NB: Instructions on how to use your own Transmission settings, and how to connec
 ## Environment options
 | Variable | Function | Example |
 |----------|----------|-------|
+|`PIA_OPENVPN_HOSTNAME`| Set the PIA VPN endpoint that you want to connect to. | "PIA_OPENVPN_HOSTNAME=nl.privateinternetaccess.com" *default*|
+|`PIA_OPENVPN_PORT`| Set the PIA VPN endpoint port that you want to connect to. | "PIA_OPENVPN_PORT=1194" *default*|
 |`RESOLV_OVERRIDE` | The value of this variable will be written to `/etc/resolv.conf`. | "RESOLV_OVERRIDE=nameserver 8.8.8.8\nnameserver 8.8.4.4\n"|
 
 # Building the container yourself

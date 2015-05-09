@@ -36,6 +36,9 @@ ADD transmission/runUpdates.sh /etc/transmission-daemon/startPortUpdates.sh
 ADD transmission/down.sh /etc/transmission-daemon/stop.sh
 ADD runOpenVpn.sh /etc/openvpn/start.sh
 
+ENV PIA_OPENVPN_HOSTNAME nl.privateinternetaccess.com
+ENV PIA_OPENVPN_PORT 1194
+
 # Optional resolv.conf override
 ENV RESOLV_OVERRIDE **None**
 
