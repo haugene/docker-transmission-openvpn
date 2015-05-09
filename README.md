@@ -8,25 +8,54 @@ The container is available from the Docker registry and this is the simplest way
 ```
 $ docker run --privileged  -d \
               -v /your/storage/path/:/data \
-              -v /your/config/path/:/config \
+              -e "PIA_USERNAME=user" \
+              -e "PIA_PASSWORD=pass" \
               -p 9091:9091 \
               haugene/transmission-openvpn
 ```
-or you could optionally specify which vpn server to use by setting an environment variable to one of the ovpn configs avaliable in <a href="https://github.com/haugene/docker-transmission-openvpn/tree/master/piaconfig">this folder</a>. 
+or you could optionally specify which vpn server to use by setting an environment variable to one of the ovpn configs avaliable [in this folder](https://github.com/haugene/docker-transmission-openvpn/tree/master/piaconfig). 
 ```
 $ docker run --privileged  -d \
               -v /your/storage/path/:/data \
-              -v /your/config/path/:/config \
+              -e "PIA_USERNAME=user" \
+              -e "PIA_PASSWORD=pass" \
               -p 9091:9091 \
               -e "OPEN_VPN_CONFIG=US West" \
               haugene/transmission-openvpn
 ```
 
-As you can see, the container expects two volumes to be mounted. One is used for storing your downloads from Transmission, and the other provides configurations. The container comes with a default Transmission settings.json file that expects the folders "completed, incomplete and watch" to be present in /your/storage/path (aka /data). This is where Transmission will store your downloads, incomplete downloads and a watch directory to look for new .torrent files.
+As you can see, the container expects a data volume to be mounted. It is used for storing your downloads from Transmission. The container comes with a default Transmission `settings.json` file that expects the folders `completed`, `incomplete`, and `watch` to be present in /your/storage/path (aka /data). This is where Transmission will store your downloads, incomplete downloads and a watch directory to look for new .torrent files.
 
-The only mandatory configuration is a pia-credentials.txt file that needs to be put in /your/config/path/ directory. In the file you supply your username and password for Private Internet Access VPN connections. The file should have two lines; your username on line 1 and your password on line 2. The container will connect to the Private Internet Access VPN servers in Netherlands by default.
+The only mandatory configuration is to set two environment variables for your PIA username and password. You must set the environment variables `PIA_USERNAME` and `PIA_PASSWORD` to your login credentials. The container will connect to the Private Internet Access VPN servers in Netherlands by default.
 
 NB: Instructions on how to use your own Transmission settings, and how to connect to the WebUI, is further down in the README.
+
+## Required environment options
+| Variable | Function | Example |
+|----------|----------|-------|
+|`PIA_USERNAME`|Your login username for PIA|`PIA_USERNAME=asdf`|
+|`PIA_PASSWORD`|Your login password for PIA|`PIA_PASSWORD=asdf`|
+
+## Network configuration options
+| Variable | Function | Example |
+|----------|----------|-------|
+|`OPEN_VPN_CONFIG` | Sets the PIA endpoint to connect to. | `OPEN_VPN_CONFIG=UK Southampton`|
+|`RESOLV_OVERRIDE` | The value of this variable will be written to `/etc/resolv.conf`. | `RESOLV_OVERRIDE=nameserver 8.8.8.8\nnameserver 8.8.4.4\n`|
+
+## Transmission configuration options
+
+You may override transmission options by setting the appropriate environment variable.
+
+The environment variables are the same name as used in the transmission settings.json file and follow the format given in these examples:
+
+| Transmission variable name | Environment variable name |
+|----------------------------|---------------------------|
+| `speed-limit-up` | `TRANSMISSION_SPEED_LIMIT_UP` |
+| `speed-limit-up-enabled` | `TRANSMISSION_SPEED_LIMIT_UP_ENABLED` |
+| `ratio-limit` | `TRANSMISSION_RATIO_LIMIT` |
+| `ratio-limit-enabled` | `TRANSMISSION_RATIO_LIMIT_ENABLED` |
+
+As you can see the variables are prefixed with `TRANSMISSION_`, the variable is capitalized, and `-` is converted to `_`.
 
 # Building the container yourself
 To build this container, clone the repository and cd into it.
@@ -40,7 +69,8 @@ $ docker build -t="docker-transmission-openvpn" .
 ```
 $ docker run --privileged  -d \
               -v /your/storage/path/:/data \
-              -v /your/config/path/:/config \
+              -e "PIA_USERNAME=user" \
+              -e "PIA_PASSWORD=pass" \
               -p 9091:9091 \
               docker-transmission-openvpn
 ```
