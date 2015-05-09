@@ -7,20 +7,13 @@ MAINTAINER Kristian Haugene
 
 VOLUME /data
 
-# Update package sources list
-RUN apt-get update
-
-# Add transmission ppa repository for latest releases
-RUN apt-get -y install software-properties-common
-RUN add-apt-repository ppa:transmissionbt/ppa
-
 # Update packages and install software
-RUN apt-get update
-RUN apt-get install -y transmission-cli
-RUN apt-get install -y transmission-common
-RUN apt-get install -y transmission-daemon
-RUN apt-get install -y openvpn
-RUN apt-get install -y curl
+RUN apt-get update \
+    && apt-get -y install software-properties-common \
+    && add-apt-repository ppa:transmissionbt/ppa \
+    && apt-get update \
+    && apt-get install -y transmission-cli transmission-common transmission-daemon openvpn curl \
+    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 VOLUME /config
 
@@ -39,6 +32,3 @@ ADD runOpenVpn.sh /etc/openvpn/start.sh
 # Expose port and run. Use baseimage-docker's init system
 EXPOSE 9091
 CMD ["/etc/openvpn/start.sh"]
-
-# Clean up APT when done.
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
