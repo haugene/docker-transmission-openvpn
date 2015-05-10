@@ -24,14 +24,14 @@ then
 fi
 
 # add PIA user/pass
-if [ "$PIA_USERNAME" != "**None**" ];
-then
+if [ -z "$PIA_USERNAME" ] || [ -z "$PIA_PASSWORD" ] ; then
+ echo "PIA credentials not set. Exiting."
+ exit 1
+else
   echo "Setting PIA credentials..."
   mkdir -p /config
   echo $PIA_USERNAME > /config/pia-credentials.txt
   echo $PIA_PASSWORD >> /config/pia-credentials.txt
-else
-  echo "Not setting PIA credentials."
 fi
 
 dockerize \
