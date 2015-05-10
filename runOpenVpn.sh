@@ -34,4 +34,17 @@ else
   echo $PIA_PASSWORD >> /config/pia-credentials.txt
 fi
 
+# add transmission credentials from env vars
+echo $TRANSMISSION_RPC_USERNAME > /config/transmission-credentials.txt
+echo $TRANSMISSION_RPC_PASSWORD >> /config/transmission-credentials.txt
+
+
+if [ ! -z ${KEEP_TRANSMISSION_STATE} ]
+then
+  mkdir -p /data/transmission-data/
+  dockerize -template /etc/transmission-daemon/settings.tmpl:/data/transmission-data/settings.json true
+else
+  dockerize -template /etc/transmission-daemon/settings.tmpl:/etc/transmission-daemon/settings.json true
+fi
+
 exec openvpn --config "$OPEN_VPN_CONFIG"
