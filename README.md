@@ -13,7 +13,9 @@ $ docker run --privileged  -d \
               -p 9091:9091 \
               haugene/transmission-openvpn
 ```
-or you could optionally specify which vpn server to use by setting an environment variable to one of the ovpn configs avaliable [in this folder](https://github.com/haugene/docker-transmission-openvpn/tree/master/piaconfig). 
+
+or you could optionally specify which vpn server to use by setting an environment variable to one of the ovpn configs avaliable [in this folder](https://github.com/haugene/docker-transmission-openvpn/tree/master/piaconfig).
+
 ```
 $ docker run --privileged  -d \
               -v /your/storage/path/:/data \
@@ -41,6 +43,11 @@ NB: Instructions on how to use your own Transmission settings, and how to connec
 |----------|----------|-------|
 |`OPEN_VPN_CONFIG` | Sets the PIA endpoint to connect to. | `OPEN_VPN_CONFIG=UK Southampton`|
 |`RESOLV_OVERRIDE` | The value of this variable will be written to `/etc/resolv.conf`. | `RESOLV_OVERRIDE=nameserver 8.8.8.8\nnameserver 8.8.4.4\n`|
+
+## Storage options
+| Variable | Function | Example |
+|----------|----------|-------|
+|`KEEP_TRANSMISSION_STATE`|If set, persists transmission data to your /data mount point. Keeps state between restarts. Delete the folder to disable this later. |`KEEP_TRANSMISSION_STATE=YES`|
 
 ## Transmission configuration options
 
@@ -76,15 +83,6 @@ $ docker run --privileged  -d \
 ```
 
 As described in the "Run container from Docker registry" section, this will start a container with default settings. This means that you should have the folders "completed, incomplete and watch" in /your/storage/path, and pia-credentials.txt in /your/config/path.
-
-### But I want to provide my own Transmission settings!
-OK, so you're advanced. If you want to change the Transmission settings from the defaults, create your own settings.json file or base it on the default config. Then make the container use it by adding a folder called "transmission" in /your/config/path and place your settings.json there.
-
-On container startup it checks for /config/transmission/settings.json and uses /config/transmission as config directory if the settings file is present. This also means that Transmission will store its state here, so that you don't have to add torrents again when the container restarts.
-
-If you enable rpc-authentication in your Transmission settings, you need to provide your credentials in a file called transmission-credentials.txt and place it in your config directory. The file is on the same format as pia-credentials.txt, username and password. This is needed because we run a script hourly to get an open port, making us connectable, from PIA. To set this port in Transmission the script needs to know your rpc-authentication username and password.
-
-NB: Do not change the settings.json file while container is running. Transmission persist its config on shutdown, and this will override your changes. Stop the container, do configurations, then start it again.
 
 ### Access the WebUI
 But what's going on? My http://my-host:9091 isn't responding?
