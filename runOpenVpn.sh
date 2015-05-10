@@ -34,8 +34,4 @@ else
   echo $PIA_PASSWORD >> /config/pia-credentials.txt
 fi
 
-dockerize \
-  -template /etc/transmission-daemon/settings.json:/etc/transmission-daemon/settings.json \
-  true
-
 exec openvpn --config "$OPEN_VPN_CONFIG"

@@ -20,7 +20,7 @@ RUN apt-get update \
 ADD piaconfig/* /etc/openvpn/
 ADD piaconfig/ca.crt /etc/openvpn/ca.crt
 ADD piaconfig/crl.pem /etc/openvpn/crl.pem
-ADD transmission/defaultSettings.json /etc/transmission-daemon/settings.json
+ADD transmission/defaultSettings.tmpl /etc/transmission-daemon/settings.tmpl
 ADD transmission/updateTransmissionPort.sh /etc/transmission-daemon/updatePort.sh
 ADD transmission/periodicUpdates.sh /etc/transmission-daemon/periodicUpdates.sh
 ADD transmission/run.sh /etc/transmission-daemon/start.sh
