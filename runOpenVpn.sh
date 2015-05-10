@@ -24,7 +24,7 @@ then
 fi
 
 # add PIA user/pass
-if [ -z "$PIA_USERNAME" ] || [ -z "$PIA_PASSWORD" ] ; then
+if [ "${PIA_USERNAME}" = "**None**" ] || [ "${PIA_PASSWORD}" = "**None**" ] ; then
  echo "PIA credentials not set. Exiting."
  exit 1
 else

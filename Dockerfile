@@ -28,7 +28,9 @@ ADD transmission/runUpdates.sh /etc/transmission-daemon/startPortUpdates.sh
 ADD transmission/down.sh /etc/transmission-daemon/stop.sh
 ADD runOpenVpn.sh /etc/openvpn/start.sh
 
-ENV "TRANSMISSION_ALT_SPEED_DOWN=50" \
+ENV PIA_USERNAME=**None** \
+    PIA_PASSWORD=**None** \
+    "TRANSMISSION_ALT_SPEED_DOWN=50" \
     "TRANSMISSION_ALT_SPEED_ENABLED=false" \
     "TRANSMISSION_ALT_SPEED_TIME_BEGIN=540" \
     "TRANSMISSION_ALT_SPEED_TIME_DAY=127" \
