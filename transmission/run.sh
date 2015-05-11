@@ -1,11 +1,11 @@
 #!/bin/sh
 
-if [ -f /config/transmission/settings.json ];
+if [ -f /data/transmission-data/settings.json ]
 then
-   echo "STARTING TRANSMISSION: Using custom config directory /config/transmission"
-   exec /usr/bin/transmission-daemon -g /config/transmission/ &
+   echo "STARTING TRANSMISSION: Using transmission-data subdirectory to your /data mount point to store state."
+   exec /usr/bin/transmission-daemon -g /data/transmission-data/ &
 else
-   echo "STARTING TRANSMISSION: No configuration provided, using defaults"
+   echo "STARTING TRANSMISSION: Storing state in container only."
    exec /usr/bin/transmission-daemon -g /etc/transmission-daemon/ &
 fi
 

@@ -13,9 +13,9 @@ pia_client_id_file=/etc/transmission-daemon/pia_client_id
 transmission_settings_file=/etc/transmission-daemon/settings.json
 port_assignment_url=https://www.privateinternetaccess.com/vpninfo/port_forward_assignment
 
-if [ -f /config/transmission/settings.json ];
+if [ -f /data/transmission-data/settings.json ];
 then
-   transmission_settings_file=/config/transmission/settings.json
+   transmission_settings_file=/data/transmission-data/settings.json
 else
    transmission_settings_file=/etc/transmission-daemon/settings.json
 fi
