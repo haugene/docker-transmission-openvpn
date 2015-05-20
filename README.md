@@ -92,7 +92,7 @@ This is because the VPN is active, and since docker is running in a different ip
 There are several ways to fix this. You can pipe and do fancy iptables or ip route configurations on the host and in the Docker image. But I found that the simplest solution is just to proxy my traffic. Start a Nginx container like this:
 
 ```
-$ docker run -d -v /path/to/nginx.conf:/etc/nginx/nginx.conf:ro -p 8080:8080 nginx
+$ docker run -d -v /path/to/nginx.conf:/etc/nginx/nginx.conf:ro -p 8080:80 nginx
 ```
 Where /path/to/nginx.conf has this content:
 
