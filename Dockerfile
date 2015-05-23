@@ -23,10 +23,10 @@ ADD piaconfig/crl.pem /etc/openvpn/crl.pem
 ADD transmission/defaultSettings.tmpl /etc/transmission-daemon/settings.tmpl
 ADD transmission/updateTransmissionPort.sh /etc/transmission-daemon/updatePort.sh
 ADD transmission/periodicUpdates.sh /etc/transmission-daemon/periodicUpdates.sh
-ADD transmission/run.sh /etc/transmission-daemon/start.sh
+ADD transmission/start.sh /etc/transmission-daemon/start.sh
 ADD transmission/runUpdates.sh /etc/transmission-daemon/startPortUpdates.sh
 ADD transmission/down.sh /etc/transmission-daemon/stop.sh
-ADD runOpenVpn.sh /etc/openvpn/start.sh
+ADD start.sh /etc/openvpn/start.sh
 
 ENV PIA_USERNAME=**None** \
     PIA_PASSWORD=**None** \
