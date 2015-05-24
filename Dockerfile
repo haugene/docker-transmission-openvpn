@@ -19,8 +19,6 @@ RUN apt-get update \
 
 # Add configuration and scripts
 ADD piaconfig/* /etc/openvpn/
-ADD piaconfig/ca.crt /etc/openvpn/ca.crt
-ADD piaconfig/crl.pem /etc/openvpn/crl.pem
 ADD transmission/* /etc/transmission-daemon/
 ADD start.sh /etc/openvpn/start.sh
 
