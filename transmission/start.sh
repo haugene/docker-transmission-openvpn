@@ -1,19 +1,16 @@
 #!/bin/sh
 
-if [ -f /data/transmission-data/settings.json ]
-then
-   echo "STARTING TRANSMISSION: Using transmission-data subdirectory to your /data mount point to store state."
-   exec /usr/bin/transmission-daemon -g /data/transmission-data/ &
-else
-   echo "STARTING TRANSMISSION: Storing state in container only."
-   exec /usr/bin/transmission-daemon -g /etc/transmission-daemon/ &
-fi
+tun0ip=$(ifconfig tun0 | sed -n '2 p' | awk '{print $2}' | cut -d: -f2)
+echo "Updating TRANSMISSION_BIND_ADDRESS_IPV4 to tun0 ip: ${tun0ip}"
+export TRANSMISSION_BIND_ADDRESS_IPV4=${tun0ip}
 
-# determine IP of tun0, and bind to it
-export TRANSMISSION_BIND_ADDRESS_IPV4=$(ifconfig tun0 | sed -n '2 p' | awk '{print $2}' | cut -d: -f2)
-echo "BINDING TRANSMISSION to $TRANSMISSION_BIND_ADDRESS_IPV4"
-perl -p -i -e 's/!!BINDIPV4!!/$ENV{"TRANSMISSION_BIND_ADDRESS_IPV4"}/' /etc/transmission-daemon/settings.json
+echo "Generating transmission settings.json from env variables"
+dockerize -template /etc/transmission-daemon/settings.tmpl:/etc/transmission-daemon/settings.json /bin/true
 
+echo "STARTING TRANSMISSION"
+exec /usr/bin/transmission-daemon -g /etc/transmission-daemon/ &
+
+echo "STARTING PORT UPDATER"
 exec /etc/transmission-daemon/startPortUpdates.sh &
 
-echo "STARTED PORT UPDATER"
+echo "Transmission startup script complete."

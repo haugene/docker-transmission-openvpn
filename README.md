@@ -44,11 +44,6 @@ NB: Instructions on how to use your own Transmission settings, and how to connec
 |`OPEN_VPN_CONFIG` | Sets the PIA endpoint to connect to. | `OPEN_VPN_CONFIG=UK Southampton`|
 |`RESOLV_OVERRIDE` | The value of this variable will be written to `/etc/resolv.conf`. | `RESOLV_OVERRIDE=nameserver 8.8.8.8\nnameserver 8.8.4.4\n`|
 
-## Storage options
-| Variable | Function | Example |
-|----------|----------|-------|
-|`KEEP_TRANSMISSION_STATE`|If set, persists transmission data to your /data mount point. Keeps state between restarts. Delete the folder to disable this later. |`KEEP_TRANSMISSION_STATE=YES`|
-
 ## Transmission configuration options
 
 You may override transmission options by setting the appropriate environment variable.
