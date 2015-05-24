@@ -1,4 +1,4 @@
-#/bin/bash
+#! /bin/sh
 
 # Settings
 PIA_PASSWD_FILE=/config/pia-credentials.txt
