@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# Source our persisted env variables from container startup
+. /etc/transmission-daemon/environment-variables.sh
+
 tun0ip=$(ifconfig tun0 | sed -n '2 p' | awk '{print $2}' | cut -d: -f2)
 echo "Updating TRANSMISSION_BIND_ADDRESS_IPV4 to tun0 ip: ${tun0ip}"
 export TRANSMISSION_BIND_ADDRESS_IPV4=${tun0ip}

@@ -6,7 +6,7 @@
     "alt-speed-time-enabled": {{ .Env.TRANSMISSION_ALT_SPEED_TIME_ENABLED }},
     "alt-speed-time-end": {{ .Env.TRANSMISSION_ALT_SPEED_TIME_END }},
     "alt-speed-up": {{ .Env.TRANSMISSION_ALT_SPEED_UP }},
-    "bind-address-ipv4": "!!BINDIPV4!!",
+    "bind-address-ipv4": "{{ .Env.TRANSMISSION_BIND_ADDRESS_IPV4 }}",
     "bind-address-ipv6": "{{ .Env.TRANSMISSION_BIND_ADDRESS_IPV6 }}",
     "blocklist-enabled": {{ .Env.TRANSMISSION_BLOCKLIST_ENABLED }},
     "blocklist-url": "{{ .Env.TRANSMISSION_BLOCKLIST_URL }}",

@@ -27,6 +27,7 @@ ADD transmission/periodicUpdates.sh /etc/transmission-daemon/periodicUpdates.sh
 ADD transmission/start.sh /etc/transmission-daemon/start.sh
 ADD transmission/runUpdates.sh /etc/transmission-daemon/startPortUpdates.sh
 ADD transmission/down.sh /etc/transmission-daemon/stop.sh
+ADD transmission/environment-variables.tmpl /etc/transmission-daemon/environment-variables.tmpl
 ADD start.sh /etc/openvpn/start.sh
 
 ENV PIA_USERNAME=**None** \
@@ -38,6 +39,7 @@ ENV PIA_USERNAME=**None** \
     "TRANSMISSION_ALT_SPEED_TIME_ENABLED=false" \
     "TRANSMISSION_ALT_SPEED_TIME_END=1020" \
     "TRANSMISSION_ALT_SPEED_UP=50" \
+    "TRANSMISSION_BIND_ADDRESS_IPV4=0.0.0.0" \
     "TRANSMISSION_BIND_ADDRESS_IPV6=::" \
     "TRANSMISSION_BLOCKLIST_ENABLED=false" \
     "TRANSMISSION_BLOCKLIST_URL=http://www.example.com/blocklist" \

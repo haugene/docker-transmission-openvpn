@@ -22,7 +22,7 @@ new_client_id() {
 }
 
 pia_client_id="$(cat $pia_client_id_file 2>/dev/null)"
-if [[ -z "$pia_client_id" ]]; then
+if [ -z ${pia_client_id} ]; then
      echo "Generating new client id for PIA"
      pia_client_id=$(new_client_id)
 fi
@@ -39,7 +39,7 @@ echo "Got new port $new_port from pia"
 
 # Check if transmission remote is set up with authentication
 auth_enabled=$(grep 'rpc-authentication-required\"' $transmission_settings_file | grep -oE 'true|false')
-if [[ "true" = "$auth_enabled" ]]
+if [ "true" = "$auth_enabled" ]
   then
     echo "transmission auth required"
     myauth="--auth $transmission_username:$transmission_passwd"
@@ -50,7 +50,7 @@ fi
 
 # get current listening port
 transmission_peer_port=$(transmission-remote $myauth -si | grep Listenport | grep -oE '[0-9]+')
-if [[ "$new_port" != "$transmission_peer_port" ]]
+if [ "$new_port" != "$transmission_peer_port" ]
   then
     transmission-remote $myauth -p "$new_port"
     echo "Checking port..."
