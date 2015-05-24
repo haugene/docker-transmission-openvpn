@@ -18,9 +18,8 @@ RUN apt-get update \
     && curl -L https://github.com/jwilder/dockerize/releases/download/v0.0.2/dockerize-linux-amd64-v0.0.2.tar.gz | tar -C /usr/local/bin -xzv
 
 # Add configuration and scripts
-ADD piaconfig/* /etc/openvpn/
+ADD openvpn/* /etc/openvpn/
 ADD transmission/* /etc/transmission-daemon/
-ADD start.sh /etc/openvpn/start.sh
 
 ENV PIA_USERNAME=**None** \
     PIA_PASSWORD=**None** \
