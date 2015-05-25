@@ -96,6 +96,6 @@ ENV PIA_USERNAME=**None** \
     "TRANSMISSION_WATCH_DIR_ENABLED=true" \
     RESOLV_OVERRIDE=**None**
 
-# Expose port and run. Use baseimage-docker's init system
+# Expose port and run
 EXPOSE 9091
 CMD ["/etc/openvpn/start.sh"]
