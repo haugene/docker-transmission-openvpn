@@ -14,6 +14,6 @@ echo "STARTING TRANSMISSION"
 exec /usr/bin/transmission-daemon -g /etc/transmission-daemon/ &
 
 echo "STARTING PORT UPDATER"
-exec /etc/transmission-daemon/startPortUpdates.sh &
+exec /etc/transmission-daemon/periodicUpdates.sh &
 
 echo "Transmission startup script complete."
