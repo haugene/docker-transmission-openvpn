@@ -1,11 +1,12 @@
 # Transmission and OpenVPN
 #
-# Version 1.0
+# Version 1.1
 
 FROM ubuntu:14.04
 MAINTAINER Kristian Haugene
 
 VOLUME /data
+VOLUME /config
 
 # Update packages and install software
 RUN apt-get update \
@@ -17,16 +18,8 @@ RUN apt-get update \
     && curl -L https://github.com/jwilder/dockerize/releases/download/v0.0.2/dockerize-linux-amd64-v0.0.2.tar.gz | tar -C /usr/local/bin -xzv
 
 # Add configuration and scripts
-ADD piaconfig/* /etc/openvpn/
-ADD piaconfig/ca.crt /etc/openvpn/ca.crt
-ADD piaconfig/crl.pem /etc/openvpn/crl.pem
-ADD transmission/defaultSettings.tmpl /etc/transmission-daemon/settings.tmpl
-ADD transmission/updateTransmissionPort.sh /etc/transmission-daemon/updatePort.sh
-ADD transmission/periodicUpdates.sh /etc/transmission-daemon/periodicUpdates.sh
-ADD transmission/run.sh /etc/transmission-daemon/start.sh
-ADD transmission/runUpdates.sh /etc/transmission-daemon/startPortUpdates.sh
-ADD transmission/down.sh /etc/transmission-daemon/stop.sh
-ADD runOpenVpn.sh /etc/openvpn/start.sh
+ADD openvpn/* /etc/openvpn/
+ADD transmission/* /etc/transmission-daemon/
 
 ENV PIA_USERNAME=**None** \
     PIA_PASSWORD=**None** \
@@ -103,6 +96,6 @@ ENV PIA_USERNAME=**None** \
     "TRANSMISSION_WATCH_DIR_ENABLED=true" \
     RESOLV_OVERRIDE=**None**
 
-# Expose port and run. Use baseimage-docker's init system
+# Expose port and run
 EXPOSE 9091
 CMD ["/etc/openvpn/start.sh"]
