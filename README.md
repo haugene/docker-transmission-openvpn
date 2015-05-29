@@ -79,6 +79,13 @@ $ docker run --privileged  -d \
 
 As described in the "Run container from Docker registry" section, this will start a container with default settings. This means that you should have the folders "completed, incomplete and watch" in /your/storage/path, and pia-credentials.txt in /your/config/path.
 
+### Issues
+If you are having some issues running the local build then please ensure you are using the latest version of docker. To do this use the following table. Using the latest table verison will resolve 95% of issues.
+
+| Distribution | Command |
+|--------------|---------|
+| Debian | ```sudo apt-get update && sudo apt-get install docker.io``` |
+
 ## Access the WebUI
 But what's going on? My http://my-host:9091 isn't responding?
 This is because the VPN is active, and since docker is running in a different ip range than your client the response to your request will be treated as "non-local" traffic and therefore be routed out through the VPN interface.
