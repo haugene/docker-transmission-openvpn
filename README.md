@@ -80,11 +80,7 @@ $ docker run --privileged  -d \
 As described in the "Run container from Docker registry" section, this will start a container with default settings. This means that you should have the folders "completed, incomplete and watch" in /your/storage/path, and pia-credentials.txt in /your/config/path.
 
 ### Issues
-If you are having some issues running the local build then please ensure you are using the latest version of docker. To do this use the following table. Using the latest table verison will resolve 95% of issues.
-
-| Distribution | Command |
-|--------------|---------|
-| Debian | ```sudo apt-get update && sudo apt-get install docker.io``` |
+If you are having some issues running the local build then please ensure you are using the latest version of docker. Using the latest stable verison is always recommended. Support for older version is on a best-effort basis.
 
 ## Access the WebUI
 But what's going on? My http://my-host:9091 isn't responding?
