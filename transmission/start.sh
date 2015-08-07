@@ -13,7 +13,12 @@ dockerize -template /etc/transmission-daemon/settings.tmpl:/etc/transmission-dae
 echo "STARTING TRANSMISSION"
 exec /usr/bin/transmission-daemon -g /etc/transmission-daemon/ &
 
-echo "STARTING PORT UPDATER"
-exec /etc/transmission-daemon/periodicUpdates.sh &
+if [ "$OPENVPN_PROVIDER" = "PIA" ]
+then
+    echo "STARTING PORT UPDATER"
+    exec /etc/transmission-daemon/periodicUpdates.sh &
+else
+    echo "NO PORT UPDATER FOR THIS PROVIDER"
+fi
 
 echo "Transmission startup script complete."

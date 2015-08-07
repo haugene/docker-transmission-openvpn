@@ -1,19 +1,28 @@
 #!/bin/sh
 
+if [ "$OPENVPN_PROVIDER" = "BTGUARD" ]
+then
+	echo "VPN PROVIDER: BTGUARD"
+	vpn_provider="btguard"
+else
+	echo "VPN PROVIDER: PIA"
+	vpn_provider="pia"
+fi
+
 if [ ! -z "$OPEN_VPN_CONFIG" ]
 then
-	if [ -f /etc/openvpn/"${OPEN_VPN_CONFIG}".ovpn ]
+	if [ -f /etc/openvpn/$vpn_provider/"${OPEN_VPN_CONFIG}".ovpn ]
   	then
 		echo "Starting OpenVPN using config ${OPEN_VPN_CONFIG}.ovpn"
-		OPEN_VPN_CONFIG=/etc/openvpn/${OPEN_VPN_CONFIG}.ovpn
+		OPEN_VPN_CONFIG=/etc/openvpn/$vpn_provider/${OPEN_VPN_CONFIG}.ovpn
 	else
 		echo "Supplied config ${OPEN_VPN_CONFIG}.ovpn could not be found."
-		echo "Using default OpenVPN gateway: Netherlands"
-		OPEN_VPN_CONFIG=/etc/openvpn/Netherlands.ovpn
+		echo "Using default OpenVPN gateway for provider ${vpn_provider}"
+		OPEN_VPN_CONFIG=/etc/openvpn/$vpn_provider/default.ovpn
 	fi
 else
-	echo "No VPN configuration provided. Using default: Netherlands"
-	OPEN_VPN_CONFIG=/etc/openvpn/Netherlands.ovpn
+	echo "No VPN configuration provided. Using default."
+	OPEN_VPN_CONFIG=/etc/openvpn/$vpn_provider/default.ovpn
 fi
 
 # override resolv.conf
@@ -24,14 +33,14 @@ then
 fi
 
 # add PIA user/pass
-if [ "${PIA_USERNAME}" = "**None**" ] || [ "${PIA_PASSWORD}" = "**None**" ] ; then
+if [ "${OPENVPN_USERNAME}" = "**None**" ] || [ "${OPENVPN_PASSWORD}" = "**None**" ] ; then
  echo "PIA credentials not set. Exiting."
  exit 1
 else
-  echo "Setting PIA credentials..."
+  echo "Setting OPENVPN credentials..."
   mkdir -p /config
-  echo $PIA_USERNAME > /config/pia-credentials.txt
-  echo $PIA_PASSWORD >> /config/pia-credentials.txt
+  echo $OPENVPN_USERNAME > /config/openvpn-credentials.txt
+  echo $OPENVPN_PASSWORD >> /config/openvpn-credentials.txt
 fi
 
 # add transmission credentials from env vars

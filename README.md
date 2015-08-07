@@ -8,8 +8,8 @@ The container is available from the Docker registry and this is the simplest way
 ```
 $ docker run --privileged  -d \
               -v /your/storage/path/:/data \
-              -e "PIA_USERNAME=user" \
-              -e "PIA_PASSWORD=pass" \
+              -e "OPENVPN_USERNAME=user" \
+              -e "OPENVPN_PASSWORD=pass" \
               -p 9091:9091 \
               haugene/transmission-openvpn
 ```
@@ -19,8 +19,8 @@ or you could optionally specify which vpn server to use by setting an environmen
 ```
 $ docker run --privileged  -d \
               -v /your/storage/path/:/data \
-              -e "PIA_USERNAME=user" \
-              -e "PIA_PASSWORD=pass" \
+              -e "OPENVPN_USERNAME=user" \
+              -e "OPENVPN_PASSWORD=pass" \
               -p 9091:9091 \
               -e "OPEN_VPN_CONFIG=US West" \
               haugene/transmission-openvpn
@@ -28,13 +28,13 @@ $ docker run --privileged  -d \
 
 As you can see, the container expects a data volume to be mounted. It is used for storing your downloads from Transmission. The container comes with a default Transmission `settings.json` file that expects the folders `completed`, `incomplete`, and `watch` to be present in /your/storage/path (aka /data). This is where Transmission will store your downloads, incomplete downloads and a watch directory to look for new .torrent files.
 
-The only mandatory configuration is to set two environment variables for your PIA username and password. You must set the environment variables `PIA_USERNAME` and `PIA_PASSWORD` to your login credentials. The container will connect to the Private Internet Access VPN servers in Netherlands by default.
+The only mandatory configuration is to set two environment variables for your PIA username and password. You must set the environment variables `OPENVPN_USERNAME` and `OPENVPN_PASSWORD` to your login credentials. The container will connect to the Private Internet Access VPN servers in Netherlands by default.
 
 ### Required environment options
 | Variable | Function | Example |
 |----------|----------|-------|
-|`PIA_USERNAME`|Your login username for PIA|`PIA_USERNAME=asdf`|
-|`PIA_PASSWORD`|Your login password for PIA|`PIA_PASSWORD=asdf`|
+|`OPENVPN_USERNAME`|Your login username for PIA|`OPENVPN_USERNAME=asdf`|
+|`OPENVPN_PASSWORD`|Your login password for PIA|`OPENVPN_PASSWORD=asdf`|
 
 ### Network configuration options
 | Variable | Function | Example |
@@ -71,8 +71,8 @@ $ docker build -t="docker-transmission-openvpn" .
 ```
 $ docker run --privileged  -d \
               -v /your/storage/path/:/data \
-              -e "PIA_USERNAME=user" \
-              -e "PIA_PASSWORD=pass" \
+              -e "OPENVPN_USERNAME=user" \
+              -e "OPENVPN_PASSWORD=pass" \
               -p 9091:9091 \
               docker-transmission-openvpn
 ```

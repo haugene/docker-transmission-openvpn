@@ -1,7 +1,7 @@
 #! /bin/sh
 
 # Settings
-PIA_PASSWD_FILE=/config/pia-credentials.txt
+PIA_PASSWD_FILE=/config/openvpn-credentials.txt
 TRANSMISSION_PASSWD_FILE=/config/transmission-credentials.txt
 
 pia_username=$(head -1 $PIA_PASSWD_FILE)
