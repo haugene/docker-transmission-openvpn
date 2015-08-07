@@ -32,7 +32,7 @@ then
   printf "$RESOLV_OVERRIDE" > /etc/resolv.conf
 fi
 
-# add PIA user/pass
+# add OpenVPN user/pass
 if [ "${OPENVPN_USERNAME}" = "**None**" ] || [ "${OPENVPN_PASSWORD}" = "**None**" ] ; then
  echo "PIA credentials not set. Exiting."
  exit 1
