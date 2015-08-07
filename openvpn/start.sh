@@ -9,20 +9,20 @@ else
 	vpn_provider="pia"
 fi
 
-if [ ! -z "$OPEN_VPN_CONFIG" ]
+if [ ! -z "$OPENVPN_CONFIG" ]
 then
-	if [ -f /etc/openvpn/$vpn_provider/"${OPEN_VPN_CONFIG}".ovpn ]
+	if [ -f /etc/openvpn/$vpn_provider/"${OPENVPN_CONFIG}".ovpn ]
   	then
-		echo "Starting OpenVPN using config ${OPEN_VPN_CONFIG}.ovpn"
-		OPEN_VPN_CONFIG=/etc/openvpn/$vpn_provider/${OPEN_VPN_CONFIG}.ovpn
+		echo "Starting OpenVPN using config ${OPENVPN_CONFIG}.ovpn"
+		OPENVPN_CONFIG=/etc/openvpn/$vpn_provider/${OPENVPN_CONFIG}.ovpn
 	else
-		echo "Supplied config ${OPEN_VPN_CONFIG}.ovpn could not be found."
+		echo "Supplied config ${OPENVPN_CONFIG}.ovpn could not be found."
 		echo "Using default OpenVPN gateway for provider ${vpn_provider}"
-		OPEN_VPN_CONFIG=/etc/openvpn/$vpn_provider/default.ovpn
+		OPENVPN_CONFIG=/etc/openvpn/$vpn_provider/default.ovpn
 	fi
 else
 	echo "No VPN configuration provided. Using default."
-	OPEN_VPN_CONFIG=/etc/openvpn/$vpn_provider/default.ovpn
+	OPENVPN_CONFIG=/etc/openvpn/$vpn_provider/default.ovpn
 fi
 
 # override resolv.conf
@@ -50,4 +50,4 @@ echo $TRANSMISSION_RPC_PASSWORD >> /config/transmission-credentials.txt
 # Persist transmission settings for use by transmission-daemon
 dockerize -template /etc/transmission-daemon/environment-variables.tmpl:/etc/transmission-daemon/environment-variables.sh /bin/true
 
-exec openvpn --config "$OPEN_VPN_CONFIG"
+exec openvpn --config "$OPENVPN_CONFIG"
