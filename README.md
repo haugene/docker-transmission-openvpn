@@ -1,5 +1,4 @@
 # Transmission with WebUI and OpenVPN
-===
 This Docker container lets you run Transmission with WebUI while connecting to either BTGUARD or PIA OpenVPN.
 When using PIA as provider it will update Transmission hourly with assigned open port. Please read the instructions below.
 
