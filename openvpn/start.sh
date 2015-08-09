@@ -48,6 +48,6 @@ echo $TRANSMISSION_RPC_USERNAME > /config/transmission-credentials.txt
 echo $TRANSMISSION_RPC_PASSWORD >> /config/transmission-credentials.txt
 
 # Persist transmission settings for use by transmission-daemon
-dockerize -template /etc/transmission-daemon/environment-variables.tmpl:/etc/transmission-daemon/environment-variables.sh /bin/true
+dockerize -template /etc/transmission/environment-variables.tmpl:/etc/transmission/environment-variables.sh /bin/true
 
 exec openvpn --config "$OPENVPN_CONFIG"
