@@ -2,6 +2,8 @@
 This Docker container lets you run Transmission with WebUI while connecting to either BTGUARD or PIA OpenVPN.
 When using PIA as provider it will update Transmission hourly with assigned open port. Please read the instructions below.
 
+NB: Support for BTGUARD is only available with the dev tag for now. Please use haugene/transmission-openvpn:dev if you want to use BTGUARD as provider. See readme for the different branches on GitHub.
+
 ## Run container from Docker registry
 The container is available from the Docker registry and this is the simplest way to get it. To run the container use this command:
 
