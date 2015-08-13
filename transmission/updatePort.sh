@@ -1,5 +1,8 @@
 #! /bin/sh
 
+# Source our persisted env variables from container startup
+. /etc/transmission-daemon/environment-variables.sh
+
 # Settings
 PIA_PASSWD_FILE=/config/pia-credentials.txt
 TRANSMISSION_PASSWD_FILE=/config/transmission-credentials.txt
@@ -10,7 +13,7 @@ transmission_username=$(head -1 $TRANSMISSION_PASSWD_FILE)
 transmission_passwd=$(tail -1 $TRANSMISSION_PASSWD_FILE)
 local_vpn_ip=$(ip addr show tun0 | grep inet | awk '{ print $2 }')
 pia_client_id_file=/etc/transmission-daemon/pia_client_id
-transmission_settings_file=/etc/transmission-daemon/settings.json
+transmission_settings_file=${TRANSMISSION_HOME}/settings.json
 port_assignment_url=https://www.privateinternetaccess.com/vpninfo/port_forward_assignment
 
 #
