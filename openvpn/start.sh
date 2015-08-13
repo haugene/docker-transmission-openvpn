@@ -1,19 +1,28 @@
 #!/bin/sh
 
-if [ ! -z "$OPEN_VPN_CONFIG" ]
+if [ "$OPENVPN_PROVIDER" = "BTGUARD" ]
 then
-	if [ -f /etc/openvpn/"${OPEN_VPN_CONFIG}".ovpn ]
+	echo "VPN PROVIDER: BTGUARD"
+	vpn_provider="btguard"
+else
+	echo "VPN PROVIDER: PIA"
+	vpn_provider="pia"
+fi
+
+if [ ! -z "$OPENVPN_CONFIG" ]
+then
+	if [ -f /etc/openvpn/$vpn_provider/"${OPENVPN_CONFIG}".ovpn ]
   	then
-		echo "Starting OpenVPN using config ${OPEN_VPN_CONFIG}.ovpn"
-		OPEN_VPN_CONFIG=/etc/openvpn/${OPEN_VPN_CONFIG}.ovpn
+		echo "Starting OpenVPN using config ${OPENVPN_CONFIG}.ovpn"
+		OPENVPN_CONFIG=/etc/openvpn/$vpn_provider/${OPENVPN_CONFIG}.ovpn
 	else
-		echo "Supplied config ${OPEN_VPN_CONFIG}.ovpn could not be found."
-		echo "Using default OpenVPN gateway: Netherlands"
-		OPEN_VPN_CONFIG=/etc/openvpn/Netherlands.ovpn
+		echo "Supplied config ${OPENVPN_CONFIG}.ovpn could not be found."
+		echo "Using default OpenVPN gateway for provider ${vpn_provider}"
+		OPENVPN_CONFIG=/etc/openvpn/$vpn_provider/default.ovpn
 	fi
 else
-	echo "No VPN configuration provided. Using default: Netherlands"
-	OPEN_VPN_CONFIG=/etc/openvpn/Netherlands.ovpn
+	echo "No VPN configuration provided. Using default."
+	OPENVPN_CONFIG=/etc/openvpn/$vpn_provider/default.ovpn
 fi
 
 # override resolv.conf
@@ -23,15 +32,15 @@ then
   printf "$RESOLV_OVERRIDE" > /etc/resolv.conf
 fi
 
-# add PIA user/pass
-if [ "${PIA_USERNAME}" = "**None**" ] || [ "${PIA_PASSWORD}" = "**None**" ] ; then
+# add OpenVPN user/pass
+if [ "${OPENVPN_USERNAME}" = "**None**" ] || [ "${OPENVPN_PASSWORD}" = "**None**" ] ; then
  echo "PIA credentials not set. Exiting."
  exit 1
 else
-  echo "Setting PIA credentials..."
+  echo "Setting OPENVPN credentials..."
   mkdir -p /config
-  echo $PIA_USERNAME > /config/pia-credentials.txt
-  echo $PIA_PASSWORD >> /config/pia-credentials.txt
+  echo $OPENVPN_USERNAME > /config/openvpn-credentials.txt
+  echo $OPENVPN_PASSWORD >> /config/openvpn-credentials.txt
 fi
 
 # add transmission credentials from env vars
@@ -39,6 +48,6 @@ echo $TRANSMISSION_RPC_USERNAME > /config/transmission-credentials.txt
 echo $TRANSMISSION_RPC_PASSWORD >> /config/transmission-credentials.txt
 
 # Persist transmission settings for use by transmission-daemon
-dockerize -template /etc/transmission-daemon/environment-variables.tmpl:/etc/transmission-daemon/environment-variables.sh /bin/true
+dockerize -template /etc/transmission/environment-variables.tmpl:/etc/transmission/environment-variables.sh /bin/true
 
-exec openvpn --config "$OPEN_VPN_CONFIG"
+exec openvpn --config "$OPENVPN_CONFIG"

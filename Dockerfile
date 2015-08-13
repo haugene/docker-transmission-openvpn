@@ -1,6 +1,6 @@
 # Transmission and OpenVPN
 #
-# Version 1.1
+# Version 1.2
 
 FROM ubuntu:14.04
 MAINTAINER Kristian Haugene
@@ -18,11 +18,12 @@ RUN apt-get update \
     && curl -L https://github.com/jwilder/dockerize/releases/download/v0.0.2/dockerize-linux-amd64-v0.0.2.tar.gz | tar -C /usr/local/bin -xzv
 
 # Add configuration and scripts
-ADD openvpn/* /etc/openvpn/
-ADD transmission/* /etc/transmission-daemon/
+ADD openvpn/ /etc/openvpn/
+ADD transmission/ /etc/transmission/
 
-ENV PIA_USERNAME=**None** \
-    PIA_PASSWORD=**None** \
+ENV OPENVPN_USERNAME=**None** \
+    OPENVPN_PASSWORD=**None** \
+    OPENVPN_PROVIDER=PIA \
     "TRANSMISSION_ALT_SPEED_DOWN=50" \
     "TRANSMISSION_ALT_SPEED_ENABLED=false" \
     "TRANSMISSION_ALT_SPEED_TIME_BEGIN=540" \

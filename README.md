@@ -1,6 +1,8 @@
-Private Internet Access OpenVPN - Transmission
-===
-This Docker container lets you run Transmission with WebUI while connecting to PIA VPN. It updates Transmission hourly with assigned open port from PIA. Please read the instructions below.
+# Transmission with WebUI and OpenVPN
+This Docker container lets you run Transmission with WebUI while connecting to either BTGUARD or PIA OpenVPN.
+When using PIA as provider it will update Transmission hourly with assigned open port. Please read the instructions below.
+
+NB: Support for BTGUARD is only available with the dev tag for now. Please use haugene/transmission-openvpn:dev if you want to use BTGUARD as provider. See readme for the different branches on GitHub.
 
 ## Run container from Docker registry
 The container is available from the Docker registry and this is the simplest way to get it. To run the container use this command:
@@ -8,38 +10,33 @@ The container is available from the Docker registry and this is the simplest way
 ```
 $ docker run --privileged  -d \
               -v /your/storage/path/:/data \
-              -e "PIA_USERNAME=user" \
-              -e "PIA_PASSWORD=pass" \
+              -e "OPENVPN_PROVIDER=PIA" \
+              -e "OPENVPN_CONFIG=Netherlands" \
+              -e "OPENVPN_USERNAME=user" \
+              -e "OPENVPN_PASSWORD=pass" \
               -p 9091:9091 \
               haugene/transmission-openvpn
 ```
 
-or you could optionally specify which vpn server to use by setting an environment variable to one of the ovpn configs avaliable [in this folder](https://github.com/haugene/docker-transmission-openvpn/tree/master/piaconfig).
+The `OPENVPN_PROVIDER` and `OPENVPN_CONFIG` are optional variables. If no provider is given, it will default to PIA. If no config is given, a default config will be selected for the provider you have chosen.
+The only mandatory environment variables are your OpenVPN username and password. You must set the environment variables `OPENVPN_USERNAME` and `OPENVPN_PASSWORD` to the credentials given by your OpenVPN provider.
 
-```
-$ docker run --privileged  -d \
-              -v /your/storage/path/:/data \
-              -e "PIA_USERNAME=user" \
-              -e "PIA_PASSWORD=pass" \
-              -p 9091:9091 \
-              -e "OPEN_VPN_CONFIG=US West" \
-              haugene/transmission-openvpn
-```
+Find the OpenVPN configurations avaliable by looking in the openvpn folder of the GitHub repository.
 
-As you can see, the container expects a data volume to be mounted. It is used for storing your downloads from Transmission. The container comes with a default Transmission `settings.json` file that expects the folders `completed`, `incomplete`, and `watch` to be present in /your/storage/path (aka /data). This is where Transmission will store your downloads, incomplete downloads and a watch directory to look for new .torrent files.
+As you can see, the container also expects a data volume to be mounted. It is used for storing your downloads from Transmission. The container comes with a default Transmission `settings.json` file that expects the folders `completed`, `incomplete`, and `watch` to be present in /your/storage/path (aka /data). This is where Transmission will store your downloads, incomplete downloads and a watch directory to look for new .torrent files.
 
-The only mandatory configuration is to set two environment variables for your PIA username and password. You must set the environment variables `PIA_USERNAME` and `PIA_PASSWORD` to your login credentials. The container will connect to the Private Internet Access VPN servers in Netherlands by default.
 
 ### Required environment options
 | Variable | Function | Example |
 |----------|----------|-------|
-|`PIA_USERNAME`|Your login username for PIA|`PIA_USERNAME=asdf`|
-|`PIA_PASSWORD`|Your login password for PIA|`PIA_PASSWORD=asdf`|
+|`OPENVPN_USERNAME`|Your OpenVPN username |`OPENVPN_USERNAME=asdf`|
+|`OPENVPN_PASSWORD`|Your OpenVPN password |`OPENVPN_PASSWORD=asdf`|
 
 ### Network configuration options
 | Variable | Function | Example |
 |----------|----------|-------|
-|`OPEN_VPN_CONFIG` | Sets the PIA endpoint to connect to. | `OPEN_VPN_CONFIG=UK Southampton`|
+|`OPENVPN_PROVIDER` | Sets the OpenVPN provider to use. | `OPENVPN_PROVIDER=BTGUARD`|
+|`OPENVPN_CONFIG` | Sets the OpenVPN endpoint to connect to. | `OPENVPN_CONFIG=UK Southampton`|
 |`RESOLV_OVERRIDE` | The value of this variable will be written to `/etc/resolv.conf`. | `RESOLV_OVERRIDE=nameserver 8.8.8.8\nnameserver 8.8.4.4\n`|
 
 ### Transmission configuration options
@@ -65,22 +62,26 @@ To build this container, clone the repository and cd into it.
 ### Build it:
 ```
 $ cd /repo/location/docker-transmission-openvpn
-$ docker build -t="docker-transmission-openvpn" .
+$ docker build -t docker-transmission-openvpn .
 ```
 ### Run it:
 ```
 $ docker run --privileged  -d \
               -v /your/storage/path/:/data \
-              -e "PIA_USERNAME=user" \
-              -e "PIA_PASSWORD=pass" \
+              -e "OPENVPN_PROVIDER=PIA" \
+              -e "OPENVPN_CONFIG=Netherlands" \
+              -e "OPENVPN_USERNAME=user" \
+              -e "OPENVPN_PASSWORD=pass" \
               -p 9091:9091 \
               docker-transmission-openvpn
 ```
 
-As described in the "Run container from Docker registry" section, this will start a container with default settings. This means that you should have the folders "completed, incomplete and watch" in /your/storage/path, and pia-credentials.txt in /your/config/path.
+This will start a container as described in the "Run container from Docker registry" section. This means that you should have the folders "completed, incomplete and watch" in /your/storage/path, and pia-credentials.txt in /your/config/path.
 
-### Issues
-If you are having some issues running the local build then please ensure you are using the latest version of docker. Using the latest stable verison is always recommended. Support for older version is on a best-effort basis.
+### Known issues
+Some have encountered problems with DNS resolving inside the docker container. This causes trouble because OpenVPN will not be able to resolve the host to connect to. If you have this problem, please refer to issue #4 on GitHib and you might want to use the `RESOLV_OVERRIDE` flag described in "Network configuration options"
+
+If you are having issues with this container please submit an issue on GitHub. Please provide logs, docker version and other information that can simplify reproducing the issue. Using the latest stable verison of Docker is always recommended. Support for older version is on a best-effort basis.
 
 ## Access the WebUI
 But what's going on? My http://my-host:9091 isn't responding?
@@ -90,8 +91,12 @@ This is because the VPN is active, and since docker is running in a different ip
 There are several ways to fix this. You can pipe and do fancy iptables or ip route configurations on the host and in the Docker image. But I found that the simplest solution is just to proxy my traffic. Start a Nginx container like this:
 
 ```
-$ docker run -d -v /path/to/nginx.conf:/etc/nginx/nginx.conf:ro -p 8080:8080 nginx
+$ docker run -d \
+      -v /path/to/nginx.conf:/etc/nginx/nginx.conf:ro \
+      -p 8080:8080 \
+      nginx
 ```
+
 Where /path/to/nginx.conf has this content:
 
 ```
