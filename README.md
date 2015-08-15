@@ -2,8 +2,6 @@
 This Docker container lets you run Transmission with WebUI while connecting to either BTGUARD or PIA OpenVPN.
 When using PIA as provider it will update Transmission hourly with assigned open port. Please read the instructions below.
 
-NB: Support for BTGUARD is only available with the dev tag for now. Please use haugene/transmission-openvpn:dev if you want to use BTGUARD as provider. See readme for the different branches on GitHub.
-
 ## Run container from Docker registry
 The container is available from the Docker registry and this is the simplest way to get it. To run the container use this command:
 
@@ -18,12 +16,16 @@ $ docker run --privileged  -d \
               haugene/transmission-openvpn
 ```
 
-The `OPENVPN_PROVIDER` and `OPENVPN_CONFIG` are optional variables. If no provider is given, it will default to PIA. If no config is given, a default config will be selected for the provider you have chosen.
-The only mandatory environment variables are your OpenVPN username and password. You must set the environment variables `OPENVPN_USERNAME` and `OPENVPN_PASSWORD` to the credentials given by your OpenVPN provider.
+The `OPENVPN_PROVIDER` and `OPENVPN_CONFIG` are optional variables. If no provider is given, it will default to PIA.
+If no config is given, a default config will be selected for the provider you have chosen.
+The only mandatory environment variables are your OpenVPN username and password. 
+You must set the environment variables `OPENVPN_USERNAME` and `OPENVPN_PASSWORD` to the credentials given by your OpenVPN provider.
 
 Find the OpenVPN configurations avaliable by looking in the openvpn folder of the GitHub repository.
 
-As you can see, the container also expects a data volume to be mounted. It is used for storing your downloads from Transmission. The container comes with a default Transmission `settings.json` file that expects the folders `completed`, `incomplete`, and `watch` to be present in /your/storage/path (aka /data). This is where Transmission will store your downloads, incomplete downloads and a watch directory to look for new .torrent files.
+As you can see, the container also expects a data volume to be mounted. 
+This is where Transmission will store your downloads, incomplete downloads and look for a watch directory for new .torrent files.
+By default there will also be created a transmission-home folder under /data where Transmission state is stored.
 
 
 ### Required environment options
@@ -54,7 +56,7 @@ The environment variables are the same name as used in the transmission settings
 
 As you can see the variables are prefixed with `TRANSMISSION_`, the variable is capitalized, and `-` is converted to `_`.
 
-PS: `TRANSMISSION_BIND_ADDRESS_IPV4` will be overridden to the IP assigned to tunnel interface by PIA. This is to prevent leaking of the host IP.
+PS: `TRANSMISSION_BIND_ADDRESS_IPV4` will be overridden to the IP assigned to your OpenVPN tunnel interface. This is to prevent leaking of the host IP.
 
 ## Building the container yourself
 To build this container, clone the repository and cd into it.
@@ -76,7 +78,7 @@ $ docker run --privileged  -d \
               docker-transmission-openvpn
 ```
 
-This will start a container as described in the "Run container from Docker registry" section. This means that you should have the folders "completed, incomplete and watch" in /your/storage/path, and pia-credentials.txt in /your/config/path.
+This will start a container as described in the "Run container from Docker registry" section. 
 
 ### Known issues
 Some have encountered problems with DNS resolving inside the docker container. This causes trouble because OpenVPN will not be able to resolve the host to connect to. If you have this problem, please refer to issue #4 on GitHib and you might want to use the `RESOLV_OVERRIDE` flag described in "Network configuration options"
@@ -134,5 +136,6 @@ $ docker run --privileged -it transmission-openvpn bash
 From there you can start the service yourself, or do whatever (probably developer-related) you came to do.
 
 ## Controlling Transmission remotely
-The container exposes /config as a volume. This is the directory where the supplied transmission and PIA credentials will be stored. If you have transmission authentication enabled and want scripts in another container to access and control the transmission-daemon, this can be a handy way to access the credentials.
+The container exposes /config as a volume. This is the directory where the supplied transmission and OpenVPN credentials will be stored.
+If you have transmission authentication enabled and want scripts in another container to access and control the transmission-daemon, this can be a handy way to access the credentials.
 For example, another container may pause or restrict transmission speeds while the server is streaming video.
