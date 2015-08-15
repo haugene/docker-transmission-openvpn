@@ -58,33 +58,6 @@ As you can see the variables are prefixed with `TRANSMISSION_`, the variable is 
 
 PS: `TRANSMISSION_BIND_ADDRESS_IPV4` will be overridden to the IP assigned to your OpenVPN tunnel interface. This is to prevent leaking of the host IP.
 
-## Building the container yourself
-To build this container, clone the repository and cd into it.
-
-### Build it:
-```
-$ cd /repo/location/docker-transmission-openvpn
-$ docker build -t docker-transmission-openvpn .
-```
-### Run it:
-```
-$ docker run --privileged  -d \
-              -v /your/storage/path/:/data \
-              -e "OPENVPN_PROVIDER=PIA" \
-              -e "OPENVPN_CONFIG=Netherlands" \
-              -e "OPENVPN_USERNAME=user" \
-              -e "OPENVPN_PASSWORD=pass" \
-              -p 9091:9091 \
-              docker-transmission-openvpn
-```
-
-This will start a container as described in the "Run container from Docker registry" section. 
-
-### Known issues
-Some have encountered problems with DNS resolving inside the docker container. This causes trouble because OpenVPN will not be able to resolve the host to connect to. If you have this problem, please refer to issue #4 on GitHib and you might want to use the `RESOLV_OVERRIDE` flag described in "Network configuration options"
-
-If you are having issues with this container please submit an issue on GitHub. Please provide logs, docker version and other information that can simplify reproducing the issue. Using the latest stable verison of Docker is always recommended. Support for older version is on a best-effort basis.
-
 ## Access the WebUI
 But what's going on? My http://my-host:9091 isn't responding?
 This is because the VPN is active, and since docker is running in a different ip range than your client the response to your request will be treated as "non-local" traffic and therefore be routed out through the VPN interface.
@@ -117,6 +90,33 @@ http {
 ```
 Your Transmission WebUI should now be avaliable at "your.host.ip.addr:8080/transmission/web/".
 Change the port in the docker run command if 8080 is not suitable for you.
+
+### Known issues
+Some have encountered problems with DNS resolving inside the docker container. This causes trouble because OpenVPN will not be able to resolve the host to connect to. If you have this problem, please refer to issue #4 on GitHib and you might want to use the `RESOLV_OVERRIDE` flag described in "Network configuration options"
+
+If you are having issues with this container please submit an issue on GitHub. Please provide logs, docker version and other information that can simplify reproducing the issue. Using the latest stable verison of Docker is always recommended. Support for older version is on a best-effort basis.
+
+## Building the container yourself
+To build this container, clone the repository and cd into it.
+
+### Build it:
+```
+$ cd /repo/location/docker-transmission-openvpn
+$ docker build -t docker-transmission-openvpn .
+```
+### Run it:
+```
+$ docker run --privileged  -d \
+              -v /your/storage/path/:/data \
+              -e "OPENVPN_PROVIDER=PIA" \
+              -e "OPENVPN_CONFIG=Netherlands" \
+              -e "OPENVPN_USERNAME=user" \
+              -e "OPENVPN_PASSWORD=pass" \
+              -p 9091:9091 \
+              docker-transmission-openvpn
+```
+
+This will start a container as described in the "Run container from Docker registry" section. 
 
 ## What if I want to run the container interactively.
 If you want do have access inside the container while running you have two choices. To have a look inside an already running container, use docker exec to get a terminal inside the container.
