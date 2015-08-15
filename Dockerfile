@@ -95,6 +95,7 @@ ENV OPENVPN_USERNAME=**None** \
     "TRANSMISSION_UTP_ENABLED=true" \
     "TRANSMISSION_WATCH_DIR=/data/watch" \
     "TRANSMISSION_WATCH_DIR_ENABLED=true" \
+    "TRANSMISSION_HOME=/data/transmission-home" \
     RESOLV_OVERRIDE=**None**
 
 # Expose port and run
