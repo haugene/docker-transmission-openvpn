@@ -37,7 +37,7 @@ By default there will also be created a transmission-home folder under /data whe
 ### Network configuration options
 | Variable | Function | Example |
 |----------|----------|-------|
-|`OPENVPN_PROVIDER` | Sets the OpenVPN provider to use. | `OPENVPN_PROVIDER=BTGUARD`|
+|`OPENVPN_PROVIDER` | Sets the OpenVPN provider to use. | `OPENVPN_PROVIDER=BTGUARD` or <br>`OPENVPN_PROVIDER=PIA`|
 |`OPENVPN_CONFIG` | Sets the OpenVPN endpoint to connect to. | `OPENVPN_CONFIG=UK Southampton`|
 |`RESOLV_OVERRIDE` | The value of this variable will be written to `/etc/resolv.conf`. | `RESOLV_OVERRIDE=nameserver 8.8.8.8\nnameserver 8.8.4.4\n`|
 
