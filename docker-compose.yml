@@ -1,0 +1,21 @@
+openvpn:
+  image: haugene/transmission-openvpn
+  privileged: true
+  ports:
+    - "9091:9091"
+  volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - /your/storage/path/:/data
+  environment:
+    OPENVPN_PROVIDER: PIA
+    OPENVPN_USERNAME: username
+    OPENVPN_PASSWORD: password
+
+
+nginx:
+  image: library/nginx
+  ports:
+     - "8080:8080"
+  volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - /path/to/nginx.conf:/etc/nginx/nginx.conf:ro
