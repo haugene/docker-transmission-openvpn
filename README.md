@@ -3,7 +3,7 @@ Docker container which runs Transmission torrent client with WebUI while connect
 It bundles certificates and configurations for the following VPN providers:
 * Private Internet Access
 * BTGuard
-* tigerVPN
+* TigerVPN
 
 When using PIA as provider it will update Transmission hourly with assigned open port. Please read the instructions below.
 
