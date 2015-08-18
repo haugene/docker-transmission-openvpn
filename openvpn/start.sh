@@ -4,9 +4,12 @@ if [ "$OPENVPN_PROVIDER" = "BTGUARD" ]
 then
 	echo "VPN PROVIDER: BTGUARD"
 	vpn_provider="btguard"
-else
+else if [ "$OPENVPN_PROVIDER" = "PIA" ]
 	echo "VPN PROVIDER: PIA"
 	vpn_provider="pia"
+else 
+    echo "VPN PROVIDER: TIGER"
+	vpn_provider="tiger"
 fi
 
 if [ ! -z "$OPENVPN_CONFIG" ]
