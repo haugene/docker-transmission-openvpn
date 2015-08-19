@@ -1,5 +1,10 @@
 # Transmission with WebUI and OpenVPN
-This Docker container lets you run Transmission with WebUI while connecting to either BTGUARD or PIA OpenVPN.
+Docker container which runs Transmission torrent client with WebUI while connecting to OpenVPN. 
+It bundles certificates and configurations for the following VPN providers:
+* Private Internet Access
+* BTGuard
+* TigerVPN
+
 When using PIA as provider it will update Transmission hourly with assigned open port. Please read the instructions below.
 
 ## Run container from Docker registry
@@ -16,12 +21,10 @@ $ docker run --privileged  -d \
               haugene/transmission-openvpn
 ```
 
-The `OPENVPN_PROVIDER` and `OPENVPN_CONFIG` are optional variables. If no provider is given, it will default to PIA.
-If no config is given, a default config will be selected for the provider you have chosen.
-The only mandatory environment variables are your OpenVPN username and password. 
-You must set the environment variables `OPENVPN_USERNAME` and `OPENVPN_PASSWORD` to the credentials given by your OpenVPN provider.
+You must set the environment variables `OPENVPN_PROVIDER`, `OPENVPN_USERNAME` and `OPENVPN_PASSWORD` to provide basic connection details.
 
-Find the OpenVPN configurations avaliable by looking in the openvpn folder of the GitHub repository.
+The `OPENVPN_CONFIG` is an optional variable. If no config is given, a default config will be selected for the provider you have chosen.
+Find available OpenVPN configurations by looking in the openvpn folder of the GitHub repository.
 
 As you can see, the container also expects a data volume to be mounted. 
 This is where Transmission will store your downloads, incomplete downloads and look for a watch directory for new .torrent files.
@@ -31,13 +34,13 @@ By default there will also be created a transmission-home folder under /data whe
 ### Required environment options
 | Variable | Function | Example |
 |----------|----------|-------|
+|`OPENVPN_PROVIDER` | Sets the OpenVPN provider to use. | `OPENVPN_PROVIDER=BTGUARD` or <br>`OPENVPN_PROVIDER=PIA` or <br>`OPENVPN_PROVIDER=TIGER`|
 |`OPENVPN_USERNAME`|Your OpenVPN username |`OPENVPN_USERNAME=asdf`|
 |`OPENVPN_PASSWORD`|Your OpenVPN password |`OPENVPN_PASSWORD=asdf`|
 
 ### Network configuration options
 | Variable | Function | Example |
 |----------|----------|-------|
-|`OPENVPN_PROVIDER` | Sets the OpenVPN provider to use. | `OPENVPN_PROVIDER=BTGUARD` or <br>`OPENVPN_PROVIDER=PIA`|
 |`OPENVPN_CONFIG` | Sets the OpenVPN endpoint to connect to. | `OPENVPN_CONFIG=UK Southampton`|
 |`RESOLV_OVERRIDE` | The value of this variable will be written to `/etc/resolv.conf`. | `RESOLV_OVERRIDE=nameserver 8.8.8.8\nnameserver 8.8.4.4\n`|
 

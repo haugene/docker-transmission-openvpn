@@ -1,13 +1,18 @@
 #!/bin/sh
 
-if [ "$OPENVPN_PROVIDER" = "BTGUARD" ]
-then
-	echo "VPN PROVIDER: BTGUARD"
+if [ "$OPENVPN_PROVIDER" = "BTGUARD" ]; then
 	vpn_provider="btguard"
-else
-	echo "VPN PROVIDER: PIA"
+elif [ "$OPENVPN_PROVIDER" = "PIA" ]; then
 	vpn_provider="pia"
+elif [ "$OPENVPN_PROVIDER" = "TIGER" ]; then
+	vpn_provider="tiger"
+else
+	echo "Could not find OpenVPN provider: $OPENVPN_PROVIDER"
+	echo "Please check your settings."
+	exit 1
 fi
+
+echo "Using OpenVPN provider: $OPENVPN_PROVIDER"
 
 if [ ! -z "$OPENVPN_CONFIG" ]
 then

@@ -1,6 +1,6 @@
 # Transmission and OpenVPN
 #
-# Version 1.2
+# Version 1.3
 
 FROM ubuntu:14.04
 MAINTAINER Kristian Haugene
@@ -23,7 +23,7 @@ ADD transmission/ /etc/transmission/
 
 ENV OPENVPN_USERNAME=**None** \
     OPENVPN_PASSWORD=**None** \
-    OPENVPN_PROVIDER=PIA \
+    OPENVPN_PROVIDER=**None** \
     "TRANSMISSION_ALT_SPEED_DOWN=50" \
     "TRANSMISSION_ALT_SPEED_ENABLED=false" \
     "TRANSMISSION_ALT_SPEED_TIME_BEGIN=540" \
