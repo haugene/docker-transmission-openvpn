@@ -5,6 +5,7 @@ It bundles certificates and configurations for the following VPN providers:
 * BTGuard
 * TigerVPN
 * FrootVPN
+* TorGuard
 
 When using PIA as provider it will update Transmission hourly with assigned open port. Please read the instructions below.
 
@@ -35,7 +36,7 @@ By default there will also be created a transmission-home folder under /data whe
 ### Required environment options
 | Variable | Function | Example |
 |----------|----------|-------|
-|`OPENVPN_PROVIDER` | Sets the OpenVPN provider to use. | `OPENVPN_PROVIDER=BTGUARD` or <br>`OPENVPN_PROVIDER=PIA` or <br>`OPENVPN_PROVIDER=TIGER` or <br>`OPENVPN_PROVIDER=FROOT`|
+|`OPENVPN_PROVIDER` | Sets the OpenVPN provider to use. | `OPENVPN_PROVIDER=provider`. Supported providers are `PIA`, `BTGUARD`, `TIGER`, `FROOT` and `TORGUARD` |
 |`OPENVPN_USERNAME`|Your OpenVPN username |`OPENVPN_USERNAME=asdf`|
 |`OPENVPN_PASSWORD`|Your OpenVPN password |`OPENVPN_PASSWORD=asdf`|
 

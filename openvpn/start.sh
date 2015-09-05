@@ -8,6 +8,8 @@ elif [ "$OPENVPN_PROVIDER" = "TIGER" ]; then
 	vpn_provider="tiger"
 elif [ "$OPENVPN_PROVIDER" = "FROOT" ]; then
 	vpn_provider="froot"
+elif [ "$OPENVPN_PROVIDER" = "TORGUARD" ]; then
+	vpn_provider="torguard"
 else
 	echo "Could not find OpenVPN provider: $OPENVPN_PROVIDER"
 	echo "Please check your settings."
