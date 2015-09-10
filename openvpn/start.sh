@@ -34,13 +34,6 @@ else
 	OPENVPN_CONFIG=/etc/openvpn/$vpn_provider/default.ovpn
 fi
 
-# override resolv.conf
-if [ "$RESOLV_OVERRIDE" != "**None**" ];
-then
-  echo "Overriding resolv.conf..."
-  printf "$RESOLV_OVERRIDE" > /etc/resolv.conf
-fi
-
 # add OpenVPN user/pass
 if [ "${OPENVPN_USERNAME}" = "**None**" ] || [ "${OPENVPN_PASSWORD}" = "**None**" ] ; then
  echo "PIA credentials not set. Exiting."

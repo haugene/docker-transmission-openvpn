@@ -1,6 +1,6 @@
 # Transmission and OpenVPN
 #
-# Version 1.4
+# Version 1.5
 
 FROM ubuntu:14.04
 MAINTAINER Kristian Haugene
@@ -95,8 +95,7 @@ ENV OPENVPN_USERNAME=**None** \
     "TRANSMISSION_UTP_ENABLED=true" \
     "TRANSMISSION_WATCH_DIR=/data/watch" \
     "TRANSMISSION_WATCH_DIR_ENABLED=true" \
-    "TRANSMISSION_HOME=/data/transmission-home" \
-    RESOLV_OVERRIDE=**None**
+    "TRANSMISSION_HOME=/data/transmission-home"
 
 # Expose port and run
 EXPOSE 9091
