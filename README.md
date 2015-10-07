@@ -6,6 +6,7 @@ It bundles certificates and configurations for the following VPN providers:
 * TigerVPN
 * FrootVPN
 * TorGuard
+* NordVPN
 
 When using PIA as provider it will update Transmission hourly with assigned open port. Please read the instructions below.
 
