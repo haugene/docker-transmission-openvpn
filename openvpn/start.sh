@@ -1,16 +1,8 @@
 #!/bin/sh
-
-if [ "$OPENVPN_PROVIDER" = "BTGUARD" ]; then
-	vpn_provider="btguard"
-elif [ "$OPENVPN_PROVIDER" = "PIA" ]; then
-	vpn_provider="pia"
-elif [ "$OPENVPN_PROVIDER" = "TIGER" ]; then
-	vpn_provider="tiger"
-elif [ "$OPENVPN_PROVIDER" = "FROOT" ]; then
-	vpn_provider="froot"
-elif [ "$OPENVPN_PROVIDER" = "TORGUARD" ]; then
-	vpn_provider="torguard"
-else
+set -x
+vpn_provider="$(echo $OPENVPN_PROVIDER | tr '[A-Z]' '[a-z]')"
+vpn_provider_configs="/etc/openvpn/$vpn_provider/"
+if [ ! -d "$vpn_provider_configs" ]; then
 	echo "Could not find OpenVPN provider: $OPENVPN_PROVIDER"
 	echo "Please check your settings."
 	exit 1
@@ -20,23 +12,23 @@ echo "Using OpenVPN provider: $OPENVPN_PROVIDER"
 
 if [ ! -z "$OPENVPN_CONFIG" ]
 then
-	if [ -f /etc/openvpn/$vpn_provider/"${OPENVPN_CONFIG}".ovpn ]
+	if [ -f $vpn_provider_configs/"${OPENVPN_CONFIG}".ovpn ]
   	then
 		echo "Starting OpenVPN using config ${OPENVPN_CONFIG}.ovpn"
-		OPENVPN_CONFIG=/etc/openvpn/$vpn_provider/${OPENVPN_CONFIG}.ovpn
+		OPENVPN_CONFIG=$vpn_provider_configs/${OPENVPN_CONFIG}.ovpn
 	else
 		echo "Supplied config ${OPENVPN_CONFIG}.ovpn could not be found."
 		echo "Using default OpenVPN gateway for provider ${vpn_provider}"
-		OPENVPN_CONFIG=/etc/openvpn/$vpn_provider/default.ovpn
+		OPENVPN_CONFIG=$vpn_provider_configs/default.ovpn
 	fi
 else
 	echo "No VPN configuration provided. Using default."
-	OPENVPN_CONFIG=/etc/openvpn/$vpn_provider/default.ovpn
+	OPENVPN_CONFIG=$vpn_provider_configs/default.ovpn
 fi
 
 # add OpenVPN user/pass
 if [ "${OPENVPN_USERNAME}" = "**None**" ] || [ "${OPENVPN_PASSWORD}" = "**None**" ] ; then
- echo "PIA credentials not set. Exiting."
+ echo "OpenVPN credentials not set. Exiting."
  exit 1
 else
   echo "Setting OPENVPN credentials..."
