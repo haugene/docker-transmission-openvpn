@@ -13,7 +13,9 @@ mkdir -p ${TRANSMISSION_HOME}
 dockerize -template /etc/transmission/settings.tmpl:${TRANSMISSION_HOME}/settings.json /bin/true
 
 echo "STARTING TRANSMISSION"
-exec /usr/bin/transmission-daemon -g ${TRANSMISSION_HOME} &
+# Avoid "Fatal: no entropy gathering module detected" error
+ln -s /dev/urandom /dev/random
+exec /usr/bin/transmission-daemon -g ${TRANSMISSION_HOME} --logfile ${TRANSMISSION_HOME}/transmission.log &
 
 if [ "$OPENVPN_PROVIDER" = "PIA" ]
 then
