@@ -12,9 +12,13 @@ echo "Generating transmission settings.json from env variables"
 mkdir -p ${TRANSMISSION_HOME}
 dockerize -template /etc/transmission/settings.tmpl:${TRANSMISSION_HOME}/settings.json /bin/true
 
+if [ ! -e "/dev/random" ]; then
+  # Avoid "Fatal: no entropy gathering module detected" error
+  echo "INFO: /dev/random not found - symlink to /dev/urandom"
+  ln -s /dev/urandom /dev/random
+fi
+
 echo "STARTING TRANSMISSION"
-# Avoid "Fatal: no entropy gathering module detected" error
-ln -s /dev/urandom /dev/random
 exec /usr/bin/transmission-daemon -g ${TRANSMISSION_HOME} --logfile ${TRANSMISSION_HOME}/transmission.log &
 
 if [ "$OPENVPN_PROVIDER" = "PIA" ]
