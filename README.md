@@ -7,6 +7,8 @@ It bundles certificates and configurations for the following VPN providers:
 * FrootVPN
 * TorGuard
 * NordVPN
+* UsenetServerVPN
+* IPVanish
 
 When using PIA as provider it will update Transmission hourly with assigned open port. Please read the instructions below.
 
@@ -38,7 +40,7 @@ By default a folder named transmission-home will also be created under /data, th
 ### Required environment options
 | Variable | Function | Example |
 |----------|----------|-------|
-|`OPENVPN_PROVIDER` | Sets the OpenVPN provider to use. | `OPENVPN_PROVIDER=provider`. Supported providers are `PIA`, `BTGUARD`, `TIGER`, `FROOT`, `TORGUARD` and `NORDVPN` |
+|`OPENVPN_PROVIDER` | Sets the OpenVPN provider to use. | `OPENVPN_PROVIDER=provider`. Supported providers are `PIA`, `BTGUARD`, `TIGER`, `FROOT`, `TORGUARD`, `NORDVPN`, `USENETSERVER` and `IPVANISH` |
 |`OPENVPN_USERNAME`|Your OpenVPN username |`OPENVPN_USERNAME=asdf`|
 |`OPENVPN_PASSWORD`|Your OpenVPN password |`OPENVPN_PASSWORD=asdf`|
 
