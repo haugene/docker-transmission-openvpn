@@ -1,6 +1,6 @@
-# Transmission and OpenVPN
+# Transmission and OpenVPN and Sickrage
 #
-# Version 1.5
+# Version 1.6
 
 FROM ubuntu:14.04
 MAINTAINER Kristian Haugene
@@ -13,7 +13,10 @@ RUN apt-get update \
     && apt-get -y install software-properties-common \
     && add-apt-repository ppa:transmissionbt/ppa \
     && apt-get update \
-    && apt-get install -y transmission-cli transmission-common transmission-daemon openvpn curl \
+    && apt-get install -y transmission-cli transmission-common transmission-daemon openvpn curl git-core python python-cheetah \
+    && git clone git://github.com/SickRage/SickRage.git /var/sickrage \
+    && cp /var/sickrage/runscripts/init.debian /etc/init.d/sickrage \
+    && update-rc.d sickrage defaults \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
     && curl -L https://github.com/jwilder/dockerize/releases/download/v0.0.2/dockerize-linux-amd64-v0.0.2.tar.gz | tar -C /usr/local/bin -xzv
 
@@ -95,8 +98,11 @@ ENV OPENVPN_USERNAME=**None** \
     "TRANSMISSION_UTP_ENABLED=true" \
     "TRANSMISSION_WATCH_DIR=/data/watch" \
     "TRANSMISSION_WATCH_DIR_ENABLED=true" \
-    "TRANSMISSION_HOME=/data/transmission-home"
-
+    "TRANSMISSION_HOME=/data/transmission-home" \
+    "SICKRAGE_USERNAME"=username
+    
 # Expose port and run
 EXPOSE 9091
+EXPOSE 8081
+
 CMD ["/etc/openvpn/start.sh"]
