@@ -1,6 +1,6 @@
-# Transmission and OpenVPN
+# Transmission and OpenVPN and Sickrage
 #
-# Version 1.5
+# Version 1.6
 
 FROM ubuntu:14.04
 MAINTAINER Kristian Haugene
