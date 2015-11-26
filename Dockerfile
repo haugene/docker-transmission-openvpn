@@ -16,6 +16,7 @@ RUN apt-get update \
     && apt-get install -y transmission-cli transmission-common transmission-daemon openvpn curl git-core python python-cheetah \
     && git clone git://github.com/SickRage/SickRage.git /var/sickrage \
     && cp /var/sickrage/runscripts/init.debian /etc/init.d/sickrage \
+    && update-rc.d sickrage defaults \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
     && curl -L https://github.com/jwilder/dockerize/releases/download/v0.0.2/dockerize-linux-amd64-v0.0.2.tar.gz | tar -C /usr/local/bin -xzv
 
