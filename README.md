@@ -105,7 +105,7 @@ http {
 }
 ```
 Your Transmission WebUI should now be avaliable at "your.host.ip.addr:8080/transmission/web/".
-Change the port in the docker run command if 8080 is not suitable for you.
+Change the port in the docker run command if 8080 is not suitable for you. Alternatively if you use container linking, either directly or via docker-compose, you can replace "your.host.ip.addr" with the name or alias of the openvpn container.
 
 ## Known issues
 Some have encountered problems with DNS resolving inside the docker container.
