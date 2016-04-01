@@ -117,6 +117,19 @@ If you are having issues with this container please submit an issue on GitHub.
 Please provide logs, docker version and other information that can simplify reproducing the issue.
 Using the latest stable verison of Docker is always recommended. Support for older version is on a best-effort basis.
 
+## Adding new providers
+If your VPN provider is not in the list of supported providers you could always create an issue on GitHub and see if someone could add it for you. But if you're feeling up for doing it yourself, here's a couple of pointers.
+
+You clone this repository and create a new folder under "openvpn" where you put the .ovpn files your provider gives you. Depending on the structure of these files you need to make some adjustments. For example if they come with a ca.crt file that is referenced in the config you need to update this reference to the path it will have inside the container (which is /etc/openvpn/...). You also have to set where to look for your username/password and what to do when a connection is created (namely starting Transmission). In [this commit](https://github.com/haugene/docker-transmission-openvpn/commit/f10b134c2ebc76dfa97ebdeea7ec285ad7d4f9b4) you can see the changes done when adding IPVanish as provider. In general, it's all been done before so look around the commits and you should find what you're looking for.
+
+There is also a script called adjustConfigs.sh that could help you. After putting your .ovpn files in a folder, run that script with your folder name as parameter and it will try to do the changes descibed above. If you use it or not, reading it might give you some help in what you're looking to change in the .ovpn files.
+
+Once you've finished modifying configs, you build the container and run it with OPENVPN_PROVIDER set to the name of the folder of configs you just created (it will be lowercased to match the folder names). And that should be it!
+
+So, you've just added your own provider and you're feeling pretty good about it! Why don't you fork this repository, commit and push your changes and submit a pull request? Share your provider with the rest of us! :) Please submit your PR to the dev branch in that case.
+
+Ok, good. That's how you should do it. But if you don't want to build a new image you could also make it work by volume mounting your configs into `/etc/openvpn/your-provider` and then using it directly from there. You still need to modify your config files though.
+
 ## Building the container yourself
 To build this container, clone the repository and cd into it.
 
