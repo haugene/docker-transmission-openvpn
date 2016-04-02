@@ -3,9 +3,10 @@
 # Source our persisted env variables from container startup
 . /etc/transmission/environment-variables.sh
 
-tun0ip=$4
-echo "Updating TRANSMISSION_BIND_ADDRESS_IPV4 to tun0 ip: ${tun0ip}"
-export TRANSMISSION_BIND_ADDRESS_IPV4=${tun0ip}
+# This script will be called with tun/tap device name as parameter 1, and local IP as parameter 4
+# See https://openvpn.net/index.php/open-source/documentation/manuals/65-openvpn-20x-manpage.html (--up cmd)
+echo "Updating TRANSMISSION_BIND_ADDRESS_IPV4 to the ip of $1 : $4"
+export TRANSMISSION_BIND_ADDRESS_IPV4=$4
 
 echo "Generating transmission settings.json from env variables"
 # Ensure TRANSMISSION_HOME is created
@@ -24,7 +25,7 @@ exec /usr/bin/transmission-daemon -g ${TRANSMISSION_HOME} --logfile ${TRANSMISSI
 if [ "$OPENVPN_PROVIDER" = "PIA" ]
 then
     echo "STARTING PORT UPDATER"
-    exec /etc/transmission/periodicUpdates.sh &
+    exec /etc/transmission/periodicUpdates.sh $4 &
 else
     echo "NO PORT UPDATER FOR THIS PROVIDER"
 fi
