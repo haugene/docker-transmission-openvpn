@@ -130,7 +130,16 @@ Once you've finished modifying configs, you build the container and run it with 
 
 So, you've just added your own provider and you're feeling pretty good about it! Why don't you fork this repository, commit and push your changes and submit a pull request? Share your provider with the rest of us! :) Please submit your PR to the dev branch in that case.
 
-Ok, good. That's how you should do it. But if you don't want to build a new image you could also make it work by volume mounting your configs into `/etc/openvpn/your-provider` and then using it directly from there. You still need to modify your config files though.
+### Using a custom provider
+
+If you want to run the image with your own provider without building a new image, that is also possible. For some providers, like AirVPN, the .ovpn files are generated per user and contains credentials. They should not be added to a public image. This is what you do:
+
+Add a new volume mount to your `docker run` command that mounts your config file:
+`-v /path/to/your/config.ovpn:/etc/openvpn/custom/default.ovpn`
+
+Then you can set `OPENVPN_PROVIDER=CUSTOM`and the container will use the config you provided. If you are using AirVPN or other provider with credentials in the config file, you still need to set `OPENVPN_USERNAME` and `OPENVPN_PASSWORD` as this is required by the startup script. They will not be read by the .ovpn file, so you can set them to whatever.
+
+Note that you still need to modify your .ovpn file to include the up/down statements for Transmission etc, described in the previous section. If you have an separate ca.crt file your volume mount should be a folder containing both the ca.crt and the .ovpn config.
 
 ## Building the container yourself
 To build this container, clone the repository and cd into it.
