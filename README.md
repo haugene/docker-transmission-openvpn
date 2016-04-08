@@ -198,6 +198,7 @@ fi
 - Go in the folder containing your script : `cd /volume1/foldername/`
 - Check permission with `chmod 0755 TUN.sh`
 - Run it with `./TUN.sh`
+- Return to initial directory typing `cd`
 - Create the DNS config file by typing `vim /volume1/foldername/resolv.conf`
 - Paste the following lines :
 ```
