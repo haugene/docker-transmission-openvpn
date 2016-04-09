@@ -45,4 +45,6 @@ echo $TRANSMISSION_RPC_PASSWORD >> /config/transmission-credentials.txt
 # Persist transmission settings for use by transmission-daemon
 dockerize -template /etc/transmission/environment-variables.tmpl:/etc/transmission/environment-variables.sh /bin/true
 
-exec openvpn $OPENVPN_OPTS --config "$OPENVPN_CONFIG"
+TRANSMISSION_CONTROL_OPTS="--script-security 2 --up /etc/transmission/start.sh --down /etc/transmission/stop.sh"
+
+exec openvpn $TRANSMISSION_CONTROL_OPTS $OPENVPN_OPTS --config "$OPENVPN_CONFIG"
