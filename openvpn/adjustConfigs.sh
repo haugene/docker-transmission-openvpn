@@ -29,7 +29,7 @@ provider=$1
 
 for configFile in $provider/*.ovpn;
 	do
-		if [ -h ${configFile} ];
+		if [[ -h ${configFile} ]];
 		then
 			continue # Don't edit symbolic links (default.ovpn)
 		fi
