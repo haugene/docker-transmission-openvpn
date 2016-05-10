@@ -35,13 +35,13 @@ for configFile in $provider/*.ovpn;
 		fi
 
 		# Absolute reference to ca cert
-		sed -i "s/ca .*\.crt/ca \/etc\/openvpn\/$provider\/ca.crt/g" "$configFile"
+		sed -i '' "s/ca .*\.crt/ca \/etc\/openvpn\/$provider\/ca.crt/g" "$configFile"
 
 		# Absolute reference to crl
-		sed -i "s/crl-verify.*\.pem/crl-verify \/etc\/openvpn\/$provider\/crl.pem/g" "$configFile"
+		sed -i '' "s/crl-verify.*\.pem/crl-verify \/etc\/openvpn\/$provider\/crl.pem/g" "$configFile"
 
 		# Set user-pass file location
-		sed -i "s/auth-user-pass.*/auth-user-pass \/config\/openvpn-credentials.txt/g" "$configFile"
+		sed -i '' "s/auth-user-pass.*/auth-user-pass \/config\/openvpn-credentials.txt/g" "$configFile"
 
 	done
 
