@@ -1,6 +1,7 @@
 transmission:
   image: haugene/transmission-openvpn
   privileged: true
+  restart: always
   dns:
     - 8.8.8.8
     - 8.8.4.4
@@ -11,6 +12,7 @@ transmission:
     OPENVPN_PROVIDER: PIA
     OPENVPN_USERNAME: username
     OPENVPN_PASSWORD: password
+    OPENVPN_OPTS: "--inactive 3600 --ping 10 --ping-exit 60"
 
 proxy:
   image: haugene/transmission-openvpn-proxy
@@ -20,5 +22,3 @@ proxy:
     - 8080:8080
   volumes:
     - /etc/localtime:/etc/localtime:ro
-  environment:
-    PORT: 8080

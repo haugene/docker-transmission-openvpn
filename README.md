@@ -81,34 +81,34 @@ This is because the VPN is active, and since docker is running in a different ip
 to your request will be treated as "non-local" traffic and therefore be routed out through the VPN interface.
 
 ### How to fix this
-There are several ways to fix this. You can pipe and do fancy iptables or ip route configurations on the host and in
-the container. But I found that the simplest solution is just to proxy my traffic. Start an nginx container like this:
+There are several ways to fix this. You can pipe and do fancy iptables or ip route configurations on the host and in the container. But I found that the simplest solution is just to proxy my traffic.
+
+#### Use preconfigured image
+You can use the proxy image haugene/transmission-openvpn-proxy that comes with a config that is configurable through environment variables.
+
+Start it like this:
 
 ```
 $ docker run -d \
-      -v /path/to/nginx.conf:/etc/nginx/nginx.conf:ro \
+      --link <transmission-container>:transmission \
+      -p 8080:8080 \
+      haugene/transmission-openvpn-proxy
+```
+You can change to bind another port on your host by changing it to `-p 9091:8080` etc.
+
+#### Use a custom proxy config
+
+If you want to run the proxy with your own configuration you can do that by doing something like this.
+
+```
+$ docker run -d \
+      -v /path/to/your/nginx.conf:/etc/nginx/nginx.conf:ro \
       -p 8080:8080 \
       nginx
 ```
 
-Where /path/to/nginx.conf has this content:
-
-```
-events {
-  worker_connections 1024;
-}
-
-http {
-  server {
-    listen 8080;
-    location / {
-      proxy_pass http://host.ip.address.here:9091;
-    }
-  }
-}
-```
-Your Transmission WebUI should now be avaliable at "your.host.ip.addr:8080/transmission/web/".
-Change the port in the docker run command if 8080 is not suitable for you. Alternatively if you use container linking, either directly or via docker-compose, you can replace "your.host.ip.addr" with the name or alias of the openvpn container.
+#### Finally
+Based on the examples above, Transmission WebUI should now be avaliable at "your.host.ip.addr:8080/transmission/web/". See the docker-compose.yml file for an example on how to run the two containers using compose.
 
 ## Known issues, tips and tricks
 
