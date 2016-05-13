@@ -170,6 +170,54 @@ If you have transmission authentication enabled and want scripts in another cont
 control the transmission-daemon, this can be a handy way to access the credentials.
 For example, another container may pause or restrict transmission speeds while the server is streaming video.
 
+## systemd Integration
+
+On many modern linux systems, including Ubuntu, systemd can be used to start the transmission-openvpn at boot time, and restart it after any failure.
+
+Save the following as `/etc/systemd/system/transmission-openvpn.service`.
+
+It's assuming that there is a `bittorrent` user set up with a home directory at `/home/bittorrent/`. The data directory will be mounted at `/home/bittorrent/data/`, and OpenVPN is set to exit if there is a connection failure. OpenVPN exiting triggers the container to also exit, then the `Restart=always` definition in the `transmission-openvpn.service` file tells systems to restart things again.
+
+```
+[Unit]
+Description=haugene/transmission-openvpn docker container
+After=docker.service
+Requires=docker.service
+
+[Service]
+User=bittorrent
+TimeoutStartSec=0
+ExecStartPre=-/usr/bin/docker kill transmission-openvpn
+ExecStartPre=-/usr/bin/docker rm transmission-openvpn
+ExecStartPre=/usr/bin/docker pull haugene/transmission-openvpn
+ExecStart=/usr/bin/docker run \
+        --name transmission-openvpn \
+        --privileged \
+        -v /home/bittorrent/data/:/data \
+        -e "OPENVPN_PROVIDER=TORGUARD" \
+        -e "OPENVPN_USERNAME=bittorrent@example.com" \
+        -e "OPENVPN_PASSWORD=hunter2" \
+        -e "OPENVPN_CONFIG=Netherlands" \
+        -e "OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60" \
+        -e "TRANSMISSION_UMASK=0" \
+        -p 9091:9091 \
+        --dns 8.8.8.8 \
+        --dns 8.8.4.4 \
+        haugene/transmission-openvpn
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Then enable and start the new service with:
+
+```
+$ sudo systemctl enable /etc/systemd/system/transmission-openvpn.service
+$ sudo systemctl restart transmission-openvpn.service
+```
+
 ## Make it work on Synology NAS
 Here are the steps to run it on a Synology NAS (Tested on DSM 6) :
 
