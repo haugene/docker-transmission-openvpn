@@ -220,6 +220,14 @@ $ sudo systemctl enable /etc/systemd/system/transmission-openvpn.service
 $ sudo systemctl restart transmission-openvpn.service
 ```
 
+If it is stopped or killed in any fashion, systemd will restart the container. If you do want to shut it down, then run the following command and it will stay down until you restart it.
+
+```
+$ sudo systemctl stop transmission-openvpn.service
+# Later ...
+$ sudo systemctl start transmission-openvpn.service
+```
+
 ## Make it work on Synology NAS
 Here are the steps to run it on a Synology NAS (Tested on DSM 6) :
 
