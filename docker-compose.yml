@@ -1,8 +1,9 @@
-openvpn:
+transmission:
   image: haugene/transmission-openvpn
   privileged: true
-  ports:
-    - "9091:9091"
+  dns:
+    - 8.8.8.8
+    - 8.8.4.4
   volumes:
     - /etc/localtime:/etc/localtime:ro
     - /your/storage/path/:/data
@@ -11,13 +12,13 @@ openvpn:
     OPENVPN_USERNAME: username
     OPENVPN_PASSWORD: password
 
-
-nginx:
-  image: library/nginx
+proxy:
+  image: haugene/transmission-openvpn-proxy
   links:
-    - openvpn
+    - transmission
   ports:
-     - "8080:8080"
+    - 8080:8080
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    - /path/to/nginx.conf:/etc/nginx/nginx.conf:ro
+  environment:
+    PORT: 8080
