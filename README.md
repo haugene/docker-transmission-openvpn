@@ -94,7 +94,7 @@ $ docker run -d \
       -p 8080:8080 \
       haugene/transmission-openvpn-proxy
 ```
-You can change to bind another port on your host by changing it to `-p 9091:8080` etc.
+You can change to bind another port on your host by changing it to `-p 9090:8080` etc.
 
 #### Use a custom proxy config
 
