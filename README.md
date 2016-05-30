@@ -55,6 +55,7 @@ By default a folder named transmission-home will also be created under /data, th
 |----------|----------|-------|
 |`OPENVPN_CONFIG` | Sets the OpenVPN endpoint to connect to. | `OPENVPN_CONFIG=UK Southampton`|
 |`OPENVPN_OPTS` | Will be passed to OpenVPN on startup | See [OpenVPN doc](https://openvpn.net/index.php/open-source/documentation/manuals/65-openvpn-20x-manpage.html) |
+|`LOCAL_NETWORK` | Sets the local network that should have access. | `LOCAL_NETWORK=192.168.0.0/24`|
 
 ### Transmission configuration options
 
@@ -81,7 +82,7 @@ This is because the VPN is active, and since docker is running in a different ip
 to your request will be treated as "non-local" traffic and therefore be routed out through the VPN interface.
 
 ### How to fix this
-There are several ways to fix this. You can pipe and do fancy iptables or ip route configurations on the host and in the container. But I found that the simplest solution is just to proxy my traffic.
+There are several ways to fix this. The container supports the `LOCAL_NETWORK` environment variable. For instance if your local network uses the IP range 192.168.0.0/24 you would pass `-e LOCAL_NETWORK=192.168.0.0/24`. Alternatively just proxy the traffic.
 
 #### Use preconfigured image
 You can use the proxy image haugene/transmission-openvpn-proxy that comes with a config that is configurable through environment variables.
