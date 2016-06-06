@@ -1,6 +1,6 @@
 # Transmission and OpenVPN
 #
-# Version 1.9
+# Version 1.10
 
 FROM ubuntu:14.04
 MAINTAINER Kristian Haugene
