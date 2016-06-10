@@ -5,6 +5,7 @@ It bundles certificates and configurations for the following VPN providers:
 * BTGuard
 * TigerVPN
 * FrootVPN
+* FrostVPN
 * TorGuard
 * NordVPN
 * UsenetServerVPN
