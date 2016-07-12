@@ -1,8 +1,12 @@
-openvpn:
+transmission:
   image: haugene/transmission-openvpn
   privileged: true
+  restart: always
   ports:
-    - "9091:9091"
+    - 9091:9091
+  dns:
+    - 8.8.8.8
+    - 8.8.4.4
   volumes:
     - /etc/localtime:/etc/localtime:ro
     - /your/storage/path/:/data
@@ -10,12 +14,14 @@ openvpn:
     OPENVPN_PROVIDER: PIA
     OPENVPN_USERNAME: username
     OPENVPN_PASSWORD: password
+    OPENVPN_OPTS: "--inactive 3600 --ping 10 --ping-exit 60"
+    LOCAL_NETWORK: 192.168.0.0/24
 
-
-nginx:
-  image: library/nginx
+proxy:
+  image: haugene/transmission-openvpn-proxy
+  links:
+    - transmission
   ports:
-     - "8080:8080"
+    - 8080:8080
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    - /path/to/nginx.conf:/etc/nginx/nginx.conf:ro

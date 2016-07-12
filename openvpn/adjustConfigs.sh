@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 bold=$(tput bold)
 normal=$(tput sgr0)
@@ -29,8 +29,9 @@ provider=$1
 
 for configFile in $provider/*.ovpn;
 	do
-		# Set fixed tun device number
-		sed -i "s/dev tun.*/dev tun0/g" "$configFile"
+		if [[ -L ${configFile} ]]; then
+			continue # Don't edit symbolic links (default.ovpn)
+		fi
 
 		# Absolute reference to ca cert
 		sed -i "s/ca .*\.crt/ca \/etc\/openvpn\/$provider\/ca.crt/g" "$configFile"
@@ -40,16 +41,6 @@ for configFile in $provider/*.ovpn;
 
 		# Set user-pass file location
 		sed -i "s/auth-user-pass.*/auth-user-pass \/config\/openvpn-credentials.txt/g" "$configFile"
-
-		# Insert transmission control script triggers
-		cat <<EOT >> $configFile
-
-
-# OpenVPN controls startup and shut down of transmission
-script-security 2
-up /etc/transmission/start.sh
-down /etc/transmission/stop.sh
-EOT
 
 	done
 

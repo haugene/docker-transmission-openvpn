@@ -1,6 +1,6 @@
 # Transmission and OpenVPN
 #
-# Version 1.5
+# Version 1.10
 
 FROM ubuntu:14.04
 MAINTAINER Kristian Haugene
@@ -11,9 +11,14 @@ VOLUME /config
 # Update packages and install software
 RUN apt-get update \
     && apt-get -y install software-properties-common \
+    && add-apt-repository multiverse \
     && add-apt-repository ppa:transmissionbt/ppa \
     && apt-get update \
-    && apt-get install -y transmission-cli transmission-common transmission-daemon openvpn curl \
+    && apt-get install -y transmission-cli transmission-common transmission-daemon \
+    && apt-get install -y openvpn curl rar unrar zip unzip \
+    && curl -sLO https://github.com/Yelp/dumb-init/releases/download/v1.0.1/dumb-init_1.0.1_amd64.deb \
+    && dpkg -i dumb-init_*.deb \
+    && rm -rf dumb-init_*.deb \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
     && curl -L https://github.com/jwilder/dockerize/releases/download/v0.0.2/dockerize-linux-amd64-v0.0.2.tar.gz | tar -C /usr/local/bin -xzv
 
@@ -99,4 +104,4 @@ ENV OPENVPN_USERNAME=**None** \
 
 # Expose port and run
 EXPOSE 9091
-CMD ["/etc/openvpn/start.sh"]
+CMD ["dumb-init", "/etc/openvpn/start.sh"]
