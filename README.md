@@ -29,6 +29,7 @@ To run the container use this command:
 ```
 $ docker run --privileged  -d \
               -v /your/storage/path/:/data \
+              -v /etc/localtime:/etc/localtime:ro \
               -e "OPENVPN_PROVIDER=PIA" \
               -e "OPENVPN_CONFIG=Netherlands" \
               -e "OPENVPN_USERNAME=user" \
