@@ -1,5 +1,7 @@
 transmission:
-  build: ./Dockerfile.armhf
+  build: 
+    context: .
+    dockerfile: Dockerfile.armhf
   privileged: true
   restart: always
   ports:
