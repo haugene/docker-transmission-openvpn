@@ -181,6 +181,13 @@ If you have transmission authentication enabled and want scripts in another cont
 control the transmission-daemon, this can be a handy way to access the credentials.
 For example, another container may pause or restrict transmission speeds while the server is streaming video.
 
+## Running on ARM (Raspberry PI)
+Since the Raspberry PI runs on an ARM architecture instead of x64, the existing x64 images will not 
+work properly. To support users that wish to run this container on a Raspberry Pi, there are 2 additional 
+Dockerfiles created. The Dockerfiles supported by the Raspberry PI are Dockerfile.armhf -- there is 
+also an example docker-compose-armhf file that shows how you might use Transmission/OpenVPN and the 
+corresponding nginx reverse proxy on an RPI machine.
+
 ## Make it work on Synology NAS
 Here are the steps to run it on a Synology NAS (Tested on DSM 6) :
 
