@@ -26,16 +26,6 @@ RUN apt-get update \
 ADD openvpn/ /etc/openvpn/
 ADD transmission/ /etc/transmission/
 
-# Get updated configuration from TorGuard
-RUN curl -L https://torguard.net/downloads/OpenVPN-UDP.zip -o OpenVPN-UDP.zip \
-    && unzip OpenVPN-UDP.zip
-RUN find OpenVPN\ -UDP/ -name *.ovpn | cut -d . -f 2- | xargs -n 1 -I '{}' cp ./OpenVPN\ -UDP/TorGuard.'{}' /etc/openvpn/torguard/'{}'
-RUN cp OpenVPN\ -UDP/ca.crt /etc/openvpn/torguard/ca.crt \
-    && rm -rf OpenVPN\ -UDP/ \
-    && rm OpenVPN-UDP.zip \
-    && sed -i "s/ca ca.crt/ca \/etc\/openvpn\/torguard\/ca.crt/" /etc/openvpn/torguard/*.ovpn \
-    && sed -i "s/auth-user-pass/auth-user-pass \/config\/openvpn-credentials.txt/" /etc/openvpn/torguard/*.ovpn
-
 ENV OPENVPN_USERNAME=**None** \
     OPENVPN_PASSWORD=**None** \
     OPENVPN_PROVIDER=**None** \
