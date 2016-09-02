@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # If the script is called from elsewhere
 cd "${0%/*}"
 
@@ -10,7 +12,7 @@ find . ! -name '*.sh' -delete
 curl -L https://torguard.net/downloads/OpenVPN-UDP.zip -o OpenVPN-UDP.zip \
   && unzip -j OpenVPN-UDP.zip && rm OpenVPN-UDP.zip
 
-# Remove TorGuard prefix of config files and fix line endings
+# Remove TorGuard prefix of config files and ensure linux line endings
 rename 's/^TorGuard\.//' *.ovpn
 dos2unix *
 
