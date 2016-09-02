@@ -10,8 +10,9 @@ find . ! -name '*.sh' -delete
 curl -L https://torguard.net/downloads/OpenVPN-UDP.zip -o OpenVPN-UDP.zip \
   && unzip -j OpenVPN-UDP.zip && rm OpenVPN-UDP.zip
 
-# Remove TorGuard prefix of config files
+# Remove TorGuard prefix of config files and fix line endings
 rename 's/^TorGuard\.//' *.ovpn
+dos2unix *
 
 # Update configs with correct paths
 sed -i "s/ca ca.crt/ca \/etc\/openvpn\/torguard\/ca.crt/" *.ovpn
