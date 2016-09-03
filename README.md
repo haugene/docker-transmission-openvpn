@@ -18,6 +18,7 @@ It bundles certificates and configurations for the following VPN providers:
 * Private Internet Access
 * PrivateVPN
 * PureVPN
+* SlickVPN
 * TigerVPN
 * TorGuard
 * UsenetServerVPN
