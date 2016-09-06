@@ -130,7 +130,7 @@ For example use googles dns servers by adding --dns 8.8.8.8 --dns 8.8.4.4 as par
 #### Restart container if connection is lost
 If the VPN connection fails or the container for any other reason loses connectivity, you want it to recover from it. One way of doing this is to set environment variable `OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60` and use the --restart=always flag when starting the container. This way OpenVPN will exit if ping fails over a period of time which will stop the container and then the Docker deamon will restart it.
 
-### Running it on a NAS
+#### Running it on a NAS
 Several popular NAS platforms supports Docker containers. You should be able to set up and configure this container using their web interfaces. Remember that you need a TUN/TAP device to run the container. To set up the device it's probably simplest to install a OpenVPN package for the NAS. This should set up the device. If not, there are some more detailed instructions below.
 
 #### Questions?
