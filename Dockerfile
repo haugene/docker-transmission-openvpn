@@ -20,9 +20,11 @@ RUN apt-get update \
     && dpkg -i dumb-init_*.deb \
     && rm -rf dumb-init_*.deb \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
-    && curl -L https://github.com/jwilder/dockerize/releases/download/v0.0.2/dockerize-linux-amd64-v0.0.2.tar.gz | tar -C /usr/local/bin -xzv
+    && curl -L https://github.com/jwilder/dockerize/releases/download/v0.0.2/dockerize-linux-amd64-v0.0.2.tar.gz | tar -C /usr/local/bin -xzv \
+    && groupmod -g 1000 users \
+    && useradd -u 911 -U -d /config -s /bin/false abc \
+    && usermod -G users abc
 
-# Add configuration and scripts
 ADD openvpn/ /etc/openvpn/
 ADD transmission/ /etc/transmission/
 
@@ -100,7 +102,9 @@ ENV OPENVPN_USERNAME=**None** \
     "TRANSMISSION_UTP_ENABLED=true" \
     "TRANSMISSION_WATCH_DIR=/data/watch" \
     "TRANSMISSION_WATCH_DIR_ENABLED=true" \
-    "TRANSMISSION_HOME=/data/transmission-home"
+    "TRANSMISSION_HOME=/data/transmission-home" \
+    PUID=\
+    PGID=
 
 # Expose port and run
 EXPOSE 9091
