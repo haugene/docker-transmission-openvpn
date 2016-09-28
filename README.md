@@ -19,6 +19,7 @@ It bundles certificates and configurations for the following VPN providers:
 * PrivateVPN
 * PureVPN
 * SlickVPN
+* SmartVPN
 * TigerVPN
 * TorGuard
 * UsenetServerVPN
@@ -41,6 +42,8 @@ $ docker run --privileged  -d \
               haugene/transmission-openvpn
 ```
 
+#### Specify environment variables in run command
+
 You must set the environment variables `OPENVPN_PROVIDER`, `OPENVPN_USERNAME` and `OPENVPN_PASSWORD` to provide basic connection details.
 
 The `OPENVPN_CONFIG` is an optional variable. If no config is given, a default config will be selected for the provider you have chosen.
@@ -54,7 +57,7 @@ By default a folder named transmission-home will also be created under /data, th
 ### Required environment options
 | Variable | Function | Example |
 |----------|----------|-------|
-|`OPENVPN_PROVIDER` | Sets the OpenVPN provider to use. | `OPENVPN_PROVIDER=provider`. Supported providers are `PIA`, `BTGUARD`, `TIGER`, `FROOT`, `TORGUARD`, `NEWSHOSTING`, `NORDVPN`, `USENETSERVER`, `INTEGRITYVPN`, `IPVANISH`, `ANONINE`, `HIDEME`, `PUREVPN`, `HIDEMYASS`, `PRIVATEVPN`, `IVPN`, `OVPN`, `SLICKVPN`, `IVACY` and `CRYPTOSTORM`|
+|`OPENVPN_PROVIDER` | Sets the OpenVPN provider to use. | `OPENVPN_PROVIDER=provider`. Supported providers are `PIA`, `BTGUARD`, `TIGER`, `FROOT`, `TORGUARD`, `NEWSHOSTING`, `NORDVPN`, `USENETSERVER`, `INTEGRITYVPN`, `IPVANISH`, `ANONINE`, `HIDEME`, `PUREVPN`, `HIDEMYASS`, `PRIVATEVPN`, `IVPN`, `OVPN`, `SLICKVPN`, `SMARTVPN`, `IVACY` and `CRYPTOSTORM`|
 |`OPENVPN_USERNAME`|Your OpenVPN username |`OPENVPN_USERNAME=asdf`|
 |`OPENVPN_PASSWORD`|Your OpenVPN password |`OPENVPN_PASSWORD=asdf`|
 
@@ -83,6 +86,20 @@ As you can see the variables are prefixed with `TRANSMISSION_`, the variable is 
 
 PS: `TRANSMISSION_BIND_ADDRESS_IPV4` will be overridden to the IP assigned to your OpenVPN tunnel interface.
 This is to prevent leaking the host IP.
+
+#### Use docker env file
+It is recommended to use a docker env file where you can easily store all your env variables and maintain multiple configurations for different providers.
+In the GitHub repository there is a provided DockerEnv file with the transmission and openvpn environment variables. You can use this to create local configurations
+by filling in the details. See explanation of variables below.
+To use this env file, use the following to run the docker image:
+```
+$ docker run --privileged  -d \
+              -v /your/storage/path/:/data \
+              -v /etc/localtime:/etc/localtime:ro \
+              -env-file /your/docker/env/file \
+              -p 9091:9091 \
+              haugene/transmission-openvpn
+```
 
 ## Access the WebUI
 But what's going on? My http://my-host:9091 isn't responding?
@@ -209,15 +226,15 @@ replacing _foldername_ with any folder you created on your Synology
 
 # Create the necessary file structure for /dev/net/tun
 if ( [ ! -c /dev/net/tun ] ); then
-	if ( [ ! -d /dev/net ] ); then
-		mkdir -m 755 /dev/net
-	fi
-	mknod /dev/net/tun c 10 200
+  if ( [ ! -d /dev/net ] ); then
+    mkdir -m 755 /dev/net
+  fi
+  mknod /dev/net/tun c 10 200
 fi
 
 # Load the tun module if not already loaded
 if ( !(lsmod | grep -q "^tun\s") ); then
-	insmod /lib/modules/tun.ko
+  insmod /lib/modules/tun.ko
 fi
 ```
 - Save the file with [escape] + `:wq!`
