@@ -23,6 +23,7 @@ It bundles certificates and configurations for the following VPN providers:
 * TigerVPN
 * TorGuard
 * UsenetServerVPN
+* Windscribe
 
 When using PIA as provider it will update Transmission hourly with assigned open port. Please read the instructions below.
 
@@ -55,7 +56,7 @@ By default a folder named transmission-home will also be created under /data, th
 ### Required environment options
 | Variable | Function | Example |
 |----------|----------|-------|
-|`OPENVPN_PROVIDER` | Sets the OpenVPN provider to use. | `OPENVPN_PROVIDER=provider`. Supported providers are `PIA`, `BTGUARD`, `TIGER`, `FROOT`, `TORGUARD`, `NEWSHOSTING`, `NORDVPN`, `USENETSERVER`, `INTEGRITYVPN`, `IPVANISH`, `ANONINE`, `HIDEME`, `PUREVPN`, `HIDEMYASS`, `PRIVATEVPN`, `IVPN`, `OVPN`, `SLICKVPN`, `SMARTVPN`, `IVACY` and `CRYPTOSTORM`|
+|`OPENVPN_PROVIDER` | Sets the OpenVPN provider to use. | `OPENVPN_PROVIDER=provider`. Supported providers are `PIA`, `BTGUARD`, `TIGER`, `FROOT`, `TORGUARD`, `NEWSHOSTING`, `NORDVPN`, `USENETSERVER`, `INTEGRITYVPN`, `IPVANISH`, `ANONINE`, `HIDEME`, `PUREVPN`, `HIDEMYASS`, `PRIVATEVPN`, `IVPN`, `OVPN`, `SLICKVPN`, `SMARTVPN`,`IVACY`, `CRYPTOSTORM` and `WINDSCRIBE`|
 |`OPENVPN_USERNAME`|Your OpenVPN username |`OPENVPN_USERNAME=asdf`|
 |`OPENVPN_PASSWORD`|Your OpenVPN password |`OPENVPN_PASSWORD=asdf`|
 
