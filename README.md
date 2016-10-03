@@ -232,7 +232,7 @@ nameserver 8.8.8.8
 nameserver 8.8.4.4
 ```
 - Save the file with [escape] + `:wq!`
-- Create your docker container with a classic command like `docker run --privileged -d -v /volume1/foldername/resolv.conf:/etc/resolv.conf -v /volume1/yourpath/:/data -e "OPENVPN_PROVIDER=PIA" -e "OPENVPN_CONFIG=Netherlands" -e "OPENVPN_USERNAME=XXXXX" -e "OPENVPN_PASSWORD=XXXXX" -p 9091:9091 haugene/transmission-openvpn -name TransmissionVPN`
+- Create your docker container with a classic command like `docker run --privileged -d -v /volume1/foldername/resolv.conf:/etc/resolv.conf -v /volume1/yourpath/:/data -e "OPENVPN_PROVIDER=PIA" -e "OPENVPN_CONFIG=Netherlands" -e "OPENVPN_USERNAME=XXXXX" -e "OPENVPN_PASSWORD=XXXXX" -p 9091:9091 --name "TransmissionVPN" haugene/transmission-openvpn`
 - To make it work after a nas restart, create an automated task in your synology web interface : go to **Settings Panel > Task Scheduler ** create a new task that run `/volume1/foldername/TUN.sh` as root (select '_root_' in 'user' selectbox). This task will start module that permit the container to run, you can make a task that run on startup. These kind of task doesn't work on my nas so I just made a task that run every minute.
 - Enjoy
 
