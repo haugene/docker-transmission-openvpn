@@ -84,6 +84,24 @@ As you can see the variables are prefixed with `TRANSMISSION_`, the variable is 
 PS: `TRANSMISSION_BIND_ADDRESS_IPV4` will be overridden to the IP assigned to your OpenVPN tunnel interface.
 This is to prevent leaking the host IP.
 
+#### Use docker env file
+Another way is to use a docker env file where you can easily store all your env variables and maintain multiple configurations for different providers.
+In the GitHub repository there is a provided DockerEnv file with all the current transmission and openvpn environment variables. You can use this to create local configurations
+by filling in the details and removing the # of the ones you want to use.
+
+Please note that if you pass in env. variables on the command line these will override the ones in the env file.
+
+See explanation of variables above.
+To use this env file, use the following to run the docker image:
+```
+$ docker run --privileged  -d \
+              -v /your/storage/path/:/data \
+              -v /etc/localtime:/etc/localtime:ro \
+              -env-file /your/docker/env/file \
+              -p 9091:9091 \
+              haugene/transmission-openvpn
+```
+
 ### User configuration options
 
 By default everything will run as the root user. However, it is possible to change who runs the transmission process. 
