@@ -19,6 +19,7 @@ It bundles certificates and configurations for the following VPN providers:
 * PrivateVPN
 * PureVPN
 * SlickVPN
+* SmartVPN
 * TigerVPN
 * TorGuard
 * UsenetServerVPN
@@ -54,7 +55,7 @@ By default a folder named transmission-home will also be created under /data, th
 ### Required environment options
 | Variable | Function | Example |
 |----------|----------|-------|
-|`OPENVPN_PROVIDER` | Sets the OpenVPN provider to use. | `OPENVPN_PROVIDER=provider`. Supported providers are `PIA`, `BTGUARD`, `TIGER`, `FROOT`, `TORGUARD`, `NEWSHOSTING`, `NORDVPN`, `USENETSERVER`, `INTEGRITYVPN`, `IPVANISH`, `ANONINE`, `HIDEME`, `PUREVPN`, `HIDEMYASS`, `PRIVATEVPN`, `IVPN`, `OVPN`, `SLICKVPN`, `IVACY` and `CRYPTOSTORM`|
+|`OPENVPN_PROVIDER` | Sets the OpenVPN provider to use. | `OPENVPN_PROVIDER=provider`. Supported providers are `PIA`, `BTGUARD`, `TIGER`, `FROOT`, `TORGUARD`, `NEWSHOSTING`, `NORDVPN`, `USENETSERVER`, `INTEGRITYVPN`, `IPVANISH`, `ANONINE`, `HIDEME`, `PUREVPN`, `HIDEMYASS`, `PRIVATEVPN`, `IVPN`, `OVPN`, `SLICKVPN`, `SMARTVPN`, `IVACY` and `CRYPTOSTORM`|
 |`OPENVPN_USERNAME`|Your OpenVPN username |`OPENVPN_USERNAME=asdf`|
 |`OPENVPN_PASSWORD`|Your OpenVPN password |`OPENVPN_PASSWORD=asdf`|
 
@@ -84,6 +85,16 @@ As you can see the variables are prefixed with `TRANSMISSION_`, the variable is 
 PS: `TRANSMISSION_BIND_ADDRESS_IPV4` will be overridden to the IP assigned to your OpenVPN tunnel interface.
 This is to prevent leaking the host IP.
 
+### User configuration options
+
+By default everything will run as the root user. However, it is possible to change who runs the transmission process. 
+You may set the following parameters to customize the user id that runs transmission.
+
+| Variable | Function | Example |
+|----------|----------|-------|
+|`PUID` | Sets the user id who will run transmission | `PUID=1003`|
+|`PGID` | Sets the group id for the transmission user | `PGID=1003` |
+
 #### Use docker env file
 Another way is to use a docker env file where you can easily store all your env variables and maintain multiple configurations for different providers.
 In the GitHub repository there is a provided DockerEnv file with all the current transmission and openvpn environment variables. You can use this to create local configurations
@@ -101,16 +112,6 @@ $ docker run --privileged  -d \
               -p 9091:9091 \
               haugene/transmission-openvpn
 ```
-
-### User configuration options
-
-By default everything will run as the root user. However, it is possible to change who runs the transmission process. 
-You may set the following parameters to customize the user id that runs transmission.
-
-| Variable | Function | Example |
-|----------|----------|-------|
-|`PUID` | Sets the user id who will run transmission | `PUID=1003`|
-|`PGID` | Sets the group id for the transmission user | `PGID=1003` |
 
 ## Access the WebUI
 But what's going on? My http://my-host:9091 isn't responding?
