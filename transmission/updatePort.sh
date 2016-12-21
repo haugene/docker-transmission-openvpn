@@ -34,8 +34,9 @@ fi
 pia_response=$(curl -s -f -d "user=$pia_username&pass=$pia_passwd&client_id=$pia_client_id&local_ip=$local_vpn_ip" $port_assignment_url)
 
 # Check for curl error (curl will fail on HTTP errors with -f flag)
-if [ $? -ne 0 ]; then
-     echo "Encountered an error looking up new port: $?"
+ret=$?
+if [ $ret -ne 0 ]; then
+     echo "curl encountered an error looking up new port: $ret"
 fi
 
 # Check for errors in PIA response
