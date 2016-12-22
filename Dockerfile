@@ -26,6 +26,7 @@ RUN apt-get update \
     && useradd -u 911 -U -d /config -s /bin/false abc \
     && usermod -G users abc
 
+ADD sabnzbd/ /etc/sabnzbd/
 ADD openvpn/ /etc/openvpn/
 ADD transmission/ /etc/transmission/
 
@@ -108,5 +109,5 @@ ENV OPENVPN_USERNAME=**None** \
     PGID=
 
 # Expose port and run
-EXPOSE 9091 8080 9090
+EXPOSE 9091 8081 9090
 CMD ["dumb-init", "/etc/openvpn/start.sh"]
