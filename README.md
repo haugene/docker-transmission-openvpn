@@ -1,5 +1,5 @@
-# Transmission with WebUI and OpenVPN
-Docker container which runs Transmission torrent client with WebUI while connecting to OpenVPN.
+# Transmission with WebUI, SABnzbd and OpenVPN
+Docker container which runs Transmission torrent client with WebUI and SABnzbd while connecting to OpenVPN.
 It bundles certificates and configurations for the following VPN providers:
 
 | Provider Name                | Config Value |
@@ -36,15 +36,15 @@ The container is available from the Docker registry and this is the simplest way
 To run the container use this command:
 
 ```
-$ docker run --privileged  -d \
+$ docker run --privileged  -d --name CONTAINER_NAME \
               -v /your/storage/path/:/data \
               -v /etc/localtime:/etc/localtime:ro \
               -e "OPENVPN_PROVIDER=PIA" \
               -e "OPENVPN_CONFIG=Netherlands" \
               -e "OPENVPN_USERNAME=user" \
               -e "OPENVPN_PASSWORD=pass" \
-              -p 9091:9091 \
-              haugene/transmission-openvpn
+              -p 9091:9091 -p 8081:8081 -p 9090:9090 \
+              rickscherer/transmission-sabnzbd-openvpn
 ```
 
 You must set the environment variables `OPENVPN_PROVIDER`, `OPENVPN_USERNAME` and `OPENVPN_PASSWORD` to provide basic connection details.
@@ -110,12 +110,12 @@ Please note that if you pass in env. variables on the command line these will ov
 See explanation of variables above.
 To use this env file, use the following to run the docker image:
 ```
-$ docker run --privileged  -d \
+$ docker run --privileged  -d --name CONTAINER_NAME \
               -v /your/storage/path/:/data \
               -v /etc/localtime:/etc/localtime:ro \
               -env-file /your/docker/env/file \
-              -p 9091:9091 \
-              haugene/transmission-openvpn
+              -p 9091:9091 -p 8081:8081 -p 9090:9090 \
+              rickscherer/transmission-sabnzbd-openvpn
 ```
 
 ## Access the WebUI
@@ -182,13 +182,6 @@ If you have transmission authentication enabled and want scripts in another cont
 control the transmission-daemon, this can be a handy way to access the credentials.
 For example, another container may pause or restrict transmission speeds while the server is streaming video.
 
-## Running on ARM (Raspberry PI)
-Since the Raspberry PI runs on an ARM architecture instead of x64, the existing x64 images will not 
-work properly. To support users that wish to run this container on a Raspberry Pi, there are 2 additional 
-Dockerfiles created. The Dockerfiles supported by the Raspberry PI are Dockerfile.armhf -- there is 
-also an example docker-compose-armhf file that shows how you might use Transmission/OpenVPN and the 
-corresponding nginx reverse proxy on an RPI machine.
-
 ## Make it work on Synology NAS
 Here are the steps to run it on a Synology NAS (Tested on DSM 6) :
 
@@ -242,7 +235,7 @@ OpenVPN is set to exit if there is a connection failure. OpenVPN exiting trigger
 
 ```
 [Unit]
-Description=haugene/transmission-openvpn docker container
+Description=rickscherer/transmission-sabnzbd-openvpn docker container
 After=docker.service
 Requires=docker.service
 
