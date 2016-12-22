@@ -1,6 +1,6 @@
-# Transmission and OpenVPN
+# Transmission, SABnzbd and OpenVPN
 #
-# Version 1.14
+# Version 2.00
 
 FROM ubuntu:14.04
 MAINTAINER Rick Scherer
@@ -46,7 +46,7 @@ ENV OPENVPN_USERNAME=**None** \
     "TRANSMISSION_BLOCKLIST_URL=http://www.example.com/blocklist" \
     "TRANSMISSION_CACHE_SIZE_MB=4" \
     "TRANSMISSION_DHT_ENABLED=true" \
-    "TRANSMISSION_DOWNLOAD_DIR=/data/complete" \
+    "TRANSMISSION_DOWNLOAD_DIR=/data/transmission/complete" \
     "TRANSMISSION_DOWNLOAD_LIMIT=100" \
     "TRANSMISSION_DOWNLOAD_LIMIT_ENABLED=0" \
     "TRANSMISSION_DOWNLOAD_QUEUE_ENABLED=true" \
@@ -54,7 +54,7 @@ ENV OPENVPN_USERNAME=**None** \
     "TRANSMISSION_ENCRYPTION=1" \
     "TRANSMISSION_IDLE_SEEDING_LIMIT=30" \
     "TRANSMISSION_IDLE_SEEDING_LIMIT_ENABLED=false" \
-    "TRANSMISSION_INCOMPLETE_DIR=/data/incomplete" \
+    "TRANSMISSION_INCOMPLETE_DIR=/data/transmission/incomplete" \
     "TRANSMISSION_INCOMPLETE_DIR_ENABLED=true" \
     "TRANSMISSION_LPD_ENABLED=false" \
     "TRANSMISSION_MAX_PEERS_GLOBAL=200" \
@@ -102,9 +102,9 @@ ENV OPENVPN_USERNAME=**None** \
     "TRANSMISSION_UPLOAD_LIMIT_ENABLED=0" \
     "TRANSMISSION_UPLOAD_SLOTS_PER_TORRENT=4" \
     "TRANSMISSION_UTP_ENABLED=true" \
-    "TRANSMISSION_WATCH_DIR=/data/watch" \
+    "TRANSMISSION_WATCH_DIR=/data/transmission/watch" \
     "TRANSMISSION_WATCH_DIR_ENABLED=true" \
-    "TRANSMISSION_HOME=/data/transmission-home" \
+    "TRANSMISSION_HOME=/data/transmission/transmission-home" \
     PUID=\
     PGID=
 
