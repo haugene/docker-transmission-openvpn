@@ -3,7 +3,7 @@
 # Version 1.14
 
 FROM ubuntu:14.04
-MAINTAINER Kristian Haugene
+MAINTAINER Rick Scherer
 
 VOLUME /data
 VOLUME /config
