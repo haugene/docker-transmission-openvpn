@@ -1,7 +1,7 @@
 version: '2'
 services:
  transmission:
-  image: haugene/transmission-openvpn
+  image: rickscherer/transmission-sabnzbd-openvpn
   privileged: true
   restart: always
   ports:
@@ -17,10 +17,10 @@ services:
     - OPENVPN_USERNAME=username
     - OPENVPN_PASSWORD=password
     - OPENVPN_OPTS="--inactive 3600 --ping 10 --ping-exit 60"
-    - LOCAL_NETWORK=192.168.0.0/24
+    - LOCAL_NETWORK=192.168.2.0/24
 
- proxy:
-  image: haugene/transmission-openvpn-proxy
+ proxy: 
+   image: haugene/transmission-openvpn-proxy
   links:
     - transmission
   ports:
