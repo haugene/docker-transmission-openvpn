@@ -25,7 +25,8 @@ RUN apt-get update \
     && groupmod -g 1000 users \
     && useradd -u 911 -U -d /config -s /bin/false abc \
     && usermod -G users abc \
-    && printf "USER=root\nHOST=0.0.0.0\nPORT=8081\nCONFIG=/data/sabnzbd/sabnzbd-home\n" > /etc/default/sabnzbdplus
+    && printf "USER=root\nHOST=0.0.0.0\nPORT=8081\nCONFIG=/data/sabnzbd/sabnzbd-home\n" > /etc/default/sabnzbdplus \
+    && /etc/init.d/sabnzbdplus start
 
 ADD openvpn/ /etc/openvpn/
 ADD transmission/ /etc/transmission/
@@ -110,4 +111,4 @@ ENV OPENVPN_USERNAME=**None** \
 
 # Expose port and run
 EXPOSE 9091 8081 9090
-CMD ["dumb-init", "/etc/openvpn/start.sh", "/etc/init.d/sabnzbdplus start"]
+CMD ["dumb-init", "/etc/openvpn/start.sh"]
