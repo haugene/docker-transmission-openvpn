@@ -21,8 +21,9 @@ fi
 
 . /etc/transmission/userSetup.sh
 
-echo "STARTING TRANSMISSION"
+echo "STARTING TRANSMISSION AND SABNZBD"
 exec sudo -u ${RUN_AS} /usr/bin/transmission-daemon -g ${TRANSMISSION_HOME} --logfile ${TRANSMISSION_HOME}/transmission.log &
+exec sudo -u ${RUN_AS} /etc/init.d/sabnzbdplus start &
 
 if [ "$OPENVPN_PROVIDER" = "PIA" ]
 then
