@@ -26,7 +26,6 @@ RUN apt-get update \
     && useradd -u 911 -U -d /config -s /bin/false abc \
     && usermod -G users abc
 
-ADD sabnzbd/ /etc/sabnzbd/
 ADD openvpn/ /etc/openvpn/
 ADD transmission/ /etc/transmission/
 
