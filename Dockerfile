@@ -13,6 +13,7 @@ RUN apt-get update \
     && apt-get -y install software-properties-common \
     && add-apt-repository multiverse \
     && add-apt-repository ppa:transmissionbt/ppa \
+    && add-apt-repository ppa:jcfp/ppa \
     && apt-get update \
     && apt-get install -y transmission-cli transmission-common transmission-daemon \
     && apt-get install -y sabnzbdplus \
