@@ -5,7 +5,7 @@
 FROM ubuntu:14.04
 MAINTAINER Rick Scherer
 
-VOLUME /data
+VOLUME /downloads
 VOLUME /config
 
 # Update packages and install software
@@ -25,7 +25,7 @@ RUN apt-get update \
     && groupmod -g 1000 users \
     && useradd -u 911 -U -d /config -s /bin/false abc \
     && usermod -G users abc \
-    && printf "USER=root\nHOST=0.0.0.0\nPORT=8081\nCONFIG=/data/sabnzbd/sabnzbd-home\n" > /etc/default/sabnzbdplus \
+    && printf "USER=root\nHOST=0.0.0.0\nPORT=8081\nCONFIG=/config/sabnzbd-home\n" > /etc/default/sabnzbdplus \
     && /etc/init.d/sabnzbdplus start
 
 ADD openvpn/ /etc/openvpn/
@@ -47,7 +47,7 @@ ENV OPENVPN_USERNAME=**None** \
     "TRANSMISSION_BLOCKLIST_URL=http://www.example.com/blocklist" \
     "TRANSMISSION_CACHE_SIZE_MB=4" \
     "TRANSMISSION_DHT_ENABLED=true" \
-    "TRANSMISSION_DOWNLOAD_DIR=/data/transmission/complete" \
+    "TRANSMISSION_DOWNLOAD_DIR=/downloads/complete" \
     "TRANSMISSION_DOWNLOAD_LIMIT=100" \
     "TRANSMISSION_DOWNLOAD_LIMIT_ENABLED=0" \
     "TRANSMISSION_DOWNLOAD_QUEUE_ENABLED=true" \
@@ -55,7 +55,7 @@ ENV OPENVPN_USERNAME=**None** \
     "TRANSMISSION_ENCRYPTION=1" \
     "TRANSMISSION_IDLE_SEEDING_LIMIT=30" \
     "TRANSMISSION_IDLE_SEEDING_LIMIT_ENABLED=false" \
-    "TRANSMISSION_INCOMPLETE_DIR=/data/transmission/incomplete" \
+    "TRANSMISSION_INCOMPLETE_DIR=/downloads/incomplete" \
     "TRANSMISSION_INCOMPLETE_DIR_ENABLED=true" \
     "TRANSMISSION_LPD_ENABLED=false" \
     "TRANSMISSION_MAX_PEERS_GLOBAL=200" \
@@ -103,9 +103,9 @@ ENV OPENVPN_USERNAME=**None** \
     "TRANSMISSION_UPLOAD_LIMIT_ENABLED=0" \
     "TRANSMISSION_UPLOAD_SLOTS_PER_TORRENT=4" \
     "TRANSMISSION_UTP_ENABLED=true" \
-    "TRANSMISSION_WATCH_DIR=/data/transmission/watch" \
+    "TRANSMISSION_WATCH_DIR=/downloads/watch" \
     "TRANSMISSION_WATCH_DIR_ENABLED=true" \
-    "TRANSMISSION_HOME=/data/transmission/transmission-home" \
+    "TRANSMISSION_HOME=/config/transmission-home" \
     PUID=\
     PGID=
 
