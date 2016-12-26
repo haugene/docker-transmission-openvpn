@@ -113,7 +113,7 @@ To use this env file, use the following to run the docker image:
 $ docker run --privileged  -d \
               -v /your/storage/path/:/data \
               -v /etc/localtime:/etc/localtime:ro \
-              -env-file /your/docker/env/file \
+              --env-file /your/docker/env/file \
               -p 9091:9091 \
               haugene/transmission-openvpn
 ```
