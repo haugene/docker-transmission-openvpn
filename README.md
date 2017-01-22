@@ -9,6 +9,7 @@ It bundles certificates and configurations for the following VPN providers:
 | Cryptostorm | `CRYPTOSTORM` |
 | FrootVPN | `FROOT` |
 | FrostVPN | `FROSTVPN` |
+| Giganews | `GIGANEWS` |
 | HideMe | `HIDEME` |
 | HideMyAss | `HIDEMYASS` |
 | IntegrityVPN | `INTEGRITYVPN` |
