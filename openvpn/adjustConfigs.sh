@@ -36,6 +36,9 @@ for configFile in $provider/*.ovpn;
 		# Absolute reference to ca cert
 		sed -i "s/ca .*\.crt/ca \/etc\/openvpn\/$provider\/ca.crt/g" "$configFile"
 
+		# Absolute reference to Wdc key file
+		sed -i "s/tls-auth Wdc.key 1/tls-auth \/etc\/openvpn\/$provider\/Wdc.key 1/g" "$configFile"
+
 		# Absolute reference to crl
 		sed -i "s/crl-verify.*\.pem/crl-verify \/etc\/openvpn\/$provider\/crl.pem/g" "$configFile"
 
