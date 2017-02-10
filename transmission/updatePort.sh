@@ -11,10 +11,8 @@ pia_username=$(head -1 $PIA_PASSWD_FILE)
 pia_passwd=$(tail -1 $PIA_PASSWD_FILE)
 transmission_username=$(head -1 $TRANSMISSION_PASSWD_FILE)
 transmission_passwd=$(tail -1 $TRANSMISSION_PASSWD_FILE)
-local_vpn_ip=$1 # Passed as parameter from periodicUpdates.sh
 pia_client_id_file=/etc/transmission/pia_client_id
 transmission_settings_file=${TRANSMISSION_HOME}/settings.json
-port_assignment_url=https://www.privateinternetaccess.com/vpninfo/port_forward_assignment
 
 #
 # First get a port from PIA
@@ -31,7 +29,8 @@ if [ -z ${pia_client_id} ]; then
 fi
 
 # Get the port
-pia_response=$(curl -s -f -d "user=$pia_username&pass=$pia_passwd&client_id=$pia_client_id&local_ip=$local_vpn_ip" $port_assignment_url)
+port_assignment_url="http://209.222.18.222:2000/?client_id=$pia_client_id"
+pia_response=$(curl -s -f $port_assignment_url)
 
 # Check for curl error (curl will fail on HTTP errors with -f flag)
 ret=$?

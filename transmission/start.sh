@@ -26,8 +26,8 @@ exec sudo -u ${RUN_AS} /usr/bin/transmission-daemon -g ${TRANSMISSION_HOME} --lo
 
 if [ "$OPENVPN_PROVIDER" = "PIA" ]
 then
-    echo "STARTING PORT UPDATER"
-    exec /etc/transmission/periodicUpdates.sh $4 &
+    echo "CONFIGURING PORT FORWARDING"
+    exec /etc/transmission/updatePort.sh &
 else
     echo "NO PORT UPDATER FOR THIS PROVIDER"
 fi
