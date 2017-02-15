@@ -53,7 +53,11 @@ $ docker run --privileged  -d \
 You must set the environment variables `OPENVPN_PROVIDER`, `OPENVPN_USERNAME` and `OPENVPN_PASSWORD` to provide basic connection details.
 
 The `OPENVPN_CONFIG` is an optional variable. If no config is given, a default config will be selected for the provider you have chosen.
-Find available OpenVPN configurations by looking in the openvpn folder of the GitHub repository.
+Find available OpenVPN configurations by looking in the openvpn folder of the GitHub repository. The value that you should use here is the filename of your chosen openvpn configuration *without* the .ovpn file extension. For example:
+
+```
+-e "OPENVPN_CONFIG=ipvanish-AT-Vienna-vie-c02"
+```
 
 As you can see, the container also expects a data volume to be mounted.
 This is where Transmission will store your downloads, incomplete downloads and look for a watch directory for new .torrent files.
@@ -95,7 +99,7 @@ This is to prevent leaking the host IP.
 
 ### User configuration options
 
-By default everything will run as the root user. However, it is possible to change who runs the transmission process. 
+By default everything will run as the root user. However, it is possible to change who runs the transmission process.
 You may set the following parameters to customize the user id that runs transmission.
 
 | Variable | Function | Example |
@@ -127,7 +131,7 @@ This is because the VPN is active, and since docker is running in a different ip
 to your request will be treated as "non-local" traffic and therefore be routed out through the VPN interface.
 
 ### How to fix this
-The container supports the `LOCAL_NETWORK` environment variable. For instance if your local network uses the IP range 192.168.0.0/24 you would pass `-e LOCAL_NETWORK=192.168.0.0/24`. 
+The container supports the `LOCAL_NETWORK` environment variable. For instance if your local network uses the IP range 192.168.0.0/24 you would pass `-e LOCAL_NETWORK=192.168.0.0/24`.
 
 Alternatively you can reverse proxy the traffic through another container, as that container would be in the docker range. There is a reverse proxy being built with the container. You can run it using the command below or have a look in the repository proxy folder for inspiration for your own custom proxy.
 
@@ -186,10 +190,10 @@ control the transmission-daemon, this can be a handy way to access the credentia
 For example, another container may pause or restrict transmission speeds while the server is streaming video.
 
 ## Running on ARM (Raspberry PI)
-Since the Raspberry PI runs on an ARM architecture instead of x64, the existing x64 images will not 
-work properly. To support users that wish to run this container on a Raspberry Pi, there are 2 additional 
-Dockerfiles created. The Dockerfiles supported by the Raspberry PI are Dockerfile.armhf -- there is 
-also an example docker-compose-armhf file that shows how you might use Transmission/OpenVPN and the 
+Since the Raspberry PI runs on an ARM architecture instead of x64, the existing x64 images will not
+work properly. To support users that wish to run this container on a Raspberry Pi, there are 2 additional
+Dockerfiles created. The Dockerfiles supported by the Raspberry PI are Dockerfile.armhf -- there is
+also an example docker-compose-armhf file that shows how you might use Transmission/OpenVPN and the
 corresponding nginx reverse proxy on an RPI machine.
 
 ## Make it work on Synology NAS
