@@ -1,0 +1,92 @@
+
+
+#           _   _               ___     ______  _   _
+#          | \ | | ___  _ __ __| \ \   / /  _ \| \ | |
+#          |  \| |/ _ \| '__/ _` |\ \ / /| |_) |  \| |
+#          | |\  | (_) | | | (_| | \ V / |  __/| |\  |
+#          |_| \_|\___/|_|  \__,_|  \_/  |_|   |_| \_|
+#
+
+
+client
+dev tun
+proto udp
+remote 223.25.242.150 1194
+resolv-retry infinite
+remote-random
+nobind
+tun-mtu 1500
+tun-mtu-extra 32
+mssfix 1450
+persist-key
+persist-tun
+ping 15
+ping-restart 0
+ping-timer-rem
+reneg-sec 0
+
+remote-cert-tls server
+
+#mute 10000
+auth-user-pass /config/openvpn-credentials.txt
+
+comp-lzo
+verb 3
+pull
+fast-io
+cipher AES-256-CBC
+
+<ca>
+-----BEGIN CERTIFICATE-----
+MIIExDCCA6ygAwIBAgIJALzvwZSE4BDJMA0GCSqGSIb3DQEBBQUAMIGcMQswCQYD
+VQQGEwJQQTELMAkGA1UECBMCUEExDzANBgNVBAcTBlBhbmFtYTEQMA4GA1UEChMH
+Tm9yZFZQTjEQMA4GA1UECxMHTm9yZFZQTjEYMBYGA1UEAxMPbXkxLm5vcmR2cG4u
+Y29tMRAwDgYDVQQpEwdOb3JkVlBOMR8wHQYJKoZIhvcNAQkBFhBjZXJ0QG5vcmR2
+cG4uY29tMB4XDTE2MDUyMzA4MDczMVoXDTI2MDUyMTA4MDczMVowgZwxCzAJBgNV
+BAYTAlBBMQswCQYDVQQIEwJQQTEPMA0GA1UEBxMGUGFuYW1hMRAwDgYDVQQKEwdO
+b3JkVlBOMRAwDgYDVQQLEwdOb3JkVlBOMRgwFgYDVQQDEw9teTEubm9yZHZwbi5j
+b20xEDAOBgNVBCkTB05vcmRWUE4xHzAdBgkqhkiG9w0BCQEWEGNlcnRAbm9yZHZw
+bi5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDGnL29xQthrhHM
+Osafl/bHR+2yuYjUZBqlfgxcZxSoOwEr6Z/ehDDoDIn9xP5j8VUdXrMwkhb8sLaO
+elQ1SvIYdaOhD7vWKIlz1KwUNkVYrGX5UgMVrRt3Ua2vE/H8jknq0taa3uVxOHov
+u3Sj5FocSe7qfAF8gVMuXKDJjfjIW1g3Hcge0NkUlAKvhS6gxFuinltlR2JIkmxT
+l6MveUiVH7atDF/z/DszgaqDXj6RlBzOhWnrl86XUv4B2KITmE68+HA0stHsPKG4
+ISCIQRG068TLNfR4xLv6HMZTDpXrOSK+uHK/TvO5cUxcmZNBf4iNvPXFJ7kNZcH+
+hOmWAYRZAgMBAAGjggEFMIIBATAdBgNVHQ4EFgQUNgbVAfdIW0nF+HIrEhieNXJD
+7TwwgdEGA1UdIwSByTCBxoAUNgbVAfdIW0nF+HIrEhieNXJD7TyhgaKkgZ8wgZwx
+CzAJBgNVBAYTAlBBMQswCQYDVQQIEwJQQTEPMA0GA1UEBxMGUGFuYW1hMRAwDgYD
+VQQKEwdOb3JkVlBOMRAwDgYDVQQLEwdOb3JkVlBOMRgwFgYDVQQDEw9teTEubm9y
+ZHZwbi5jb20xEDAOBgNVBCkTB05vcmRWUE4xHzAdBgkqhkiG9w0BCQEWEGNlcnRA
+bm9yZHZwbi5jb22CCQC878GUhOAQyTAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEB
+BQUAA4IBAQCIkHMjvqCBwogXNNZv62JWzy//s9tVYvaHbY8RYgcOvZ9c24VcfImP
+Zphgrhg08kh6iTWKzD9u5ze1JR7+8D3gJNLUy5twQVqfb3SYyXFFgNpIKI7xupxd
+QEqvEEoi8ypCu/Kbqs2VWfhCdf22YYyCQEc9yWr/DIJHh1ut3IqPhcyw6OffIbeF
+mG/GRRzQi7rv79eRVcLM+mRmSkl1DBiPorEaozjD9XvBeF51J8FIkp0S3fOfsyFf
+VMI6vNECd2du/+kvSrFGoZ1y0uq6G2TomDDNFt338KwbSxEZB/JtOAF0det0Ad+D
+QpEk2rA3ArA1Mt+H9pw6kPDGyqe/tvwg
+-----END CERTIFICATE-----
+</ca>
+key-direction 1
+<tls-auth>
+#
+# 2048 bit OpenVPN static key
+#
+-----BEGIN OpenVPN Static key V1-----
+dabf3f81fc3d9c7fdb21a85c17fb08a2
+26c43876d8134027ef859b6be0f30416
+80f9590750333a9884b07944df73248e
+b292eabaeaf8885895c99bcce9e90c27
+91ae358480cc4b07ed65ed4653b70a80
+f462833777c63487a11e980a5107c2c3
+1f633e78d0bf7d6cea12d27d7bd457e1
+082fe62f5268d00157e1e6d422c76a6c
+cd8e48d2bdca6d166132986c2dd3dba2
+0e442424585a676bc92bbb64e652926e
+7fa4c23e8845e30ab944bfd0fec7b3b9
+332080f354a813b9827e9724e18faec2
+d8ba6ff0c4a4c520e809c7b8256fa1dd
+b066d65937a7d41e8910346250aeafb9
+113708a4fea7eb647f7e853781781304
+9cd6d91a068a4e039624a1cc8541a998
+-----END OpenVPN Static key V1-----
+</tls-auth>
