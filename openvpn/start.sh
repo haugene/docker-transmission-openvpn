@@ -44,7 +44,7 @@ echo $TRANSMISSION_RPC_PASSWORD >> /config/transmission-credentials.txt
 # Persist transmission settings for use by transmission-daemon
 dockerize -template /etc/transmission/environment-variables.tmpl:/etc/transmission/environment-variables.sh /bin/true
 
-TRANSMISSION_CONTROL_OPTS="--script-security 2 --up /etc/transmission/start.sh --down /etc/transmission/stop.sh"
+TRANSMISSION_CONTROL_OPTS="--script-security 2 --up-delay --up /etc/transmission/start.sh --down /etc/transmission/stop.sh"
 
 if [ -n "${LOCAL_NETWORK-}" ]; then
   eval $(/sbin/ip r l m 0.0.0.0 | awk '{if($5!="tun0"){print "GW="$3"\nINT="$5; exit}}')
