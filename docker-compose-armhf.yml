@@ -2,11 +2,14 @@ version: '2'
 
 services:
  transmission:
-  build: 
+  build:
      context: .
      dockerfile: Dockerfile.armhf
   image: haugene/rpi-transmission-openvpn
-  privileged: true
+  cap_add:
+    - NET_ADMIN
+  devices:
+    - "/dev/net/tun"
   restart: always
   ports:
     - "9091:9091"

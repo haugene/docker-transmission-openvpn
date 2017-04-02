@@ -2,7 +2,10 @@ version: '2'
 services:
  transmission:
   image: haugene/transmission-openvpn
-  privileged: true
+  cap_add:
+    - NET_ADMIN
+  devices:
+    - "/dev/net/tun"
   restart: always
   ports:
     - "9091:9091"
