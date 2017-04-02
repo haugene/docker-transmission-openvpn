@@ -13,6 +13,7 @@ It bundles certificates and configurations for the following VPN providers:
 | HideMe | `HIDEME` |
 | HideMyAss | `HIDEMYASS` |
 | IntegrityVPN | `INTEGRITYVPN` |
+| IPredator | `IPREDATOR` |
 | IPVanish | `IPVANISH` |
 | Ivacy | `IVACY` |
 | IVPN | `IVPN` |
@@ -21,6 +22,7 @@ It bundles certificates and configurations for the following VPN providers:
 | OVPN | `OVPN` |
 | Private Internet Access | `PIA` |
 | PrivateVPN | `PRIVATEVPN` |
+| proXPN | `PROXPN` |
 | PureVPN | `PUREVPN` |
 | RA4W VPN | `RA4W` |
 | SlickVPN | `SLICKVPN` |
