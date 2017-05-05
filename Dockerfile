@@ -10,7 +10,7 @@ VOLUME /config
 
 # Update packages and install software
 RUN apt-get update \
-    && apt-get -y install software-properties-common \
+    && apt-get -y install software-properties-common ufw \
     && add-apt-repository multiverse \
     && add-apt-repository ppa:transmissionbt/ppa \
     && apt-get update \
@@ -103,6 +103,7 @@ ENV OPENVPN_USERNAME=**None** \
     "TRANSMISSION_WATCH_DIR=/data/watch" \
     "TRANSMISSION_WATCH_DIR_ENABLED=true" \
     "TRANSMISSION_HOME=/data/transmission-home" \
+    "ENABLE_UFW=false" \
     PUID=\
     PGID=
 

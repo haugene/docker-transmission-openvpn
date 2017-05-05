@@ -80,6 +80,15 @@ By default a folder named transmission-home will also be created under /data, th
 |`OPENVPN_OPTS` | Will be passed to OpenVPN on startup | See [OpenVPN doc](https://openvpn.net/index.php/open-source/documentation/manuals/65-openvpn-20x-manpage.html) |
 |`LOCAL_NETWORK` | Sets the local network that should have access. | `LOCAL_NETWORK=192.168.0.0/24`|
 
+### Firewall configuration options
+When enabled, the firewall blocks everything except traffic to the peer port and traffic to the rpc port from the LOCAL_NETWORK and the internal docker gateway.
+
+If TRANSMISSION_PEER_PORT_RANDOM_ON_START is enabled then it allows traffic to the range of peer ports defined by TRANSMISSION_PEER_PORT_RANDOM_HIGH and TRANSMISSION_PEER_PORT_RANDOM_LOW.
+
+| Variable | Function | Example |
+|----------|----------|-------|
+|`ENABLE_UFW` | Enables the firewall | `ENABLE_UFW=true`|
+
 ### Transmission configuration options
 
 You may override transmission options by setting the appropriate environment variable.
