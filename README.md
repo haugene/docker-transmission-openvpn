@@ -33,7 +33,9 @@ It bundles certificates and configurations for the following VPN providers:
 | Windscribe | `WINDSCRIBE` |
 | VPN.ht | `VPNHT` |
 | VPNBook.com | `VPNBOOK` |
+| VPNTunnel | `VPNTUNNEL` |
 | VyprVpn | `VYPRVPN` |
+
 When using PIA as provider it will update Transmission hourly with assigned open port. Please read the instructions below.
 
 ## Run container from Docker registry
