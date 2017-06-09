@@ -16,6 +16,7 @@ RUN apt-get update \
     && apt-get update \
     && apt-get install -y transmission-cli transmission-common transmission-daemon \
     && apt-get install -y openvpn curl rar unrar zip unzip wget \
+    && apt-get install -y tinyproxy telnet\
     && curl -sLO https://github.com/Yelp/dumb-init/releases/download/v1.0.1/dumb-init_1.0.1_amd64.deb \
     && dpkg -i dumb-init_*.deb \
     && rm -rf dumb-init_*.deb \
@@ -27,6 +28,7 @@ RUN apt-get update \
 
 ADD openvpn/ /etc/openvpn/
 ADD transmission/ /etc/transmission/
+ADD tinyproxy /opt/tinyproxy/
 
 ENV OPENVPN_USERNAME=**None** \
     OPENVPN_PASSWORD=**None** \
@@ -108,4 +110,5 @@ ENV OPENVPN_USERNAME=**None** \
 
 # Expose port and run
 EXPOSE 9091
+EXPOSE 8888
 CMD ["dumb-init", "/etc/openvpn/start.sh"]

@@ -54,4 +54,7 @@ if [ -n "${LOCAL_NETWORK-}" ]; then
   fi
 fi
 
+/opt/tinyproxy/run.sh ANY
+/etc/init.d/tinyproxy start
+
 exec openvpn $TRANSMISSION_CONTROL_OPTS $OPENVPN_OPTS --config "$OPENVPN_CONFIG"
