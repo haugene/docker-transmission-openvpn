@@ -13,10 +13,11 @@ fi
 
 if [ $1 \< 1024 ];
 then 
-    echo "$1 is lower than 1024. Ports below 1024 are not permitted.";
+    echo "tinyproxy: $1 is lower than 1024. Ports below 1024 are not permitted.";
     exit 1
 fi;
 
+echo "Setting tinyproxy port to $1";
 sed -i -e"s,^Port .*,Port $1," $PROXY_CONF
 
 exit 0

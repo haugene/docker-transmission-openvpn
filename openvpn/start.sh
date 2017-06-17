@@ -54,7 +54,15 @@ if [ -n "${LOCAL_NETWORK-}" ]; then
   fi
 fi
 
-/opt/tinyproxy/run.sh ANY
-/etc/init.d/tinyproxy start
+
+if [ "${WEBPROXY_ENABLED}" = "true" ]; then
+  if [ -z "$WEBPROXY_PORT" ] ; then
+    /opt/tinyproxy/setport.sh $WEBPROXY_PORT
+  else
+    # Alway default back to port 8888
+    /opt/tinyproxy/setport.sh 8888
+  fi
+  /etc/init.d/tinyproxy start
+fi
 
 exec openvpn $TRANSMISSION_CONTROL_OPTS $OPENVPN_OPTS --config "$OPENVPN_CONFIG"

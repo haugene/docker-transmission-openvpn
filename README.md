@@ -97,6 +97,18 @@ As you can see the variables are prefixed with `TRANSMISSION_`, the variable is 
 PS: `TRANSMISSION_BIND_ADDRESS_IPV4` will be overridden to the IP assigned to your OpenVPN tunnel interface.
 This is to prevent leaking the host IP.
 
+### Web proxy configuration options
+
+This container also contains a web-proxy server to allow you to tunnel your web-browser traffic through the same OpenVPN tunnel.
+This is useful if you are using a private tracker that needs to see you login from the same IP address you are torrenting from.
+The default listening port is 8888. Note that only ports above 1024 can be specified as all ports below 1024 are privileged 
+and would otherwise require root permissions to run.
+
+| Variable | Function | Example |
+|----------|----------|-------|
+|`WEBPROXY_ENABLED` | Enables the web proxy | `WEBPROXY_ENABLED=true`|
+|`WEBPROXY_PORT` | Sets the listening port | `WEBPROXY_PORT=8888` |
+
 ### User configuration options
 
 By default everything will run as the root user. However, it is possible to change who runs the transmission process.

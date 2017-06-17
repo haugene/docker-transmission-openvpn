@@ -10,6 +10,7 @@ services:
   restart: always
   ports:
     - "9091:9091"
+    - "8888:8888"
   dns:
     - 8.8.8.8
     - 8.8.4.4
@@ -22,7 +23,8 @@ services:
     - OPENVPN_PASSWORD=password
     - OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60
     - LOCAL_NETWORK=192.168.0.0/24
-
+    - WEBPROXY_ENABLED=true
+    - WEBPROXY_PORT=8888
  proxy:
   build:
      context: ./proxy
