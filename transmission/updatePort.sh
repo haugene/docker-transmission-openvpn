@@ -24,25 +24,30 @@ new_client_id() {
 
 pia_client_id="$(cat $pia_client_id_file 2>/dev/null)"
 if [ -z ${pia_client_id} ]; then
-     echo "Generating new client id for PIA"
-     pia_client_id=$(new_client_id)
+   echo "Generating new client id for PIA"
+   pia_client_id=$(new_client_id)
 fi
 
 # Get the port
 port_assignment_url="http://209.222.18.222:2000/?client_id=$pia_client_id"
 pia_response=$(curl -s -f $port_assignment_url)
+pia_curl_exit_code=$?
+
+if [  -z $pia_response ]; then
+    echo "Port forwarding is already activated on this connection, has expired, or you are not connected to a PIA region that supports port forwarding"
+fi
 
 # Check for curl error (curl will fail on HTTP errors with -f flag)
-ret=$?
-if [ $ret -ne 0 ]; then
-     echo "curl encountered an error looking up new port: $ret"
+if [ $pia_curl_exit_code -ne 0 ]; then
+   echo "curl encountered an error looking up new port: $pia_curl_exit_code"
+   exit
 fi
 
 # Check for errors in PIA response
 error=$(echo $pia_response | grep -oE "\"error\".*\"")
 if [ ! -z "$error" ]; then
-     echo "PIA returned an error: $error"
-     exit
+   echo "PIA returned an error: $error"
+   exit
 fi
 
 # Get new port, check if empty
@@ -61,20 +66,31 @@ echo "Got new port $new_port from PIA"
 auth_enabled=$(grep 'rpc-authentication-required\"' $transmission_settings_file | grep -oE 'true|false')
 if [ "true" = "$auth_enabled" ]
   then
-    echo "transmission auth required"
-    myauth="--auth $transmission_username:$transmission_passwd"
-  else
+  echo "transmission auth required"
+  myauth="--auth $transmission_username:$transmission_passwd"
+else
     echo "transmission auth not required"
     myauth=""
 fi
 
 # get current listening port
 transmission_peer_port=$(transmission-remote $myauth -si | grep Listenport | grep -oE '[0-9]+')
-if [ "$new_port" != "$transmission_peer_port" ]
-  then
-    transmission-remote $myauth -p "$new_port"
-    echo "Checking port..."
-    sleep 10 && transmission-remote $myauth -pt
-  else
+if [ "$new_port" != "$transmission_peer_port" ]; then
+  if [ "true" = "$ENABLE_UFW" ]; then
+    echo "Update UFW rules before changing port in Transmission"
+
+    echo "denying access to $TRANSMISSION_PEER_PORT"
+    ufw deny $TRANSMISSION_PEER_PORT
+
+    echo "allowing $new_port through the firewall"
+    ufw allow $new_port
+  fi
+
+  transmission-remote $myauth -p "$new_port"
+
+  echo "Checking port..."
+  sleep 10
+  transmission-remote $myauth -pt
+else
     echo "No action needed, port hasn't changed"
 fi

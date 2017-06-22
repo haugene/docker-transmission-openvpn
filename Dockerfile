@@ -10,7 +10,7 @@ VOLUME /config
 
 # Update packages and install software
 RUN apt-get update \
-    && apt-get -y install software-properties-common \
+    && apt-get -y install software-properties-common ufw \
     && add-apt-repository multiverse \
     && add-apt-repository ppa:transmissionbt/ppa \
     && apt-get update \
@@ -21,7 +21,7 @@ RUN apt-get update \
     && dpkg -i dumb-init_*.deb \
     && rm -rf dumb-init_*.deb \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
-    && curl -L https://github.com/jwilder/dockerize/releases/download/v0.0.2/dockerize-linux-amd64-v0.0.2.tar.gz | tar -C /usr/local/bin -xzv \
+    && curl -L https://github.com/jwilder/dockerize/releases/download/v0.3.0/dockerize-linux-amd64-v0.3.0.tar.gz | tar -C /usr/local/bin -xzv \
     && groupmod -g 1000 users \
     && useradd -u 911 -U -d /config -s /bin/false abc \
     && usermod -G users abc
@@ -105,6 +105,7 @@ ENV OPENVPN_USERNAME=**None** \
     "TRANSMISSION_WATCH_DIR=/data/watch" \
     "TRANSMISSION_WATCH_DIR_ENABLED=true" \
     "TRANSMISSION_HOME=/data/transmission-home" \
+    "ENABLE_UFW=false" \
     PUID=\
     PGID=
 
