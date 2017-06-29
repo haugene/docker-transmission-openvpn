@@ -78,4 +78,7 @@ if [ -n "${LOCAL_NETWORK-}" ]; then
   fi
 fi
 
+echo WAN IPv4: $(curl --silent --max-time 2 http://ipv4.plain-text-ip.com)
+echo WAN IPv6: $(curl --silent --max-time 2 http://ipv6.plain-text-ip.com)
+
 exec openvpn $TRANSMISSION_CONTROL_OPTS $OPENVPN_OPTS --config "$OPENVPN_CONFIG"
