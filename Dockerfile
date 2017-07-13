@@ -2,7 +2,6 @@
 #
 # Version 1.15
 
-
 FROM ubuntu:16.04
 MAINTAINER Kristian Haugene
 
@@ -10,7 +9,7 @@ VOLUME /data
 VOLUME /config
 
 # Update packages and install software
-RUN apt-get update  \
+RUN apt-get update \
     && apt-get -y install software-properties-common ufw \
     && add-apt-repository multiverse \
     && add-apt-repository ppa:transmissionbt/ppa \
@@ -27,7 +26,7 @@ RUN apt-get update  \
     && curl -L https://github.com/jwilder/dockerize/releases/download/v0.5.0/dockerize-linux-amd64-v0.5.0.tar.gz | tar -C /usr/local/bin -xzv \
     && groupmod -g 1000 users \
     && useradd -u 911 -U -d /config -s /bin/false abc \
-    && usermod -G users abc \
+    && usermod -G users abc 
 
 ADD openvpn/ /etc/openvpn/
 ADD transmission/ /etc/transmission/
