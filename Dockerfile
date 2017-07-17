@@ -2,7 +2,7 @@
 #
 # Version 1.15
 
-FROM ubuntu:14.04
+FROM ubuntu:16.04
 MAINTAINER Kristian Haugene
 
 VOLUME /data
@@ -14,16 +14,19 @@ RUN apt-get update \
     && add-apt-repository multiverse \
     && add-apt-repository ppa:transmissionbt/ppa \
     && apt-get update \
-    && apt-get install -y transmission-cli transmission-common transmission-daemon \
-    && apt-get install -y openvpn curl rar unrar zip unzip wget \
-    && curl -sLO https://github.com/Yelp/dumb-init/releases/download/v1.0.1/dumb-init_1.0.1_amd64.deb \
-    && dpkg -i dumb-init_*.deb \
-    && rm -rf dumb-init_*.deb \
+    && apt-get install -y sudo transmission-cli transmission-common transmission-daemon curl rar unrar zip unzip wget \
+    && wget -O - https://swupdate.openvpn.net/repos/repo-public.gpg|apt-key add - \
+    && echo "deb http://build.openvpn.net/debian/openvpn/stable xenial main" > /etc/apt/sources.list.d/openvpn-aptrepo.list \
+    && apt-get update \
+    && apt-get install -y openvpn \
+    && wget https://github.com/Yelp/dumb-init/releases/download/v1.2.0/dumb-init_1.2.0_amd64.deb \
+    && dpkg -i dumb-init_1.2.0_amd64.deb \
+    && rm -rf dumb-init_1.2.0_amd64.deb \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
-    && curl -L https://github.com/jwilder/dockerize/releases/download/v0.3.0/dockerize-linux-amd64-v0.3.0.tar.gz | tar -C /usr/local/bin -xzv \
+    && curl -L https://github.com/jwilder/dockerize/releases/download/v0.5.0/dockerize-linux-amd64-v0.5.0.tar.gz | tar -C /usr/local/bin -xzv \
     && groupmod -g 1000 users \
     && useradd -u 911 -U -d /config -s /bin/false abc \
-    && usermod -G users abc
+    && usermod -G users abc 
 
 ADD openvpn/ /etc/openvpn/
 ADD transmission/ /etc/transmission/
