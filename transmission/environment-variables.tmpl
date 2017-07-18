@@ -77,3 +77,6 @@ export ENABLE_UFW={{ .Env.ENABLE_UFW }}
 
 export PUID={{ .Env.PUID }}
 export PGID={{ .Env.PGID }}
+
+# Support custom web frontend
+{{ if .Env.TRANSMISSION_WEB_HOME }} export TRANSMISSION_WEB_HOME={{ .Env.TRANSMISSION_WEB_HOME }} {{end}}

@@ -106,7 +106,8 @@ ENV OPENVPN_USERNAME=**None** \
     "TRANSMISSION_HOME=/data/transmission-home" \
     "ENABLE_UFW=false" \
     PUID=\
-    PGID=
+    PGID=\
+    TRANSMISSION_WEB_HOME=
 
 # Expose port and run
 EXPOSE 9091
