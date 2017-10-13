@@ -32,6 +32,7 @@ It bundles certificates and configurations for the following VPN providers:
 | TorGuard | `TORGUARD` |
 | UsenetServerVPN | `USENETSERVER` |
 | Windscribe | `WINDSCRIBE` |
+| VPNArea.com | `VPNAREA` |
 | VPN.ht | `VPNHT` |
 | VPNBook.com | `VPNBOOK` |
 | VPNTunnel | `VPNTUNNEL` |
