@@ -21,6 +21,7 @@ It bundles certificates and configurations for the following VPN providers:
 | Newshosting | `NEWSHOSTING` |
 | NordVPN | `NORDVPN` |
 | OVPN | `OVPN` |
+| Perfect Privacy | `PERFECTPRIVACY` |
 | Private Internet Access | `PIA` |
 | PrivateVPN | `PRIVATEVPN` |
 | proXPN | `PROXPN` |
