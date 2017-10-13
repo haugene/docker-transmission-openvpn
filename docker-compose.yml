@@ -20,6 +20,7 @@ services:
     - OPENVPN_USERNAME=username
     - OPENVPN_PASSWORD=password
     - OPENVPN_OPTS="--inactive 3600 --ping 10 --ping-exit 60"
+    - OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60
     - LOCAL_NETWORK=192.168.0.0/24
 
  proxy:
