@@ -19,6 +19,11 @@ if [ ! -e "/dev/random" ]; then
   ln -s /dev/urandom /dev/random
 fi
 
+if [ "true" = "$ENABLE_UFW" ]; then
+  echo "Using Combustin UI, overriding TRANSMISSION_WEB_HOME"
+  export TRANSMISSION_WEB_HOME=//usr/bin/transmission-daemon/combustion
+fi
+
 . /etc/transmission/userSetup.sh
 
 echo "STARTING TRANSMISSION"

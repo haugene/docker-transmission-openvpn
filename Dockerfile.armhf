@@ -11,6 +11,9 @@ VOLUME /config
 # Update packages and install software
 RUN apt-get update \
     && apt-get install -y transmission-cli transmission-common transmission-daemon \
+    && wget -O - https://github.com/Secretmapper/combustion/archive/release.zip \
+    && unzip release.zip ; rm *.zip \
+    && mkdir /usr/bin/transmission-daemon/combustion ; mv combustion-release/* /usr/bin/transmission-daemon/combustion \
     && apt-get install -y openvpn curl ufw \
     && curl -sLO https://archive.raspbian.org/raspbian/pool/main/d/dumb-init/dumb-init_1.0.3-1_armhf.deb \
     && dpkg -i dumb-init_*.deb \
@@ -101,6 +104,7 @@ ENV OPENVPN_USERNAME=**None** \
     TRANSMISSION_WATCH_DIR_ENABLED=true \
     TRANSMISSION_HOME=/data/transmission-home \
     ENABLE_UFW=false \
+    ENABLE_COMBUSTION_UI=false \
     PUID=\
     PGID=\
     TRANSMISSION_WEB_HOME=
