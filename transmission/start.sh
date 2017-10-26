@@ -42,4 +42,12 @@ else
     echo "NO PORT UPDATER FOR THIS PROVIDER"
 fi
 
+if [ -z "${RSS_URL}" ] || [ "${RSS_URL}" = "**None**" ] ; then
+ echo "NO RSS URL CONFIGURED, IGNORING"
+else
+  echo "STARTING RSS PLUGIN"
+  sed -i "s#RSS_URL#$RSS_URL#" /etc/transmission-rss.conf
+  transmission-rss
+fi
+
 echo "Transmission startup script complete."
