@@ -5,6 +5,7 @@ It bundles certificates and configurations for the following VPN providers:
 | Provider Name                | Config Value |
 |:-----------------------------|:-------------|
 | Anonine | `ANONINE` |
+| AnonVPN | `ANONVPN` |
 | BlackVPN | `BLACKVPN` |
 | BTGuard | `BTGUARD` |
 | Cryptostorm | `CRYPTOSTORM` |
