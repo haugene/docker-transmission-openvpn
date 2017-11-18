@@ -1,7 +1,3 @@
-# Transmission and OpenVPN
-#
-# Version 1.10
-
 FROM resin/rpi-raspbian:jessie
 MAINTAINER Kristian Haugene
 
@@ -10,11 +6,12 @@ VOLUME /config
 
 # Update packages and install software
 RUN apt-get update \
-    && apt-get install -y transmission-cli transmission-common transmission-daemon \
-    && wget -O /tmp/release.zip https://github.com/Secretmapper/combustion/archive/release.zip \
-    && unzip -d /tmp /tmp/release.zip ; rm /tmp/*.zip \
-    && mkdir /usr/bin/transmission-combustion/ ; mv /tmp/combustion-release/* /usr/bin/transmission-combustion/ \
+    && apt-get -y upgrade \
+    && apt-get -y install transmission-cli transmission-common transmission-daemon \
     && apt-get install -y openvpn curl ufw \
+    && wget https://github.com/Secretmapper/combustion/archive/release.zip \
+    && unzip release.zip -d /opt/transmission-ui/ \
+    && rm release.zip \
     && curl -sLO https://archive.raspbian.org/raspbian/pool/main/d/dumb-init/dumb-init_1.0.3-1_armhf.deb \
     && dpkg -i dumb-init_*.deb \
     && rm -rf dumb-init_*.deb \

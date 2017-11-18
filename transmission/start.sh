@@ -10,7 +10,7 @@ export TRANSMISSION_BIND_ADDRESS_IPV4=$4
 
 if [ "true" = "$ENABLE_COMBUSTION_UI" ]; then
   echo "Using Combustion UI, overriding TRANSMISSION_WEB_HOME"
-  export TRANSMISSION_WEB_HOME=/usr/bin/transmission-combustion
+  export TRANSMISSION_WEB_HOME=/opt/transmission-ui/combustion-release
 fi
 
 echo "Generating transmission settings.json from env variables"
