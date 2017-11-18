@@ -28,6 +28,7 @@ It bundles certificates and configurations for the following VPN providers:
 | proXPN | `PROXPN` |
 | PureVPN | `PUREVPN` |
 | RA4W VPN | `RA4W` |
+| SaferVPN | `SAFERVPN` |
 | SlickVPN | `SLICKVPN` |
 | Smart DNS Proxy | `SMARTDNSPROXY` |
 | SmartVPN | `SMARTVPN` |
