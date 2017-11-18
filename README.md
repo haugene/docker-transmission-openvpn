@@ -1,8 +1,48 @@
 # Transmission with WebUI and OpenVPN
-Docker container which runs Transmission torrent client with WebUI while connecting to OpenVPN.
-It bundles certificates and configurations for the following VPN providers:
+Docker container running Transmission torrent client with WebUI while connecting to OpenVPN.
+It bundles certificates and configurations for a bunch of VPN providers and if you're using PIA as provider it will update Transmission hourly with assigned open port. Please read the instructions below, and read it again before posting an issue :)
 
-| Provider Name                | Config Value |
+### about:maintenance (aka I NEED HELP)
+
+The classic story! I created this image for my own use and figured that sharing is caring, right? A lot has happened since then. With the help of contributors (thank you!) and feature requests from the community the number of providers, features and users have increased quite drastically.
+
+If you're interested in joining as a collaborator: Find an issue and fix it, then mention in the pull-request that you're interested in helping out on a more permanent basis. That would make my day ;)
+
+
+## Run container from Docker registry
+The container is available from the Docker registry and this is the simplest way to get it.
+To run the container use this command:
+
+```
+$ docker run --cap-add=NET_ADMIN --device=/dev/net/tun -d \
+              -v /your/storage/path/:/data \
+              -v /etc/localtime:/etc/localtime:ro \
+              -e "OPENVPN_PROVIDER=PIA" \
+              -e "OPENVPN_CONFIG=Netherlands" \
+              -e "OPENVPN_USERNAME=user" \
+              -e "OPENVPN_PASSWORD=pass" \
+              -p 9091:9091 \
+              haugene/transmission-openvpn
+```
+
+You must set the environment variables `OPENVPN_PROVIDER`, `OPENVPN_USERNAME` and `OPENVPN_PASSWORD` to provide basic connection details.
+
+The `OPENVPN_CONFIG` is an optional variable. If no config is given, a default config will be selected for the provider you have chosen.
+Find available OpenVPN configurations by looking in the openvpn folder of the GitHub repository. The value that you should use here is the filename of your chosen openvpn configuration *without* the .ovpn file extension. For example:
+
+```
+-e "OPENVPN_CONFIG=ipvanish-AT-Vienna-vie-c02"
+```
+
+As you can see, the container also expects a data volume to be mounted.
+This is where Transmission will store your downloads, incomplete downloads and look for a watch directory for new .torrent files.
+By default a folder named transmission-home will also be created under /data, this is where Transmission stores its state.
+
+### Supported providers
+
+This is a list of providers that are bundled within the image. Feel free to create an issue if your provider is not on the list, but keep in mind that some providers generate config files per user. This means that your login credentials are part of the config an can therefore not be bundled. In this case you can use the custom provider setup described later in this readme. The custom provider setting can be used with any provider.
+
+| Provider Name                | Config Value (`OPENVPN_PROVIDER`) |
 |:-----------------------------|:-------------|
 | Anonine | `ANONINE` |
 | AnonVPN | `ANONVPN` |
@@ -42,38 +82,6 @@ It bundles certificates and configurations for the following VPN providers:
 | VPNBook.com | `VPNBOOK` |
 | VPNTunnel | `VPNTUNNEL` |
 | VyprVpn | `VYPRVPN` |
-
-When using PIA as provider it will update Transmission hourly with assigned open port. Please read the instructions below.
-
-## Run container from Docker registry
-The container is available from the Docker registry and this is the simplest way to get it.
-To run the container use this command:
-
-```
-$ docker run --cap-add=NET_ADMIN --device=/dev/net/tun -d \
-              -v /your/storage/path/:/data \
-              -v /etc/localtime:/etc/localtime:ro \
-              -e "OPENVPN_PROVIDER=PIA" \
-              -e "OPENVPN_CONFIG=Netherlands" \
-              -e "OPENVPN_USERNAME=user" \
-              -e "OPENVPN_PASSWORD=pass" \
-              -p 9091:9091 \
-              haugene/transmission-openvpn
-```
-
-You must set the environment variables `OPENVPN_PROVIDER`, `OPENVPN_USERNAME` and `OPENVPN_PASSWORD` to provide basic connection details.
-
-The `OPENVPN_CONFIG` is an optional variable. If no config is given, a default config will be selected for the provider you have chosen.
-Find available OpenVPN configurations by looking in the openvpn folder of the GitHub repository. The value that you should use here is the filename of your chosen openvpn configuration *without* the .ovpn file extension. For example:
-
-```
--e "OPENVPN_CONFIG=ipvanish-AT-Vienna-vie-c02"
-```
-
-As you can see, the container also expects a data volume to be mounted.
-This is where Transmission will store your downloads, incomplete downloads and look for a watch directory for new .torrent files.
-By default a folder named transmission-home will also be created under /data, this is where Transmission stores its state.
-
 
 ### Required environment options
 | Variable | Function | Example |
