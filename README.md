@@ -21,6 +21,8 @@ $ docker run --cap-add=NET_ADMIN --device=/dev/net/tun -d \
               -e "OPENVPN_CONFIG=Netherlands" \
               -e "OPENVPN_USERNAME=user" \
               -e "OPENVPN_PASSWORD=pass" \
+              --log-driver json-file \
+              --log-opt max-size=10m \
               -p 9091:9091 \
               haugene/transmission-openvpn
 ```
