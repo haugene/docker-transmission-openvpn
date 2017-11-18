@@ -8,6 +8,11 @@
 echo "Updating TRANSMISSION_BIND_ADDRESS_IPV4 to the ip of $1 : $4"
 export TRANSMISSION_BIND_ADDRESS_IPV4=$4
 
+if [ "true" = "$ENABLE_COMBUSTION_UI" ]; then
+  echo "Using Combustion UI, overriding TRANSMISSION_WEB_HOME"
+  export TRANSMISSION_WEB_HOME=/usr/bin/transmission-combustion
+fi
+
 echo "Generating transmission settings.json from env variables"
 # Ensure TRANSMISSION_HOME is created
 mkdir -p ${TRANSMISSION_HOME}

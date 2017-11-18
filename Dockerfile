@@ -15,6 +15,9 @@ RUN apt-get update \
     && add-apt-repository ppa:transmissionbt/ppa \
     && apt-get update \
     && apt-get install -y sudo transmission-cli transmission-common transmission-daemon curl rar unrar zip unzip wget \
+    && wget -O /tmp/release.zip https://github.com/Secretmapper/combustion/archive/release.zip \
+    && unzip -d /tmp /tmp/release.zip ; rm /tmp/*.zip \
+    && mkdir /usr/bin/transmission-combustion/ ; mv /tmp/combustion-release/* /usr/bin/transmission-combustion/ \
     && wget -O - https://swupdate.openvpn.net/repos/repo-public.gpg|apt-key add - \
     && echo "deb http://build.openvpn.net/debian/openvpn/stable xenial main" > /etc/apt/sources.list.d/openvpn-aptrepo.list \
     && apt-get update \
@@ -107,6 +110,7 @@ ENV OPENVPN_USERNAME=**None** \
     TRANSMISSION_WATCH_DIR_ENABLED=true \
     TRANSMISSION_HOME=/data/transmission-home \
     ENABLE_UFW=false \
+    ENABLE_COMBUSTION_UI=false \
     PUID=\
     PGID=\
     TRANSMISSION_WEB_HOME=
