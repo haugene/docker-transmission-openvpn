@@ -36,6 +36,7 @@ It bundles certificates and configurations for the following VPN providers:
 | UsenetServerVPN | `USENETSERVER` |
 | Windscribe | `WINDSCRIBE` |
 | VPNArea.com | `VPNAREA` |
+| VPN.AC | `VPNAC` |
 | VPN.ht | `VPNHT` |
 | VPNBook.com | `VPNBOOK` |
 | VPNTunnel | `VPNTUNNEL` |
