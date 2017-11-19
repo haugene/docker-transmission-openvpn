@@ -8,10 +8,11 @@ VOLUME /config
 RUN apt-get update \
     && apt-get -y upgrade \
     && apt-get -y install transmission-cli transmission-common transmission-daemon \
-    && apt-get install -y openvpn curl ufw \
+    && apt-get install -y openvpn curl ufw git\
     && wget https://github.com/Secretmapper/combustion/archive/release.zip \
     && unzip release.zip -d /opt/transmission-ui/ \
     && rm release.zip \
+    && git clone git://github.com/endor/kettu.git /opt/transmission-ui/kettu \
     && curl -sLO https://archive.raspbian.org/raspbian/pool/main/d/dumb-init/dumb-init_1.0.3-1_armhf.deb \
     && dpkg -i dumb-init_*.deb \
     && rm -rf dumb-init_*.deb \
@@ -101,7 +102,7 @@ ENV OPENVPN_USERNAME=**None** \
     TRANSMISSION_WATCH_DIR_ENABLED=true \
     TRANSMISSION_HOME=/data/transmission-home \
     ENABLE_UFW=false \
-    ENABLE_COMBUSTION_UI=false \
+    TRANSMISSION_WEB_UI=\
     PUID=\
     PGID=\
     TRANSMISSION_WEB_HOME=
