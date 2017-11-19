@@ -111,12 +111,12 @@ If TRANSMISSION_PEER_PORT_RANDOM_ON_START is enabled then it allows traffic to t
 ### Alternative web UIs
 You can override the default web UI by setting the ```TRANSMISSION_WEB_HOME``` environment variable. If set, Transmission will look there for the Web Interface files, such as the javascript, html, and graphics files.
 
-[Combustion UI](https://github.com/Secretmapper/combustion) comes bundled with the container. You can enable it by setting ```ENABLE_COMBUSTION_UI=true```. Note that this will override the ```TRANSMISSION_WEB_HOME``` variable if set.
+[Combustion UI](https://github.com/Secretmapper/combustion) and [Kettu](https://github.com/endor/kettu) come bundled with the container. You can enable either of them by setting```TRANSMISSION_WEB_UI=combustion``` or ```TRANSMISSION_WEB_UI=kettu```, respectively. Note that this will override the ```TRANSMISSION_WEB_HOME``` variable if set.
 
 | Variable | Function | Example |
 |----------|----------|-------|
 |`TRANSMISSION_WEB_HOME` | Set Transmission web home | `TRANSMISSION_WEB_HOME=/path/to/web/ui`|
-|`ENABLE_COMBUSTION_UI` | Use the bundled Combustion web UI | `ENABLE_COMBUSTION_UI=true`|
+|`TRANSMISSION_WEB_UI` | Use the specified bundled web UI | `TRANSMISSION_WEB_UI=combustion` or `TRANSMISSION_WEB_UI=kettu`|
 
 ### Transmission configuration options
 

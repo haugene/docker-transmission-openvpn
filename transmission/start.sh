@@ -8,9 +8,14 @@
 echo "Updating TRANSMISSION_BIND_ADDRESS_IPV4 to the ip of $1 : $4"
 export TRANSMISSION_BIND_ADDRESS_IPV4=$4
 
-if [ "true" = "$ENABLE_COMBUSTION_UI" ]; then
+if [ "combustion" = "$TRANSMISSION_WEB_UI" ]; then
   echo "Using Combustion UI, overriding TRANSMISSION_WEB_HOME"
   export TRANSMISSION_WEB_HOME=/opt/transmission-ui/combustion-release
+fi
+
+if [ "kettu" = "$TRANSMISSION_WEB_UI" ]; then
+  echo "Using Kettu UI, overriding TRANSMISSION_WEB_HOME"
+  export TRANSMISSION_WEB_HOME=/opt/transmission-ui/kettu
 fi
 
 echo "Generating transmission settings.json from env variables"

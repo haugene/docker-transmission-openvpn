@@ -7,7 +7,7 @@ VOLUME /config
 # Update packages and install software
 RUN apt-get update \
     && apt-get -y upgrade \
-    && apt-get -y install software-properties-common wget \
+    && apt-get -y install software-properties-common wget git \
     && add-apt-repository ppa:transmissionbt/ppa \
     && wget -O - https://swupdate.openvpn.net/repos/repo-public.gpg | apt-key add - \
     && echo "deb http://build.openvpn.net/debian/openvpn/stable xenial main" > /etc/apt/sources.list.d/openvpn-aptrepo.list \
@@ -16,6 +16,7 @@ RUN apt-get update \
     && wget https://github.com/Secretmapper/combustion/archive/release.zip \
     && unzip release.zip -d /opt/transmission-ui/ \
     && rm release.zip \
+    && git clone git://github.com/endor/kettu.git /opt/transmission-ui/kettu \
     && wget https://github.com/Yelp/dumb-init/releases/download/v1.2.0/dumb-init_1.2.0_amd64.deb \
     && dpkg -i dumb-init_1.2.0_amd64.deb \
     && rm -rf dumb-init_1.2.0_amd64.deb \
@@ -104,7 +105,7 @@ ENV OPENVPN_USERNAME=**None** \
     TRANSMISSION_WATCH_DIR_ENABLED=true \
     TRANSMISSION_HOME=/data/transmission-home \
     ENABLE_UFW=false \
-    ENABLE_COMBUSTION_UI=false \
+    TRANSMISSION_WEB_UI="" \
     PUID="" \
     PGID="" \
     TRANSMISSION_WEB_HOME=""
