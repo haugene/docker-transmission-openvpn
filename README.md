@@ -51,6 +51,7 @@ This is a list of providers that are bundled within the image. Feel free to crea
 | BlackVPN | `BLACKVPN` |
 | BTGuard | `BTGUARD` |
 | Cryptostorm | `CRYPTOSTORM` |
+| Cypherpunk | `CYPHERPUNK` |
 | FrootVPN | `FROOT` |
 | FrostVPN | `FROSTVPN` |
 | Giganews | `GIGANEWS` |
