@@ -8,7 +8,7 @@ VOLUME /config
 RUN apt-get update \
     && apt-get -y upgrade \
     && apt-get -y install transmission-cli transmission-common transmission-daemon \
-    && apt-get install -y openvpn curl ufw git\
+    && apt-get install -y openvpn curl ufw git wget unzip\
     && wget https://github.com/Secretmapper/combustion/archive/release.zip \
     && unzip release.zip -d /opt/transmission-ui/ \
     && rm release.zip \
