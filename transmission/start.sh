@@ -18,6 +18,10 @@ if [ "kettu" = "$TRANSMISSION_WEB_UI" ]; then
   export TRANSMISSION_WEB_HOME=/opt/transmission-ui/kettu
 fi
 
+if [ ! -z "${RSS_URL}" ] && [ "${RSS_URL}" != "**None**" ] ; then
+  dockerize -template /etc/transmission/transmission-rss.tmpl:/etc/transmission-rss.conf
+fi
+
 echo "Generating transmission settings.json from env variables"
 # Ensure TRANSMISSION_HOME is created
 mkdir -p ${TRANSMISSION_HOME}
@@ -46,7 +50,6 @@ if [ -z "${RSS_URL}" ] || [ "${RSS_URL}" = "**None**" ] ; then
  echo "NO RSS URL CONFIGURED, IGNORING"
 else
   echo "STARTING RSS PLUGIN"
-  sed -i "s#RSS_URL#$RSS_URL#" /etc/transmission-rss.conf
   transmission-rss
 fi
 

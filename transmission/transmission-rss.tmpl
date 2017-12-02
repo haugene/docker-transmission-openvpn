@@ -1,0 +1,7 @@
+feeds:
+  - url: {{ .Env.RSS_URL }}
+    download_path: {{ .Env.TRANSMISSION_DOWNLOAD_DIR }}
+server:
+  host: 127.0.0.1
+  port: 9091
+  rpc_path: /transmission/rpc

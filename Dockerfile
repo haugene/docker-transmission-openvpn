@@ -30,7 +30,6 @@ RUN apt-get update \
 
 ADD openvpn/ /etc/openvpn/
 ADD transmission/ /etc/transmission/
-ADD transmission/transmission-rss.conf /etc/transmission-rss.conf
 
 ENV OPENVPN_USERNAME=**None** \
     OPENVPN_PASSWORD=**None** \
