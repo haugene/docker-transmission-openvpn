@@ -109,11 +109,6 @@ If TRANSMISSION_PEER_PORT_RANDOM_ON_START is enabled then it allows traffic to t
 |----------|----------|-------|
 |`ENABLE_UFW` | Enables the firewall | `ENABLE_UFW=true`|
 
-### RSS feed configuration options
-| Variable | Function | Example |
-|----------|----------|-------|
-|`RSS_URL`|The RSS feed's URL |`RSS_URL=http://.../xxxxx.rss`|
-
 ### Alternative web UIs
 You can override the default web UI by setting the ```TRANSMISSION_WEB_HOME``` environment variable. If set, Transmission will look there for the Web Interface files, such as the javascript, html, and graphics files.
 
@@ -152,6 +147,15 @@ You may set the following parameters to customize the user id that runs transmis
 |----------|----------|-------|
 |`PUID` | Sets the user id who will run transmission | `PUID=1003`|
 |`PGID` | Sets the group id for the transmission user | `PGID=1003` |
+
+### RSS plugin
+
+The Transmission RSS plugin can optionally be run as a separate container. It allow to download torrents based on an RSS URL, see [Plugin page](https://github.com/nning/transmission-rss).
+
+```
+$ docker run -d -e "RSS_URL=http://.../xxxxx.rss" \
+      --link <transmission-container>:transmission \--link
+```
 
 #### Use docker env file
 Another way is to use a docker env file where you can easily store all your env variables and maintain multiple configurations for different providers.
@@ -336,7 +340,6 @@ ExecStart=/usr/bin/docker run \
         -e "OPENVPN_PASSWORD=hunter2" \
         -e "OPENVPN_CONFIG=Netherlands" \
         -e "OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60" \
-        -e "RSS_URL=http://.../xxxxx.rss" \
         -e "TRANSMISSION_UMASK=0" \
         -p 9091:9091 \
         --dns 8.8.8.8 \
