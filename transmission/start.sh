@@ -3,6 +3,7 @@
 # Source our persisted env variables from container startup
 . /etc/transmission/environment-variables.sh
 
+# If custom-pre-start.sh exists, run it
 if [ -x /config/custom-pre-start.sh ]
 then
    echo "Executing /config/custom-pre-start.sh"
@@ -55,6 +56,7 @@ else
     echo "NO PORT UPDATER FOR THIS PROVIDER"
 fi
 
+# If custom-post-start.sh exists, run it
 if [ -x /config/custom-post-start.sh ]
 then
    echo "Executing /config/custom-post-start.sh"
