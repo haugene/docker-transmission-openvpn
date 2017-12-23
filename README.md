@@ -148,6 +148,15 @@ You may set the following parameters to customize the user id that runs transmis
 |`PUID` | Sets the user id who will run transmission | `PUID=1003`|
 |`PGID` | Sets the group id for the transmission user | `PGID=1003` |
 
+### RSS plugin
+
+The Transmission RSS plugin can optionally be run as a separate container. It allow to download torrents based on an RSS URL, see [Plugin page](https://github.com/nning/transmission-rss).
+
+```
+$ docker run -d -e "RSS_URL=http://.../xxxxx.rss" \
+      --link <transmission-container>:transmission \--link
+```
+
 #### Use docker env file
 Another way is to use a docker env file where you can easily store all your env variables and maintain multiple configurations for different providers.
 In the GitHub repository there is a provided DockerEnv file with all the current transmission and openvpn environment variables. You can use this to create local configurations
