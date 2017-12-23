@@ -3,6 +3,12 @@
 # Source our persisted env variables from container startup
 . /etc/transmission/environment-variables.sh
 
+if [ -x /config/custom-pre-start.sh ]
+then
+   echo "Executing /config/custom-pre-start.sh"
+   /config/custom-pre-start.sh
+fi
+
 # This script will be called with tun/tap device name as parameter 1, and local IP as parameter 4
 # See https://openvpn.net/index.php/open-source/documentation/manuals/65-openvpn-20x-manpage.html (--up cmd)
 echo "Up script executed with $*"
@@ -47,6 +53,12 @@ then
     exec /etc/transmission/updatePort.sh &
 else
     echo "NO PORT UPDATER FOR THIS PROVIDER"
+fi
+
+if [ -x /config/custom-post-start.sh ]
+then
+   echo "Executing /config/custom-post-start.sh"
+   /config/custom-post-start.sh
 fi
 
 echo "Transmission startup script complete."
