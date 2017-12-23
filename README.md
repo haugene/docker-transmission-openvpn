@@ -62,6 +62,7 @@ This is a list of providers that are bundled within the image. Feel free to crea
 | IPVanish | `IPVANISH` |
 | Ivacy | `IVACY` |
 | IVPN | `IVPN` |
+| Mullvad | `MULLVAD` |
 | Newshosting | `NEWSHOSTING` |
 | NordVPN | `NORDVPN` |
 | OVPN | `OVPN` |
