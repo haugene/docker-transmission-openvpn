@@ -27,8 +27,11 @@ fi
 
 # add OpenVPN user/pass
 if [ "${OPENVPN_USERNAME}" = "**None**" ] || [ "${OPENVPN_PASSWORD}" = "**None**" ] ; then
- echo "OpenVPN credentials not set. Exiting."
- exit 1
+  if [ ! -f /config/openvpn-credentials.txt ] ; then
+    echo "OpenVPN credentials not set. Exiting."
+    exit 1
+  fi
+  echo "Found existing OPENVPN credentials..."
 else
   echo "Setting OPENVPN credentials..."
   mkdir -p /config
