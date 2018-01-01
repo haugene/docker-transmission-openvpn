@@ -44,7 +44,7 @@ echo $TRANSMISSION_RPC_PASSWORD >> /config/transmission-credentials.txt
 # Persist transmission settings for use by transmission-daemon
 dockerize -template /etc/transmission/environment-variables.tmpl:/etc/transmission/environment-variables.sh /bin/true
 
-TRANSMISSION_CONTROL_OPTS="--script-security 2 --up /etc/transmission/start.sh --down /etc/transmission/stop.sh"
+TRANSMISSION_CONTROL_OPTS="--script-security 2 --up /etc/openvpn/tunnelUp.sh --down /etc/openvpn/tunnelDown.sh"
 
 if [ -n "${LOCAL_NETWORK-}" ]; then
   eval $(/sbin/ip r l m 0.0.0.0 | awk '{if($5!="tun0"){print "GW="$3"\nINT="$5; exit}}')
@@ -52,17 +52,6 @@ if [ -n "${LOCAL_NETWORK-}" ]; then
     echo "adding route to local network $LOCAL_NETWORK via $GW dev $INT"
     /sbin/ip r a "$LOCAL_NETWORK" via "$GW" dev "$INT"
   fi
-fi
-
-
-if [ "${WEBPROXY_ENABLED}" = "true" ]; then
-  if [ -z "$WEBPROXY_PORT" ] ; then
-    /opt/tinyproxy/setport.sh $WEBPROXY_PORT
-  else
-    # Alway default back to port 8888
-    /opt/tinyproxy/setport.sh 8888
-  fi
-  /etc/init.d/tinyproxy start
 fi
 
 exec openvpn $TRANSMISSION_CONTROL_OPTS $OPENVPN_OPTS --config "$OPENVPN_CONFIG"
