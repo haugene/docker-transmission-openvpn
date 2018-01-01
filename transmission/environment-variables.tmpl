@@ -79,3 +79,7 @@ export ENABLE_UFW={{ .Env.ENABLE_UFW }}
 
 export PUID={{ .Env.PUID }}
 export PGID={{ .Env.PGID }}
+
+# Need to pass through our tinyproxy settings
+export WEBPROXY_ENABLED={{ .Env.WEBPROXY_ENABLED }}
+export WEBPROXY_PORT={{ .Env.WEBPROXY_PORT }}

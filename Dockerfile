@@ -106,6 +106,8 @@ ENV OPENVPN_USERNAME=**None** \
     "TRANSMISSION_WATCH_DIR_ENABLED=true" \
     "TRANSMISSION_HOME=/data/transmission-home" \
     "ENABLE_UFW=false" \
+    WEBPROXY_ENABLED=false \
+    WEBPROXY_PORT=8888 \
     PUID=\
     PGID=
 
