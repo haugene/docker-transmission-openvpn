@@ -37,3 +37,13 @@ services:
     - "8080:8080"
   volumes:
     - /etc/localtime:/etc/localtime:ro
+
+ rss:
+  build:
+     context: ./plugins/rss
+     dockerfile: Dockerfile.armhf
+  image: haugene/rpi-transmission-plugin-rss
+  links:
+    - transmission
+  environment:
+    - RSS_URL=http://.../xxxxx.rss

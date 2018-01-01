@@ -42,7 +42,7 @@ echo $TRANSMISSION_RPC_USERNAME > /config/transmission-credentials.txt
 echo $TRANSMISSION_RPC_PASSWORD >> /config/transmission-credentials.txt
 
 # Persist transmission settings for use by transmission-daemon
-dockerize -template /etc/transmission/environment-variables.tmpl:/etc/transmission/environment-variables.sh /bin/true
+dockerize -template /etc/transmission/environment-variables.tmpl:/etc/transmission/environment-variables.sh
 
 TRANSMISSION_CONTROL_OPTS="--script-security 2 --up-delay --up /etc/openvpn/tunnelUp.sh --down /etc/openvpn/tunnelDown.sh"
 

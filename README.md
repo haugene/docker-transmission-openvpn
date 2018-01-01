@@ -1,42 +1,13 @@
 # Transmission with WebUI and OpenVPN
-Docker container which runs Transmission torrent client with WebUI while connecting to OpenVPN.
-It bundles certificates and configurations for the following VPN providers:
+Docker container running Transmission torrent client with WebUI while connecting to OpenVPN.
+It bundles certificates and configurations for a bunch of VPN providers and if you're using PIA as provider it will update Transmission hourly with assigned open port. Please read the instructions below, and read it again before posting an issue :)
 
-| Provider Name                | Config Value |
-|:-----------------------------|:-------------|
-| Anonine | `ANONINE` |
-| BTGuard | `BTGUARD` |
-| Cryptostorm | `CRYPTOSTORM` |
-| FrootVPN | `FROOT` |
-| FrostVPN | `FROSTVPN` |
-| Giganews | `GIGANEWS` |
-| HideMe | `HIDEME` |
-| HideMyAss | `HIDEMYASS` |
-| IntegrityVPN | `INTEGRITYVPN` |
-| IPredator | `IPREDATOR` |
-| IPVanish | `IPVANISH` |
-| Ivacy | `IVACY` |
-| IVPN | `IVPN` |
-| Newshosting | `NEWSHOSTING` |
-| NordVPN | `NORDVPN` |
-| OVPN | `OVPN` |
-| Private Internet Access | `PIA` |
-| PrivateVPN | `PRIVATEVPN` |
-| proXPN | `PROXPN` |
-| PureVPN | `PUREVPN` |
-| RA4W VPN | `RA4W` |
-| SlickVPN | `SLICKVPN` |
-| SmartVPN | `SMARTVPN` |
-| TigerVPN | `TIGER` |
-| TorGuard | `TORGUARD` |
-| UsenetServerVPN | `USENETSERVER` |
-| Windscribe | `WINDSCRIBE` |
-| VPN.ht | `VPNHT` |
-| VPNBook.com | `VPNBOOK` |
-| VPNTunnel | `VPNTUNNEL` |
-| VyprVpn | `VYPRVPN` |
+### about:maintenance (aka I NEED HELP)
 
-When using PIA as provider it will update Transmission hourly with assigned open port. Please read the instructions below.
+The classic story! I created this image for my own use and figured that sharing is caring, right? A lot has happened since then. With the help of contributors (thank you!) and feature requests from the community the number of providers, features and users have increased quite drastically.
+
+If you're interested in joining as a collaborator: Find an issue and fix it, then mention in the pull-request that you're interested in helping out on a more permanent basis. That would make my day ;)
+
 
 ## Run container from Docker registry
 The container is available from the Docker registry and this is the simplest way to get it.
@@ -50,6 +21,8 @@ $ docker run --cap-add=NET_ADMIN --device=/dev/net/tun -d \
               -e "OPENVPN_CONFIG=Netherlands" \
               -e "OPENVPN_USERNAME=user" \
               -e "OPENVPN_PASSWORD=pass" \
+              --log-driver json-file \
+              --log-opt max-size=10m \
               -p 9091:9091 \
               haugene/transmission-openvpn
 ```
@@ -67,6 +40,52 @@ As you can see, the container also expects a data volume to be mounted.
 This is where Transmission will store your downloads, incomplete downloads and look for a watch directory for new .torrent files.
 By default a folder named transmission-home will also be created under /data, this is where Transmission stores its state.
 
+### Supported providers
+
+This is a list of providers that are bundled within the image. Feel free to create an issue if your provider is not on the list, but keep in mind that some providers generate config files per user. This means that your login credentials are part of the config an can therefore not be bundled. In this case you can use the custom provider setup described later in this readme. The custom provider setting can be used with any provider.
+
+| Provider Name                | Config Value (`OPENVPN_PROVIDER`) |
+|:-----------------------------|:-------------|
+| Anonine | `ANONINE` |
+| AnonVPN | `ANONVPN` |
+| BlackVPN | `BLACKVPN` |
+| BTGuard | `BTGUARD` |
+| Cryptostorm | `CRYPTOSTORM` |
+| Cypherpunk | `CYPHERPUNK` |
+| FrootVPN | `FROOT` |
+| FrostVPN | `FROSTVPN` |
+| Giganews | `GIGANEWS` |
+| HideMe | `HIDEME` |
+| HideMyAss | `HIDEMYASS` |
+| IntegrityVPN | `INTEGRITYVPN` |
+| IPredator | `IPREDATOR` |
+| IPVanish | `IPVANISH` |
+| Ivacy | `IVACY` |
+| IVPN | `IVPN` |
+| Mullvad | `MULLVAD` |
+| Newshosting | `NEWSHOSTING` |
+| NordVPN | `NORDVPN` |
+| OVPN | `OVPN` |
+| Perfect Privacy | `PERFECTPRIVACY` |
+| Private Internet Access | `PIA` |
+| PrivateVPN | `PRIVATEVPN` |
+| proXPN | `PROXPN` |
+| PureVPN | `PUREVPN` |
+| RA4W VPN | `RA4W` |
+| SaferVPN | `SAFERVPN` |
+| SlickVPN | `SLICKVPN` |
+| Smart DNS Proxy | `SMARTDNSPROXY` |
+| SmartVPN | `SMARTVPN` |
+| TigerVPN | `TIGER` |
+| TorGuard | `TORGUARD` |
+| UsenetServerVPN | `USENETSERVER` |
+| Windscribe | `WINDSCRIBE` |
+| VPNArea.com | `VPNAREA` |
+| VPN.AC | `VPNAC` |
+| VPN.ht | `VPNHT` |
+| VPNBook.com | `VPNBOOK` |
+| VPNTunnel | `VPNTUNNEL` |
+| VyprVpn | `VYPRVPN` |
 
 ### Required environment options
 | Variable | Function | Example |
@@ -90,6 +109,16 @@ If TRANSMISSION_PEER_PORT_RANDOM_ON_START is enabled then it allows traffic to t
 | Variable | Function | Example |
 |----------|----------|-------|
 |`ENABLE_UFW` | Enables the firewall | `ENABLE_UFW=true`|
+
+### Alternative web UIs
+You can override the default web UI by setting the ```TRANSMISSION_WEB_HOME``` environment variable. If set, Transmission will look there for the Web Interface files, such as the javascript, html, and graphics files.
+
+[Combustion UI](https://github.com/Secretmapper/combustion) and [Kettu](https://github.com/endor/kettu) come bundled with the container. You can enable either of them by setting```TRANSMISSION_WEB_UI=combustion``` or ```TRANSMISSION_WEB_UI=kettu```, respectively. Note that this will override the ```TRANSMISSION_WEB_HOME``` variable if set.
+
+| Variable | Function | Example |
+|----------|----------|-------|
+|`TRANSMISSION_WEB_HOME` | Set Transmission web home | `TRANSMISSION_WEB_HOME=/path/to/web/ui`|
+|`TRANSMISSION_WEB_UI` | Use the specified bundled web UI | `TRANSMISSION_WEB_UI=combustion` or `TRANSMISSION_WEB_UI=kettu`|
 
 ### Transmission configuration options
 
@@ -131,6 +160,15 @@ You may set the following parameters to customize the user id that runs transmis
 |----------|----------|-------|
 |`PUID` | Sets the user id who will run transmission | `PUID=1003`|
 |`PGID` | Sets the group id for the transmission user | `PGID=1003` |
+
+### RSS plugin
+
+The Transmission RSS plugin can optionally be run as a separate container. It allow to download torrents based on an RSS URL, see [Plugin page](https://github.com/nning/transmission-rss).
+
+```
+$ docker run -d -e "RSS_URL=http://.../xxxxx.rss" \
+      --link <transmission-container>:transmission \--link
+```
 
 #### Use docker env file
 Another way is to use a docker env file where you can easily store all your env variables and maintain multiple configurations for different providers.
@@ -258,7 +296,28 @@ nameserver 8.8.8.8
 nameserver 8.8.4.4
 ```
 - Save the file with [escape] + `:wq!`
-- Create your docker container with a classic command like `docker run --cap-add=NET_ADMIN --device=/dev/net/tun -d -v /volume1/foldername/resolv.conf:/etc/resolv.conf -v /volume1/yourpath/:/data -e "OPENVPN_PROVIDER=PIA" -e "OPENVPN_CONFIG=Netherlands" -e "OPENVPN_USERNAME=XXXXX" -e "OPENVPN_PASSWORD=XXXXX" -p 9091:9091 --name "TransmissionVPN" haugene/transmission-openvpn`
+- Create your docker container with a the following command line: 
+ 
+      # Tested on DSM 6.1.4-15217 Update 1, Docker Package 17.05.0-0349
+      docker run \
+          --cap-add=NET_ADMIN \
+          --device=/dev/net/tun \
+          -d \
+          -v /volume1/foldername/resolv.conf:/etc/resolv.conf \
+          -v /volume1/yourpath/:/data \
+          -e "OPENVPN_PROVIDER=PIA" \
+          -e "OPENVPN_CONFIG=Netherlands" \
+          -e "OPENVPN_USERNAME=XXXXX" \
+          -e "OPENVPN_PASSWORD=XXXXX" \
+          -e "LOCAL_NETWORK=192.168.0.0/24" \
+          -e "OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60" \
+          -e "PGID=100" \
+          -e "PUID=1234" \
+          -p 9091:9091 \
+          --sysctl net.ipv6.conf.all.disable_ipv6=0 \
+          --name "transmission-openvpn-syno" \
+          haugene/transmission-openvpn:latest
+
 - To make it work after a nas restart, create an automated task in your synology web interface : go to **Settings Panel > Task Scheduler ** create a new task that run `/volume1/foldername/TUN.sh` as root (select '_root_' in 'user' selectbox). This task will start module that permit the container to run, you can make a task that run on startup. These kind of task doesn't work on my nas so I just made a task that run every minute.
 - Enjoy
 
