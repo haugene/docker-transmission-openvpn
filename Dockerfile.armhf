@@ -11,7 +11,7 @@ VOLUME /config
 # Update packages and install software
 RUN apt-get update \
     && apt-get install -y transmission-cli transmission-common transmission-daemon \
-    && apt-get install -y openvpn curl \
+    && apt-get install -y openvpn curl ufw \
     && curl -sLO https://archive.raspbian.org/raspbian/pool/main/d/dumb-init/dumb-init_1.0.3-1_armhf.deb \
     && dpkg -i dumb-init_*.deb \
     && rm -rf dumb-init_*.deb \
@@ -100,6 +100,7 @@ ENV OPENVPN_USERNAME=**None** \
     "TRANSMISSION_WATCH_DIR=/data/watch" \
     "TRANSMISSION_WATCH_DIR_ENABLED=true" \
     "TRANSMISSION_HOME=/data/transmission-home" \
+    "ENABLE_UFW=false" \
     PUID=\
     PGID=
 

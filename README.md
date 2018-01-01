@@ -13,6 +13,7 @@ It bundles certificates and configurations for the following VPN providers:
 | HideMe | `HIDEME` |
 | HideMyAss | `HIDEMYASS` |
 | IntegrityVPN | `INTEGRITYVPN` |
+| IPredator | `IPREDATOR` |
 | IPVanish | `IPVANISH` |
 | Ivacy | `IVACY` |
 | IVPN | `IVPN` |
@@ -21,6 +22,7 @@ It bundles certificates and configurations for the following VPN providers:
 | OVPN | `OVPN` |
 | Private Internet Access | `PIA` |
 | PrivateVPN | `PRIVATEVPN` |
+| proXPN | `PROXPN` |
 | PureVPN | `PUREVPN` |
 | RA4W VPN | `RA4W` |
 | SlickVPN | `SLICKVPN` |
@@ -31,7 +33,9 @@ It bundles certificates and configurations for the following VPN providers:
 | Windscribe | `WINDSCRIBE` |
 | VPN.ht | `VPNHT` |
 | VPNBook.com | `VPNBOOK` |
+| VPNTunnel | `VPNTUNNEL` |
 | VyprVpn | `VYPRVPN` |
+
 When using PIA as provider it will update Transmission hourly with assigned open port. Please read the instructions below.
 
 ## Run container from Docker registry
@@ -39,7 +43,7 @@ The container is available from the Docker registry and this is the simplest way
 To run the container use this command:
 
 ```
-$ docker run --privileged  -d \
+$ docker run --cap-add=NET_ADMIN --device=/dev/net/tun -d \
               -v /your/storage/path/:/data \
               -v /etc/localtime:/etc/localtime:ro \
               -e "OPENVPN_PROVIDER=PIA" \
@@ -77,6 +81,15 @@ By default a folder named transmission-home will also be created under /data, th
 |`OPENVPN_CONFIG` | Sets the OpenVPN endpoint to connect to. | `OPENVPN_CONFIG=UK Southampton`|
 |`OPENVPN_OPTS` | Will be passed to OpenVPN on startup | See [OpenVPN doc](https://openvpn.net/index.php/open-source/documentation/manuals/65-openvpn-20x-manpage.html) |
 |`LOCAL_NETWORK` | Sets the local network that should have access. | `LOCAL_NETWORK=192.168.0.0/24`|
+
+### Firewall configuration options
+When enabled, the firewall blocks everything except traffic to the peer port and traffic to the rpc port from the LOCAL_NETWORK and the internal docker gateway.
+
+If TRANSMISSION_PEER_PORT_RANDOM_ON_START is enabled then it allows traffic to the range of peer ports defined by TRANSMISSION_PEER_PORT_RANDOM_HIGH and TRANSMISSION_PEER_PORT_RANDOM_LOW.
+
+| Variable | Function | Example |
+|----------|----------|-------|
+|`ENABLE_UFW` | Enables the firewall | `ENABLE_UFW=true`|
 
 ### Transmission configuration options
 
@@ -129,7 +142,7 @@ Please note that if you pass in env. variables on the command line these will ov
 See explanation of variables above.
 To use this env file, use the following to run the docker image:
 ```
-$ docker run --privileged  -d \
+$ docker run --cap-add=NET_ADMIN --device=/dev/net/tun -d \
               -v /your/storage/path/:/data \
               -v /etc/localtime:/etc/localtime:ro \
               --env-file /your/docker/env/file \
@@ -245,7 +258,7 @@ nameserver 8.8.8.8
 nameserver 8.8.4.4
 ```
 - Save the file with [escape] + `:wq!`
-- Create your docker container with a classic command like `docker run --privileged -d -v /volume1/foldername/resolv.conf:/etc/resolv.conf -v /volume1/yourpath/:/data -e "OPENVPN_PROVIDER=PIA" -e "OPENVPN_CONFIG=Netherlands" -e "OPENVPN_USERNAME=XXXXX" -e "OPENVPN_PASSWORD=XXXXX" -p 9091:9091 --name "TransmissionVPN" haugene/transmission-openvpn`
+- Create your docker container with a classic command like `docker run --cap-add=NET_ADMIN --device=/dev/net/tun -d -v /volume1/foldername/resolv.conf:/etc/resolv.conf -v /volume1/yourpath/:/data -e "OPENVPN_PROVIDER=PIA" -e "OPENVPN_CONFIG=Netherlands" -e "OPENVPN_USERNAME=XXXXX" -e "OPENVPN_PASSWORD=XXXXX" -p 9091:9091 --name "TransmissionVPN" haugene/transmission-openvpn`
 - To make it work after a nas restart, create an automated task in your synology web interface : go to **Settings Panel > Task Scheduler ** create a new task that run `/volume1/foldername/TUN.sh` as root (select '_root_' in 'user' selectbox). This task will start module that permit the container to run, you can make a task that run on startup. These kind of task doesn't work on my nas so I just made a task that run every minute.
 - Enjoy
 
@@ -273,7 +286,8 @@ ExecStartPre=-/usr/bin/docker rm transmission-openvpn
 ExecStartPre=/usr/bin/docker pull haugene/transmission-openvpn
 ExecStart=/usr/bin/docker run \
         --name transmission-openvpn \
-        --privileged \
+        --cap-add=NET_ADMIN \
+        --device=/dev/net/tun \
         -v /home/bittorrent/data/:/data \
         -e "OPENVPN_PROVIDER=TORGUARD" \
         -e "OPENVPN_USERNAME=bittorrent@example.com" \
