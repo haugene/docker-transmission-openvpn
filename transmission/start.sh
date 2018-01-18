@@ -30,6 +30,9 @@ echo "Generating transmission settings.json from env variables"
 mkdir -p ${TRANSMISSION_HOME}
 dockerize -template /etc/transmission/settings.tmpl:${TRANSMISSION_HOME}/settings.json
 
+echo "sed'ing True to true"
+sed -i 's/True/true/g' ${TRANSMISSION_HOME}/settings.json
+
 if [ ! -e "/dev/random" ]; then
   # Avoid "Fatal: no entropy gathering module detected" error
   echo "INFO: /dev/random not found - symlink to /dev/urandom"
