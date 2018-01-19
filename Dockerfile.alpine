@@ -6,12 +6,11 @@ VOLUME /config
 
 RUN echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
     && cat /etc/apk/repositories \
-    && apk --no-cache add dockerize@testing ufw@testing sudo iputils shadow wget git unzip transmission-cli transmission-daemon openvpn dumb-init \
-    && mkdir -p /opt \
-    && wget https://github.com/Secretmapper/combustion/archive/release.zip \
-    && unzip release.zip -d /opt/transmission-ui/ \
-    && rm release.zip \
-    && git clone git://github.com/endor/kettu.git /opt/transmission-ui/kettu \
+    && apk --no-cache add dockerize@testing dumb-init openvpn shadow transmission-daemon \
+    && mkdir -p /opt/transmission-ui \
+    && wget -qO- https://github.com/Secretmapper/combustion/archive/release.tar.gz | tar xz -C /opt/transmission-ui \
+    && mkdir -p /opt/transmission-ui/kettu \
+    && wget -qO- https://github.com/endor/kettu/archive/master.tar.gz | tar xz -C /opt/transmission-ui/kettu \
     && rm -rf /tmp/* /var/tmp/* \
     && groupmod -g 1000 users \
     && useradd -u 911 -U -d /config -s /bin/false abc \
