@@ -50,12 +50,6 @@ dockerize -template /etc/transmission/environment-variables.tmpl:/etc/transmissi
 TRANSMISSION_CONTROL_OPTS="--script-security 2 --up-delay --up /etc/transmission/start.sh --down /etc/transmission/stop.sh"
 
 if [ "true" = "$ENABLE_UFW" ]; then
-  if [ ! -e ufw ]; then
-    echo "UFW not found, installing"
-    echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
-    apk add --no-cache ip6tables ufw@testing
-  fi
-
   # Enable firewall
   echo "enabling firewall"
   sed -i -e s/IPV6=yes/IPV6=no/ /etc/default/ufw
