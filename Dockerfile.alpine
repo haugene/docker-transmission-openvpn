@@ -5,7 +5,6 @@ VOLUME /data
 VOLUME /config
 
 RUN echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
-    && cat /etc/apk/repositories \
     && apk --no-cache add dockerize@testing dumb-init openvpn shadow transmission-daemon \
     && mkdir -p /opt/transmission-ui \
     && wget -qO- https://github.com/Secretmapper/combustion/archive/release.tar.gz | tar xz -C /opt/transmission-ui \
