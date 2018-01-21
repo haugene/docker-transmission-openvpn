@@ -176,7 +176,7 @@ Once /scripts is mounted you'll need to write your custom code in the following 
 |/scripts/transmission-pre-stop.sh | This shell script will be executed before transmission stop |
 |/scripts/transmission-post-stop.sh | This shell script will be executed after transmission stop |
 
-Don't forget the include the #!/bin/bash shebang and to make the scripts executable using chmod a+x
+Don't forget to include the #!/bin/bash shebang and to make the scripts executable using chmod a+x
 
 #### Use docker env file
 Another way is to use a docker env file where you can easily store all your env variables and maintain multiple configurations for different providers.
