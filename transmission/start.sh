@@ -3,11 +3,12 @@
 # Source our persisted env variables from container startup
 . /etc/transmission/environment-variables.sh
 
-# If custom-pre-start.sh exists, run it
-if [ -x /config/custom-pre-start.sh ]
+# If transmission-pre-start.sh exists, run it
+if [ -x /scripts/transmission-pre-start.sh ]
 then
-   echo "Executing /config/custom-pre-start.sh"
-   /config/custom-pre-start.sh
+   echo "Executing /scripts/transmission-pre-start.sh"
+   /scripts/transmission-pre-start.sh
+   echo "/scripts/transmission-pre-start.sh returned $?"
 fi
 
 # This script will be called with tun/tap device name as parameter 1, and local IP as parameter 4
@@ -56,11 +57,12 @@ else
     echo "NO PORT UPDATER FOR THIS PROVIDER"
 fi
 
-# If custom-post-start.sh exists, run it
-if [ -x /config/custom-post-start.sh ]
+# If transmission-post-start.sh exists, run it
+if [ -x /scripts/transmission-post-start.sh ]
 then
-   echo "Executing /config/custom-post-start.sh"
-   /config/custom-post-start.sh
+   echo "Executing /scripts/transmission-post-start.sh"
+   /scripts/transmission-post-start.sh
+   echo "/scripts/transmission-post-start.sh returned $?"
 fi
 
 echo "Transmission startup script complete."
