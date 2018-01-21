@@ -148,6 +148,36 @@ You may set the following parameters to customize the user id that runs transmis
 |`PUID` | Sets the user id who will run transmission | `PUID=1003`|
 |`PGID` | Sets the group id for the transmission user | `PGID=1003` |
 
+If you ever need to run custom code before or after transmission is executed or stopped, you can use the custom scripts feature.
+Custom scripts are located in the /scripts directory which is empty by default.
+To enable this feature, you'll need to mount the /scripts directory, ie:
+
+```
+$ docker run --cap-add=NET_ADMIN --device=/dev/net/tun -d \
+              -v /your/storage/path/:/data \
+              -v /etc/localtime:/etc/localtime:ro \
+	      -v /your/storage/path/:/scripts \
+              -e "OPENVPN_PROVIDER=PIA" \
+              -e "OPENVPN_CONFIG=Netherlands" \
+              -e "OPENVPN_USERNAME=user" \
+              -e "OPENVPN_PASSWORD=pass" \
+              --log-driver json-file \
+              --log-opt max-size=10m \
+              -p 9091:9091 \
+              haugene/transmission-openvpn
+```
+
+Once /scripts is mounted you'll need to write your custom code in the following bash shell scripts:
+
+| Script | Function |
+|----------|----------|
+|/scripts/transmission-pre-start.sh | This shell script will be executed before transmission start |
+|/scripts/transmission-post-start.sh | This shell script will be executed after transmission start |
+|/scripts/transmission-pre-stop.sh | This shell script will be executed before transmission stop |
+|/scripts/transmission-post-stop.sh | This shell script will be executed after transmission stop |
+
+Don't forget the include the #!/bin/bash shebang and to make the scripts executable using chmod a+x
+
 #### Use docker env file
 Another way is to use a docker env file where you can easily store all your env variables and maintain multiple configurations for different providers.
 In the GitHub repository there is a provided DockerEnv file with all the current transmission and openvpn environment variables. You can use this to create local configurations
