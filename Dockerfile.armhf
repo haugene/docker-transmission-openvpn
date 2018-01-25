@@ -102,6 +102,7 @@ ENV OPENVPN_USERNAME=**None** \
     TRANSMISSION_WATCH_DIR_ENABLED=true \
     TRANSMISSION_HOME=/data/transmission-home \
     ENABLE_UFW=false \
+    UFW_EXTRA_PORTS= \
     TRANSMISSION_WEB_UI=\
     PUID=\
     PGID=\
