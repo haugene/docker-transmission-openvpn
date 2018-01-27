@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 vpn_provider="$(echo $OPENVPN_PROVIDER | tr '[A-Z]' '[a-z]')"
 vpn_provider_configs="/etc/openvpn/$vpn_provider"
 if [ ! -d "$vpn_provider_configs" ]; then
@@ -67,6 +67,12 @@ if [ "true" = "$ENABLE_UFW" ]; then
   eval $(/sbin/ip r l m 0.0.0.0 | awk '{if($5!="tun0"){print "GW="$3"\nINT="$5; exit}}')
   echo "allowing access to $TRANSMISSION_RPC_PORT from $GW"
   ufw allow proto tcp from $GW to any port $TRANSMISSION_RPC_PORT
+  if [ ! -z "${UFW_EXTRA_PORTS}"  ]; then
+    for port in ${UFW_EXTRA_PORTS//,/ }; do
+      echo "allowing access to ${port} from $GW"
+      ufw allow proto tcp from $GW to any port ${port}
+    done
+  fi
 fi
 
 if [ -n "${LOCAL_NETWORK-}" ]; then
@@ -77,6 +83,12 @@ if [ -n "${LOCAL_NETWORK-}" ]; then
     if [ "true" = "$ENABLE_UFW" ]; then
       echo "allowing access to $TRANSMISSION_RPC_PORT from $LOCAL_NETWORK"
       ufw allow proto tcp from $LOCAL_NETWORK to any port $TRANSMISSION_RPC_PORT
+      if [ ! -z "${UFW_EXTRA_PORTS}" ]; then
+        for port in ${UFW_EXTRA_PORTS//,/ }; do
+          echo "allowing access to ${port} from $LOCAL_NETWORK"
+          ufw allow proto tcp from $LOCAL_NETWORK to any port ${port}
+        done
+      fi
     fi
   fi
 fi

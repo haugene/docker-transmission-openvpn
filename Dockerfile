@@ -13,6 +13,7 @@ RUN apt-get update \
     && echo "deb http://build.openvpn.net/debian/openvpn/stable xenial main" > /etc/apt/sources.list.d/openvpn-aptrepo.list \
     && apt-get update \
     && apt-get install -y sudo transmission-cli transmission-common transmission-daemon curl rar unrar zip unzip ufw iputils-ping openvpn \
+    python2.7 python2.7-pysqlite2 && ln -sf /usr/bin/python2.7 /usr/bin/python2 \
     && wget https://github.com/Secretmapper/combustion/archive/release.zip \
     && unzip release.zip -d /opt/transmission-ui/ \
     && rm release.zip \
@@ -105,6 +106,7 @@ ENV OPENVPN_USERNAME=**None** \
     TRANSMISSION_WATCH_DIR_ENABLED=true \
     TRANSMISSION_HOME=/data/transmission-home \
     ENABLE_UFW=false \
+    UFW_EXTRA_PORTS= \
     TRANSMISSION_WEB_UI= \
     PUID= \
     PGID= \
