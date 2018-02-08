@@ -42,7 +42,7 @@ fi
 . /etc/transmission/userSetup.sh
 
 echo "STARTING TRANSMISSION"
-exec su --preserve-environment ${RUN_AS} -c "/usr/bin/transmission-daemon -g ${TRANSMISSION_HOME} --logfile ${TRANSMISSION_HOME}/transmission.log" &
+exec su --preserve-environment ${RUN_AS} -s /bin/bash -c "/usr/bin/transmission-daemon -g ${TRANSMISSION_HOME} --logfile ${TRANSMISSION_HOME}/transmission.log" &
 
 if [ "$OPENVPN_PROVIDER" = "PIA" ]
 then
