@@ -149,6 +149,15 @@ You may set the following parameters to customize the user id that runs transmis
 |`PUID` | Sets the user id who will run transmission | `PUID=1003`|
 |`PGID` | Sets the group id for the transmission user | `PGID=1003` |
 
+### Dropping default route from iptables (advanced)
+
+Some VPNs do not override the default route, but rather set other routes with a lower metric.  
+This might lead to te default route (your untunneled connection) to be used.
+
+To drop the default route set the environment variable `DROP_DEFAULT_ROUTE` to `true`.
+
+*Note*: This is not compatible with all VPNs. You can check your iptables routing with the `ip r` command in a running container.
+
 ### Custom pre/post scripts
 
 If you ever need to run custom code before or after transmission is executed or stopped, you can use the custom scripts feature.
@@ -384,12 +393,3 @@ $ sudo systemctl stop transmission-openvpn.service
 # Later ...
 $ sudo systemctl start transmission-openvpn.service
 ```
-
-## Drop the default route
-
-Some VPNs do not override the default route, but rather set other routes with a lower metric.  
-This might lead to te default route (your untunneled connection) to be used.
-
-To drop the default route set the environment variable `DROP_DEFAULT_ROUTE` to `true`.
-
-*Note*: This is not compatible with all VPNs. Please check yourself if your provider overrides the default route properly.
