@@ -149,6 +149,8 @@ You may set the following parameters to customize the user id that runs transmis
 |`PUID` | Sets the user id who will run transmission | `PUID=1003`|
 |`PGID` | Sets the group id for the transmission user | `PGID=1003` |
 
+### Custom pre/post scripts
+
 If you ever need to run custom code before or after transmission is executed or stopped, you can use the custom scripts feature.
 Custom scripts are located in the /scripts directory which is empty by default.
 To enable this feature, you'll need to mount the /scripts directory.
