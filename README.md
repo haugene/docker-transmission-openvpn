@@ -384,3 +384,12 @@ $ sudo systemctl stop transmission-openvpn.service
 # Later ...
 $ sudo systemctl start transmission-openvpn.service
 ```
+
+## Drop the default route
+
+Some VPNs do not override the default route, but rather set other routes with a lower metric.  
+This might lead to te default route (your untunneled connection) to be used.
+
+To drop the default route set the environment variable `DROP_DEFAULT_ROUTE` to `true`.
+
+*Note*: This is not compatible with all VPNs. Please check yourself if your provider overrides the default route properly.

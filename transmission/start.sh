@@ -50,6 +50,11 @@ fi
 
 . /etc/transmission/userSetup.sh
 
+if [ "true" = "$DROP_DEFAULT_ROUTE" ]; then
+  echo "DROPPING DEFAULT ROUTE"
+  ip r del default || exit 1
+fi
+
 echo "STARTING TRANSMISSION"
 exec su --preserve-environment ${RUN_AS} -s /bin/bash -c "/usr/bin/transmission-daemon -g ${TRANSMISSION_HOME} --logfile ${TRANSMISSION_HOME}/transmission.log" &
 
