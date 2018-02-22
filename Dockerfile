@@ -18,6 +18,7 @@ RUN apt-get update \
     && unzip release.zip -d /opt/transmission-ui/ \
     && rm release.zip \
     && git clone git://github.com/endor/kettu.git /opt/transmission-ui/kettu \
+    && apt-get install -y tinyproxy telnet \
     && wget https://github.com/Yelp/dumb-init/releases/download/v1.2.0/dumb-init_1.2.0_amd64.deb \
     && dpkg -i dumb-init_1.2.0_amd64.deb \
     && rm -rf dumb-init_1.2.0_amd64.deb \
@@ -29,6 +30,7 @@ RUN apt-get update \
 
 ADD openvpn/ /etc/openvpn/
 ADD transmission/ /etc/transmission/
+ADD tinyproxy /opt/tinyproxy/
 
 ENV OPENVPN_USERNAME=**None** \
     OPENVPN_PASSWORD=**None** \
@@ -113,8 +115,11 @@ ENV OPENVPN_USERNAME=**None** \
     PUID= \
     PGID= \
     TRANSMISSION_WEB_HOME= \
-    DROP_DEFAULT_ROUTE=
+    DROP_DEFAULT_ROUTE= \
+    WEBPROXY_ENABLED=false \
+    WEBPROXY_PORT=8888
 
 # Expose port and run
 EXPOSE 9091
+EXPOSE 8888
 CMD ["dumb-init", "/etc/openvpn/start.sh"]
