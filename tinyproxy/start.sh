@@ -4,7 +4,6 @@
 . /etc/transmission/environment-variables.sh
 
 PROXY_CONF='/etc/tinyproxy.conf'
-DEFAULT_PORT=8888
 
 set_port()
 {
@@ -33,12 +32,10 @@ if [ "${WEBPROXY_ENABLED}" = "true" ]; then
 
   echo "STARTING TINYPROXY"
 
-  if [ -z "$WEBPROXY_PORT" ] ; then
-    set_port ${WEBPROXY_PORT} ${PROXY_CONF}
-  else
-    # Always default back to port 8888
-    set_port ${DEFAULT_PORT} ${PROXY_CONF}
-  fi
+  set_port ${WEBPROXY_PORT} ${PROXY_CONF}
+
+  # Allow all clients
+  sed -i -e"s/^Allow /#Allow /" ${PROXY_CONF}
 
   /etc/init.d/tinyproxy start
   echo "Tinyproxy startup script complete."

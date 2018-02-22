@@ -64,6 +64,11 @@ if [ "true" = "$ENABLE_UFW" ]; then
   echo "allowing $PEER_PORT through the firewall"
   ufw allow $PEER_PORT
 
+  if [ "true" = "$WEBPROXY_ENABLED" ]; then
+    echo "allowing $WEBPROXY_PORT through the firewall"
+    ufw allow $WEBPROXY_PORT
+  fi
+
   eval $(/sbin/ip r l m 0.0.0.0 | awk '{if($5!="tun0"){print "GW="$3"\nINT="$5; exit}}')
   echo "allowing access to $TRANSMISSION_RPC_PORT from $GW"
   ufw allow proto tcp from $GW to any port $TRANSMISSION_RPC_PORT
