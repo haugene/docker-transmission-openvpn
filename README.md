@@ -65,6 +65,12 @@ Find available OpenVPN configurations by looking in the openvpn folder of the Gi
 -e "OPENVPN_CONFIG=ipvanish-AT-Vienna-vie-c02"
 ```
 
+You can also provide a list of openvpn configuration filenames separated by a space.  
+If you provide a list, a file will be randomly chosen in the list, this is useful for redundancy setups. For example:
+```
+-e "OPENVPN_CONFIG=ipvanish-AT-Vienna-vie-c02 ipvanish-FR-Paris-par-a01 ipvanish-DE-Frankfurt-fra-a01"
+```
+
 As you can see, the container also expects a data volume to be mounted.
 This is where Transmission will store your downloads, incomplete downloads and look for a watch directory for new .torrent files.
 By default a folder named transmission-home will also be created under /data, this is where Transmission stores its state.
