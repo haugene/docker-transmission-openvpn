@@ -11,6 +11,15 @@ echo "Using OpenVPN provider: $OPENVPN_PROVIDER"
 
 if [ ! -z "$OPENVPN_CONFIG" ]
 then
+	n=$(echo "$OPENVPN_CONFIG" | wc -w)
+	if [ $n -gt 1 ]
+	then
+        	rnd=$((RANDOM%n+1))
+        	srv=$(echo "$OPENVPN_CONFIG" | awk -vrnd=$rnd '{print $rnd}')
+        	echo "$n servers found in OPENVPN_CONFIG, $srv chosen randomly"
+        	OPENVPN_CONFIG=$srv
+	fi
+
 	if [ -f $vpn_provider_configs/"${OPENVPN_CONFIG}".ovpn ]
   	then
 		echo "Starting OpenVPN using config ${OPENVPN_CONFIG}.ovpn"
