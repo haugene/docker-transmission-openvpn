@@ -1,14 +1,39 @@
-# Transmission with WebUI and OpenVPN
+# OpenVPN and Transmission with WebUI
 
+[![Docker Automated build](https://img.shields.io/docker/automated/haugene/transmission-openvpn.svg)](https://hub.docker.com/r/haugene/transmission-openvpn/)
+[![Docker Pulls](https://img.shields.io/docker/pulls/haugene/transmission-openvpn.svg)](https://hub.docker.com/r/haugene/transmission-openvpn/)
 [![Join the chat at https://gitter.im/docker-transmission-openvpn/Lobby](https://badges.gitter.im/docker-transmission-openvpn/Lobby.svg)](https://gitter.im/docker-transmission-openvpn/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-Docker container running Transmission torrent client with WebUI while connecting to OpenVPN.
-It bundles certificates and configurations for a bunch of VPN providers and if you're using PIA as provider it will update Transmission hourly with assigned open port. Please read the instructions below, and read it again before posting an issue :)
 
-### about:maintenance (aka I NEED HELP)
 
-The classic story! I created this image for my own use and figured that sharing is caring, right? A lot has happened since then. With the help of contributors (thank you!) and feature requests from the community the number of providers, features and users have increased quite drastically.
+This container contains OpenVPN and Transmission with a configuration
+where Transmission is running only when OpenVPN has an active tunnel.
+It bundles configuration files for many popular VPN providers to make the setup easier.
 
-If you're interested in joining as a collaborator: Find an issue and fix it, then mention in the pull-request that you're interested in helping out on a more permanent basis. That would make my day ;)
+You need to specify your provider and credentials with environment variables,
+as well as mounting volumes where the data should be stored.
+An example run command to get you going is provided below.
+
+Also worth mentioning.
+If you want to route web traffic through the same tunnel that Transmission is using there
+is a pre-installed Tinyproxy which will expose a proxy on port 8888 when enabled.
+And if you're using PIA as provider it will update Transmission hourly with assigned open port.
+
+GL HF! And if you run into problems, please check the README twice and maybe try the gitter chat before opening an issue :)
+
+### about:maintenance
+
+This image was created for my own use, but sharing is caring so it had to be open source.
+The number of users, issues and pull-requests have gone up quite drastically since that
+and that's great! It's been a lot of fun watching the activity level go up
+and my pet project improve with it.
+
+But maintaining it takes time, and if you ever feel like donating, here's a button:
+
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=73XHRSK65KQYC)
+
+You can also help out by submitting pull-requests or helping others with
+open issues or in the gitter chat. A big thanks to everyone who has contributed so far!
+And if you could be interested in joining as collaborator, let me know.
 
 
 ## Run container from Docker registry
@@ -19,10 +44,12 @@ To run the container use this command:
 $ docker run --cap-add=NET_ADMIN --device=/dev/net/tun -d \
               -v /your/storage/path/:/data \
               -v /etc/localtime:/etc/localtime:ro \
-              -e "OPENVPN_PROVIDER=PIA" \
-              -e "OPENVPN_CONFIG=Netherlands" \
-              -e "OPENVPN_USERNAME=user" \
-              -e "OPENVPN_PASSWORD=pass" \
+              -e OPENVPN_PROVIDER=PIA \
+              -e OPENVPN_CONFIG=Netherlands \
+              -e OPENVPN_USERNAME=user \
+              -e OPENVPN_PASSWORD=pass \
+              -e WEBPROXY_ENABLED=false \
+              -e LOCAL_NETWORK=192.168.0.0/16 \
               --log-driver json-file \
               --log-opt max-size=10m \
               -p 9091:9091 \
