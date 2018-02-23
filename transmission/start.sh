@@ -39,6 +39,14 @@ echo "Generating transmission settings.json from env variables"
 mkdir -p ${TRANSMISSION_HOME}
 dockerize -template /etc/transmission/settings.tmpl:${TRANSMISSION_HOME}/settings.json
 
+echo "Check transmission settings.json file attributes"
+SETTINGS_PATH=${TRANSMISSION_HOME}/settings.json
+SETTINGS_ATTRIBUTES=$(stat -c %a ${SETTINGS_PATH})
+if [ ${SETTINGS_ATTRIBUTES} = 0 ]; then
+  # Ensure settings.json have non zero attributes (actual for Synology NAS)
+  chmod 640 ${SETTINGS_PATH} && echo "INFO: Attributes of setting.json changed to 640"
+fi
+
 echo "sed'ing True to true"
 sed -i 's/True/true/g' ${TRANSMISSION_HOME}/settings.json
 
