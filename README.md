@@ -65,6 +65,15 @@ Find available OpenVPN configurations by looking in the openvpn folder of the Gi
 -e "OPENVPN_CONFIG=ipvanish-AT-Vienna-vie-c02"
 ```
 
+You can also provide a list of openvpn configuration filenames separated by a space.  
+If you provide a list, a file will be randomly chosen in the list, this is useful for redundancy setups. For example:
+```
+-e "OPENVPN_CONFIG=ipvanish-AT-Vienna-vie-c02 ipvanish-FR-Paris-par-a01 ipvanish-DE-Frankfurt-fra-a01"
+```
+If you provide a list and the selected server goes down, after the value of ping-timeout the container will be restarted and a server will be randomly chosen, note that the faulty server can be chosen again, if this should occur, the container will be restarted again until a working server is selected.  
+
+To make sure this work in all cases, you should add ```--pull-filter ignore ping``` to your OPENVPN_OPTS variable.  
+
 As you can see, the container also expects a data volume to be mounted.
 This is where Transmission will store your downloads, incomplete downloads and look for a watch directory for new .torrent files.
 By default a folder named transmission-home will also be created under /data, this is where Transmission stores its state.
