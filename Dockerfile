@@ -8,7 +8,7 @@ VOLUME /config
 RUN apt-get update \
     && apt-get -y upgrade \
     && apt-get -y install software-properties-common wget git \
-#    && add-apt-repository ppa:transmissionbt/ppa \
+    && add-apt-repository ppa:transmissionbt/ppa \
     && wget -O - https://swupdate.openvpn.net/repos/repo-public.gpg | apt-key add - \
     && echo "deb http://build.openvpn.net/debian/openvpn/stable xenial main" > /etc/apt/sources.list.d/openvpn-aptrepo.list \
     && apt-get update \
