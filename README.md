@@ -65,10 +65,10 @@ Find available OpenVPN configurations by looking in the openvpn folder of the Gi
 -e "OPENVPN_CONFIG=ipvanish-AT-Vienna-vie-c02"
 ```
 
-You can also provide a list of openvpn configuration filenames separated by a space.  
+You can also provide a comma separated list of openvpn configuration filenames.
 If you provide a list, a file will be randomly chosen in the list, this is useful for redundancy setups. For example:
 ```
--e "OPENVPN_CONFIG=ipvanish-AT-Vienna-vie-c02 ipvanish-FR-Paris-par-a01 ipvanish-DE-Frankfurt-fra-a01"
+-e "OPENVPN_CONFIG=ipvanish-AT-Vienna-vie-c02,ipvanish-FR-Paris-par-a01,ipvanish-DE-Frankfurt-fra-a01"
 ```
 If you provide a list and the selected server goes down, after the value of ping-timeout the container will be restarted and a server will be randomly chosen, note that the faulty server can be chosen again, if this should occur, the container will be restarted again until a working server is selected.  
 

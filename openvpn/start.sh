@@ -1,7 +1,11 @@
 #!/bin/bash
 VPN_PROVIDER="${OPENVPN_PROVIDER,,}"
 VPN_PROVIDER_CONFIGS="/etc/openvpn/${VPN_PROVIDER}"
-if [[ ! -d "${VPN_PROVIDER_CONFIGS}" ]]; then
+
+if [[ "${OPENVPN_PROVIDER}" == "**None**" ]] || [[ -z "${OPENVPN_PROVIDER-}" ]]; then
+  echo "OpenVPN provider not set. Exiting."
+  exit 1
+elif [[ ! -d "${VPN_PROVIDER_CONFIGS}" ]]; then
   echo "Could not find OpenVPN provider: ${OPENVPN_PROVIDER}"
   echo "Please check your settings."
   exit 1
@@ -9,14 +13,12 @@ fi
 
 echo "Using OpenVPN provider: ${OPENVPN_PROVIDER}"
 
-if [[ ! -z "${OPENVPN_CONFIG}" ]]; then
-  n=$(echo "$OPENVPN_CONFIG" | wc -w)
-  if [ $n -gt 1 ]
-  then
-    rnd=$((RANDOM%n+1))
-    srv=$(echo "$OPENVPN_CONFIG" | awk -vrnd=$rnd '{print $rnd}')
-    echo "$n servers found in OPENVPN_CONFIG, $srv chosen randomly"
-    OPENVPN_CONFIG=$srv
+if [[ -n "${OPENVPN_CONFIG-}" ]]; then
+  readarray -t OPENVPN_CONFIG_ARRAY <<< "${OPENVPN_CONFIG//,/$'\n'}"
+  if (( ${#OPENVPN_CONFIG_ARRAY[@]} > 1 )); then
+    OPENVPN_CONFIG_RANDOM=$((RANDOM%${#OPENVPN_CONFIG_ARRAY[@]}))
+    echo "${#OPENVPN_CONFIG_ARRAY[@]} servers found in OPENVPN_CONFIG, ${OPENVPN_CONFIG_ARRAY[${OPENVPN_CONFIG_RANDOM}]} chosen randomly"
+    OPENVPN_CONFIG="${OPENVPN_CONFIG_ARRAY[${OPENVPN_CONFIG_RANDOM}]}"
   fi
 
   if [[ -f "${VPN_PROVIDER_CONFIGS}/${OPENVPN_CONFIG}".ovpn ]]; then
