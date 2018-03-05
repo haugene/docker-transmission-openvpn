@@ -1,42 +1,40 @@
 #!/bin/bash
-vpn_provider="$(echo $OPENVPN_PROVIDER | tr '[A-Z]' '[a-z]')"
-vpn_provider_configs="/etc/openvpn/$vpn_provider"
-if [ ! -d "$vpn_provider_configs" ]; then
-	echo "Could not find OpenVPN provider: $OPENVPN_PROVIDER"
-	echo "Please check your settings."
-	exit 1
+VPN_PROVIDER="${OPENVPN_PROVIDER,,}"
+VPN_PROVIDER_CONFIGS="/etc/openvpn/${VPN_PROVIDER}"
+if [[ ! -d "${VPN_PROVIDER_CONFIGS}" ]]; then
+  echo "Could not find OpenVPN provider: ${OPENVPN_PROVIDER}"
+  echo "Please check your settings."
+  exit 1
 fi
 
-echo "Using OpenVPN provider: $OPENVPN_PROVIDER"
+echo "Using OpenVPN provider: ${OPENVPN_PROVIDER}"
 
-if [ ! -z "$OPENVPN_CONFIG" ]
-then
-	n=$(echo "$OPENVPN_CONFIG" | wc -w)
-	if [ $n -gt 1 ]
-	then
-        	rnd=$((RANDOM%n+1))
-        	srv=$(echo "$OPENVPN_CONFIG" | awk -vrnd=$rnd '{print $rnd}')
-        	echo "$n servers found in OPENVPN_CONFIG, $srv chosen randomly"
-        	OPENVPN_CONFIG=$srv
-	fi
+if [[ ! -z "${OPENVPN_CONFIG}" ]]; then
+  n=$(echo "$OPENVPN_CONFIG" | wc -w)
+  if [ $n -gt 1 ]
+  then
+    rnd=$((RANDOM%n+1))
+    srv=$(echo "$OPENVPN_CONFIG" | awk -vrnd=$rnd '{print $rnd}')
+    echo "$n servers found in OPENVPN_CONFIG, $srv chosen randomly"
+    OPENVPN_CONFIG=$srv
+  fi
 
-	if [ -f $vpn_provider_configs/"${OPENVPN_CONFIG}".ovpn ]
-  	then
-		echo "Starting OpenVPN using config ${OPENVPN_CONFIG}.ovpn"
-		OPENVPN_CONFIG=$vpn_provider_configs/${OPENVPN_CONFIG}.ovpn
-	else
-		echo "Supplied config ${OPENVPN_CONFIG}.ovpn could not be found."
-		echo "Using default OpenVPN gateway for provider ${vpn_provider}"
-		OPENVPN_CONFIG=$vpn_provider_configs/default.ovpn
-	fi
+  if [[ -f "${VPN_PROVIDER_CONFIGS}/${OPENVPN_CONFIG}".ovpn ]]; then
+    echo "Starting OpenVPN using config ${OPENVPN_CONFIG}.ovpn"
+    OPENVPN_CONFIG="${VPN_PROVIDER_CONFIGS}/${OPENVPN_CONFIG}.ovpn"
+  else
+    echo "Supplied config ${OPENVPN_CONFIG}.ovpn could not be found."
+    echo "Using default OpenVPN gateway for provider ${VPN_PROVIDER}"
+    OPENVPN_CONFIG="${VPN_PROVIDER_CONFIGS}/default.ovpn"
+  fi
 else
-	echo "No VPN configuration provided. Using default."
-	OPENVPN_CONFIG=$vpn_provider_configs/default.ovpn
+  echo "No VPN configuration provided. Using default."
+  OPENVPN_CONFIG="${VPN_PROVIDER_CONFIGS}/default.ovpn"
 fi
 
 # add OpenVPN user/pass
-if [ "${OPENVPN_USERNAME}" = "**None**" ] || [ "${OPENVPN_PASSWORD}" = "**None**" ] ; then
-  if [ ! -f /config/openvpn-credentials.txt ] ; then
+if [[ "${OPENVPN_USERNAME}" == "**None**" ]] || [[ "${OPENVPN_PASSWORD}" == "**None**" ]] ; then
+  if [[ ! -f /config/openvpn-credentials.txt ]] ; then
     echo "OpenVPN credentials not set. Exiting."
     exit 1
   fi
@@ -44,67 +42,97 @@ if [ "${OPENVPN_USERNAME}" = "**None**" ] || [ "${OPENVPN_PASSWORD}" = "**None**
 else
   echo "Setting OPENVPN credentials..."
   mkdir -p /config
-  echo $OPENVPN_USERNAME > /config/openvpn-credentials.txt
-  echo $OPENVPN_PASSWORD >> /config/openvpn-credentials.txt
+  echo "${OPENVPN_USERNAME}" > /config/openvpn-credentials.txt
+  echo "${OPENVPN_PASSWORD}" >> /config/openvpn-credentials.txt
   chmod 600 /config/openvpn-credentials.txt
 fi
 
 # add transmission credentials from env vars
-echo $TRANSMISSION_RPC_USERNAME > /config/transmission-credentials.txt
-echo $TRANSMISSION_RPC_PASSWORD >> /config/transmission-credentials.txt
+echo "${TRANSMISSION_RPC_USERNAME}" > /config/transmission-credentials.txt
+echo "${TRANSMISSION_RPC_PASSWORD}" >> /config/transmission-credentials.txt
 
 # Persist transmission settings for use by transmission-daemon
 dockerize -template /etc/transmission/environment-variables.tmpl:/etc/transmission/environment-variables.sh
 
 TRANSMISSION_CONTROL_OPTS="--script-security 2 --up-delay --up /etc/openvpn/tunnelUp.sh --down /etc/openvpn/tunnelDown.sh"
 
-if [ "true" = "$ENABLE_UFW" ]; then
+## If we use UFW or the LOCAL_NETWORK we need to grab network config info
+if [[ "${ENABLE_UFW,,}" == "true" ]] || [[ -n "${LOCAL_NETWORK-}" ]]; then
+  eval $(/sbin/ip r l m 0.0.0.0 | awk '{if($5!="tun0"){print "GW="$3"\nINT="$5; exit}}')
+  ## IF we use UFW_ALLOW_GW_NET along with ENABLE_UFW we need to know what our netmask CIDR is
+  if [[ "${ENABLE_UFW,,}" == "true" ]] && [[ "${UFW_ALLOW_GW_NET,,}" == "true" ]]; then
+    eval $(ip r l dev ${INT} | awk '{if($5=="link"){print "GW_CIDR="$1; exit}}')
+  fi
+fi
+
+## Open port to any address
+function ufwAllowPort {
+  typeset -n portNum=${1}
+  if [[ "${ENABLE_UFW,,}" == "true" ]] && [[ -n "${portNum-}" ]]; then
+    echo "allowing ${portNum} through the firewall"
+    ufw allow ${portNum}
+  fi
+}
+
+## Open port to specific address.
+function ufwAllowPortLong {
+  typeset -n portNum=${1} sourceAddress=${2}
+
+  if [[ "${ENABLE_UFW,,}" == "true" ]] && [[ -n "${portNum-}" ]] && [[ -n "${sourceAddress-}" ]]; then
+    echo "allowing ${sourceAddress} through the firewall to port ${portNum}"
+    ufw allow from ${sourceAddress} to any port ${portNum}
+  fi
+}
+
+if [[ "${ENABLE_UFW,,}" == "true" ]]; then
   # Enable firewall
   echo "enabling firewall"
   sed -i -e s/IPV6=yes/IPV6=no/ /etc/default/ufw
   ufw enable
 
-  if [ "true" = "$TRANSMISSION_PEER_PORT_RANDOM_ON_START" ]; then
-    PEER_PORT="$TRANSMISSION_PEER_PORT_RANDOM_LOW:$TRANSMISSION_PEER_PORT_RANDOM_HIGH/tcp"
+  if [[ "${TRANSMISSION_PEER_PORT_RANDOM_ON_START,,}" == "true" ]]; then
+    PEER_PORT="${TRANSMISSION_PEER_PORT_RANDOM_LOW}:${TRANSMISSION_PEER_PORT_RANDOM_HIGH}"
   else
-    PEER_PORT=$TRANSMISSION_PEER_PORT
+    PEER_PORT="${TRANSMISSION_PEER_PORT}"
   fi
 
-  echo "allowing $PEER_PORT through the firewall"
-  ufw allow $PEER_PORT
+  ufwAllowPort PEER_PORT
 
-  if [ "true" = "$WEBPROXY_ENABLED" ]; then
-    echo "allowing $WEBPROXY_PORT through the firewall"
-    ufw allow $WEBPROXY_PORT
+  if [[ "${WEBPROXY_ENABLED,,}" == "true" ]]; then
+    ufwAllowPort WEBPROXY_PORT
+  fi
+  if [[ "${UFW_ALLOW_GW_NET,,}" == "true" ]]; then
+    ufwAllowPortLong TRANSMISSION_RPC_PORT GW_CIDR
+  else
+    ufwAllowPortLong TRANSMISSION_RPC_PORT GW
   fi
 
-  eval $(/sbin/ip r l m 0.0.0.0 | awk '{if($5!="tun0"){print "GW="$3"\nINT="$5; exit}}')
-  echo "allowing access to $TRANSMISSION_RPC_PORT from $GW"
-  ufw allow proto tcp from $GW to any port $TRANSMISSION_RPC_PORT
-  if [ ! -z "${UFW_EXTRA_PORTS}"  ]; then
+  if [[ -n "${UFW_EXTRA_PORTS-}"  ]]; then
     for port in ${UFW_EXTRA_PORTS//,/ }; do
-      echo "allowing access to ${port} from $GW"
-      ufw allow proto tcp from $GW to any port ${port}
+      if [[ "${UFW_ALLOW_GW_NET,,}" == "true" ]]; then
+        ufwAllowPortLong port GW_CIDR
+      else
+        ufwAllowPortLong port GW
+      fi
     done
   fi
 fi
 
-if [ -n "${LOCAL_NETWORK-}" ]; then
-  eval $(/sbin/ip r l m 0.0.0.0 | awk '{if($5!="tun0"){print "GW="$3"\nINT="$5; exit}}')
-  if [ -n "${GW-}" -a -n "${INT-}" ]; then
-    echo "adding route to local network $LOCAL_NETWORK via $GW dev $INT"
-    /sbin/ip r a "$LOCAL_NETWORK" via "$GW" dev "$INT"
-    if [ "true" = "$ENABLE_UFW" ]; then
-      echo "allowing access to $TRANSMISSION_RPC_PORT from $LOCAL_NETWORK"
-      ufw allow proto tcp from $LOCAL_NETWORK to any port $TRANSMISSION_RPC_PORT
-      if [ ! -z "${UFW_EXTRA_PORTS}" ]; then
-        for port in ${UFW_EXTRA_PORTS//,/ }; do
-          echo "allowing access to ${port} from $LOCAL_NETWORK"
-          ufw allow proto tcp from $LOCAL_NETWORK to any port ${port}
-        done
+if [[ -n "${LOCAL_NETWORK-}" ]]; then
+  if [[ -n "${GW-}" ]] && [[ -n "${INT-}" ]]; then
+    for localNet in ${LOCAL_NETWORK//,/ }; do
+      echo "adding route to local network ${localNet} via ${GW} dev ${INT}"
+      /sbin/ip r a "${localNet}" via "${GW}" dev "${INT}"
+      if [[ "${ENABLE_UFW,,}" == "true" ]]; then
+        ufwAllowPortLong TRANSMISSION_RPC_PORT localNet
+        if [[ -n "${UFW_EXTRA_PORTS-}" ]]; then
+          for port in ${UFW_EXTRA_PORTS//,/ }; do
+            ufwAllowPortLong port localNet
+          done
+        fi
       fi
-    fi
+    done
   fi
 fi
 
-exec openvpn $TRANSMISSION_CONTROL_OPTS $OPENVPN_OPTS --config "$OPENVPN_CONFIG"
+exec openvpn ${TRANSMISSION_CONTROL_OPTS} ${OPENVPN_OPTS} --config "${OPENVPN_CONFIG}"

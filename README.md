@@ -137,7 +137,7 @@ This is a list of providers that are bundled within the image. Feel free to crea
 |----------|----------|-------|
 |`OPENVPN_CONFIG` | Sets the OpenVPN endpoint to connect to. | `OPENVPN_CONFIG=UK Southampton`|
 |`OPENVPN_OPTS` | Will be passed to OpenVPN on startup | See [OpenVPN doc](https://openvpn.net/index.php/open-source/documentation/manuals/65-openvpn-20x-manpage.html) |
-|`LOCAL_NETWORK` | Sets the local network that should have access. | `LOCAL_NETWORK=192.168.0.0/24`|
+|`LOCAL_NETWORK` | Sets the local network that should have access. Accepts comma separated list. | `LOCAL_NETWORK=192.168.0.0/24`|
 
 ### Firewall configuration options
 When enabled, the firewall blocks everything except traffic to the peer port and traffic to the rpc port from the LOCAL_NETWORK and the internal docker gateway.
@@ -147,6 +147,8 @@ If TRANSMISSION_PEER_PORT_RANDOM_ON_START is enabled then it allows traffic to t
 | Variable | Function | Example |
 |----------|----------|-------|
 |`ENABLE_UFW` | Enables the firewall | `ENABLE_UFW=true`|
+|`UFW_ALLOW_GW_NET` | Allows the gateway network through the firewall. Off defaults to only allowing the gateway. | `UFW_ALLOW_GW_NET=true`|
+|`UFW_EXTRA_PORTS` | Allows the comma separated list of ports through the firewall. Respsects UFW_ALLOW_GW_NET. | `UFW_EXTRA_PORTS=9910,23561,443`|
 
 ### Alternative web UIs
 You can override the default web UI by setting the ```TRANSMISSION_WEB_HOME``` environment variable. If set, Transmission will look there for the Web Interface files, such as the javascript, html, and graphics files.
