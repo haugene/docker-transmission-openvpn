@@ -65,10 +65,10 @@ Find available OpenVPN configurations by looking in the openvpn folder of the Gi
 -e "OPENVPN_CONFIG=ipvanish-AT-Vienna-vie-c02"
 ```
 
-You can also provide a list of openvpn configuration filenames separated by a space.  
+You can also provide a comma separated list of openvpn configuration filenames.
 If you provide a list, a file will be randomly chosen in the list, this is useful for redundancy setups. For example:
 ```
--e "OPENVPN_CONFIG=ipvanish-AT-Vienna-vie-c02 ipvanish-FR-Paris-par-a01 ipvanish-DE-Frankfurt-fra-a01"
+-e "OPENVPN_CONFIG=ipvanish-AT-Vienna-vie-c02,ipvanish-FR-Paris-par-a01,ipvanish-DE-Frankfurt-fra-a01"
 ```
 If you provide a list and the selected server goes down, after the value of ping-timeout the container will be restarted and a server will be randomly chosen, note that the faulty server can be chosen again, if this should occur, the container will be restarted again until a working server is selected.  
 
@@ -137,7 +137,7 @@ This is a list of providers that are bundled within the image. Feel free to crea
 |----------|----------|-------|
 |`OPENVPN_CONFIG` | Sets the OpenVPN endpoint to connect to. | `OPENVPN_CONFIG=UK Southampton`|
 |`OPENVPN_OPTS` | Will be passed to OpenVPN on startup | See [OpenVPN doc](https://openvpn.net/index.php/open-source/documentation/manuals/65-openvpn-20x-manpage.html) |
-|`LOCAL_NETWORK` | Sets the local network that should have access. | `LOCAL_NETWORK=192.168.0.0/24`|
+|`LOCAL_NETWORK` | Sets the local network that should have access. Accepts comma separated list. | `LOCAL_NETWORK=192.168.0.0/24`|
 
 ### Firewall configuration options
 When enabled, the firewall blocks everything except traffic to the peer port and traffic to the rpc port from the LOCAL_NETWORK and the internal docker gateway.
@@ -147,6 +147,8 @@ If TRANSMISSION_PEER_PORT_RANDOM_ON_START is enabled then it allows traffic to t
 | Variable | Function | Example |
 |----------|----------|-------|
 |`ENABLE_UFW` | Enables the firewall | `ENABLE_UFW=true`|
+|`UFW_ALLOW_GW_NET` | Allows the gateway network through the firewall. Off defaults to only allowing the gateway. | `UFW_ALLOW_GW_NET=true`|
+|`UFW_EXTRA_PORTS` | Allows the comma separated list of ports through the firewall. Respsects UFW_ALLOW_GW_NET. | `UFW_EXTRA_PORTS=9910,23561,443`|
 
 ### Alternative web UIs
 You can override the default web UI by setting the ```TRANSMISSION_WEB_HOME``` environment variable. If set, Transmission will look there for the Web Interface files, such as the javascript, html, and graphics files.
