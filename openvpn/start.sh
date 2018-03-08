@@ -15,13 +15,18 @@ echo "Using OpenVPN provider: ${OPENVPN_PROVIDER}"
 
 if [[ -n "${OPENVPN_CONFIG-}" ]]; then
   readarray -t OPENVPN_CONFIG_ARRAY <<< "${OPENVPN_CONFIG//,/$'\n'}"
+  ## Trim leading and trailing spaces from all entries. Inefficient as all heck, but works like a champ.
+  for i in "${!OPENVPN_CONFIG_ARRAY[@]}"; do
+    OPENVPN_CONFIG_ARRAY[${i}]="${OPENVPN_CONFIG_ARRAY[${i}]#"${OPENVPN_CONFIG_ARRAY[${i}]%%[![:space:]]*}"}"
+    OPENVPN_CONFIG_ARRAY[${i}]="${OPENVPN_CONFIG_ARRAY[${i}]%"${OPENVPN_CONFIG_ARRAY[${i}]##*[![:space:]]}"}"
+  done
   if (( ${#OPENVPN_CONFIG_ARRAY[@]} > 1 )); then
     OPENVPN_CONFIG_RANDOM=$((RANDOM%${#OPENVPN_CONFIG_ARRAY[@]}))
     echo "${#OPENVPN_CONFIG_ARRAY[@]} servers found in OPENVPN_CONFIG, ${OPENVPN_CONFIG_ARRAY[${OPENVPN_CONFIG_RANDOM}]} chosen randomly"
     OPENVPN_CONFIG="${OPENVPN_CONFIG_ARRAY[${OPENVPN_CONFIG_RANDOM}]}"
   fi
 
-  if [[ -f "${VPN_PROVIDER_CONFIGS}/${OPENVPN_CONFIG}".ovpn ]]; then
+  if [[ -f "${VPN_PROVIDER_CONFIGS}/${OPENVPN_CONFIG}.ovpn" ]]; then
     echo "Starting OpenVPN using config ${OPENVPN_CONFIG}.ovpn"
     OPENVPN_CONFIG="${VPN_PROVIDER_CONFIGS}/${OPENVPN_CONFIG}.ovpn"
   else
