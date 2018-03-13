@@ -1,0 +1,139 @@
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number: 2 (0x2)
+    Signature Algorithm: sha256WithRSAEncryption
+        Issuer: C=US, ST=CA, L=Mountain View, O=Google Inc, OU=Developers, CN=Google Inc CA/name=EasyRSA/emailAddress=support@google.com
+        Validity
+            Not Before: Feb  2 05:38:51 2015 GMT
+            Not After : Jan 30 05:38:51 2025 GMT
+        Subject: C=US, ST=CA, L=Mountain View, O=Google Inc, OU=Developers, CN=client/name=EasyRSA/emailAddress=support@google.com
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (4096 bit)
+                Modulus:
+                    00:ef:82:95:09:a2:a8:2f:1e:66:c5:db:2e:d4:be:
+                    dd:41:7e:09:40:5d:69:b3:ce:16:92:8e:be:19:a9:
+                    82:cc:42:77:29:73:00:b5:8a:e5:60:0e:c7:86:a7:
+                    fa:e5:e0:2f:c2:eb:84:5e:6c:8c:74:84:b5:35:e2:
+                    47:38:7a:7b:eb:ea:ce:7d:b6:f2:de:99:28:92:00:
+                    e6:30:c2:67:8e:02:4c:24:d9:29:dc:6e:d5:7f:b0:
+                    48:93:48:10:ec:f3:bb:93:95:cd:53:39:81:03:d6:
+                    39:ec:01:3a:af:35:34:c6:cb:1f:15:97:1d:50:77:
+                    83:26:c4:e4:a5:3c:e7:d5:c1:2c:9b:ac:87:cb:c2:
+                    04:ae:4d:a3:75:4e:32:59:88:a9:46:f0:54:27:d7:
+                    f2:48:77:db:63:78:3c:87:bc:76:fb:06:c8:01:63:
+                    aa:7d:39:cb:46:c3:f3:72:2e:5c:06:34:1e:d8:a3:
+                    53:0a:ae:89:61:1e:64:ef:1d:96:e2:2d:36:aa:58:
+                    91:e3:29:30:66:94:db:4f:3f:ec:fe:bf:6e:d4:fd:
+                    11:7b:6e:1d:5e:9f:30:47:9e:3b:f4:97:22:b1:3d:
+                    10:69:ab:5a:c8:9e:5e:0f:93:12:29:57:b8:63:1c:
+                    84:70:df:91:1c:3a:c5:e5:d3:14:3e:4f:d0:9c:6b:
+                    6f:91:21:29:93:15:f4:64:48:83:ee:b6:57:23:fa:
+                    b3:77:5e:ff:7c:4e:63:bf:f6:04:aa:16:8a:59:b1:
+                    75:67:26:54:bc:f4:8b:96:71:97:bc:28:90:77:fc:
+                    7a:01:08:9c:40:99:9b:26:02:c0:68:2e:fc:a4:bf:
+                    90:28:66:f0:92:d8:89:0e:68:24:9f:b5:f8:96:72:
+                    41:c8:a4:a3:ec:64:aa:f9:e0:6f:1f:69:4c:7b:5c:
+                    25:81:35:99:6e:a3:13:0e:15:e5:fe:c8:0f:72:dd:
+                    3a:a2:e6:8a:2b:4a:43:7e:24:7b:fd:8e:3d:8d:4d:
+                    48:1b:29:00:bf:cf:d8:c8:b4:5b:7d:c6:44:73:9f:
+                    00:84:72:e4:f1:2a:02:4e:c6:8c:41:0f:3e:9c:84:
+                    c8:05:17:4b:44:e9:15:db:e0:40:43:8a:ab:0e:28:
+                    c4:9b:99:d4:63:d6:18:3c:4d:7e:9d:60:24:a8:36:
+                    1c:13:3e:35:ce:d0:7a:93:17:2e:1e:4b:1d:33:52:
+                    39:25:af:25:fd:cb:b2:b5:10:ea:0a:0a:a7:63:c0:
+                    d2:e7:29:92:d5:f1:87:4f:2e:34:12:79:9d:4a:c9:
+                    67:28:ad:b9:e6:d2:02:fe:75:0b:9a:f8:e5:53:42:
+                    0e:4e:78:da:fb:cd:65:51:b1:fa:65:ce:8d:15:d0:
+                    7d:52:f7
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Basic Constraints: 
+                CA:FALSE
+            Netscape Comment: 
+                Easy-RSA Generated Certificate
+            X509v3 Subject Key Identifier: 
+                2E:A4:D0:72:88:6C:8C:C3:8A:1E:BE:92:12:B3:52:BD:EE:21:42:D5
+            X509v3 Authority Key Identifier: 
+                keyid:AE:70:E7:81:FB:59:B3:ED:73:1A:15:37:89:26:94:D3:22:60:E2:80
+                DirName:/C=US/ST=CA/L=Mountain View/O=Google Inc/OU=Developers/CN=Google Inc CA/name=EasyRSA/emailAddress=support@google.com
+                serial:98:66:D8:F5:85:90:4F:0D
+
+            X509v3 Extended Key Usage: 
+                TLS Web Client Authentication
+            X509v3 Key Usage: 
+                Digital Signature
+            X509v3 Subject Alternative Name: 
+                DNS:client
+    Signature Algorithm: sha256WithRSAEncryption
+         21:01:0d:35:b8:9a:85:ec:ae:42:0e:25:50:ba:ea:f9:5b:70:
+         7a:a9:84:22:e4:4e:cb:d2:b7:77:bb:15:4f:3e:50:64:7b:78:
+         a9:ef:83:ad:64:1b:5e:87:98:17:19:01:0f:c2:84:5c:8d:69:
+         f0:9d:1d:73:a6:1c:5a:7d:b3:b8:51:1c:52:75:2d:9e:71:89:
+         d0:71:42:10:4e:4d:fe:ba:6a:80:f3:20:b8:fa:ec:cb:cb:a0:
+         21:67:bb:11:2a:7f:73:a4:e5:ac:86:29:65:69:a5:f3:14:b3:
+         b4:60:4c:f2:fe:5d:23:0b:33:59:6c:1e:91:4c:73:2f:7c:dc:
+         c3:59:fb:0f:2c:49:58:07:89:6a:ec:a3:6a:ba:9d:34:86:69:
+         96:27:ee:74:93:a7:19:43:1d:25:43:07:be:7b:c2:c2:1c:0c:
+         a4:fc:14:5f:f8:9c:0d:3a:e3:d9:9e:b8:45:4c:b4:d6:11:de:
+         10:a6:aa:20:24:2b:d4:30:2b:c3:11:04:2b:77:7a:61:ea:e6:
+         35:60:e7:53:4d:ae:11:8a:a1:a5:f0:81:a6:fe:a7:f6:1e:84:
+         7c:75:5c:57:03:4d:45:c8:22:69:0d:d2:cd:61:67:2e:03:96:
+         b5:18:90:e0:53:de:2c:ca:9d:61:73:8a:ad:99:92:9c:7d:37:
+         a6:44:76:49:d0:bc:55:de:42:0f:84:00:c9:d5:72:fa:5f:ef:
+         c5:81:be:af:01:21:af:8f:94:83:25:4a:88:e3:de:d8:cf:92:
+         bb:32:8d:3c:16:93:8f:df:dc:82:f8:63:d0:7c:4a:9a:06:1d:
+         6d:e1:ce:c1:00:d5:9d:50:75:8c:b5:2e:74:62:d0:c4:3a:5c:
+         83:34:ea:f3:2b:33:f2:56:e8:7f:eb:7c:71:9a:ef:00:c8:2d:
+         80:b0:83:39:a0:a9:7f:1e:93:c4:79:bf:d7:ce:76:dc:e9:27:
+         12:f9:e2:8d:e6:82:43:6c:3e:e0:e0:97:29:4d:cb:ce:ec:47:
+         8c:53:77:90:ab:34:e4:3d:43:f3:ee:36:2d:2e:da:91:0c:b1:
+         b9:a3:dc:ea:cf:8f:2d:93:16:c5:ba:06:20:ca:af:9c:b8:f2:
+         51:e2:9f:b3:aa:9a:e8:90:64:c9:c3:5f:fa:3b:e5:89:5c:6d:
+         c7:49:ae:57:cc:4f:63:c9:ad:2b:c7:e9:aa:7a:d4:da:90:2b:
+         dc:67:22:a2:8e:86:e2:3d:c7:05:42:be:2c:c8:eb:b1:ae:1b:
+         18:b0:0a:08:85:f9:84:91:e6:73:80:92:22:7a:4e:cd:a2:a8:
+         8b:d1:ed:3e:c4:99:ed:af:05:81:ff:50:9d:43:5e:b7:42:27:
+         1e:88:0c:6c:71:82:85:e4
+-----BEGIN CERTIFICATE-----
+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
+-----END CERTIFICATE-----
