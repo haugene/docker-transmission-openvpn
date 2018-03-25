@@ -17,6 +17,10 @@ RUN apt-get update \
     && wget https://github.com/Secretmapper/combustion/archive/release.zip \
     && unzip release.zip -d /opt/transmission-ui/ \
     && rm release.zip \
+    && wget https://github.com/ronggang/twc-release/raw/master/src.tar.gz \
+    && mkdir /opt/transmission-ui/transmission-web-control \
+    && tar -xvf src.tar.gz -C /opt/transmission-ui/transmission-web-control/ \
+    && rm src.tar.gz \
     && git clone git://github.com/endor/kettu.git /opt/transmission-ui/kettu \
     && apt-get install -y tinyproxy telnet \
     && wget https://github.com/Yelp/dumb-init/releases/download/v1.2.0/dumb-init_1.2.0_amd64.deb \
