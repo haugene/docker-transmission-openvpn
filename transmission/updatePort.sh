@@ -1,5 +1,8 @@
 #! /bin/sh
 
+echo "Wait for tunnel to be fully initialized and PIA is ready to give us a port"
+sleep 15
+
 # Source our persisted env variables from container startup
 . /etc/transmission/environment-variables.sh
 
