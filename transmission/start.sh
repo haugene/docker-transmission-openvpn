@@ -34,6 +34,11 @@ if [ "kettu" = "$TRANSMISSION_WEB_UI" ]; then
   export TRANSMISSION_WEB_HOME=/opt/transmission-ui/kettu
 fi
 
+if [ "transmission-web-control" = "$TRANSMISSION_WEB_UI" ]; then
+  echo "Using Transmission Web Control  UI, overriding TRANSMISSION_WEB_HOME"
+  export TRANSMISSION_WEB_HOME=/opt/transmission-ui/transmission-web-control
+fi
+
 echo "Generating transmission settings.json from env variables"
 # Ensure TRANSMISSION_HOME is created
 mkdir -p ${TRANSMISSION_HOME}
