@@ -16,8 +16,8 @@ RUN echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/ap
     && wget -qO- https://github.com/endor/kettu/archive/master.tar.gz | tar xz -C /opt/transmission-ui \
     && mv /opt/transmission-ui/kettu-master /opt/transmission-ui/kettu \
     && echo "Install Transmission-Web-Control" \
-    && mkdir /opt/transmission-ui/transmission-web-control
-    && wget -q0- https://github.com/ronggang/twc-release/raw/master/src.tar.gz | tar xz -C /opt/transmission-ui/transmission-web-control \
+    && mkdir /opt/transmission-ui/transmission-web-control \
+    && wget -qO- https://github.com/ronggang/twc-release/raw/master/src.tar.gz | tar xz -C /opt/transmission-ui/transmission-web-control \
     && rm -rf /tmp/* /var/tmp/* \
     && groupmod -g 1000 users \
     && useradd -u 911 -U -d /config -s /bin/false abc \
