@@ -67,6 +67,10 @@ if [ "$OPENVPN_PROVIDER" = "PIA" ]
 then
     echo "CONFIGURING PORT FORWARDING"
     exec /etc/transmission/updatePort.sh &
+elif [ "$OPENVPN_PROVIDER" = "PERFECTPRIVACY" ]
+then
+    echo "CONFIGURING PORT FORWARDING"
+    exec /etc/transmission/updatePPPort.sh ${TRANSMISSION_BIND_ADDRESS_IPV4} &
 else
     echo "NO PORT UPDATER FOR THIS PROVIDER"
 fi
