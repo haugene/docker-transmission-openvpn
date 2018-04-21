@@ -9,6 +9,13 @@ if [ -n "$PUID" ] && [ ! "$(id -u root)" -eq "$PUID" ]; then
     if [ ! "$(id -u ${RUN_AS})" -eq "$PUID" ]; then usermod -o -u "$PUID" ${RUN_AS} ; fi
     if [ ! "$(id -g ${RUN_AS})" -eq "$PGID" ]; then groupmod -o -g "$PGID" ${RUN_AS} ; fi
 
+    # Make sure directories exist before chown and chmod
+    mkdir -p /config \
+        ${TRANSMISSION_HOME} \
+        ${TRANSMISSION_DOWNLOAD_DIR} \
+        ${TRANSMISSION_INCOMPLETE_DIR} \
+        ${TRANSMISSION_WATCH_DIR}
+
     echo "Setting owner for transmission paths to ${PUID}:${PGID}"
     chown -R ${RUN_AS}:${RUN_AS} \
         /config \
