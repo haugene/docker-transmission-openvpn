@@ -108,6 +108,7 @@ This is a list of providers that are bundled within the image. Feel free to crea
 | Private Internet Access | `PIA` |
 | PrivateVPN | `PRIVATEVPN` |
 | proXPN | `PROXPN` |
+| proxy.sh | `PROXYSH ` |
 | PureVPN | `PUREVPN` |
 | RA4W VPN | `RA4W` |
 | SaferVPN | `SAFERVPN` |
