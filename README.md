@@ -98,6 +98,7 @@ This is a list of providers that are bundled within the image. Feel free to crea
 | IntegrityVPN | `INTEGRITYVPN` |
 | IPredator | `IPREDATOR` |
 | IPVanish | `IPVANISH` |
+| IronSocket | `IRONSOCKET` |
 | Ivacy | `IVACY` |
 | IVPN | `IVPN` |
 | Mullvad | `MULLVAD` |
