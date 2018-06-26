@@ -17,7 +17,7 @@ fi
 if [ -x /scripts/transmission-pre-start.sh ]
 then
    echo "Executing /scripts/transmission-pre-start.sh"
-   /scripts/transmission-pre-start.sh
+   /scripts/transmission-pre-start.sh "$*"
    echo "/scripts/transmission-pre-start.sh returned $?"
 fi
 
@@ -75,7 +75,7 @@ fi
 if [ -x /scripts/transmission-post-start.sh ]
 then
    echo "Executing /scripts/transmission-post-start.sh"
-   /scripts/transmission-post-start.sh
+   /scripts/transmission-post-start.sh "$*"
    echo "/scripts/transmission-post-start.sh returned $?"
 fi
 
