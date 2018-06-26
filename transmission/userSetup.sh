@@ -4,6 +4,16 @@
 
 RUN_AS=root
 
+TEMP_TRAN_DOWNLOAD_DIR=${TRANSMISSION_DOWNLOAD_DIR}
+TEMP_TRAN_INCOMPLETE_DIR=${TRANSMISSION_INCOMPLETE_DIR}
+TEMP_TRAN_WATCH_DIR=${TRANSMISSION_WATCH_DIR}
+
+if ! [ "$GLOBAL_APPLY_PERMISSIONS" = true ] ; then
+    unset TEMP_TRAN_DOWNLOAD_DIR
+    unset TEMP_TRAN_INCOMPLETE_DIR
+    unset TEMP_TRAN_WATCH_DIR
+fi
+
 if [ -n "$PUID" ] && [ ! "$(id -u root)" -eq "$PUID" ]; then
     RUN_AS=abc
     if [ ! "$(id -u ${RUN_AS})" -eq "$PUID" ]; then usermod -o -u "$PUID" ${RUN_AS} ; fi
@@ -13,17 +23,17 @@ if [ -n "$PUID" ] && [ ! "$(id -u root)" -eq "$PUID" ]; then
     chown -R ${RUN_AS}:${RUN_AS} \
         /config \
         ${TRANSMISSION_HOME} \
-        ${TRANSMISSION_DOWNLOAD_DIR} \
-        ${TRANSMISSION_INCOMPLETE_DIR} \
-        ${TRANSMISSION_WATCH_DIR}
+        ${TEMP_TRAN_DOWNLOAD_DIR} \
+        ${TEMP_TRAN_INCOMPLETE_DIR} \
+        ${TEMP_TRAN_WATCH_DIR}
         
     echo "Setting permission for files (644) and directories (755)"
     chmod -R go=rX,u=rwX \
         /config \
         ${TRANSMISSION_HOME} \
-        ${TRANSMISSION_DOWNLOAD_DIR} \
-        ${TRANSMISSION_INCOMPLETE_DIR} \
-        ${TRANSMISSION_WATCH_DIR}        
+        ${TEMP_TRAN_DOWNLOAD_DIR} \
+        ${TEMP_TRAN_INCOMPLETE_DIR} \
+        ${TEMP_TRAN_WATCH_DIR}    
 fi
 
 echo "
