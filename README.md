@@ -45,7 +45,7 @@ $ docker run --cap-add=NET_ADMIN --device=/dev/net/tun -d \
               -v /your/storage/path/:/data \
               -v /etc/localtime:/etc/localtime:ro \
               -e OPENVPN_PROVIDER=PIA \
-              -e OPENVPN_CONFIG=Netherlands \
+              -e OPENVPN_CONFIG=CA\ Toronto \
               -e OPENVPN_USERNAME=user \
               -e OPENVPN_PASSWORD=pass \
               -e WEBPROXY_ENABLED=false \
@@ -379,7 +379,7 @@ nameserver 8.8.4.4
           -v /volume1/foldername/resolv.conf:/etc/resolv.conf \
           -v /volume1/yourpath/:/data \
           -e "OPENVPN_PROVIDER=PIA" \
-          -e "OPENVPN_CONFIG=Netherlands" \
+          -e "OPENVPN_CONFIG=CA\ Toronto" \
           -e "OPENVPN_USERNAME=XXXXX" \
           -e "OPENVPN_PASSWORD=XXXXX" \
           -e "LOCAL_NETWORK=192.168.0.0/24" \
@@ -424,7 +424,7 @@ ExecStart=/usr/bin/docker run \
         -e "OPENVPN_PROVIDER=TORGUARD" \
         -e "OPENVPN_USERNAME=bittorrent@example.com" \
         -e "OPENVPN_PASSWORD=hunter2" \
-        -e "OPENVPN_CONFIG=Netherlands" \
+        -e "OPENVPN_CONFIG=CA\ Toronto" \
         -e "OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60" \
         -e "TRANSMISSION_UMASK=0" \
         -p 9091:9091 \

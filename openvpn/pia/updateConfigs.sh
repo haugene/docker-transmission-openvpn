@@ -46,4 +46,4 @@ do
 done
 
 # Create symlink for default.ovpn
-ln -s Netherlands.ovpn default.ovpn
+ln -s "CA Toronto.ovpn" default.ovpn
