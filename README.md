@@ -278,6 +278,9 @@ $ docker run -d \
       -p 8080:8080 \
       haugene/transmission-openvpn-proxy
 ```
+## Access the RPC
+
+You need to add a / to the end of the URL to be able to connect. Example: http://my-host:9091/transmission/rpc/
 
 ## Known issues, tips and tricks
 
