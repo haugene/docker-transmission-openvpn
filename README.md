@@ -16,7 +16,7 @@ An example run command to get you going is provided below.
 Also worth mentioning.
 If you want to route web traffic through the same tunnel that Transmission is using there
 is a pre-installed Tinyproxy which will expose a proxy on port 8888 when enabled.
-And if you're using PIA as provider it will update Transmission hourly with assigned open port.
+And if you're using PIA as provider it will update Transmission hourly with assigned open port (if the port forwarding feature is available in the selected region).
 
 GL HF! And if you run into problems, please check the README twice and maybe try the gitter chat before opening an issue :)
 
@@ -45,7 +45,7 @@ $ docker run --cap-add=NET_ADMIN --device=/dev/net/tun -d \
               -v /your/storage/path/:/data \
               -v /etc/localtime:/etc/localtime:ro \
               -e OPENVPN_PROVIDER=PIA \
-              -e OPENVPN_CONFIG=Netherlands \
+              -e OPENVPN_CONFIG=CA\ Toronto \
               -e OPENVPN_USERNAME=user \
               -e OPENVPN_PASSWORD=pass \
               -e WEBPROXY_ENABLED=false \
@@ -151,7 +151,7 @@ If TRANSMISSION_PEER_PORT_RANDOM_ON_START is enabled then it allows traffic to t
 |----------|----------|-------|
 |`ENABLE_UFW` | Enables the firewall | `ENABLE_UFW=true`|
 |`UFW_ALLOW_GW_NET` | Allows the gateway network through the firewall. Off defaults to only allowing the gateway. | `UFW_ALLOW_GW_NET=true`|
-|`UFW_EXTRA_PORTS` | Allows the comma separated list of ports through the firewall. Respsects UFW_ALLOW_GW_NET. | `UFW_EXTRA_PORTS=9910,23561,443`|
+|`UFW_EXTRA_PORTS` | Allows the comma separated list of ports through the firewall. Respects UFW_ALLOW_GW_NET. | `UFW_EXTRA_PORTS=9910,23561,443`|
 
 ### Alternative web UIs
 You can override the default web UI by setting the ```TRANSMISSION_WEB_HOME``` environment variable. If set, Transmission will look there for the Web Interface files, such as the javascript, html, and graphics files.
@@ -209,7 +209,7 @@ You may set the following parameters to customize the user id that runs transmis
 ### Dropping default route from iptables (advanced)
 
 Some VPNs do not override the default route, but rather set other routes with a lower metric.  
-This might lead to te default route (your untunneled connection) to be used.
+This might lead to the default route (your untunneled connection) to be used.
 
 To drop the default route set the environment variable `DROP_DEFAULT_ROUTE` to `true`.
 
@@ -304,14 +304,14 @@ Several popular NAS platforms supports Docker containers. You should be able to 
 #### Questions?
 If you are having issues with this container please submit an issue on GitHub.
 Please provide logs, docker version and other information that can simplify reproducing the issue.
-Using the latest stable verison of Docker is always recommended. Support for older version is on a best-effort basis.
+Using the latest stable version of Docker is always recommended. Support for older version is on a best-effort basis.
 
 ## Adding new providers
 If your VPN provider is not in the list of supported providers you could always create an issue on GitHub and see if someone could add it for you. But if you're feeling up for doing it yourself, here's a couple of pointers.
 
 You clone this repository and create a new folder under "openvpn" where you put the .ovpn files your provider gives you. Depending on the structure of these files you need to make some adjustments. For example if they come with a ca.crt file that is referenced in the config you need to update this reference to the path it will have inside the container (which is /etc/openvpn/...). You also have to set where to look for your username/password.
 
-There is a script called adjustConfigs.sh that could help you. After putting your .ovpn files in a folder, run that script with your folder name as parameter and it will try to do the changes descibed above. If you use it or not, reading it might give you some help in what you're looking to change in the .ovpn files.
+There is a script called adjustConfigs.sh that could help you. After putting your .ovpn files in a folder, run that script with your folder name as parameter and it will try to do the changes described above. If you use it or not, reading it might give you some help in what you're looking to change in the .ovpn files.
 
 Once you've finished modifying configs, you build the container and run it with OPENVPN_PROVIDER set to the name of the folder of configs you just created (it will be lowercased to match the folder names). And that should be it!
 
@@ -388,7 +388,7 @@ nameserver 8.8.4.4
           -v /volume1/foldername/resolv.conf:/etc/resolv.conf \
           -v /volume1/yourpath/:/data \
           -e "OPENVPN_PROVIDER=PIA" \
-          -e "OPENVPN_CONFIG=Netherlands" \
+          -e "OPENVPN_CONFIG=CA\ Toronto" \
           -e "OPENVPN_USERNAME=XXXXX" \
           -e "OPENVPN_PASSWORD=XXXXX" \
           -e "LOCAL_NETWORK=192.168.0.0/24" \
@@ -433,7 +433,7 @@ ExecStart=/usr/bin/docker run \
         -e "OPENVPN_PROVIDER=TORGUARD" \
         -e "OPENVPN_USERNAME=bittorrent@example.com" \
         -e "OPENVPN_PASSWORD=hunter2" \
-        -e "OPENVPN_CONFIG=Netherlands" \
+        -e "OPENVPN_CONFIG=CA\ Toronto" \
         -e "OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60" \
         -e "TRANSMISSION_UMASK=0" \
         -p 9091:9091 \
