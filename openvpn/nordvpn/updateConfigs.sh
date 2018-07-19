@@ -11,12 +11,7 @@ find . ! -name '*.sh' -delete
 # Get updated configuration zip
 curl -kL https://downloads.nordcdn.com/configs/archives/servers/ovpn.zip -o openvpn.zip \
   && unzip -j openvpn.zip && rm openvpn.zip
- 
-#move files from folder ovpn_tcp and ovpn_udp, then remove the directory
-#mv ./ovpn_tcp/* ./
-#mv ./ovpn_udp/* ./
-#rmdir ovpn_tcp ovpn_udp
- 
+
 # Ensure linux line endings
 #dos2unix *
  
