@@ -16,7 +16,7 @@ An example run command to get you going is provided below.
 Also worth mentioning.
 If you want to route web traffic through the same tunnel that Transmission is using there
 is a pre-installed Tinyproxy which will expose a proxy on port 8888 when enabled.
-And if you're using PIA as provider it will update Transmission hourly with assigned open port.
+And if you're using PIA as provider it will update Transmission hourly with assigned open port (if the port forwarding feature is available in the selected region).
 
 GL HF! And if you run into problems, please check the README twice and maybe try the gitter chat before opening an issue :)
 
@@ -45,7 +45,7 @@ $ docker run --cap-add=NET_ADMIN --device=/dev/net/tun -d \
               -v /your/storage/path/:/data \
               -v /etc/localtime:/etc/localtime:ro \
               -e OPENVPN_PROVIDER=PIA \
-              -e OPENVPN_CONFIG=Netherlands \
+              -e OPENVPN_CONFIG=CA\ Toronto \
               -e OPENVPN_USERNAME=user \
               -e OPENVPN_PASSWORD=pass \
               -e WEBPROXY_ENABLED=false \
@@ -98,6 +98,7 @@ This is a list of providers that are bundled within the image. Feel free to crea
 | IntegrityVPN | `INTEGRITYVPN` |
 | IPredator | `IPREDATOR` |
 | IPVanish | `IPVANISH` |
+| IronSocket | `IRONSOCKET` |
 | Ivacy | `IVACY` |
 | IVPN | `IVPN` |
 | Mullvad | `MULLVAD` |
@@ -108,6 +109,7 @@ This is a list of providers that are bundled within the image. Feel free to crea
 | Private Internet Access | `PIA` |
 | PrivateVPN | `PRIVATEVPN` |
 | proXPN | `PROXPN` |
+| proxy.sh | `PROXYSH ` |
 | PureVPN | `PUREVPN` |
 | RA4W VPN | `RA4W` |
 | SaferVPN | `SAFERVPN` |
@@ -149,7 +151,7 @@ If TRANSMISSION_PEER_PORT_RANDOM_ON_START is enabled then it allows traffic to t
 |----------|----------|-------|
 |`ENABLE_UFW` | Enables the firewall | `ENABLE_UFW=true`|
 |`UFW_ALLOW_GW_NET` | Allows the gateway network through the firewall. Off defaults to only allowing the gateway. | `UFW_ALLOW_GW_NET=true`|
-|`UFW_EXTRA_PORTS` | Allows the comma separated list of ports through the firewall. Respsects UFW_ALLOW_GW_NET. | `UFW_EXTRA_PORTS=9910,23561,443`|
+|`UFW_EXTRA_PORTS` | Allows the comma separated list of ports through the firewall. Respects UFW_ALLOW_GW_NET. | `UFW_EXTRA_PORTS=9910,23561,443`|
 |`UFW_DISABLE_IPTABLES_REJECT` | Prevents the use of `REJECT` in the `iptables` rules, for hosts without the `ipt_REJECT` module (such as the Synology NAS). | `UFW_DISABLE_IPTABLES_REJECT=true`|
 
 ### Alternative web UIs
@@ -164,7 +166,7 @@ You can override the default web UI by setting the ```TRANSMISSION_WEB_HOME``` e
 
 ### Transmission configuration options
 
-You may override transmission options by setting the appropriate environment variable.
+You may override Transmission options by setting the appropriate environment variable.
 
 The environment variables are the same name as used in the transmission settings.json file
 and follow the format given in these examples:
@@ -177,6 +179,8 @@ and follow the format given in these examples:
 | `ratio-limit-enabled` | `TRANSMISSION_RATIO_LIMIT_ENABLED` |
 
 As you can see the variables are prefixed with `TRANSMISSION_`, the variable is capitalized, and `-` is converted to `_`.
+
+Transmission options changed in the WebUI or in settings.json will be overridden at startup and will not survive after a reboot of the container. You may want to use these variables in order to keep your preferences.
 
 PS: `TRANSMISSION_BIND_ADDRESS_IPV4` will be overridden to the IP assigned to your OpenVPN tunnel interface.
 This is to prevent leaking the host IP.
@@ -206,7 +210,7 @@ You may set the following parameters to customize the user id that runs transmis
 ### Dropping default route from iptables (advanced)
 
 Some VPNs do not override the default route, but rather set other routes with a lower metric.  
-This might lead to te default route (your untunneled connection) to be used.
+This might lead to the default route (your untunneled connection) to be used.
 
 To drop the default route set the environment variable `DROP_DEFAULT_ROUTE` to `true`.
 
@@ -290,20 +294,25 @@ For example use googles dns servers by adding --dns 8.8.8.8 --dns 8.8.4.4 as par
 #### Restart container if connection is lost
 If the VPN connection fails or the container for any other reason loses connectivity, you want it to recover from it. One way of doing this is to set environment variable `OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60` and use the --restart=always flag when starting the container. This way OpenVPN will exit if ping fails over a period of time which will stop the container and then the Docker deamon will restart it.
 
+#### Reach sleep or hybernation on your host if no torrents are active
+By befault Transmission will always [scrape](https://en.wikipedia.org/wiki/Tracker_scrape) trackers, even if all torrents have completed their activities, or they have been paused manually. This will cause Transmission to be always active, therefore never allow your host server to be inactive and go to sleep/hybernation/whatever. If this is something you want, you can add the following variable when creating the container. It will turn off a hidden setting in Tranmsission which will stop the application to scrape trackers for paused torrents. Transmission will become inactive, and your host will reach the desidered state.
+```
+-e "TRANSMISSION_SCRAPE_PAUSED_TORRENTS_ENABLED=false"
+```
 #### Running it on a NAS
 Several popular NAS platforms supports Docker containers. You should be able to set up and configure this container using their web interfaces. Remember that you need a TUN/TAP device to run the container. To set up the device it's probably simplest to install a OpenVPN package for the NAS. This should set up the device. If not, there are some more detailed instructions below.
 
 #### Questions?
 If you are having issues with this container please submit an issue on GitHub.
 Please provide logs, docker version and other information that can simplify reproducing the issue.
-Using the latest stable verison of Docker is always recommended. Support for older version is on a best-effort basis.
+Using the latest stable version of Docker is always recommended. Support for older version is on a best-effort basis.
 
 ## Adding new providers
 If your VPN provider is not in the list of supported providers you could always create an issue on GitHub and see if someone could add it for you. But if you're feeling up for doing it yourself, here's a couple of pointers.
 
 You clone this repository and create a new folder under "openvpn" where you put the .ovpn files your provider gives you. Depending on the structure of these files you need to make some adjustments. For example if they come with a ca.crt file that is referenced in the config you need to update this reference to the path it will have inside the container (which is /etc/openvpn/...). You also have to set where to look for your username/password.
 
-There is a script called adjustConfigs.sh that could help you. After putting your .ovpn files in a folder, run that script with your folder name as parameter and it will try to do the changes descibed above. If you use it or not, reading it might give you some help in what you're looking to change in the .ovpn files.
+There is a script called adjustConfigs.sh that could help you. After putting your .ovpn files in a folder, run that script with your folder name as parameter and it will try to do the changes described above. If you use it or not, reading it might give you some help in what you're looking to change in the .ovpn files.
 
 Once you've finished modifying configs, you build the container and run it with OPENVPN_PROVIDER set to the name of the folder of configs you just created (it will be lowercased to match the folder names). And that should be it!
 
@@ -380,7 +389,7 @@ nameserver 8.8.4.4
           -v /volume1/foldername/resolv.conf:/etc/resolv.conf \
           -v /volume1/yourpath/:/data \
           -e "OPENVPN_PROVIDER=PIA" \
-          -e "OPENVPN_CONFIG=Netherlands" \
+          -e "OPENVPN_CONFIG=CA\ Toronto" \
           -e "OPENVPN_USERNAME=XXXXX" \
           -e "OPENVPN_PASSWORD=XXXXX" \
           -e "LOCAL_NETWORK=192.168.0.0/24" \
@@ -425,7 +434,7 @@ ExecStart=/usr/bin/docker run \
         -e "OPENVPN_PROVIDER=TORGUARD" \
         -e "OPENVPN_USERNAME=bittorrent@example.com" \
         -e "OPENVPN_PASSWORD=hunter2" \
-        -e "OPENVPN_CONFIG=Netherlands" \
+        -e "OPENVPN_CONFIG=CA\ Toronto" \
         -e "OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60" \
         -e "TRANSMISSION_UMASK=0" \
         -p 9091:9091 \

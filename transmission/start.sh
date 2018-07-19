@@ -17,7 +17,7 @@ fi
 if [ -x /scripts/transmission-pre-start.sh ]
 then
    echo "Executing /scripts/transmission-pre-start.sh"
-   /scripts/transmission-pre-start.sh
+   /scripts/transmission-pre-start.sh "$*"
    echo "/scripts/transmission-pre-start.sh returned $?"
 fi
 
@@ -67,6 +67,10 @@ if [ "$OPENVPN_PROVIDER" = "PIA" ]
 then
     echo "CONFIGURING PORT FORWARDING"
     exec /etc/transmission/updatePort.sh &
+elif [ "$OPENVPN_PROVIDER" = "PERFECTPRIVACY" ]
+then
+    echo "CONFIGURING PORT FORWARDING"
+    exec /etc/transmission/updatePPPort.sh ${TRANSMISSION_BIND_ADDRESS_IPV4} &
 else
     echo "NO PORT UPDATER FOR THIS PROVIDER"
 fi
@@ -75,7 +79,7 @@ fi
 if [ -x /scripts/transmission-post-start.sh ]
 then
    echo "Executing /scripts/transmission-post-start.sh"
-   /scripts/transmission-post-start.sh
+   /scripts/transmission-post-start.sh "$*"
    echo "/scripts/transmission-post-start.sh returned $?"
 fi
 
