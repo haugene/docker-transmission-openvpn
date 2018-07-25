@@ -13,6 +13,15 @@ fi
 
 echo "Using OpenVPN provider: ${OPENVPN_PROVIDER}"
 
+if [[ "$OPENVPN_PROVIDER" = "NORDVPN" ]]
+then
+    if [[ -z "$OPENVPN_CONFIG" ]]
+    then
+        export OPENVPN_CONFIG=$(curl -s 'https://nordvpn.com/wp-admin/admin-ajax.php?action=servers_recommendations' | jq -r '.[0].hostname').udp
+        echo "Setting best server ${OPENVPN_CONFIG}"
+    fi
+fi
+
 if [[ -n "${OPENVPN_CONFIG-}" ]]; then
   readarray -t OPENVPN_CONFIG_ARRAY <<< "${OPENVPN_CONFIG//,/$'\n'}"
   ## Trim leading and trailing spaces from all entries. Inefficient as all heck, but works like a champ.
