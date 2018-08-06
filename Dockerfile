@@ -118,6 +118,7 @@ ENV OPENVPN_USERNAME=**None** \
     ENABLE_UFW=false \
     UFW_ALLOW_GW_NET=false \
     UFW_EXTRA_PORTS= \
+    UFW_DISABLE_IPTABLES_REJECT=false \
     TRANSMISSION_WEB_UI= \
     PUID= \
     PGID= \
