@@ -104,6 +104,7 @@ if [[ "${ENABLE_UFW,,}" == "true" ]]; then
   if [[ "${UFW_DISABLE_IPTABLES_REJECT,,}" == "true" ]]; then
     # A horrible hack to ufw to prevent it detecting the ability to limit and REJECT traffic
     sed -i 's/return caps/return []/g' /usr/lib/python3/dist-packages/ufw/util.py
+    sed -i -e s/MANAGE_BUILTINS=no/MANAGE_BUILTINS=yes/ /etc/default/ufw
     # force a rewrite on the enable below
     echo "Disable and blank firewall"
     ufw disable
@@ -112,7 +113,6 @@ if [[ "${ENABLE_UFW,,}" == "true" ]]; then
   # Enable firewall
   echo "enabling firewall"
   sed -i -e s/IPV6=yes/IPV6=no/ /etc/default/ufw
-  sed -i -e s/MANAGE_BUILTINS=no/MANAGE_BUILTINS=yes/ /etc/default/ufw
   ufw enable
 
   if [[ "${TRANSMISSION_PEER_PORT_RANDOM_ON_START,,}" == "true" ]]; then
