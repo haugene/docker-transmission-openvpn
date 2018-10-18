@@ -118,6 +118,7 @@ This is a list of providers that are bundled within the image. Feel free to crea
 | SmartVPN | `SMARTVPN` |
 | TigerVPN | `TIGER` |
 | TorGuard | `TORGUARD` |
+| Trust.Zone | `TRUSTZONE` |
 | TunnelBear | `TUNNELBEAR`|
 | UsenetServerVPN | `USENETSERVER` |
 | Windscribe | `WINDSCRIBE` |
