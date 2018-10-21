@@ -13,23 +13,31 @@ You need to specify your provider and credentials with environment variables,
 as well as mounting volumes where the data should be stored.
 An example run command to get you going is provided below.
 
-Also worth mentioning.
-If you want to route web traffic through the same tunnel that Transmission is using there
-is a pre-installed Tinyproxy which will expose a proxy on port 8888 when enabled.
-And if you're using PIA as provider it will update Transmission hourly with assigned open port (if the port forwarding feature is available in the selected region).
+It also bundles an installation of Tinyproxy to also be able to proxy web traffic over your VPN,
+as well as scripts for opening a port for Transmission if you are using PIA or Perfect Privacy providers.
 
-GL HF! And if you run into problems, please check the README twice and maybe try the gitter chat before opening an issue :)
+GL HF! And if you run into problems, please check the README twice and try the gitter chat before opening an issue :)
 
-### about:maintenance
+## Please help out (about:maintenance)
 
-This image was created for my own use, but sharing is caring so it had to be open source.
-The number of users, issues and pull-requests have gone up quite drastically since that
-and that's great! It's been a lot of fun watching the activity level go up
-and my pet project improve with it.
+This image was created for my own use, but sharing is caring, so it had to be open source.
+It has now gotten quite popular, and that's great! But keeping it up to date, providing support, fixes
+and new features takes a lot of time.
 
-But maintaining it takes time, and if you ever feel like donating, here's a button:
+I'm therefore kindly asking you to donate if you feel like you're getting a good tool 
+and you're able to spare some dollars to keep it functioning as it should. There's a couple of ways to do it:
 
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=73XHRSK65KQYC)
+Become a patron, supporting the project with a small monthly amount.
+
+[![Donate with Patreon](images/patreon.png)](https://www.patreon.com/haugene)
+
+Make a one time donation through PayPal.
+
+[![Donate with PayPal](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=73XHRSK65KQYC)
+
+Or use this referral code to DigitalOcean and get 25$ in credits, if you're interested in a cloud setup.
+
+[![Credits on DigitalOcean](images/digitalocean.png)](https://m.do.co/c/ca994f1552bc)
 
 You can also help out by submitting pull-requests or helping others with
 open issues or in the gitter chat. A big thanks to everyone who has contributed so far!
@@ -198,7 +206,8 @@ This is to prevent leaking the host IP.
 This container also contains a web-proxy server to allow you to tunnel your web-browser traffic through the same OpenVPN tunnel.
 This is useful if you are using a private tracker that needs to see you login from the same IP address you are torrenting from.
 The default listening port is 8888. Note that only ports above 1024 can be specified as all ports below 1024 are privileged 
-and would otherwise require root permissions to run.
+and would otherwise require root permissions to run. 
+Remember to add a port binding for your selected (or default) port when starting the container.
 
 | Variable | Function | Example |
 |----------|----------|-------|
