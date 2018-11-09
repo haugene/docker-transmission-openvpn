@@ -24,4 +24,4 @@ sed -i 's/ping-restart 0/ping-exit 60/g' *.ovpn
 sed -i 's/ping-timer-rem//g' *.ovpn
 
 # Create symlink for default.ovpn
-ln -s nl8.nordvpn.com.tcp.ovpn default.ovpn
+ln -s nl15.nordvpn.com.tcp.ovpn default.ovpn
