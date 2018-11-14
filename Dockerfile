@@ -22,7 +22,7 @@ RUN apt-get update \
     && ln -s /usr/share/transmission/web/style /opt/transmission-ui/transmission-web-control \
     && ln -s /usr/share/transmission/web/images /opt/transmission-ui/transmission-web-control \
     && ln -s /usr/share/transmission/web/javascript /opt/transmission-ui/transmission-web-control \
-    && ln -s /usr/share/transmission/web/index.html /opt/transmission-ui/transmission-web-control \
+    && ln -s /usr/share/transmission/web/index.html /opt/transmission-ui/transmission-web-control/index.original.html \
     && tar -xvf src.tar.gz -C /opt/transmission-ui/transmission-web-control/ \
     && rm src.tar.gz \
     && git clone git://github.com/endor/kettu.git /opt/transmission-ui/kettu \
