@@ -18,6 +18,10 @@ RUN echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/ap
     && echo "Install Transmission-Web-Control" \
     && mkdir /opt/transmission-ui/transmission-web-control \
     && wget -qO- https://github.com/ronggang/twc-release/raw/master/src.tar.gz | tar xz -C /opt/transmission-ui/transmission-web-control \
+    && ln -s /usr/share/transmission/web/style /opt/transmission-ui/transmission-web-control \
+    && ln -s /usr/share/transmission/web/images /opt/transmission-ui/transmission-web-control \
+    && ln -s /usr/share/transmission/web/javascript /opt/transmission-ui/transmission-web-control \
+    && ln -s /usr/share/transmission/web/index.html /opt/transmission-ui/transmission-web-control \
     && rm -rf /tmp/* /var/tmp/* \
     && groupmod -g 1000 users \
     && useradd -u 911 -U -d /config -s /bin/false abc \
