@@ -17,6 +17,10 @@ RUN apt-get update \
     && mkdir /opt/transmission-ui/transmission-web-control \
     && curl -L https://github.com/ronggang/twc-release/raw/master/src.tar.gz \
      | tar -C /opt/transmission-ui/transmission-web-control/ -xzv \
+    && ln -s /usr/share/transmission/web/style /opt/transmission-ui/transmission-web-control \
+    && ln -s /usr/share/transmission/web/images /opt/transmission-ui/transmission-web-control \
+    && ln -s /usr/share/transmission/web/javascript /opt/transmission-ui/transmission-web-control \
+    && ln -s /usr/share/transmission/web/index.html /opt/transmission-ui/transmission-web-control \
     && apt-get purge git unzip \
     && apt-get autoremove --purge \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
