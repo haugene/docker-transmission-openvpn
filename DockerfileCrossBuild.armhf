@@ -1,5 +1,9 @@
+# This Dockerfile is for building ARM images on x64 machine like Docker Hub
+
 FROM resin/rpi-raspbian:stretch
 MAINTAINER Kristian Haugene
+
+RUN [ "cross-build-start" ]
 
 VOLUME /data
 VOLUME /config
@@ -123,3 +127,5 @@ ENV OPENVPN_USERNAME=**None** \
 # Expose port and run
 EXPOSE 9091
 CMD ["dumb-init", "/etc/openvpn/start.sh"]
+
+RUN [ "cross-build-end" ]

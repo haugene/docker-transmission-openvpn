@@ -2,10 +2,7 @@ version: '2'
 
 services:
  transmission:
-  build:
-     context: .
-     dockerfile: Dockerfile.armhf
-  image: haugene/rpi-transmission-openvpn
+  image: haugene/transmission-openvpn:latest-armhf
   cap_add:
     - NET_ADMIN
   devices:
@@ -26,11 +23,9 @@ services:
     - OPENVPN_PASSWORD=password
     - OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60
     - LOCAL_NETWORK=192.168.0.0/24
+
  proxy:
-  build:
-     context: ./proxy
-     dockerfile: Dockerfile.armhf
-  image: haugene/rpi-transmission-openvpn-proxy
+  image: haugene/transmission-openvpn-proxy:latest-armhf
   links:
     - transmission
   ports:
@@ -39,10 +34,7 @@ services:
     - /etc/localtime:/etc/localtime:ro
 
  rss:
-  build:
-     context: ./plugins/rss
-     dockerfile: Dockerfile.armhf
-  image: haugene/rpi-transmission-plugin-rss
+  image: haugene/transmission-rss:latest-armhf
   links:
     - transmission
   environment:

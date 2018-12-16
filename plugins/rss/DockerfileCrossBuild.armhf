@@ -1,5 +1,9 @@
+# This Dockerfile is for building ARM images on x64 machine like Docker Hub
+
 FROM resin/rpi-raspbian:stretch
 MAINTAINER Kristian Haugene
+
+RUN [ "cross-build-start" ]
 
 # Update packages and install software
 RUN apt-get update \
@@ -14,3 +18,5 @@ ENV TRANSMISSION_DOWNLOAD_DIR=/data/completed \
     RSS_URL=**None**
 
 CMD ["/etc/transmission-rss/start.sh"]
+
+RUN [ "cross-build-end" ]
