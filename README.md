@@ -24,7 +24,7 @@ This image was created for my own use, but sharing is caring, so it had to be op
 It has now gotten quite popular, and that's great! But keeping it up to date, providing support, fixes
 and new features takes a lot of time.
 
-I'm therefore kindly asking you to donate if you feel like you're getting a good tool 
+I'm therefore kindly asking you to donate if you feel like you're getting a good tool
 and you're able to spare some dollars to keep it functioning as it should. There's a couple of ways to do it:
 
 Become a patron, supporting the project with a small monthly amount.
@@ -207,8 +207,8 @@ This is to prevent leaking the host IP.
 
 This container also contains a web-proxy server to allow you to tunnel your web-browser traffic through the same OpenVPN tunnel.
 This is useful if you are using a private tracker that needs to see you login from the same IP address you are torrenting from.
-The default listening port is 8888. Note that only ports above 1024 can be specified as all ports below 1024 are privileged 
-and would otherwise require root permissions to run. 
+The default listening port is 8888. Note that only ports above 1024 can be specified as all ports below 1024 are privileged
+and would otherwise require root permissions to run.
 Remember to add a port binding for your selected (or default) port when starting the container.
 
 | Variable | Function | Example |
@@ -356,10 +356,12 @@ For example, another container may pause or restrict transmission speeds while t
 
 ## Running on ARM (Raspberry PI)
 Since the Raspberry PI runs on an ARM architecture instead of x64, the existing x64 images will not
-work properly. To support users that wish to run this container on a Raspberry Pi, there are 2 additional
-Dockerfiles created. The Dockerfiles supported by the Raspberry PI are Dockerfile.armhf -- there is
+work properly. There are 2 additional Dockerfiles created. The Dockerfiles supported by the Raspberry PI are Dockerfile.armhf -- there is
 also an example docker-compose-armhf file that shows how you might use Transmission/OpenVPN and the
 corresponding nginx reverse proxy on an RPI machine.
+You can use the `latest-armhf` tag for each images (see docker-compose-armhf.yml) or build your own images using Dockerfile.armhf.
+
+
 
 ## Make it work on Synology NAS
 Here are the steps to run it on a Synology NAS (Tested on DSM 6) :
@@ -399,8 +401,8 @@ nameserver 8.8.8.8
 nameserver 8.8.4.4
 ```
 - Save the file with [escape] + `:wq!`
-- Create your docker container with a the following command line: 
- 
+- Create your docker container with a the following command line:
+
       # Tested on DSM 6.1.4-15217 Update 1, Docker Package 17.05.0-0349
       docker run \
           --cap-add=NET_ADMIN \
