@@ -98,6 +98,7 @@ This is a list of providers that are bundled within the image. Feel free to crea
 | BTGuard | `BTGUARD` |
 | Cryptostorm | `CRYPTOSTORM` |
 | Cypherpunk | `CYPHERPUNK` |
+| FreeVPN | `FREEVPN` |
 | FrootVPN | `FROOT` |
 | FrostVPN | `FROSTVPN` |
 | Giganews | `GIGANEWS` |
@@ -134,6 +135,7 @@ This is a list of providers that are bundled within the image. Feel free to crea
 | VPN.AC | `VPNAC` |
 | VPN.ht | `VPNHT` |
 | VPNBook.com | `VPNBOOK` |
+| VPNFacile | `VPNFACILE` |
 | VPNTunnel | `VPNTUNNEL` |
 | VyprVpn | `VYPRVPN` |
 
