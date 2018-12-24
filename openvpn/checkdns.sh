@@ -32,11 +32,11 @@ dnsresolved=$?
 
 
 if [[ "$dnsresolved" == "1" ]]; then
-  echo "CheckDNS : google.com successfully resolved...doing nothing"
+  echo "$(date) CheckDNS : google.com successfully resolved...doing nothing"
   exit 0
 else
    #killing openvpn
-   echo "CheckDNS : unable to resolve DNS google.com ... restarting Openvpn Client"
+   echo "$(date) CheckDNS : unable to resolve DNS google.com ... restarting Openvpn Client"
    pkill --signal SIGKILL "openvpn"
    exit 1
 fi

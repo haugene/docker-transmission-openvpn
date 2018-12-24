@@ -26,7 +26,7 @@ RUN apt-get update \
     && tar -xvf src.tar.gz -C /opt/transmission-ui/transmission-web-control/ \
     && rm src.tar.gz \
     && git clone git://github.com/endor/kettu.git /opt/transmission-ui/kettu \
-    && apt-get install -y tinyproxy telnet \
+    && apt-get install -y tinyproxy telnet nano \
     && wget https://github.com/Yelp/dumb-init/releases/download/v1.2.0/dumb-init_1.2.0_amd64.deb \
     && dpkg -i dumb-init_1.2.0_amd64.deb \
     && rm -rf dumb-init_1.2.0_amd64.deb \
@@ -34,7 +34,8 @@ RUN apt-get update \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
     && groupmod -g 1000 users \
     && useradd -u 911 -U -d /config -s /bin/false abc \
-    && usermod -G users abc
+    && usermod -G users abc 
+ #   && echo '*/10 * * * * root /etc/openvpn/checkdns.sh' >> /etc/crontab
 
 ADD openvpn/ /etc/openvpn/
 ADD transmission/ /etc/transmission/
@@ -130,6 +131,19 @@ ENV OPENVPN_USERNAME=**None** \
     DROP_DEFAULT_ROUTE= \
     WEBPROXY_ENABLED=false \
     WEBPROXY_PORT=8888
+
+# Exporting the checkdns.sh as cronttab
+# https://stackoverflow.com/questions/37458287/how-to-run-a-cron-job-inside-a-docker-container
+# Add crontab file in the cron directory
+ADD openvpn/checkdns-crontab /etc/cron.d/checkdns-crontab
+# Give execution rights on the cron job
+RUN chmod 0644 /etc/cron.d/checkdns-crontab
+# Apply cron job
+RUN crontab /etc/cron.d/checkdns-crontab
+
+# Create the log file to be able to run tail
+RUN touch /var/log/cron.log
+
 
 # Expose port and run
 EXPOSE 9091

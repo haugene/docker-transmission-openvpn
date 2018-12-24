@@ -1,2 +1,0 @@
-# run this crontab entry every 5 minutes
-*/5 * * * * /openvpn/checkdns.sh
