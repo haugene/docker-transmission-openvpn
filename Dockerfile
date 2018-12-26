@@ -34,8 +34,7 @@ RUN apt-get update \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
     && groupmod -g 1000 users \
     && useradd -u 911 -U -d /config -s /bin/false abc \
-    && usermod -G users abc 
- #   && echo '*/10 * * * * root /etc/openvpn/checkdns.sh' >> /etc/crontab
+    && usermod -G users abc
 
 ADD openvpn/ /etc/openvpn/
 ADD transmission/ /etc/transmission/
@@ -135,15 +134,20 @@ ENV OPENVPN_USERNAME=**None** \
 # Exporting the checkdns.sh as cronttab
 # https://stackoverflow.com/questions/37458287/how-to-run-a-cron-job-inside-a-docker-container
 # Add crontab file in the cron directory
-ADD openvpn/checkdns-crontab /etc/cron.d/checkdns-crontab
-# Give execution rights on the cron job
-RUN chmod 0644 /etc/cron.d/checkdns-crontab
-# Apply cron job
-RUN crontab /etc/cron.d/checkdns-crontab
+#----------- Disabled because i did succeed in starting a cron job in a container
+#
+#ADD openvpn/checkdns-crontab /etc/cron.d/checkdns-crontab
+#RUN chmod 755 /etc/cron.d/checkdns-crontab
+#RUN crontab /etc/cron.d/checkdns-crontab
+#
+#-------------------------------------------------------------------------------
+
+#Making the checkdns script executables
+RUN chmod 755 /etc/openvpn/monitor-checkdns.sh
+RUN chmod 755 /etc/openvpn/checkdns.sh
 
 # Create the log file to be able to run tail
 RUN touch /var/log/cron.log
-
 
 # Expose port and run
 EXPOSE 9091

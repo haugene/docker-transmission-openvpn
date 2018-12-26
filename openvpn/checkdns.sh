@@ -2,7 +2,7 @@
 #Simple script that check if DNS resolution is OK, and stop openvpn client
 #simply getting head from a curl command , maybe there is some should be a better way
 
-result=$(/usr/bin/curl -s --head https://www.google.com)
+result=$(/usr/bin/curl --connect-timeout 10 -s --head https://www.google.com)
 #echo "Result=[$result]"
 #exit 1
 
