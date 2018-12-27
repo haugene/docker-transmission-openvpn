@@ -85,10 +85,13 @@ fi
 
 echo "Transmission startup script complete."
 
-# If monitor-checkdns.sh exists, run it
-if [ -x /etc/openvpn/monitor-checkdns.sh ]
-then
-   #echo "Executing /etc/openvpn/monitor-checkdns.sh"
-   /etc/openvpn/monitor-checkdns.sh &
-   #echo "/etc/openvpn/monitor-checkdns.sh returned $?"
+if [[ "${MONITORDNS_ENABLED,,}" == "true" ]]; then
+    # If monitor-checkdns.sh exists, run it
+  if [ -x /etc/openvpn/monitor-checkdns.sh ]
+  then
+    #echo "Executing /etc/openvpn/monitor-checkdns.sh"
+    /etc/openvpn/monitor-checkdns.sh &
+    #echo "/etc/openvpn/monitor-checkdns.sh returned $?"
+  fi
 fi
+

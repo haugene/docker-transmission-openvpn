@@ -214,6 +214,16 @@ Remember to add a port binding for your selected (or default) port when starting
 |`WEBPROXY_ENABLED` | Enables the web proxy | `WEBPROXY_ENABLED=true`|
 |`WEBPROXY_PORT` | Sets the listening port | `WEBPROXY_PORT=8888` |
 
+### DNS Monitoring configuration options
+
+This container also can monitor if DNS resolution is OK throught the VPN connection, to avoid some DNS issues
+with some Providers. If the www.google.com could'nt be resolved, the openvn client is killed (true by default)
+
+| Variable | Function | Example |
+|----------|----------|-------|
+|`MONITORDNS_ENABLED` | Enables the DNS resolution monitoring | `MONITORDNS_ENABLED='true`|
+
+
 ### User configuration options
 
 By default everything will run as the root user. However, it is possible to change who runs the transmission process.
