@@ -85,7 +85,8 @@ fi
 
 echo "Transmission startup script complete."
 
-if [ "$MONITORDNS_ENABLED" = "true" ] then
+if [ "$MONITORDNS_ENABLED" = "true" ]
+then
     # If monitor-checkdns.sh exists, run it
   if [ -x /etc/openvpn/monitor-checkdns.sh ]
   then
