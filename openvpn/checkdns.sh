@@ -3,8 +3,6 @@
 #simply getting head from a curl command , maybe there is some should be a better way
 
 result=$(/usr/bin/curl --connect-timeout 10 -s --head https://www.google.com)
-#echo "Result=[$result]"
-#exit 1
 
 #Check if  a string $2 is   a substring of another string $1
 #Return 1 if $2 is found in $1, 0 if not found
@@ -20,7 +18,6 @@ else
   #echo "DEBUG-[${substring}] was found in [${my_string}]"
   STRFOUND=1
 fi
- 
 #echo "DEBUG-STRFOUND=$STRFOUND"
 return $STRFOUND
 }
@@ -29,7 +26,6 @@ return $STRFOUND
 is_substring "$result" "HTTP"
 dnsresolved=$?
 #echo "dnsresolved=[$dnsresolved]"
-
 
 if [[ "$dnsresolved" == "1" ]]; then
   echo "$(date) CheckDNS : google.com successfully resolved...doing nothing"

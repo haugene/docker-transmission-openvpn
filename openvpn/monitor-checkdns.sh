@@ -3,15 +3,15 @@
 #We use this because i don't succeed in initializing a cron job
 
 #SLEEPTIME is the amount to wait between check
-SLEEPTIME=1m
+SLEEPTIME=2m
 
 while true
 do
  #Waiting for sometime
  sleep $SLEEPTIME
- echo "Executing /etc/openvpn/checkdns.sh"
+ #echo "Executing /etc/openvpn/checkdns.sh"
  /etc/openvpn/checkdns.sh
- echo "/etc/openvpn/checkdns.sh returned $?"
+ #echo "/etc/openvpn/checkdns.sh returned $?"
 done
  
 exit 0
