@@ -3,7 +3,7 @@
 #We use this because i don't succeed in initializing a cron job
 
 #SLEEPTIME is the amount to wait between check
-SLEEPTIME=2m
+SLEEPTIME=5m
 
 while true
 do

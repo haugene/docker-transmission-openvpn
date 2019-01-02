@@ -2,7 +2,7 @@
 #Simple script that check if DNS resolution is OK, and stop openvpn client
 #simply getting head from a curl command , maybe there is some should be a better way
 
-result=$(/usr/bin/curl --connect-timeout 10 -s --head https://www.google.com)
+result=$(/usr/bin/curl --connect-timeout 20 -s --head https://www.google.com)
 
 #Check if  a string $2 is   a substring of another string $1
 #Return 1 if $2 is found in $1, 0 if not found
