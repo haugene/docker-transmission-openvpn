@@ -21,8 +21,8 @@ fi
 return $STRFOUND
 }
 
-#Looping 2 time
-for i in {1..5}
+#Looping x time
+for i in {1..4}
 do
   result=$(/usr/bin/curl --connect-timeout 10 -s --head https://www.google.com)
 
@@ -32,7 +32,7 @@ do
   #echo "dnsresolved=[$dnsresolved]"
 
   if [[ "$dnsresolved" == "1" ]]; then
-    echo "$(date) CheckDNS Attemp $i : google.com successfully resolved...doing nothing"
+    echo "$(date) CheckDNS [Attempt N°$i]: google.com successfully resolved...doing nothing"
     exit 0
   fi
   
