@@ -1,6 +1,7 @@
 FROM resin/rpi-raspbian:stretch
 
-RUN [ "cross-build-start" ]
+#Uncomment the line below if you are building on a non-ARM (x86) device
+#RUN [ "cross-build-start" ]
 
 RUN apt-get update \
       && apt-get install -y \
@@ -17,4 +18,5 @@ COPY nginx.conf /etc/nginx/nginx.conf
 
 CMD ["nginx", "-g", "daemon off;"]
 
-RUN [ "cross-build-end" ]
+#Uncomment the line below if you are building on a non-ARM (x86) device
+#RUN [ "cross-build-end" ]
