@@ -1,5 +1,11 @@
 FROM resin/rpi-raspbian:stretch
 
+<<<<<<< HEAD
+=======
+#Uncomment the line below if you are building on a non-ARM (x86) device
+#RUN [ "cross-build-start" ]
+
+>>>>>>> nickedit
 RUN apt-get update \
       && apt-get install -y \
         ca-certificates \
@@ -14,3 +20,9 @@ EXPOSE 8080
 COPY nginx.conf /etc/nginx/nginx.conf
 
 CMD ["nginx", "-g", "daemon off;"]
+<<<<<<< HEAD
+=======
+
+#Uncomment the line below if you are building on a non-ARM (x86) device
+#RUN [ "cross-build-end" ]
+>>>>>>> nickedit

@@ -1,6 +1,9 @@
 FROM resin/rpi-raspbian:stretch
 MAINTAINER Kristian Haugene
 
+#Uncomment the line below if you are building on a non-ARM (x86) device
+#RUN [ "cross-build-start" ]
+
 VOLUME /data
 VOLUME /config
 
@@ -127,3 +130,6 @@ ENV OPENVPN_USERNAME=**None** \
 # Expose port and run
 EXPOSE 9091
 CMD ["dumb-init", "/etc/openvpn/start.sh"]
+
+#Uncomment the line below if you are building on a non-ARM (x86) device
+#RUN [ "cross-build-end" ]
