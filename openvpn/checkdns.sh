@@ -36,8 +36,8 @@ do
     exit 0
   fi
   
-  #Waiting 1 minute befor retry
-  sleep 1m
+  #Waiting 10 minute befor retry
+  sleep 10m
 done
 
 #If not succeeded 3 times killing openvpn
