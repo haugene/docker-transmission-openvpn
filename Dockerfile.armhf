@@ -127,23 +127,9 @@ ENV OPENVPN_USERNAME=**None** \
     WEBPROXY_PORT=8888 \
     MONITORDNS_ENABLED=true 
 
-# Exporting the checkdns.sh as cronttab
-# https://stackoverflow.com/questions/37458287/how-to-run-a-cron-job-inside-a-docker-container
-# Add crontab file in the cron directory
-#----------- Disabled because i did succeed in starting a cron job in a container
-#
-#ADD openvpn/checkdns-crontab /etc/cron.d/checkdns-crontab
-#RUN chmod 755 /etc/cron.d/checkdns-crontab
-#RUN crontab /etc/cron.d/checkdns-crontab
-#
-#-------------------------------------------------------------------------------
-
 #Making the checkdns script executables
 RUN chmod 755 /etc/openvpn/monitor-checkdns.sh
 RUN chmod 755 /etc/openvpn/checkdns.sh
-
-# Create the log file to be able to run tail
-RUN touch /var/log/cron.log
 
 # Expose port and run
 EXPOSE 9091
