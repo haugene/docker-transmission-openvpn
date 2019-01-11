@@ -26,7 +26,7 @@ RUN apt-get update \
     && tar -xvf src.tar.gz -C /opt/transmission-ui/transmission-web-control/ \
     && rm src.tar.gz \
     && git clone git://github.com/endor/kettu.git /opt/transmission-ui/kettu \
-    && apt-get install -y tinyproxy telnet nano \
+    && apt-get install -y tinyproxy telnet \
     && wget https://github.com/Yelp/dumb-init/releases/download/v1.2.0/dumb-init_1.2.0_amd64.deb \
     && dpkg -i dumb-init_1.2.0_amd64.deb \
     && rm -rf dumb-init_1.2.0_amd64.deb \
@@ -131,17 +131,6 @@ ENV OPENVPN_USERNAME=**None** \
     WEBPROXY_ENABLED=false \
     WEBPROXY_PORT=8888 \
     MONITORDNS_ENABLED=true 
-
-# Exporting the checkdns.sh as cronttab
-# https://stackoverflow.com/questions/37458287/how-to-run-a-cron-job-inside-a-docker-container
-# Add crontab file in the cron directory
-#----------- Disabled because i did succeed in starting a cron job in a container
-#
-#ADD openvpn/checkdns-crontab /etc/cron.d/checkdns-crontab
-#RUN chmod 755 /etc/cron.d/checkdns-crontab
-#RUN crontab /etc/cron.d/checkdns-crontab
-#
-#-------------------------------------------------------------------------------
 
 #Making the checkdns script executables
 RUN chmod 755 /etc/openvpn/monitor-checkdns.sh
