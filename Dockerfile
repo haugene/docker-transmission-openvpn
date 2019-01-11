@@ -136,9 +136,6 @@ ENV OPENVPN_USERNAME=**None** \
 RUN chmod 755 /etc/openvpn/monitor-checkdns.sh
 RUN chmod 755 /etc/openvpn/checkdns.sh
 
-# Create the log file to be able to run tail
-RUN touch /var/log/cron.log
-
 # Expose port and run
 EXPOSE 9091
 EXPOSE 8888
