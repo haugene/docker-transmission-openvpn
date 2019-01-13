@@ -3,7 +3,7 @@
 # Source our persisted env variables from container startup
 . /etc/transmission/environment-variables.sh
 
-PROXY_CONF='/etc/tinyproxy.conf'
+PROXY_CONF='/etc/tinyproxy/tinyproxy.conf'
 
 set_port()
 {
