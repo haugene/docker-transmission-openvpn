@@ -221,7 +221,7 @@ with some Providers. If the www.google.com could'nt be resolved, the openvn clie
 
 | Variable | Function | Example |
 |----------|----------|-------|
-|`MONITORDNS_ENABLED` | Enables the DNS resolution monitoring | `MONITORDNS_ENABLED='true`|
+|`MONITORDNS_ENABLED` | Enables the DNS resolution monitoring | `MONITORDNS_ENABLED=true`|
 
 
 ### User configuration options
