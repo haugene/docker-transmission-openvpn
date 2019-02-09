@@ -346,7 +346,15 @@ Add a new volume mount to your `docker run` command that mounts your config file
 
 Then you can set `OPENVPN_PROVIDER=CUSTOM`and the container will use the config you provided. If you are using AirVPN or other provider with credentials in the config file, you still need to set `OPENVPN_USERNAME` and `OPENVPN_PASSWORD` as this is required by the startup script. They will not be read by the .ovpn file, so you can set them to whatever.
 
-Note that you still need to modify your .ovpn file as described in the previous section. If you have an separate ca.crt file your volume mount should be a folder containing both the ca.crt and the .ovpn config.
+Note that you still need to modify your .ovpn file as described in the previous section. If you have an separate ca.crt, client.key or client.crt file in your volume mount should be a folder containing both the ca.crt and the .ovpn config.
+
+Mount the folder contianing all the required files instead of the openvpn.ovpn file.
+`-v /path/to/your/config/:/etc/openvpn/custom/`
+
+Additionally the .ovpn config should include the full path on the docker container to the ca.crt and additional files. 
+`ca /etc/openvpn/custom/ca.crt`
+
+If `-e OPENVPN_CONFIG=` variable has been omitted from the `docker run` command the .ovpn config file must be named default.ovpn. IF `-e OPENVPN_CONFIG=` is used with the custom provider the .ovpn config and variable must match as described above.
 
 ## Controlling Transmission remotely
 The container exposes /config as a volume. This is the directory where the supplied transmission and OpenVPN credentials will be stored.
