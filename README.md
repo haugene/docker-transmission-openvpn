@@ -117,6 +117,7 @@ This is a list of providers that are bundled within the image. Feel free to crea
 | Perfect Privacy | `PERFECTPRIVACY` |
 | Private Internet Access | `PIA` |
 | PrivateVPN | `PRIVATEVPN` |
+| ProtonVPN | `PROTONVPN` |
 | proXPN | `PROXPN` |
 | proxy.sh | `PROXYSH ` |
 | PureVPN | `PUREVPN` |
