@@ -34,11 +34,14 @@ RUN apt-get update \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
     && groupmod -g 1000 users \
     && useradd -u 911 -U -d /config -s /bin/false abc \
-    && usermod -G users abc
+    && usermod -G users abc \
 
 ADD openvpn/ /etc/openvpn/
 ADD transmission/ /etc/transmission/
 ADD tinyproxy /opt/tinyproxy/
+ADD scripts /etc/scripts/
+
+RUN chmod a+x /etc/scripts/healthcheck.sh
 
 ENV OPENVPN_USERNAME=**None** \
     OPENVPN_PASSWORD=**None** \
@@ -129,7 +132,10 @@ ENV OPENVPN_USERNAME=**None** \
     TRANSMISSION_WEB_HOME= \
     DROP_DEFAULT_ROUTE= \
     WEBPROXY_ENABLED=false \
-    WEBPROXY_PORT=8888
+    WEBPROXY_PORT=8888 \
+    HEALTH_CHECK_HOST=google.com
+
+HEALTHCHECK --interval=5m CMD /etc/scripts/healthcheck.sh
 
 # Expose port and run
 EXPOSE 9091
