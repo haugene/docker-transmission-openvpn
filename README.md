@@ -246,6 +246,7 @@ Once /scripts is mounted you'll need to write your custom code in the following 
 
 | Script | Function |
 |----------|----------|
+|/scripts/openvpn-pre-start.sh | This shell script will be executed before openvpn start |
 |/scripts/transmission-pre-start.sh | This shell script will be executed before transmission start |
 |/scripts/transmission-post-start.sh | This shell script will be executed after transmission start |
 |/scripts/transmission-pre-stop.sh | This shell script will be executed before transmission stop |

@@ -13,6 +13,14 @@ fi
 
 echo "Using OpenVPN provider: ${OPENVPN_PROVIDER}"
 
+# If openvpn-pre-start.sh exists, run it
+if [ -x /scripts/openvpn-pre-start.sh ]
+then
+   echo "Executing /scripts/openvpn-pre-start.sh"
+   /scripts/openvpn-pre-start.sh "$@"
+   echo "/scripts/openvpn-pre-start.sh returned $?"
+fi
+
 if [[ "$OPENVPN_PROVIDER" = "NORDVPN" ]]
 then
     if [[ -z "$OPENVPN_CONFIG" ]]
