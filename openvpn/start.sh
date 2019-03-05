@@ -1,6 +1,7 @@
 #!/bin/bash
 VPN_PROVIDER="${OPENVPN_PROVIDER,,}"
 VPN_PROVIDER_CONFIGS="/etc/openvpn/${VPN_PROVIDER}"
+export VPN_PROVIDER_CONFIGS
 
 # If create_tun_device is set, create /dev/net/tun
 if [[ "${CREATE_TUN_DEVICE,,}" == "true" ]]; then
@@ -32,7 +33,9 @@ if [[ "$OPENVPN_PROVIDER" = "NORDVPN" ]]
 then
     if [[ -z "$OPENVPN_CONFIG" ]]
     then
-        export OPENVPN_CONFIG=$(./NordVPN.sh)
+        # Update config files
+        . ${VPN_PROVIDER_CONFIGS}/updateConfigs.sh
+        export OPENVPN_CONFIG=$(${VPN_PROVIDER_CONFIGS}/NordVPN_Server_Selector.sh)
         echo "Setting best server ${OPENVPN_CONFIG}"
     fi
 fi

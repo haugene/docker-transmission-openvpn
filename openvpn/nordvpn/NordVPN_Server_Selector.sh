@@ -1,7 +1,7 @@
 #!/bin/bash
 
 country_filter() { # curl -s "https://api.nordvpn.com/v1/servers/countries" | jq --raw-output '.[] | [.code, .name] | @tsv'
-    local nordvpn_api=$1 country=(${COUNTRY//[;,]/ })
+    local nordvpn_api=$1 country=(${NORDVPN_COUNTRY//[;,]/ })
     if [[ ${#country[@]} -ge 1 ]]; then
         country=${country[0]//_/ }
         local country_id=`curl -s "${nordvpn_api}/v1/servers/countries" | jq --raw-output ".[] |
@@ -15,7 +15,7 @@ country_filter() { # curl -s "https://api.nordvpn.com/v1/servers/countries" | jq
     fi
 }
 group_filter() { # curl -s "https://api.nordvpn.com/v1/servers/groups" | jq --raw-output '.[] | [.identifier, .title] | @tsv'
-    local nordvpn_api=$1 category=(${CATEGORY//[;,]/ })
+    local nordvpn_api=$1 category=(${NORDVPN_CATEGORY//[;,]/ })
     if [[ ${#category[@]} -ge 1 ]]; then
         category=${category[0]//_/ }
         local identifier=`curl -s "${nordvpn_api}/v1/servers/groups" | jq --raw-output ".[] |
@@ -30,9 +30,9 @@ group_filter() { # curl -s "https://api.nordvpn.com/v1/servers/groups" | jq --ra
 
 technology_filter() { # curl -s "https://api.nordvpn.com/v1/technologies" | jq --raw-output '.[] | [.identifier, .name ] | @tsv' | grep openvpn
     local identifier
-    if [[ ${PROTOCOL,,} =~ .*udp.* ]]; then
+    if [[ ${NORDVPN_PROTOCOL,,} =~ .*udp.* ]]; then
         identifier="openvpn_udp"
-    elif [[ ${PROTOCOL,,} =~ .*tcp.* ]];then
+    elif [[ ${NORDVPN_PROTOCOL,,} =~ .*tcp.* ]];then
         identifier="openvpn_tcp"
     fi
     if [[ -n ${identifier} ]]; then
@@ -59,9 +59,5 @@ select_hostname() { #TODO return multiples
     echo ${hostname}
 }
 
-COUNTRY="United_States"
-
-PROTOCOL="UDP"
-CATEGORY="P2P"
-
-echo "$(select_hostname).${PROTOCOL,,}"
+# Select recommended VPN
+echo "$(select_hostname).${NORDVPN_PROTOCOL,,}"
