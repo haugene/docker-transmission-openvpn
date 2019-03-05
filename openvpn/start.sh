@@ -32,7 +32,7 @@ if [[ "$OPENVPN_PROVIDER" = "NORDVPN" ]]
 then
     if [[ -z "$OPENVPN_CONFIG" ]]
     then
-        export OPENVPN_CONFIG=$(curl -s 'https://nordvpn.com/wp-admin/admin-ajax.php?action=servers_recommendations' | jq -r '.[0].hostname').udp
+        export OPENVPN_CONFIG=$(./NordVPN.sh)
         echo "Setting best server ${OPENVPN_CONFIG}"
     fi
 fi
