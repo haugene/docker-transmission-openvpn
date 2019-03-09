@@ -167,6 +167,14 @@ If TRANSMISSION_PEER_PORT_RANDOM_ON_START is enabled then it allows traffic to t
 |`UFW_EXTRA_PORTS` | Allows the comma separated list of ports through the firewall. Respects UFW_ALLOW_GW_NET. | `UFW_EXTRA_PORTS=9910,23561,443`|
 |`UFW_DISABLE_IPTABLES_REJECT` | Prevents the use of `REJECT` in the `iptables` rules, for hosts without the `ipt_REJECT` module (such as the Synology NAS). | `UFW_DISABLE_IPTABLES_REJECT=true`|
 
+### Health check option
+
+Because your VPN connection can sometimes fail, Docker will run a health check on this container every 5 minutes to see if the container is still connected to the internet. By default, this check is done by pinging google.com once. You change the host that is pinged.
+
+| Variable | Function | Example |
+|----------|----------|-------|
+| `HEALTH_CHECK_HOST` | this host is pinged to check if the network connection still works | `google.com` |
+
 ### Permission configuration options
 By default the startup script applies a default set of permissions and ownership on the transmission download, watch and incomplete directories. The GLOBAL_APPLY_PERMISSIONS directive can be used to disable this functionality.
 
