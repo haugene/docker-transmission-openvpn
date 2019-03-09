@@ -1,5 +1,4 @@
 #!/bin/bash
-
 set -e
 TIME_FORMAT=`date "+%Y-%m-%d %H:%M:%S"`
 
@@ -21,8 +20,8 @@ script_init() {
     log "Checking curl installation"
     script_needs curl
 
-    log "Checking dos2unix installation"
-    script_needs dos2unix
+    # log "Checking dos2unix installation"
+    # script_needs dos2unix
 
     log "Checking unzip installation"
     script_needs unzip
@@ -31,20 +30,23 @@ script_init() {
 script_init
 
 # If the script is called from elsewhere
-cd "${0%/*}"
+cd "${VPN_PROVIDER_CONFIGS}"
 
 # Delete everything (not this script though)
 log "Removing existing configs"
-find . ! -name '*.sh' -delete
+find . ! -name '*.sh' -type f -delete
 
 # Get updated configuration zip
 log "Downloading latest configs"
 curl -skL https://downloads.nordcdn.com/configs/archives/servers/ovpn.zip -o openvpn.zip \
   && unzip -j openvpn.zip $1 >/dev/null 2>&1 && rm openvpn.zip
 
+
 # Ensure linux line endings
 log "Checking line endings"
-dos2unix * $1 >/dev/null 2>&1
+# dos2unix * $1 >/dev/null 2>&1
+# find . -name '*.ovpn' -type f -print 0 | xargs -0 sed -i 's/^M$//'
+find ${VPN_PROVIDER_CONFIGS} -name '*.ovpn' -type f -exec sed -i 's/^M$//' {} \;
 
 # Update configs with correct options
 log "Updating configs for docker-transmission-openvpn"
@@ -58,3 +60,5 @@ sed -i 's/ping-timer-rem//g' *.ovpn
 random_config=$(ls uk*udp* | sort -R | head -n1)
 log "Setting default.ovpn to $random_config"
 ln -s $random_config default.ovpn
+
+cd "${0%/*}"
