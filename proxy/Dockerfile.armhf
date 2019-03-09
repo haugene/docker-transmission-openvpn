@@ -1,4 +1,4 @@
-FROM balenalib/rpi-raspbian:stretch
+FROM balenalib/raspberrypi3:stretch
 
 RUN apt-get update \
       && apt-get install -y \
