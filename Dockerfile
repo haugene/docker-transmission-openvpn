@@ -4,15 +4,19 @@ MAINTAINER Kristian Haugene
 VOLUME /data
 VOLUME /config
 
-# Update packages and install software
-RUN apt-get update \
-    && apt-get -y upgrade \
-    && apt-get -y install software-properties-common wget git curl jq \
+ARG DOCKERIZE_ARCH=amd64
+ARG DOCKERIZE_VERSION=v0.6.1
+ARG DUMBINIT_VERSION=1.2.2
+
+# Update, upgrade and install core software
+RUN apt update \
+    && apt -y upgrade \
+    && apt -y install software-properties-common wget git curl jq \
     && add-apt-repository ppa:transmissionbt/ppa \
     && wget -O - https://swupdate.openvpn.net/repos/repo-public.gpg | apt-key add - \
     && echo "deb http://build.openvpn.net/debian/openvpn/stable xenial main" > /etc/apt/sources.list.d/openvpn-aptrepo.list \
-    && apt-get update \
-    && apt-get install -y sudo transmission-cli transmission-common transmission-daemon curl rar unrar zip unzip ufw iputils-ping openvpn bc\
+    && apt update \
+    && apt install -y sudo transmission-cli transmission-common transmission-daemon curl rar unrar zip unzip ufw iputils-ping openvpn bc \
     python2.7 python2.7-pysqlite2 && ln -sf /usr/bin/python2.7 /usr/bin/python2 \
     && wget https://github.com/Secretmapper/combustion/archive/release.zip \
     && unzip release.zip -d /opt/transmission-ui/ \
@@ -26,12 +30,12 @@ RUN apt-get update \
     && tar -xvf src.tar.gz -C /opt/transmission-ui/transmission-web-control/ \
     && rm src.tar.gz \
     && git clone git://github.com/endor/kettu.git /opt/transmission-ui/kettu \
-    && apt-get install -y tinyproxy telnet \
-    && wget https://github.com/Yelp/dumb-init/releases/download/v1.2.0/dumb-init_1.2.0_amd64.deb \
-    && dpkg -i dumb-init_1.2.0_amd64.deb \
-    && rm -rf dumb-init_1.2.0_amd64.deb \
-    && curl -L https://github.com/jwilder/dockerize/releases/download/v0.5.0/dockerize-linux-amd64-v0.5.0.tar.gz | tar -C /usr/local/bin -xzv \
-    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+    && apt install -y tinyproxy telnet \
+    && wget https://github.com/Yelp/dumb-init/releases/download/v${DUMBINIT_VERSION}/dumb-init_${DUMBINIT_VERSION}_amd64.deb \
+    && dpkg -i dumb-init_${DUMBINIT_VERSION}_amd64.deb \
+    && rm -rf dumb-init_${DUMBINIT_VERSION}_amd64.deb \
+    && curl -L https://github.com/jwilder/dockerize/releases/download/${DOCKERIZE_VERSION}/dockerize-linux-${DOCKERIZE_ARCH}-${DOCKERIZE_VERSION}.tar.gz | tar -C /usr/local/bin -xzv \
+    && apt clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
     && groupmod -g 1000 users \
     && useradd -u 911 -U -d /config -s /bin/false abc \
     && usermod -G users abc
@@ -40,8 +44,6 @@ ADD openvpn/ /etc/openvpn/
 ADD transmission/ /etc/transmission/
 ADD tinyproxy /opt/tinyproxy/
 ADD scripts /etc/scripts/
-
-RUN chmod a+x /etc/scripts/healthcheck.sh
 
 ENV OPENVPN_USERNAME=**None** \
     OPENVPN_PASSWORD=**None** \
