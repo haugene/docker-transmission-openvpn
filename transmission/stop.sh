@@ -1,7 +1,7 @@
-#! /bin/sh
+#! /bin/bash
 
 # If transmission-pre-stop.sh exists, run it
-if [ -x /scripts/transmission-pre-stop.sh ]
+if [[ -x /scripts/transmission-pre-stop.sh ]]
 then
    echo "Executing /scripts/transmission-pre-stop.sh"
    /scripts/transmission-pre-stop.sh "$@"
@@ -11,7 +11,7 @@ fi
 kill $(pidof transmission-daemon)
 
 # If transmission-post-stop.sh exists, run it
-if [ -x /scripts/transmission-post-stop.sh ]
+if [[ -x /scripts/transmission-post-stop.sh ]]
 then
    echo "Executing /scripts/transmission-post-stop.sh"
    /scripts/transmission-post-stop.sh "$@"
