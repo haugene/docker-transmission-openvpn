@@ -1,15 +1,25 @@
-#!/bin/sh
+#!/bin/bash
 
 # Source our persisted env variables from container startup
 . /etc/transmission/environment-variables.sh
 
-PROXY_CONF='/etc/tinyproxy.conf'
+find_proxy_conf()
+{
+    if [[ -f /etc/tinyproxy.conf ]]; then
+      PROXY_CONF='/etc/tinyproxy.conf'
+    elif [[ -f /etc/tinyproxy/tinyproxy.conf ]]; then
+      PROXY_CONF='/etc/tinyproxy/tinyproxy.conf'
+    else
+     echo "ERROR: Could not find tinyproxy config file. Exiting..."
+     exit 1
+    fi
+}
 
 set_port()
 {
   expr $1 + 0 1>/dev/null 2>&1
-  statut=$?
-  if test $statut -gt 1
+  status=$?
+  if test ${status} -gt 1
   then
     echo "Port [$1]: Not a number" >&2; exit 1
   fi
@@ -28,14 +38,27 @@ set_port()
   sed -i -e"s,^Port .*,Port $1," $2
 }
 
-if [ "${WEBPROXY_ENABLED}" = "true" ]; then
+if [[ "${WEBPROXY_ENABLED}" = "true" ]]; then
+
+  mkdir -p /etc/tinyproxy/
+  cp /etc/tinyproxy.conf /etc/tinyproxy/tinyproxy.conf
+  rm /etc/tinyproxy.conf
 
   echo "STARTING TINYPROXY"
+
+  find_proxy_conf
+  echo "Found config file $PROXY_CONF, updating settings."
 
   set_port ${WEBPROXY_PORT} ${PROXY_CONF}
 
   # Allow all clients
   sed -i -e"s/^Allow /#Allow /" ${PROXY_CONF}
+
+  # Disable Via Header for privacy (leaks that you're using a proxy)
+  sed -i -e "s/#DisableViaHeader/DisableViaHeader/" ${PROXY_CONF}
+
+  # Lower log level for privacy (writes dns names by default)
+  sed -i -e "s/LogLevel Info/LogLevel Critical/" ${PROXY_CONF}
 
   /etc/init.d/tinyproxy start
   echo "Tinyproxy startup script complete."
