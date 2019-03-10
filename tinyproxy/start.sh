@@ -40,10 +40,6 @@ set_port()
 
 if [[ "${WEBPROXY_ENABLED}" = "true" ]]; then
 
-  mkdir -p /etc/tinyproxy/
-  cp /etc/tinyproxy.conf /etc/tinyproxy/tinyproxy.conf
-  rm /etc/tinyproxy.conf
-
   echo "STARTING TINYPROXY"
 
   find_proxy_conf
