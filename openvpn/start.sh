@@ -29,7 +29,7 @@ then
    echo "/scripts/openvpn-pre-start.sh returned $?"
 fi
 
-if [[ "$OPENVPN_PROVIDER" = "NORDVPN" ]]
+if [[ "${OPENVPN_PROVIDER^^}" = "NORDVPN" ]]
 then
     if [[ -z "$OPENVPN_CONFIG" ]]
     then
