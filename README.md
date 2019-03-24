@@ -49,9 +49,10 @@ The container is available from the Docker registry and this is the simplest way
 To run the container use this command:
 
 ```
-$ docker run --cap-add=NET_ADMIN --device=/dev/net/tun -d \
+$ docker run --cap-add=NET_ADMIN -d \
               -v /your/storage/path/:/data \
               -v /etc/localtime:/etc/localtime:ro \
+              -e CREATE_TUN_DEVICE=true \
               -e OPENVPN_PROVIDER=PIA \
               -e OPENVPN_CONFIG=CA\ Toronto \
               -e OPENVPN_USERNAME=user \
