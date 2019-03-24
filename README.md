@@ -126,6 +126,7 @@ This is a list of providers that are bundled within the image. Feel free to crea
 | SlickVPN | `SLICKVPN` |
 | Smart DNS Proxy | `SMARTDNSPROXY` |
 | SmartVPN | `SMARTVPN` |
+| Surfshark | `SURFSHARK` |
 | TigerVPN | `TIGER` |
 | TorGuard | `TORGUARD` |
 | Trust.Zone | `TRUSTZONE` |
