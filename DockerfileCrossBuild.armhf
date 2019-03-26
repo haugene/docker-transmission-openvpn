@@ -1,6 +1,6 @@
 # This Dockerfile is for building ARM images on x64 machine like Docker Hub
 
-FROM balenalib/raspberrypi3:stretch
+FROM balenalib/raspberry-pi:stretch
 MAINTAINER Kristian Haugene
 
 RUN [ "cross-build-start" ]

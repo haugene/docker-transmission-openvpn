@@ -1,4 +1,4 @@
-FROM balenalib/raspberrypi3:stretch
+FROM balenalib/raspberry-pi:stretch
 MAINTAINER Kristian Haugene
 
 # Update packages and install software
