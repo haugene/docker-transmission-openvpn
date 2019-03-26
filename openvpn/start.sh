@@ -31,12 +31,25 @@ fi
 
 if [[ "${OPENVPN_PROVIDER^^}" = "NORDVPN" ]]
 then
-    if [[ -z "$OPENVPN_CONFIG" ]]
+    if [[ -z $NORDVPN_PROTOCOL ]]
     then
-        # Update config files
-        . ${VPN_PROVIDER_CONFIGS}/updateConfigs.sh
-        export OPENVPN_CONFIG=$(${VPN_PROVIDER_CONFIGS}/NordVPN_Server_Selector.sh)
-        echo "Setting best server ${OPENVPN_CONFIG}"
+      export NORDVPN_PROTOCOL=UDP
+    fi
+
+    if [[ -z $NORDVPN_CATEGORY ]]
+    then
+      export NORDVPN_CATEGORY=P2P
+    fi
+
+    if [[ ! -z $OPENVPN_CONFIG ]]
+    then
+      export NORDVPN_CATEGORY="${OPENVPN_CONFIG##*.^^}"
+      ${VPN_PROVIDER_CONFIGS}/updateConfigs.sh --openvpn-config
+    elif [[ ! -z $NORDVPN_COUNTRY ]]
+    then
+      export OPENVPN_CONFIG=$(${VPN_PROVIDER_CONFIGS}/updateConfigs.sh)
+    else
+      export OPENVPN_CONFIG=$(${VPN_PROVIDER_CONFIGS}/updateConfigs.sh --get-recommended})
     fi
 fi
 
