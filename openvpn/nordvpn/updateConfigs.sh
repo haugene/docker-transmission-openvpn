@@ -41,24 +41,25 @@ log "Downloading latest configs"
 curl -skL https://downloads.nordcdn.com/configs/archives/servers/ovpn.zip -o openvpn.zip \
   && unzip -j openvpn.zip $1 >/dev/null 2>&1 && rm openvpn.zip
 
-
 # Ensure linux line endings
 log "Checking line endings"
 # dos2unix * $1 >/dev/null 2>&1
 # find . -name '*.ovpn' -type f -print 0 | xargs -0 sed -i 's/^M$//'
-find ${VPN_PROVIDER_CONFIGS} -name '*.ovpn' -type f -exec sed -i 's/^M$//' {} \;
+
+find ${VPN_PROVIDER_CONFIGS} -name '*nordvpn*.ovpn' -type f -exec sed -i 's/^M$//' {} \;
 
 # Update configs with correct options
 log "Updating configs for docker-transmission-openvpn"
-sed -i 's=auth-user-pass=auth-user-pass /config/openvpn-credentials.txt=g' *.ovpn
+sed -i 's=auth-user-pass=auth-user-pass /config/openvpn-credentials.txt=g' *nordvpn*.ovpn
 sed -i 's/ping 15/inactive 3600\
-ping 10/g' *.ovpn
-sed -i 's/ping-restart 0/ping-exit 60/g' *.ovpn
-sed -i 's/ping-timer-rem//g' *.ovpn
+ping 10/g' *nordvpn*.ovpn
+sed -i 's/ping-restart 0/ping-exit 60/g' *nordvpn*.ovpn
+sed -i 's/ping-timer-rem//g' *nordvpn*.ovpn
 
 # Pick a random file config for default.ovpn
 random_config=$(ls uk*udp* | sort -R | head -n1)
 log "Setting default.ovpn to $random_config"
-ln -s $random_config default.ovpn
+
+ln -sf $random_config default.ovpn
 
 cd "${0%/*}"
