@@ -21,14 +21,12 @@ RUN apt update \
     && wget https://github.com/Secretmapper/combustion/archive/release.zip \
     && unzip release.zip -d /opt/transmission-ui/ \
     && rm release.zip \
-    && wget https://github.com/ronggang/twc-release/raw/master/src.tar.gz \
     && mkdir /opt/transmission-ui/transmission-web-control \
+    && curl -L `curl -s https://api.github.com/repos/ronggang/transmission-web-control/releases/latest | jq --raw-output '.tarball_url'` | tar -C /opt/transmission-ui/transmission-web-control/ --strip-components=2 -xzv \
     && ln -s /usr/share/transmission/web/style /opt/transmission-ui/transmission-web-control \
     && ln -s /usr/share/transmission/web/images /opt/transmission-ui/transmission-web-control \
     && ln -s /usr/share/transmission/web/javascript /opt/transmission-ui/transmission-web-control \
     && ln -s /usr/share/transmission/web/index.html /opt/transmission-ui/transmission-web-control/index.original.html \
-    && tar -xvf src.tar.gz -C /opt/transmission-ui/transmission-web-control/ \
-    && rm src.tar.gz \
     && git clone git://github.com/endor/kettu.git /opt/transmission-ui/kettu \
     && apt install -y tinyproxy telnet \
     && wget https://github.com/Yelp/dumb-init/releases/download/v${DUMBINIT_VERSION}/dumb-init_${DUMBINIT_VERSION}_amd64.deb \
