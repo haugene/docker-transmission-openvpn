@@ -43,7 +43,9 @@ then
 
     if [[ ! -z $OPENVPN_CONFIG ]]
     then
-      export NORDVPN_CATEGORY="${OPENVPN_CONFIG##*.^^}"
+      tmp_Protocol="${OPENVPN_CONFIG##*.}"
+      export NORDVPN_PROTOCOL=${tmp_Protocol^^}
+      echo "Setting NORDVPN_PROTOCOL to: ${NORDVPN_PROTOCOL}"
       ${VPN_PROVIDER_CONFIGS}/updateConfigs.sh --openvpn-config
     elif [[ ! -z $NORDVPN_COUNTRY ]]
     then

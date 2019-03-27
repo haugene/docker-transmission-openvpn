@@ -85,9 +85,9 @@ select_hostname() { #TODO return multiples
 download_hostname() {
     # "https://downloads.nordcdn.com/configs/files/ovpn_udp/servers/us3373.nordvpn.com.udp.ovpn"
     local nordvpn_cdn="https://downloads.nordcdn.com/configs/files/"
-    if [[ ${NORDVPN_PROTOCOL,,} =~ udp ]]; then
+    if [[ ${NORDVPN_PROTOCOL,,} == udp ]]; then
         nordvpn_cdn="${nordvpn_cdn}ovpn_udp/servers/"
-    elif [[ ${NORDVPN_PROTOCOL,,} =~ tcp ]];then
+    elif [[ ${NORDVPN_PROTOCOL,,} == tcp ]];then
         nordvpn_cdn="${nordvpn_cdn}ovpn_tcp/servers/"
     fi
 
@@ -100,6 +100,7 @@ download_hostname() {
     fi
 
     log "Downloading config: ${ovpnName}"
+    log "Downloading from: ${nordvpn_cdn}"
     curl ${nordvpn_cdn} -o "${ovpnName}"
 }
 update_hostname() {
@@ -134,6 +135,7 @@ then
     selected="default"    
 elif [[ ${1} == "--openvpn-config" ]] || [[ ${1} == "-o" ]]
 then
+    log "Using OpenVPN CONFIG :: ${OPENVPN_CONFIG,,}"
     download_hostname ${OPENVPN_CONFIG,,}
 elif [[ ! -z $NORDVPN_COUNTRY ]]
 then
