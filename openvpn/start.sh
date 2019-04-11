@@ -16,8 +16,6 @@ if [[ "${OPENVPN_PROVIDER}" == "**None**" ]] || [[ -z "${OPENVPN_PROVIDER-}" ]];
 elif [[ ! -d "${VPN_PROVIDER_CONFIGS}" ]]; then
   echo "Could not find OpenVPN provider: ${OPENVPN_PROVIDER}"
   echo "Please check your settings."
-  echo "${VPN_PROVIDER}"
-  echo "${VPN_PROVIDER_CONFIGS}"
   exit 1
 fi
 
