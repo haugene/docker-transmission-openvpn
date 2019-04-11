@@ -68,7 +68,7 @@ if [[ -n "${OPENVPN_CONFIG-}" ]]; then
     OPENVPN_CONFIG="${OPENVPN_CONFIG_ARRAY[${OPENVPN_CONFIG_RANDOM}]}"
   fi
   echo "${VPN_PROVIDER_CONFIGS}/${OPENVPN_CONFIG}.ovpn"
-  echo "ls ${VPN_PROVIDER_CONFIGS}"
+  ls "${VPN_PROVIDER_CONFIGS}"
   if [[ -f "${VPN_PROVIDER_CONFIGS}/${OPENVPN_CONFIG}.ovpn" ]]; then
     echo "Starting OpenVPN using config ${OPENVPN_CONFIG}.ovpn"
     OPENVPN_CONFIG="${VPN_PROVIDER_CONFIGS}/${OPENVPN_CONFIG}.ovpn"
