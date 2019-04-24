@@ -102,6 +102,7 @@ This is a list of providers that are bundled within the image. Feel free to crea
 | FreeVPN | `FREEVPN` |
 | FrootVPN | `FROOT` |
 | FrostVPN | `FROSTVPN` |
+| GhostPath | `GHOSTPATH` |
 | Giganews | `GIGANEWS` |
 | HideMe | `HIDEME` |
 | HideMyAss | `HIDEMYASS` |
