@@ -53,6 +53,10 @@ then
     else
       export OPENVPN_CONFIG=$(${VPN_PROVIDER_CONFIGS}/updateConfigs.sh --get-recommended})
     fi
+elif [[ "${OPENVPN_PROVIDER^^}" = "FREEVPN" ]]
+then
+    FREEVPN_DOMAIN=${OPENVPN_CONFIG%%-*}
+    export OPENVPN_PASSWORD=$(curl -s https://freevpn.${FREEVPN_DOMAIN:-"be"}/accounts/ | grep Password |  sed s/"^.*Password\:.... "/""/g | sed s/"<.*"/""/g)
 fi
 
 if [[ -n "${OPENVPN_CONFIG-}" ]]; then
