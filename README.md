@@ -74,6 +74,12 @@ Find available OpenVPN configurations by looking in the openvpn folder of the Gi
 -e "OPENVPN_CONFIG=ipvanish-AT-Vienna-vie-c02"
 ```
 
+If you are using `OPENVPN_PROVIDER=NORDVPN`, then you may notice that there are no configurations in the openvpn folder.  This is becuase we download the configurations on container creation when using NordVPN.  You only need to select a file from [Nord's list of servers](https://nordpnv.com/servers).  Make sure you provide the link to either the UDP or TCP configuration *without* the .ovpn file extension.  For example:
+
+```
+-e "OPENVPN_CONFIG=nl150.nordvpn.com.udp"
+```
+
 You can also provide a comma separated list of openvpn configuration filenames.
 If you provide a list, a file will be randomly chosen in the list, this is useful for redundancy setups. For example:
 ```
