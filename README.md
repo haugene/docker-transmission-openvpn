@@ -99,6 +99,7 @@ This is a list of providers that are bundled within the image. Feel free to crea
 | BTGuard | `BTGUARD` |
 | Cryptostorm | `CRYPTOSTORM` |
 | Cypherpunk | `CYPHERPUNK` |
+| FastestVPN | `FASTESTVPN` |
 | FreeVPN | `FREEVPN` |
 | FrootVPN | `FROOT` |
 | FrostVPN | `FROSTVPN` |
