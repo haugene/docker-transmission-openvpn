@@ -28,7 +28,7 @@ $ docker run --cap-add=NET_ADMIN -d \
 ```
 
 ## Documentation
-The full documentation is available at https://containrrr.github.io/watchtower.
+The full documentation is available at http://haugene.github.io/docker-transmission-openvpn/.
 
 ## Please help out (about:maintenance)
 This image was created for my own use, but sharing is caring, so it had to be open source.
