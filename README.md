@@ -508,3 +508,14 @@ $ sudo systemctl stop transmission-openvpn.service
 # Later ...
 $ sudo systemctl start transmission-openvpn.service
 ```
+## NORDVPN API
+
+The update script is based on the  NordVpn API. Filters are set to request the best recommendations, the API send back the config file.
+
+Available ENV variables in the container to define via the NORDNVPN API the file to use are:
+NORDVPN_COUNTRY: (values: https://api.nordvpn.com/v1/servers/countries)
+NORDVPN_CATEGORY: (values: https://api.nordvpn.com/v1/servers/groups)
+NORDVPN_PROTOCOL: tcp or udp ( more available at https://api.nordvpn.com/v1/technologies, ut need script adaptation)
+
+the file is then download using the API to find the best server according to the variables, here an albanian, using tcp:
+https://api.nordvpn.com/v1/servers/recommendations?filters[country_id]=2&filters[servers_technologies][identifier]=openvpn_tcp&filters[servers_groups][identifier]=&limit=1
