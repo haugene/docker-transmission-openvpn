@@ -1,5 +1,4 @@
 FROM alpine:3.8
-# MAINTAINER Kristian Haugene
 
 VOLUME /data
 VOLUME /config

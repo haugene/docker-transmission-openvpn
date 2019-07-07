@@ -1,11 +1,15 @@
-FROM balenalib/raspberry-pi:stretch
-MAINTAINER Kristian Haugene
+ARG base_image=balenalib/raspberry-pi:stretch
+FROM $base_image
+
+# For building on x86 machines. CircleCI un-comments before building
+#RUN [ "cross-build-start" ]
 
 VOLUME /data
 VOLUME /config
 
 # Update packages and install software
 RUN apt-get update \
+    && apt-get -y install apt-utils \
     && apt-get -y install transmission-cli transmission-common transmission-daemon \
     && apt-get install -y dumb-init unzip openvpn curl ufw git tinyproxy jq \
     && curl -L -o /tmp/release.zip https://github.com/Secretmapper/combustion/archive/release.zip \
@@ -126,3 +130,6 @@ ENV OPENVPN_USERNAME=**None** \
 # Expose port and run
 EXPOSE 9091
 CMD ["dumb-init", "/etc/openvpn/start.sh"]
+
+# For building on x86 machines. CircleCI un-comments before building
+#RUN [ "cross-build-end" ]

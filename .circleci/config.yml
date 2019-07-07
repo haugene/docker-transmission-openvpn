@@ -1,0 +1,109 @@
+version: 2.1
+commands:
+  calculate-tag-name:
+    description: "Calculates the target tag name for Docker image"
+    parameters:
+      distro:
+        type: string
+    steps:
+      - run:
+          name: Calculate tag to set for the built Docker image
+          command: |
+            if [ "$CIRCLE_BRANCH" = "master" ]; then TAG_VERSION=latest; else TAG_VERSION=$CIRCLE_BRANCH; fi
+            if [ "<< parameters.distro >>" = "ubuntu" ]; then TAG_DISTRO=""; else TAG_DISTRO=-<< parameters.distro >>; fi
+            echo "export IMAGE_TAG=$TAG_VERSION$TAG_DISTRO" >> $BASH_ENV
+
+jobs:
+  build-ubuntu-image:
+    environment:
+      IMAGE_NAME: haugene/transmission-openvpn
+    docker:
+      - image: circleci/buildpack-deps:stretch
+    steps:
+      - checkout
+      - setup_remote_docker
+      - calculate-tag-name:
+          distro: ubuntu
+      - run:
+          name: Build Docker image
+          command: docker build -t $IMAGE_NAME:$IMAGE_TAG .
+      - run:
+          name: Login to Docker Hub
+          command: echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+      - run:
+          name: Push image
+          command: docker push $IMAGE_NAME:$IMAGE_TAG
+
+  build-armhf-image:
+    environment:
+      IMAGE_NAME: haugene/transmission-openvpn
+    docker:
+      - image: circleci/buildpack-deps:stretch
+    steps:
+      - checkout
+      - setup_remote_docker
+      - calculate-tag-name:
+          distro: armhf
+      - run:
+          name: Build Docker image
+          command: |
+            echo "Un-commenting cross-build instructions in Dockerfile.armhf"
+            sed -i 's/^#\(.*cross-build.*\)/\1/' Dockerfile.armhf
+            docker build -t $IMAGE_NAME:$IMAGE_TAG -f Dockerfile.armhf .
+      - run:
+          name: Login to Docker Hub
+          command: echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+      - run:
+          name: Push image
+          command: docker push $IMAGE_NAME:$IMAGE_TAG
+
+  build-arm64-image:
+    environment:
+      IMAGE_NAME: haugene/transmission-openvpn
+    docker:
+      - image: circleci/buildpack-deps:stretch
+    steps:
+      - checkout
+      - setup_remote_docker
+      - calculate-tag-name:
+          distro: arm64
+      - run:
+          name: Build Docker image
+          command: |
+            echo "Un-commenting cross-build instructions in Dockerfile.armhf"
+            sed -i 's/^#\(.*cross-build.*\)/\1/' Dockerfile.armhf
+            docker build \
+              -t $IMAGE_NAME:$IMAGE_TAG \
+              -f Dockerfile.armhf \
+              --build-arg base_image=balenalib/raspberrypi3-64:stretch .
+      - run:
+          name: Login to Docker Hub
+          command: echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+      - run:
+          name: Push image
+          command: docker push $IMAGE_NAME:$IMAGE_TAG
+
+workflows:
+  version: 2
+  build-images:
+    jobs:
+      - build-ubuntu-image:
+          context: dockerhub
+          filters:
+            branches:
+              only:
+                - beta
+      - build-armhf-image:
+          context: dockerhub
+          filters:
+            branches:
+              only:
+                - master
+                - dev
+      - build-arm64-image:
+          context: dockerhub
+          filters:
+            branches:
+              only:
+                - master
+                - dev
