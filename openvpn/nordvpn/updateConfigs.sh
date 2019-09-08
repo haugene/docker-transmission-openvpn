@@ -85,6 +85,7 @@ select_hostname() { #TODO return multiples
 download_hostname() {
     # https://downloads.nordcdn.com/configs/files/ovpn_legacy/servers/us3349.nordvpn.com.udp1194.ovpn
     local nordvpn_cdn="https://downloads.nordcdn.com/configs/files/ovpn_legacy/servers/"
+
     if [[ "$1" == "-d" ]]; then
         nordvpn_cdn=${nordvpn_cdn}${2}
         ovpnName=default.ovpn
@@ -97,6 +98,8 @@ download_hostname() {
         nordvpn_cdn="${nordvpn_cdn}udp1194.ovpn"
     elif [[ ${NORDVPN_PROTOCOL,,} == tcp ]];then
         nordvpn_cdn="${nordvpn_cdn}tcp443.ovpn"
+    elif [[ -z ${NORDVPN_PROTOCOL,,} ]];then
+        nordvpn_cdn="${nordvpn_cdn}udp1194.ovpn"
     fi
 
     log "Downloading config: ${ovpnName}"
