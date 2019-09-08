@@ -94,9 +94,9 @@ download_hostname() {
     fi
 
     if [[ ${NORDVPN_PROTOCOL,,} == udp ]]; then
-        nordvpn_cdn="${nordvpn_cdn}.udp1194.ovpn"
+        nordvpn_cdn="${nordvpn_cdn}udp1194.ovpn"
     elif [[ ${NORDVPN_PROTOCOL,,} == tcp ]];then
-        nordvpn_cdn="${nordvpn_cdn}.tcp443.ovpn"
+        nordvpn_cdn="${nordvpn_cdn}tcp443.ovpn"
     fi
 
     log "Downloading config: ${ovpnName}"
