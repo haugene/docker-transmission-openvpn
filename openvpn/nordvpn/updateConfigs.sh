@@ -124,9 +124,9 @@ find . ! -name '*.sh' -type f -delete
 
 if [[ ! -z $OPENVPN_CONFIG ]] && [[ ! -z $NORDVPN_COUNTRY ]]
 then
-    default="$(select_hostname).${NORDVPN_PROTOCOL,,}"
+    default="$(select_hostname)"
 else
-    default="$(select_hostname -d).${NORDVPN_PROTOCOL,,}"
+    default="$(select_hostname -d)"
 fi
 download_hostname -d ${default}
 
