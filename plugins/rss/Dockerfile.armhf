@@ -1,4 +1,4 @@
-FROM resin/rpi-raspbian:stretch
+FROM balenalib/raspberry-pi:stretch
 MAINTAINER Kristian Haugene
 
 # Update packages and install software

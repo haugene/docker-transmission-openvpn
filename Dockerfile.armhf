@@ -1,11 +1,15 @@
-FROM resin/rpi-raspbian:stretch
-MAINTAINER Kristian Haugene
+ARG base_image=balenalib/raspberry-pi:stretch
+FROM $base_image
+
+# For building on x86 machines. CircleCI un-comments before building
+#RUN [ "cross-build-start" ]
 
 VOLUME /data
 VOLUME /config
 
 # Update packages and install software
 RUN apt-get update \
+    && apt-get -y install apt-utils \
     && apt-get -y install transmission-cli transmission-common transmission-daemon \
     && apt-get install -y dumb-init unzip openvpn curl ufw git tinyproxy jq \
     && curl -L -o /tmp/release.zip https://github.com/Secretmapper/combustion/archive/release.zip \
@@ -13,8 +17,7 @@ RUN apt-get update \
     && rm /tmp/release.zip \
     && git clone git://github.com/endor/kettu.git /opt/transmission-ui/kettu \
     && mkdir /opt/transmission-ui/transmission-web-control \
-    && curl -L https://github.com/ronggang/twc-release/raw/master/src.tar.gz \
-     | tar -C /opt/transmission-ui/transmission-web-control/ -xzv \
+    && curl -sL `curl -s https://api.github.com/repos/ronggang/transmission-web-control/releases/latest | jq --raw-output '.tarball_url'` | tar -C /opt/transmission-ui/transmission-web-control/ --strip-components=2 -xz \
     && ln -s /usr/share/transmission/web/style /opt/transmission-ui/transmission-web-control \
     && ln -s /usr/share/transmission/web/images /opt/transmission-ui/transmission-web-control \
     && ln -s /usr/share/transmission/web/javascript /opt/transmission-ui/transmission-web-control \
@@ -127,3 +130,6 @@ ENV OPENVPN_USERNAME=**None** \
 # Expose port and run
 EXPOSE 9091
 CMD ["dumb-init", "/etc/openvpn/start.sh"]
+
+# For building on x86 machines. CircleCI un-comments before building
+#RUN [ "cross-build-end" ]
