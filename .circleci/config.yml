@@ -89,6 +89,9 @@ jobs:
     steps:
       - checkout
       - run:
+          name: "Set Git name for commits"
+          command: git config --global user.name "CircleCI"
+      - run:
           name: "Install Mkdocs and Material theme"
           command: |
             pip install --user mkdocs mkdocs-material
