@@ -83,6 +83,18 @@ jobs:
           name: Push image
           command: docker push $IMAGE_NAME:$IMAGE_TAG
 
+  build-and-deploy-gh-pages:
+    docker:
+      - image: circleci/python:3.7
+    steps:
+      - run:
+          name: "Install Mkdocs and Material theme"
+          command: |
+            pip install --user mkdocs mkdocs-material
+      - run:
+          name: "Build and push site"
+          command: mkdocs gh-deploy
+
 workflows:
   version: 2
   build-images:
@@ -107,3 +119,9 @@ workflows:
               only:
                 - master
                 - dev
+  documentation-update:
+    jobs:
+      - build-and-deploy-gh-pages:
+          filters:
+            branches:
+              only: master
