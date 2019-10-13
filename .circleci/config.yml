@@ -109,6 +109,7 @@ workflows:
             branches:
               only:
                 - beta
+              ignore: gh-pages
       - build-armhf-image:
           context: dockerhub
           filters:
@@ -116,6 +117,7 @@ workflows:
               only:
                 - master
                 - dev
+              ignore: gh-pages
       - build-arm64-image:
           context: dockerhub
           filters:
@@ -123,9 +125,11 @@ workflows:
               only:
                 - master
                 - dev
+              ignore: gh-pages
   documentation-update:
     jobs:
       - build-and-deploy-gh-pages:
           filters:
             branches:
               only: master
+              ignore: gh-pages
