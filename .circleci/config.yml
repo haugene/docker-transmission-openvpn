@@ -93,11 +93,10 @@ jobs:
           command: git config --global user.name "CircleCI"
       - run:
           name: "Install Mkdocs and Material theme"
-          command: |
-            pip install --user mkdocs mkdocs-material
+          command: pip install --user mkdocs mkdocs-material
       - run:
           name: "Build and push site"
-          command: mkdocs gh-deploy
+          command: mkdocs gh-deploy --message "Deployed {sha} with MkDocs version {version}. [skip ci]"
 
 workflows:
   version: 2
@@ -109,7 +108,6 @@ workflows:
             branches:
               only:
                 - beta
-              ignore: gh-pages
       - build-armhf-image:
           context: dockerhub
           filters:
@@ -117,7 +115,6 @@ workflows:
               only:
                 - master
                 - dev
-              ignore: gh-pages
       - build-arm64-image:
           context: dockerhub
           filters:
@@ -125,11 +122,9 @@ workflows:
               only:
                 - master
                 - dev
-              ignore: gh-pages
   documentation-update:
     jobs:
       - build-and-deploy-gh-pages:
           filters:
             branches:
               only: master
-              ignore: gh-pages
