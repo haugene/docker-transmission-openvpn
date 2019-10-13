@@ -87,6 +87,7 @@ jobs:
     docker:
       - image: circleci/python:3.7
     steps:
+      - checkout
       - run:
           name: "Install Mkdocs and Material theme"
           command: |
