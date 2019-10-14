@@ -74,6 +74,13 @@ else
     myauth=""
 fi
 
+# make sure transmission is running and accepting requests
+echo "waiting for transmission to become responsive"
+until torrent_list="$(transmission-remote $myauth -l)"; do sleep 10; done
+echo "transmission became responsive"
+output="$(echo "$torrent_list" | tail -n 2)"
+echo "$output"
+
 # get current listening port
 transmission_peer_port=$(transmission-remote $myauth -si | grep Listenport | grep -oE '[0-9]+')
 if [[ "$new_port" != "$transmission_peer_port" ]]; then
@@ -87,6 +94,7 @@ if [[ "$new_port" != "$transmission_peer_port" ]]; then
     ufw allow "$new_port"
   fi
 
+  echo "setting transmission port to $new_port"
   transmission-remote ${myauth} -p "$new_port"
 
   echo "Checking port..."
