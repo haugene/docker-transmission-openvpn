@@ -94,6 +94,7 @@ if [[ "$new_port" != "$transmission_peer_port" ]]; then
     ufw allow "$new_port"
   fi
 
+  echo "setting transmission port to $new_port"
   transmission-remote ${myauth} -p "$new_port"
 
   echo "Checking port..."
