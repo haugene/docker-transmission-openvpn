@@ -102,7 +102,11 @@ download_hostname() {
         ovpnName=${1}.ovpn
     fi
 
-    nordvpn_cdn="${nordvpn_cdn}.ovpn"
+    if [[ ${NORDVPN_PROTOCOL,,} == udp ]]; then
+        nordvpn_cdn="${nordvpn_cdn}.udp.ovpn"
+    elif [[ ${NORDVPN_PROTOCOL,,} == tcp ]];then
+        nordvpn_cdn="${nordvpn_cdn}.tcp.ovpn"
+    fi
 
     log "Downloading config: ${ovpnName}"
     log "Downloading from: ${nordvpn_cdn}"
