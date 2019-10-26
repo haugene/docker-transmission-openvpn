@@ -84,7 +84,7 @@ select_hostname() { #TODO return multiples
 }
 download_hostname() {
     #udp ==> https://downloads.nordcdn.com/configs/files/ovpn_udp/servers/nl601.nordvpn.com.udp.ovpn
-    #tmp ==> https://downloads.nordcdn.com/configs/files/ovpn_tcp/servers/nl542.nordvpn.com.tcp.ovpn
+    #tcp ==> https://downloads.nordcdn.com/configs/files/ovpn_tcp/servers/nl542.nordvpn.com.tcp.ovpn
 
     local nordvpn_cdn="https://downloads.nordcdn.com/configs/files"     
 
@@ -148,7 +148,7 @@ then
     download_hostname ${OPENVPN_CONFIG,,}
 elif [[ ! -z $NORDVPN_COUNTRY ]]
 then
-    selected="$(select_hostname).${NORDVPN_PROTOCOL,,}"
+    selected="$(select_hostname)"
     download_hostname ${selected}
 else
     selected="default"
