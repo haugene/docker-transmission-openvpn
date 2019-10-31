@@ -132,7 +132,8 @@ ENV OPENVPN_USERNAME=**None** \
     DROP_DEFAULT_ROUTE= \
     WEBPROXY_ENABLED=false \
     WEBPROXY_PORT=8888 \
-    HEALTH_CHECK_HOST=google.com
+    HEALTH_CHECK_HOST=google.com \
+    DOCKER_LOG=false
 
 HEALTHCHECK --interval=5m CMD /etc/scripts/healthcheck.sh
 
