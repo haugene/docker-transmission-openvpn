@@ -83,8 +83,17 @@ select_hostname() { #TODO return multiples
     echo ${hostname}
 }
 download_hostname() {
-    # https://downloads.nordcdn.com/configs/files/ovpn_legacy/servers/us3349.nordvpn.com.udp1194.ovpn
-    local nordvpn_cdn="https://downloads.nordcdn.com/configs/files/ovpn_legacy/servers/"
+    #udp ==> https://downloads.nordcdn.com/configs/files/ovpn_udp/servers/nl601.nordvpn.com.udp.ovpn
+    #tcp ==> https://downloads.nordcdn.com/configs/files/ovpn_tcp/servers/nl542.nordvpn.com.tcp.ovpn
+
+    local nordvpn_cdn="https://downloads.nordcdn.com/configs/files"     
+
+    if [[ ${NORDVPN_PROTOCOL,,} == udp ]]; then
+        nordvpn_cdn="${nordvpn_cdn}/ovpn_udp/servers/"
+    elif [[ ${NORDVPN_PROTOCOL,,} == tcp ]];then
+        nordvpn_cdn="${nordvpn_cdn}/ovpn_tcp/servers/"
+    fi
+
     if [[ "$1" == "-d" ]]; then
         nordvpn_cdn=${nordvpn_cdn}${2}
         ovpnName=default.ovpn
@@ -94,9 +103,9 @@ download_hostname() {
     fi
 
     if [[ ${NORDVPN_PROTOCOL,,} == udp ]]; then
-        nordvpn_cdn="${nordvpn_cdn}.udp1194.ovpn"
+        nordvpn_cdn="${nordvpn_cdn}.udp.ovpn"
     elif [[ ${NORDVPN_PROTOCOL,,} == tcp ]];then
-        nordvpn_cdn="${nordvpn_cdn}.tcp443.ovpn"
+        nordvpn_cdn="${nordvpn_cdn}.tcp.ovpn"
     fi
 
     log "Downloading config: ${ovpnName}"
@@ -124,9 +133,9 @@ find . ! -name '*.sh' -type f -delete
 
 if [[ ! -z $OPENVPN_CONFIG ]] && [[ ! -z $NORDVPN_COUNTRY ]]
 then
-    default="$(select_hostname).${NORDVPN_PROTOCOL,,}"
+    default="$(select_hostname)"
 else
-    default="$(select_hostname -d).${NORDVPN_PROTOCOL,,}"
+    default="$(select_hostname -d)"
 fi
 download_hostname -d ${default}
 
@@ -139,7 +148,7 @@ then
     download_hostname ${OPENVPN_CONFIG,,}
 elif [[ ! -z $NORDVPN_COUNTRY ]]
 then
-    selected="$(select_hostname).${NORDVPN_PROTOCOL,,}"
+    selected="$(select_hostname)"
     download_hostname ${selected}
 else
     selected="default"
