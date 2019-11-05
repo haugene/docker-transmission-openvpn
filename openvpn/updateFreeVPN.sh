@@ -27,6 +27,7 @@ IFS=$'\n'
 for i in $(find ${DIR} -name "*.ovpn")
 do
 	sed -i 's/route 0.0.0.0 0.0.0.0/redirect-gateway/' $i
+	sed -i 's/auth-user-pass/auth-user-pass \/config\/openvpn-credentials.txt/' $i
 	if [[ $i == *TCP* ]];
        	then
 		sed -i 's/explicit-exit-notify//' $i
