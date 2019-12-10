@@ -34,7 +34,7 @@ if [ -n "$PUID" ] && [ ! "$(id -u root)" -eq "$PUID" ]; then
             ${TRANSMISSION_WATCH_DIR}
 
 	echo "Setting permission for files (644) and directories (755)"
-        chmod -R go=rX,u=rwX \
+        chmod -R o=rX,ug=rwX \
             ${TRANSMISSION_DOWNLOAD_DIR} \
             ${TRANSMISSION_INCOMPLETE_DIR} \
             ${TRANSMISSION_WATCH_DIR}
