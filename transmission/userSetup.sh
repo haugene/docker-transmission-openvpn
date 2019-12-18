@@ -37,6 +37,9 @@ if [ -n "$PUID" ] && [ ! "$(id -u root)" -eq "$PUID" ]; then
         chmod -R go=rX,u=rwX \
             ${TRANSMISSION_DOWNLOAD_DIR} \
             ${TRANSMISSION_INCOMPLETE_DIR} \
+
+    echo "Setting permission for watch directory (775) and its files (664)"
+        chmod -R o=rX,ug=rwX \
             ${TRANSMISSION_WATCH_DIR}
     fi
 fi
