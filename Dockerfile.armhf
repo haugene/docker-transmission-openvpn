@@ -2,7 +2,7 @@ ARG base_image=balenalib/raspberry-pi:stretch
 FROM $base_image
 
 # For building on x86 machines. CircleCI un-comments before building
-#RUN [ "cross-build-start" ]
+RUN [ "cross-build-start" ]
 
 VOLUME /data
 VOLUME /config
@@ -136,4 +136,4 @@ EXPOSE 9091
 CMD ["dumb-init", "/etc/openvpn/start.sh"]
 
 # For building on x86 machines. CircleCI un-comments before building
-#RUN [ "cross-build-end" ]
+RUN [ "cross-build-end" ]
