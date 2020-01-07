@@ -4,7 +4,10 @@
 [![Docker Pulls](https://img.shields.io/docker/pulls/haugene/transmission-openvpn.svg)](https://hub.docker.com/r/haugene/transmission-openvpn/)
 [![Join the chat at https://gitter.im/docker-transmission-openvpn/Lobby](https://badges.gitter.im/docker-transmission-openvpn/Lobby.svg)](https://gitter.im/docker-transmission-openvpn/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
+
 ## Quick Start
+
+## WARNING : this fork is only a working fork... always refer to the orginal Haugene repository
 
 This container contains OpenVPN and Transmission with a configuration
 where Transmission is running only when OpenVPN has an active tunnel.
