@@ -126,9 +126,8 @@ ENV OPENVPN_USERNAME=**None** \
     TRANSMISSION_WEB_HOME= \
     DROP_DEFAULT_ROUTE= \
     WEBPROXY_ENABLED=false \
-    WEBPROXY_PORT=8888 \
-    HEALTH_CHECK_HOST=google.com
-
+    WEBPROXY_PORT=8888 
+    
 HEALTHCHECK --interval=5m CMD /etc/scripts/healthcheck.sh
 
 # Expose port and run
