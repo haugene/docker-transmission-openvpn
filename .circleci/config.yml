@@ -45,7 +45,21 @@ workflows:
             branches:
               ignore: /.*/
             tags:
-              only: /^\d+\.\d+/
+              only: /^\d+\.\d+.*/
+      - build-armhf-image:
+          context: dockerhub
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^\d+\.\d+.*/
+      - build-arm64-image:
+          context: dockerhub
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^\d+\.\d+.*/
 
 jobs:
   build-ubuntu-image:
