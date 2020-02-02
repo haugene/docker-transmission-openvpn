@@ -54,6 +54,7 @@ This is a list of providers that are bundled within the image. Feel free to crea
 | VPNTunnel               | `VPNTUNNEL`                       |
 | VyprVpn                 | `VYPRVPN`                         |
 | VPNUnlimited            | `VPNUNLIMITED`                    |
+| ZoogVPN                 | `ZOOGVPN`                         |
 
 ## Adding new providers
 If your VPN provider is not in the list of supported providers you could always create an issue on GitHub and see if someone could add it for you. But if you're feeling up for doing it yourself, here's a couple of pointers.
