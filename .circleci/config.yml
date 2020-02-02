@@ -1,17 +1,51 @@
 version: 2.1
-commands:
-  calculate-tag-name:
-    description: "Calculates the target tag name for Docker image"
-    parameters:
-      distro:
-        type: string
-    steps:
-      - run:
-          name: Calculate tag to set for the built Docker image
-          command: |
-            if [ "$CIRCLE_BRANCH" = "master" ]; then TAG_VERSION=latest; else TAG_VERSION=$CIRCLE_BRANCH; fi
-            if [ "<< parameters.distro >>" = "ubuntu" ]; then TAG_DISTRO=""; else TAG_DISTRO=-<< parameters.distro >>; fi
-            echo "export IMAGE_TAG=$TAG_VERSION$TAG_DISTRO" >> $BASH_ENV
+workflows:
+  # Defines jobs to run when a commit is pushed to master branch
+  build-latest-version:
+    jobs:
+      - build-armhf-image:
+          context: dockerhub
+          filters:
+            branches:
+              only:
+                - master
+      - build-arm64-image:
+          context: dockerhub
+          filters:
+            branches:
+              only:
+                - master
+      - build-and-deploy-gh-pages:
+          filters:
+            branches:
+              only: master
+
+  # Defines jobs to run when a commit is pushed to dev branch
+  build-dev-version:
+    jobs:
+      - build-armhf-image:
+          context: dockerhub
+          filters:
+            branches:
+              only:
+                - dev
+      - build-arm64-image:
+          context: dockerhub
+          filters:
+            branches:
+              only:
+                - dev
+
+  # Defines jobs to run when a new release tag is created
+  build-tagged-version:
+    jobs:
+      - build-ubuntu-image:
+          context: dockerhub
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^\d+\.\d+/
 
 jobs:
   build-ubuntu-image:
@@ -98,33 +132,28 @@ jobs:
           name: "Build and push site"
           command: mkdocs gh-deploy --message "Deployed {sha} with MkDocs version {version}. [skip ci]"
 
-workflows:
-  version: 2
-  build-images:
-    jobs:
-      - build-ubuntu-image:
-          context: dockerhub
-          filters:
-            branches:
-              only:
-                - beta
-      - build-armhf-image:
-          context: dockerhub
-          filters:
-            branches:
-              only:
-                - master
-                - dev
-      - build-arm64-image:
-          context: dockerhub
-          filters:
-            branches:
-              only:
-                - master
-                - dev
-  documentation-update:
-    jobs:
-      - build-and-deploy-gh-pages:
-          filters:
-            branches:
-              only: master
+commands:
+  calculate-tag-name:
+    description: "Calculates the target tag name for Docker image"
+    parameters:
+      distro:
+        type: string
+    steps:
+      - run:
+          name: Calculate tag to set for the built Docker image
+          command: |
+            if [ ! -z $CIRCLE_TAG ]; then
+              TAG_VERSION=$CIRCLE_TAG
+            elif [ "$CIRCLE_BRANCH" = "master" ]; then
+              TAG_VERSION=latest
+            else
+              TAG_VERSION=$CIRCLE_BRANCH;
+            fi
+
+            if [ "<< parameters.distro >>" = "ubuntu" ]; then 
+              TAG_DISTRO=""; 
+            else
+              TAG_DISTRO=-<< parameters.distro >>;
+            fi
+
+            echo "export IMAGE_TAG=$TAG_VERSION$TAG_DISTRO" >> $BASH_ENV
