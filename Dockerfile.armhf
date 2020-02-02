@@ -1,4 +1,4 @@
-ARG base_image=balenalib/raspberry-pi:stretch
+ARG base_image=balenalib/raspberry-pi:buster
 FROM $base_image
 
 # For building on x86 machines. CircleCI un-comments before building
