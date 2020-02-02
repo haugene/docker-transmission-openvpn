@@ -193,8 +193,6 @@ commands:
 
             if [ "<< parameters.distro >>" = "ubuntu" ]; then
               TAG_DISTRO="";
-            if [ "<< parameters.distro >>" = "ubuntu" ]; then 
-              TAG_DISTRO=""; 
             else
               TAG_DISTRO=-<< parameters.distro >>;
             fi
