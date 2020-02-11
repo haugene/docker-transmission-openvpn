@@ -29,6 +29,7 @@ This is a list of providers that are bundled within the image. Feel free to crea
 | OVPN                    | `OVPN`                            |
 | Perfect Privacy         | `PERFECTPRIVACY`                  |
 | Private Internet Access | `PIA`                             |
+| Privado (Newshosting)   | `PRIVADO`                         |
 | PrivateVPN              | `PRIVATEVPN`                      |
 | ProtonVPN               | `PROTONVPN`                       |
 | proXPN                  | `PROXPN`                          |
