@@ -1,73 +1,55 @@
 version: 2.1
 workflows:
-  # Defines jobs to run when a commit is pushed to master branch
-  build-latest-version:
+
+  # Defines a workflow for building and pushing updated documentation to GitHub pages
+  build-documentation:
     jobs:
-      - build-armhf-image:
-          context: dockerhub
-          filters:
-            branches:
-              only:
-                - master
-      - build-arm64-image:
-          context: dockerhub
-          filters:
-            branches:
-              only:
-                - master
       - build-and-deploy-gh-pages:
           filters:
             branches:
               only: master
-
-  # Defines jobs to run when a commit is pushed to dev branch
-  build-dev-version:
-    jobs:
-      - build-armhf-image:
-          context: dockerhub
-          filters:
-            branches:
-              only:
-                - dev
-      - build-arm64-image:
-          context: dockerhub
-          filters:
-            branches:
-              only:
-                - dev
-
-  # Defines jobs to run when a new release tag is created
-  build-tagged-version:
+  
+  # Defines workflow for when to build the different Docker images
+  build-docker-images:
     jobs:
       - build-ubuntu-image:
           context: dockerhub
           filters:
             branches:
-              ignore: /.*/
+              only:
+                - dev
+                - master
             tags:
               only: /^\d+\.\d+.*/
       - build-alpine-image:
           context: dockerhub
           filters:
             branches:
-              ignore: /.*/
+              only:
+                - dev
+                - master
             tags:
               only: /^\d+\.\d+.*/
       - build-armhf-image:
           context: dockerhub
           filters:
             branches:
-              ignore: /.*/
+              only:
+                - dev
+                - master
             tags:
               only: /^\d+\.\d+.*/
       - build-arm64-image:
           context: dockerhub
           filters:
             branches:
-              ignore: /.*/
+              only:
+                - dev
+                - master
             tags:
               only: /^\d+\.\d+.*/
 
+# Job definitions, used by the workflows.
 jobs:
   build-ubuntu-image:
     environment:
