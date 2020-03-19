@@ -41,17 +41,17 @@ then
       export NORDVPN_CATEGORY=P2P
     fi
 
-    if [[ ! -z $OPENVPN_CONFIG ]]
+    if [[ -n $OPENVPN_CONFIG ]]
     then
       tmp_Protocol="${OPENVPN_CONFIG##*.}"
       export NORDVPN_PROTOCOL=${tmp_Protocol^^}
       echo "Setting NORDVPN_PROTOCOL to: ${NORDVPN_PROTOCOL}"
       ${VPN_PROVIDER_CONFIGS}/updateConfigs.sh --openvpn-config
-    elif [[ ! -z $NORDVPN_COUNTRY ]]
+    elif [[ -n $NORDVPN_COUNTRY ]]
     then
       export OPENVPN_CONFIG=$(${VPN_PROVIDER_CONFIGS}/updateConfigs.sh)
     else
-      export OPENVPN_CONFIG=$(${VPN_PROVIDER_CONFIGS}/updateConfigs.sh --get-recommended})
+      export OPENVPN_CONFIG=$(${VPN_PROVIDER_CONFIGS}/updateConfigs.sh --get-recommended)
     fi
 elif [[ "${OPENVPN_PROVIDER^^}" = "FREEVPN" ]]
 then
