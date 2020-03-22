@@ -27,6 +27,32 @@ $ docker run --cap-add=NET_ADMIN -d \
               haugene/transmission-openvpn
 ```
 
+## Docker Compose
+```
+version: '3.3'
+services:
+    transmission-openvpn:
+        volumes:
+            - '/your/storage/path/:/data'
+            - '/etc/localtime:/etc/localtime:ro'
+        environment:
+            - CREATE_TUN_DEVICE=true
+            - OPENVPN_PROVIDER=PIA
+            - OPENVPN_CONFIG=CA\
+            - OPENVPN_USERNAME=user
+            - OPENVPN_PASSWORD=pass
+            - WEBPROXY_ENABLED=false
+            - LOCAL_NETWORK=192.168.0.0/16
+        logging:
+            driver:
+                - json-file
+            options:
+                max-size: 10m
+        ports:
+            - '9091:9091'
+        image: haugene/transmission-openvpn
+```
+
 ## Documentation
 The full documentation is available at https://haugene.github.io/docker-transmission-openvpn/.
 
