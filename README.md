@@ -43,9 +43,10 @@ services:
             - OPENVPN_PASSWORD=pass
             - WEBPROXY_ENABLED=false
             - LOCAL_NETWORK=192.168.0.0/16
+        cap-add:
+            - NET_ADMIN
         logging:
-            driver:
-                - json-file
+            driver: json-file
             options:
                 max-size: 10m
         ports:
