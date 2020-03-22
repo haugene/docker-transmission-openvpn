@@ -43,7 +43,7 @@ services:
             - OPENVPN_PASSWORD=pass
             - WEBPROXY_ENABLED=false
             - LOCAL_NETWORK=192.168.0.0/16
-        cap-add:
+        cap_add:
             - NET_ADMIN
         logging:
             driver: json-file
