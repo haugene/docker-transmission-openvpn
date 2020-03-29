@@ -28,6 +28,7 @@ workflows:
               only:
                 - dev
                 - master
+                - beta
             tags:
               only: /^\d+\.\d+.*/
       - build-armhf-image:
