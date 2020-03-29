@@ -7,8 +7,15 @@ DIR="/tmp/freevpn"
 TARGET="/etc/openvpn/freevpn"
 ZIP_FILE="/tmp/freevpn.zip"
 
-URL=`curl -s https://freevpn.me/accounts/`
+# Use the OPENVPN_CONFIG env var to obtain running domain
+URL=`curl -s https://freevpn."${OPENVPN_CONFIG%%-*}"/accounts/`
 REGEX='<a +.*href="(https:.*\.zip)"'
+
+# Create directory if not exits
+if [[ ! -d "$DIR" ]]
+then
+        mkdir -p $DIR
+fi
 
 # Download FreeVPN Zip file
 [[ $URL =~ $REGEX ]] && curl -s ${BASH_REMATCH[1]} -o ${ZIP_FILE}
@@ -16,11 +23,6 @@ REGEX='<a +.*href="(https:.*\.zip)"'
 # Unzip file
 unzip -qo ${ZIP_FILE} -d $DIR
 
-# Create directory if not exits
-if [[ ! -d "$DIR" ]]
-then
-	mkdir $DIR
-fi
 
 # Process content file
 IFS=$'\n'
