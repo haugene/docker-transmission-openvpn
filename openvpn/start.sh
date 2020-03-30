@@ -63,8 +63,12 @@ then
     
     # Add daily update to cron
     crontab -l > tempcron
-    echo "0 1 * * * /etc/openvpn/updateFreeVPN.sh" > tempcron
-    crontab tempcron
+    
+    grep updateFreeVPN tempcron > /dev/null 2>&1
+    if [[ $? == 1 ]]; then
+      echo "0 1 * * * /etc/openvpn/updateFreeVPN.sh" > tempcron
+      crontab tempcron
+    fi
     rm tempcron
 elif [[ "${OPENVPN_PROVIDER^^}" = "VPNBOOK" ]]
 then
