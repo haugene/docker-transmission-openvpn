@@ -60,16 +60,6 @@ then
     
     # Update FreeVPN certs
     /etc/openvpn/updateFreeVPN.sh
-    
-    # Add daily update to cron
-    crontab -l > tempcron
-    
-    grep updateFreeVPN tempcron > /dev/null 2>&1
-    if [[ $? == 1 ]]; then
-      echo "0 1 * * * /etc/openvpn/updateFreeVPN.sh" > tempcron
-      crontab tempcron
-    fi
-    rm tempcron
 elif [[ "${OPENVPN_PROVIDER^^}" = "VPNBOOK" ]]
 then
     pwd_url=$(curl -s "https://www.vpnbook.com/freevpn" | grep -m2 "Password:" | tail -n1 | cut -d \" -f2)
