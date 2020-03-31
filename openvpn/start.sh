@@ -55,8 +55,9 @@ then
     fi
 elif [[ "${OPENVPN_PROVIDER^^}" = "FREEVPN" ]]
 then
-    FREEVPN_DOMAIN=${OPENVPN_CONFIG%%-*}
-    export OPENVPN_PASSWORD=$(curl -s https://freevpn.${FREEVPN_DOMAIN:-"be"}/accounts/ | grep Password |  sed s/"^.*Password\:.... "/""/g | sed s/"<.*"/""/g)
+    FREEVPN_DOMAIN=${OPENVPN_CONFIG%-*}
+    FREEVPN_DOMAIN=${FREEVPN_DOMAIN,,}
+    export OPENVPN_PASSWORD=$(curl -s https://freevpn.me/accounts/ | grep ${FREEVPN_DOMAIN} | sed 's/^.*'"${FREEVPN_DOMAIN}"'/'"${FREEVPN_DOMAIN}"'/' | sed 's/<[^<]*//9g' | awk '{print $NF}')
 elif [[ "${OPENVPN_PROVIDER^^}" = "VPNBOOK" ]]
 then
     pwd_url=$(curl -s "https://www.vpnbook.com/freevpn" | grep -m2 "Password:" | tail -n1 | cut -d \" -f2)
