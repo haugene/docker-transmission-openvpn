@@ -3,10 +3,22 @@
 # Usage:
 # docker exec -it -w / **CONTAINER** bash -c "./etc/openvn/updateFreeVPN.sh"
 
-DOMAIN=${OPENVPN_CONFIG%%-*}
+# Use DNS env var to being able to connect to freevpn server removing
+#   the default content. 
+# DNS passed as command line argument or dockerfile doesn't work
+echo "nameserver ${DNS}" > /etc/resolv.conf
 
+# Debug purpose
+# ping freevpn.me -c 4
+
+DOMAIN=${OPENVPN_CONFIG%%-*}
 OPENVPN_IP=$(curl -s https://freevpn.${DOMAIN}/accounts/ | grep IP |  sed s/"^.*IP\:.... "/""/g | sed s/"<.*"/""/g)
+
+# freevpn.me , main server, presents two servers with different address
+# and related password to be used 
 SERVER=${OPENVPN_IP%".freevpn.${DOMAIN}"}
+PASSWORD=$(curl -s https://freevpn.${DOMAIN}/accounts/ | grep Password |  sed s/"^.*Password\:.... "/""/g | sed s/"<.*"/""/g)
+echo "${PASSWORD}" > /etc/freevpn_password
 
 DIR="/tmp/freevpn"
 TARGET="/etc/openvpn/freevpn"
