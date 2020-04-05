@@ -13,6 +13,10 @@ if [ -n "$PUID" ] && [ ! "$(id -u root)" -eq "$PUID" ]; then
         groupmod -o -g "$PGID" ${RUN_AS};
     fi
 
+    if [[ "true" = "$DOCKER_LOG" ]]; then
+      chown ${RUN_AS}:${RUN_AS} /dev/stdout
+    fi
+
     # Make sure directories exist before chown and chmod
     mkdir -p /config \
         ${TRANSMISSION_HOME} \
