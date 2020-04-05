@@ -6,7 +6,7 @@
 # Use DNS env var to being able to connect to freevpn server removing
 #   the default content. 
 # DNS passed as command line argument or dockerfile doesn't work
-echo "nameserver ${DNS}" > /etc/resolv.conf
+echo "nameserver 8.8.8.8" > /etc/resolv.conf
 
 # Debug purpose
 # ping freevpn.me -c 4
