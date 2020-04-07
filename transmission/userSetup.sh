@@ -6,8 +6,16 @@ RUN_AS=root
 
 if [ -n "$PUID" ] && [ ! "$(id -u root)" -eq "$PUID" ]; then
     RUN_AS=abc
-    if [ ! "$(id -u ${RUN_AS})" -eq "$PUID" ]; then usermod -o -u "$PUID" ${RUN_AS} ; fi
-    if [ ! "$(id -g ${RUN_AS})" -eq "$PGID" ]; then groupmod -o -g "$PGID" ${RUN_AS} ; fi
+    if [ ! "$(id -u ${RUN_AS})" -eq "$PUID" ]; then
+        usermod -o -u "$PUID" ${RUN_AS};
+    fi
+    if [ ! "$(id -g ${RUN_AS})" -eq "$PGID" ]; then
+        groupmod -o -g "$PGID" ${RUN_AS};
+    fi
+
+    if [[ "true" = "$DOCKER_LOG" ]]; then
+      chown ${RUN_AS}:${RUN_AS} /dev/stdout
+    fi
 
     # Make sure directories exist before chown and chmod
     mkdir -p /config \
@@ -27,18 +35,18 @@ if [ -n "$PUID" ] && [ ! "$(id -u root)" -eq "$PUID" ]; then
         ${TRANSMISSION_HOME}
 
     if [ "$GLOBAL_APPLY_PERMISSIONS" = true ] ; then
-	echo "Setting owner for transmission paths to ${PUID}:${PGID}"
+        echo "Setting owner for transmission paths to ${PUID}:${PGID}"
         chown -R ${RUN_AS}:${RUN_AS} \
             ${TRANSMISSION_DOWNLOAD_DIR} \
             ${TRANSMISSION_INCOMPLETE_DIR} \
             ${TRANSMISSION_WATCH_DIR}
 
-	echo "Setting permission for files (644) and directories (755)"
+        echo "Setting permission for files (644) and directories (755)"
         chmod -R go=rX,u=rwX \
             ${TRANSMISSION_DOWNLOAD_DIR} \
             ${TRANSMISSION_INCOMPLETE_DIR} \
 
-    echo "Setting permission for watch directory (775) and its files (664)"
+        echo "Setting permission for watch directory (775) and its files (664)"
         chmod -R o=rX,ug=rwX \
             ${TRANSMISSION_WATCH_DIR}
     fi

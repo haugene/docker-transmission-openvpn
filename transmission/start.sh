@@ -61,7 +61,7 @@ if [[ "true" = "$DROP_DEFAULT_ROUTE" ]]; then
 fi
 
 if [[ "true" = "$DOCKER_LOG" ]]; then
-  LOGFILE=/proc/1/fd/1
+  LOGFILE=/dev/stdout
 else
   LOGFILE=${TRANSMISSION_HOME}/transmission.log
 fi
