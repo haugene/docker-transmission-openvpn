@@ -42,7 +42,7 @@ fi
 echo "Generating transmission settings.json from env variables"
 # Ensure TRANSMISSION_HOME is created
 mkdir -p ${TRANSMISSION_HOME}
-dockerize -template /etc/transmission/settings.tmpl:${TRANSMISSION_HOME}/settings.json
+dockerize -no-overwrite -template /etc/transmission/settings.tmpl:${TRANSMISSION_HOME}/settings.json
 
 echo "sed'ing True to true"
 sed -i 's/True/true/g' ${TRANSMISSION_HOME}/settings.json
