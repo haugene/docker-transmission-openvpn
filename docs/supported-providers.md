@@ -9,6 +9,7 @@ This is a list of providers that are bundled within the image. Feel free to crea
 | Cryptostorm             | `CRYPTOSTORM`                     |
 | Cypherpunk              | `CYPHERPUNK`                      |
 | elastictunnel.com       | `ELASTICTUNNEL`                   |
+| ExpressVPN              | `EXPRESSVPN`                      |
 | FastestVPN              | `FASTESTVPN`                      |
 | FreeVPN                 | `FREEVPN`                         |
 | FrootVPN                | `FROOT`                           |
@@ -25,6 +26,7 @@ This is a list of providers that are bundled within the image. Feel free to crea
 | IVPN                    | `IVPN`                            |
 | Mullvad                 | `MULLVAD`                         |
 | NordVPN                 | `NORDVPN`                         |
+| OctaneVPN               | `OCTANEVPN`                       |
 | OVPN                    | `OVPN`                            |
 | Perfect Privacy         | `PERFECTPRIVACY`                  |
 | Private Internet Access | `PIA`                             |
@@ -44,15 +46,15 @@ This is a list of providers that are bundled within the image. Feel free to crea
 | TorGuard                | `TORGUARD`                        |
 | Trust.Zone              | `TRUSTZONE`                       |
 | TunnelBear              | `TUNNELBEAR`                      |
-| Windscribe              | `WINDSCRIBE`                      |
 | VPNArea.com             | `VPNAREA`                         |
-| VPN.AC                  | `VPNAC`                           |
-| VPN.ht                  | `VPNHT`                           |
 | VPNBook.com             | `VPNBOOK`                         |
 | VPNFacile               | `VPNFACILE`                       |
 | VPNTunnel               | `VPNTUNNEL`                       |
-| VyprVpn                 | `VYPRVPN`                         |
 | VPNUnlimited            | `VPNUNLIMITED`                    |
+| VPN.AC                  | `VPNAC`                           |
+| VPN.ht                  | `VPNHT`                           |
+| VyprVpn                 | `VYPRVPN`                         |
+| Windscribe              | `WINDSCRIBE`                      |
 | ZoogVPN                 | `ZOOGVPN`                         |
 
 ## Adding new providers
