@@ -22,7 +22,7 @@ fi
 {{- if (eq $key "OPENVPN_PROVIDER") -}}
   export {{ $key }}={{ $value }}
 {{ end -}}
-{{- if or (eq $key "ENABLE_UFW") -}}
+{{- if (eq $key "ENABLE_UFW") -}}
 export {{ $key }}={{ $value }}
 {{ end -}}
 {{- if or (eq $key "PUID") (eq $key "PGID") -}}
@@ -31,13 +31,13 @@ export {{ $key }}={{ $value }}
 {{- if or (eq $key "WEBPROXY_ENABLED") (eq $key "WEBPROXY_PORT") -}}
 export {{ $key }}={{ $value }}
 {{ end -}}
-{{- if or (eq $key "DROP_DEFAULT_ROUTE") -}}
+{{- if (eq $key "DROP_DEFAULT_ROUTE") -}}
 export {{ $key }}={{ $value }}
 {{ end -}}
-{{- if or (eq $key "GLOBAL_APPLY_PERMISSIONS") -}}
+{{- if (eq $key "GLOBAL_APPLY_PERMISSIONS") -}}
 export {{ $key }}={{ $value }}
 {{ end -}}
-{{- if or (eq $key "DOCKER_LOG") -}}
+{{- if (eq $key "DOCKER_LOG") -}}
 export {{ $key }}={{ $value }}
 {{ end -}}
 {{ end }}
