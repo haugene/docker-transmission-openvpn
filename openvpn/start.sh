@@ -121,6 +121,8 @@ if [[ ! -z "$TRANSMISSION_RPC_USERNAME" ]] && [[ ! -z "$TRANSMISSION_RPC_PASSWOR
     echo "${TRANSMISSION_RPC_PASSWORD}" >> /config/transmission-credentials.txt
 fi
 
+# Write environment preserve and defaults script
+dockerize -template /etc/transmission/environment-variables.tmpl:/etc/transmission/environment-variables.sh
 # Load transmission settings needed by this script
 . /etc/transmission/environment-variables.sh
 
