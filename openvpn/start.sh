@@ -215,4 +215,6 @@ if [[ -n "${LOCAL_NETWORK-}" ]]; then
   fi
 fi
 
+[[ -n ${TZ} ]] && ln -sf /usr/share/zoneinfo/${TZ} /etc/localtime && dpkg-reconfigure -f non-interactive tzdata
+
 exec openvpn ${TRANSMISSION_CONTROL_OPTS} ${OPENVPN_OPTS} --config "${OPENVPN_CONFIG}"
