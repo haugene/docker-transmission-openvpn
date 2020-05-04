@@ -41,4 +41,5 @@ if [ "true" = "$ENABLE_UFW" ]; then
   ufw allow ${new_port}
 fi
 
+export TRANSMISSION_PEER_PORT_RANDOM_ON_START="false"
 export TRANSMISSION_PEER_PORT=${new_port}

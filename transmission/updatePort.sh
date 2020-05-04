@@ -70,4 +70,5 @@ if [[ "true" = "$ENABLE_UFW" ]]; then
 fi
 
 echo "setting transmission port to $new_port"
+export TRANSMISSION_PEER_PORT_RANDOM_ON_START="false"
 export TRANSMISSION_PEER_PORT=${new_port}
