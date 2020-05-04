@@ -34,36 +34,11 @@ echo "calculated port $new_port"
 # Now, set port in Transmission
 #
 
-# Check if transmission remote is set up with authentication
-auth_enabled=$(grep 'rpc-authentication-required\"' $transmission_settings_file | grep -oE 'true|false')
-if [ "true" = "$auth_enabled" ]
-  then
-  echo "transmission auth required"
-  myauth="--auth $transmission_username:$transmission_passwd"
-else
-    echo "transmission auth not required"
-    myauth=""
+if [ "true" = "$ENABLE_UFW" ]; then
+  echo "Update UFW rules before changing port in Transmission"
+
+  echo "allowing $new_port through the firewall"
+  ufw allow ${new_port}
 fi
 
-# get current listening port
-sleep 3
-transmission_peer_port=$(transmission-remote $myauth -si | grep Listenport | grep -oE '[0-9]+')
-if [ "$new_port" != "$transmission_peer_port" ]; then
-  if [ "true" = "$ENABLE_UFW" ]; then
-    echo "Update UFW rules before changing port in Transmission"
-
-    echo "denying access to $transmission_peer_port"
-    ufw deny ${transmission_peer_port}
-
-    echo "allowing $new_port through the firewall"
-    ufw allow ${new_port}
-  fi
-
-  transmission-remote ${myauth} -p "$new_port"
-
-  echo "Checking port..."
-  sleep 10
-  transmission-remote ${myauth} -pt
-else
-    echo "No action needed, port hasn't changed"
-fi
+export TRANSMISSION_PEER_PORT=${new_port}

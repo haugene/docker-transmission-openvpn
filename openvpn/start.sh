@@ -114,13 +114,6 @@ else
   chmod 600 /config/openvpn-credentials.txt
 fi
 
-# Add transmission credentials from env vars
-# Required if using VPN provider that assigns port
-if [[ ! -z "$TRANSMISSION_RPC_USERNAME" ]] && [[ ! -z "$TRANSMISSION_RPC_PASSWORD" ]]; then
-    echo "${TRANSMISSION_RPC_USERNAME}" > /config/transmission-credentials.txt
-    echo "${TRANSMISSION_RPC_PASSWORD}" >> /config/transmission-credentials.txt
-fi
-
 # Write environment preserve and defaults script
 dockerize -template /etc/transmission/environment-variables.tmpl:/etc/transmission/environment-variables.sh
 # Load transmission settings needed by this script
