@@ -17,12 +17,15 @@ fi
 # Preserve environment
 {{ range $key, $value := .Env -}}
 {{- if eq (index (split $key "_") 0) "TRANSMISSION" -}}
-  export {{ $key }}={{ $value }}
+export {{ $key }}={{ $value }}
 {{ end -}}
 {{- if (eq $key "OPENVPN_PROVIDER") -}}
-  export {{ $key }}={{ $value }}
+export {{ $key }}={{ $value }}
 {{ end -}}
-{{- if (eq $key "ENABLE_UFW") -}}
+{{- if or (eq $key "ENABLE_UFW") (eq $key "UFW_ALLOW_GW_NET") (eq $key "UFW_EXTRA_PORTS") (eq $key "UFW_DISABLE_IPTABLES_REJECT") -}}
+export {{ $key }}={{ $value }}
+{{ end -}}
+{{- if (eq $key "LOCAL_NETWORK") -}}
 export {{ $key }}={{ $value }}
 {{ end -}}
 {{- if or (eq $key "PUID") (eq $key "PGID") -}}
