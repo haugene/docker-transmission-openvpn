@@ -53,7 +53,7 @@ workflows:
 jobs:
   build-ubuntu-image:
     environment:
-      IMAGE_NAME: haugene/transmission-openvpn
+      IMAGE_NAME: colinwebber/transmission-openvpn
     docker:
       - image: circleci/buildpack-deps:stretch
     steps:
@@ -73,7 +73,7 @@ jobs:
 
   build-alpine-image:
     environment:
-      IMAGE_NAME: haugene/transmission-openvpn
+      IMAGE_NAME: colinwebber/transmission-openvpn
     docker:
       - image: circleci/buildpack-deps:stretch
     steps:
@@ -93,7 +93,7 @@ jobs:
 
   build-armhf-image:
     environment:
-      IMAGE_NAME: haugene/transmission-openvpn
+      IMAGE_NAME: colinwebber/transmission-openvpn
     docker:
       - image: circleci/buildpack-deps:stretch
     steps:
@@ -116,7 +116,7 @@ jobs:
 
   build-arm64-image:
     environment:
-      IMAGE_NAME: haugene/transmission-openvpn
+      IMAGE_NAME: colinwebber/transmission-openvpn
     docker:
       - image: circleci/buildpack-deps:stretch
     steps:
