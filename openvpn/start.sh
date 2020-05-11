@@ -76,7 +76,7 @@ then
       -F 'detectOrientation=false' \
       -F 'isTable=false' \
       "https://api.ocr.space/parse/image" -o /tmp/vpnbook_pwd
-    export OPENVPN_PASSWORD=$(cat /tmp/vpnbook_pwd  | awk -F',' '{ print $1 }' | awk -F':' '{print $NF}' | tr -d '"')
+    export OPENVPN_PASSWORD=$(cat /tmp/vpnbook_pwd  | awk -F',' '{ print $1 }' | awk -F':' '{print $NF}' | tr -d '"' | awk '{print $1 $2}')
 fi
 
 if [[ -n "${OPENVPN_CONFIG-}" ]]; then
