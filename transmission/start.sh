@@ -77,6 +77,10 @@ elif [[ "${OPENVPN_PROVIDER^^}" = "PERFECTPRIVACY" ]]
 then
     echo "CONFIGURING PORT FORWARDING"
     exec /etc/transmission/updatePPPort.sh ${TRANSMISSION_BIND_ADDRESS_IPV4} &
+elif [[ "${OPENVPN_PROVIDER^^}" = "PRIVATEVPN" ]]
+then
+    echo "CONFIGURING PORT FORWARDING"
+    exec /etc/transmission/updatePrivateVPNPort.sh &
 else
     echo "NO PORT UPDATER FOR THIS PROVIDER"
 fi
