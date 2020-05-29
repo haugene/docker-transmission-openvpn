@@ -38,6 +38,12 @@ set_port()
   sed -i -e"s,^Port .*,Port $1," $2
 }
 
+set_authentication()
+{
+  echo "Setting tinyproxy basic auth";
+  echo "BasicAuth $1 $2" >> $3
+}
+
 if [[ "${WEBPROXY_ENABLED}" = "true" ]]; then
 
   echo "STARTING TINYPROXY"
@@ -46,6 +52,10 @@ if [[ "${WEBPROXY_ENABLED}" = "true" ]]; then
   echo "Found config file $PROXY_CONF, updating settings."
 
   set_port ${WEBPROXY_PORT} ${PROXY_CONF}
+
+  if [[ ! -z "${WEBPROXY_USERNAME}" ]] && [[ ! -z "${WEBPROXY_PASSWORD}" ]]; then
+    set_authentication ${WEBPROXY_USERNAME} ${WEBPROXY_PASSWORD} ${PROXY_CONF}
+  fi
 
   # Allow all clients
   sed -i -e"s/^Allow /#Allow /" ${PROXY_CONF}

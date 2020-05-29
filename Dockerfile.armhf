@@ -9,9 +9,9 @@ VOLUME /config
 
 # Update packages and install software
 RUN apt-get update \
-    && apt-get -y install apt-utils \
-    && apt-get -y install transmission-cli transmission-common transmission-daemon \
-    && apt-get install -y dumb-init unzip openvpn curl ufw git tinyproxy jq \
+    && apt-get -y install apt-utils transmission-cli transmission-common transmission-daemon \
+    && apt-get install -y dumb-init unzip openvpn curl ufw git tinyproxy jq bash \
+    && apt-get -y upgrade \
     && curl -L -o /tmp/release.zip https://github.com/Secretmapper/combustion/archive/release.zip \
     && unzip /tmp/release.zip -d /opt/transmission-ui/ \
     && rm /tmp/release.zip \
@@ -127,6 +127,8 @@ ENV OPENVPN_USERNAME=**None** \
     DROP_DEFAULT_ROUTE= \
     WEBPROXY_ENABLED=false \
     WEBPROXY_PORT=8888 \
+    WEBPROXY_USERNAME= \
+    WEBPROXY_PASSWORD= \
     DOCKER_LOG=false \
     HEALTH_CHECK_HOST=google.com
 
