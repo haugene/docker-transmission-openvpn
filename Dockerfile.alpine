@@ -6,7 +6,7 @@ VOLUME /config
 ARG DOCKERIZE_ARCH=amd64
 ENV DOCKERIZE_VERSION=v0.6.0
 RUN echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
-    && apk --no-cache add bash dumb-init ip6tables ufw@testing openvpn shadow transmission-daemon transmission-cli curl jq tzdata \
+    && apk --no-cache add bash dumb-init ip6tables ufw@testing openvpn shadow transmission-daemon transmission-cli curl jq tzdata tinyproxy \
     && echo "Install dockerize $DOCKERIZE_VERSION ($DOCKERIZE_ARCH)" \
     && wget -qO- https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-$DOCKERIZE_ARCH-$DOCKERIZE_VERSION.tar.gz | tar xz -C /usr/bin \
     && mkdir -p /opt/transmission-ui \
@@ -27,8 +27,10 @@ RUN echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/ap
     && useradd -u 911 -U -d /config -s /bin/false abc \
     && usermod -G users abc
 
+# Add configuration and scripts
 ADD openvpn/ /etc/openvpn/
 ADD transmission/ /etc/transmission/
+ADD tinyproxy /opt/tinyproxy/
 ADD scripts /etc/scripts/
 
 ENV OPENVPN_USERNAME=**None** \
@@ -121,6 +123,8 @@ ENV OPENVPN_USERNAME=**None** \
     DROP_DEFAULT_ROUTE= \
     WEBPROXY_ENABLED=false \
     WEBPROXY_PORT=8888 \
+    WEBPROXY_USERNAME= \
+    WEBPROXY_PASSWORD= \
     DOCKER_LOG=false \
     HEALTH_CHECK_HOST=google.com
 

@@ -85,6 +85,8 @@ export PGID={{ .Env.PGID }}
 # Need to pass through our tinyproxy settings
 export WEBPROXY_ENABLED={{ .Env.WEBPROXY_ENABLED }}
 export WEBPROXY_PORT={{ .Env.WEBPROXY_PORT }}
+export WEBPROXY_USERNAME={{ .Env.WEBPROXY_USERNAME }}
+export WEBPROXY_PASSWORD={{ .Env.WEBPROXY_PASSWORD }}
 
 # Support custom web frontend
 {{ if .Env.TRANSMISSION_WEB_HOME }} export TRANSMISSION_WEB_HOME={{ .Env.TRANSMISSION_WEB_HOME }} {{end}}
