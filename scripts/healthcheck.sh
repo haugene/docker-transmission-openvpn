@@ -23,8 +23,8 @@ echo "Network is up"
 
 #Service check
 #Expected output is 2 for both checks, 1 for process and 1 for grep
-OPENVPN=$(ps | grep 'openvpn --script-security' |wc| awk '{print $1}')
-TRANSMISSION=$(ps | grep 'transmission-daemon' |wc| awk '{print $1}')
+OPENVPN=$(ps -ef | grep 'openvpn --script-security' |wc| awk '{print $1}')
+TRANSMISSION=$(ps -ef | grep 'transmission-daemon' |wc| awk '{print $1}')
 
 if [[ ${OPENVPN} -ne 2 ]]
 then
