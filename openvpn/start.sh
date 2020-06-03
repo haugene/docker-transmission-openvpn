@@ -3,6 +3,8 @@ VPN_PROVIDER="${OPENVPN_PROVIDER,,}"
 VPN_PROVIDER_CONFIGS="/etc/openvpn/${VPN_PROVIDER}"
 export VPN_PROVIDER_CONFIGS
 
+echo $(curl icanhazip.com) > ~/non_vpn_ip
+
 # If create_tun_device is set, create /dev/net/tun
 if [[ "${CREATE_TUN_DEVICE,,}" == "true" ]]; then
   mkdir -p /dev/net
@@ -103,6 +105,24 @@ else
   echo "No VPN configuration provided. Using default."
   OPENVPN_CONFIG="${VPN_PROVIDER_CONFIGS}/default.ovpn"
 fi
+
+#hardening
+#removes default route
+# sets static route to: - openvpn server endpoint
+#                       - local nameserver
+#                       - icanhazip.com (for external ip)
+#                       - transmission portcheck
+ROUTER=$(ip route list | grep default | grep eth0 | awk '{print $3}')
+echo $ROUTER > ~/router
+SERVER_ADDR=$(grep 'remote ' "${OPENVPN_CONFIG}" | awk '{print $2}')
+SERVER_IP=$(dig +short $SERVER_ADDR | grep '^[.0-9]*$' | awk 'NR==1{print $1}')
+IP_CHECK=$(dig +short icanhazip.com | grep '^[.0-9]*$' | awk 'NR==1{print $1}')
+TRANSMISSION_CHECK=$(dig +short portcheck.transmissionbt.com | grep '^[.0-9]*$' | awk 'NR==1{print $1}')
+ip route del default via $ROUTER dev eth0
+ip route add $SERVER_IP via $ROUTER dev eth0
+ip route add 192.168.65.1 via $ROUTER dev eth0
+ip route add $IP_CHECK via $ROUTER dev eth0
+ip route add $TRANSMISSION_CHECK via $ROUTER dev eth0
 
 # add OpenVPN user/pass
 if [[ "${OPENVPN_USERNAME}" == "**None**" ]] || [[ "${OPENVPN_PASSWORD}" == "**None**" ]] ; then

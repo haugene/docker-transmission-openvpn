@@ -38,4 +38,24 @@ then
 fi
 
 echo "Openvpn and transmission-daemon processes are running"
+
+EXTERNAL_VPN_IP=$(curl icanhazip.com)
+if [[ $EXTERNAL_VPN_IP == $(cat ~/non_vpn_ip) ]]
+then
+	echo "External IP matches non VPN external IP, something wrong with openvpn connection"
+	exit 0
+fi
+if [[ -n "${BANNED_IP-}" ]]
+then
+	for ip in ${BANNED_IP//,/ }
+	do
+		if [[ $EXTERNAL_VPN_IP == $ip ]]
+		then
+			echo "External IP in banned IP list, possibly something wrong with openvpn connection"
+			exit 0
+		fi
+	done
+fi
+
+
 exit 0
