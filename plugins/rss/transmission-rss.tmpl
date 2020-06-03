@@ -1,6 +1,8 @@
 feeds:
   - url: {{ .Env.RSS_URL }}
     download_path: {{ .Env.TRANSMISSION_DOWNLOAD_DIR }}
+    regexp: {{ .Env.RSS_REGEXP }}
+    
 server:
   host: transmission
   port: 9091
