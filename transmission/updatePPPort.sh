@@ -3,13 +3,6 @@
 # Source our persisted env variables from container startup
 . /etc/transmission/environment-variables.sh
 
-# Settings
-TRANSMISSION_PASSWD_FILE=/config/transmission-credentials.txt
-
-transmission_username=$(head -1 $TRANSMISSION_PASSWD_FILE)
-transmission_passwd=$(tail -1 $TRANSMISSION_PASSWD_FILE)
-transmission_settings_file=${TRANSMISSION_HOME}/settings.json
-
 # Calculate the port
 
 IPADDRESS=$1

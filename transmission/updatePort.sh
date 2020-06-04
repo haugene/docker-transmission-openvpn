@@ -6,17 +6,11 @@ sleep 15
 # Source our persisted env variables from container startup
 . /etc/transmission/environment-variables.sh
 
-# Settings
-TRANSMISSION_PASSWD_FILE=/config/transmission-credentials.txt
-
-transmission_username=$(head -1 ${TRANSMISSION_PASSWD_FILE})
-transmission_passwd=$(tail -1 ${TRANSMISSION_PASSWD_FILE})
-pia_client_id_file=/etc/transmission/pia_client_id
-transmission_settings_file=${TRANSMISSION_HOME}/settings.json
-
 #
 # First get a port from PIA
 #
+
+pia_client_id_file=/etc/transmission/pia_client_id
 
 new_client_id() {
     head -n 100 /dev/urandom | sha256sum | tr -d " -" | tee ${pia_client_id_file}
