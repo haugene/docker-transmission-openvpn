@@ -67,7 +67,7 @@
     "trash-original-torrent-files": {{ default .Env.TRANSMISSION_TRASH_ORIGINAL_TORRENT_FILES "false" }},
     "umask": {{ default .Env.TRANSMISSION_UMASK "2" }},
     "upload-slots-per-torrent": {{ default .Env.TRANSMISSION_UPLOAD_SLOTS_PER_TORRENT "14" }},
-    "utp-enabled": {{ default .Env.TRANSMISSION_UTP_ENABLED "true" }},
+    "utp-enabled": {{ default .Env.TRANSMISSION_UTP_ENABLED "false" }},
     "watch-dir": "{{ default .Env.TRANSMISSION_WATCH_DIR .Env.DEFAULT_TR_WATCH_DIR }}",
     "watch-dir-enabled": {{ default .Env.TRANSMISSION_WATCH_DIR_ENABLED "true" }},
     "watch-dir-force-generic": {{ default .Env.TRANSMISSION_WATCH_DIR_FORCE_GENERIC "false" }}
