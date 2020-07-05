@@ -86,13 +86,9 @@ download_hostname() {
     #udp ==> https://downloads.nordcdn.com/configs/files/ovpn_udp/servers/nl601.nordvpn.com.udp.ovpn
     #tcp ==> https://downloads.nordcdn.com/configs/files/ovpn_tcp/servers/nl542.nordvpn.com.tcp.ovpn
 
-    local nordvpn_cdn="https://downloads.nordcdn.com/configs/files"
-
-    if [[ ${NORDVPN_PROTOCOL,,} == udp ]]; then
-        nordvpn_cdn="${nordvpn_cdn}/ovpn_udp/servers/"
-    elif [[ ${NORDVPN_PROTOCOL,,} == tcp ]];then
-        nordvpn_cdn="${nordvpn_cdn}/ovpn_tcp/servers/"
-    fi
+    local nordvpn_cdn="https://downloads.nordcdn.com/configs/files/ovpn_legacy/servers"
+    local udp="udp1194"
+    local tcp="tcp443"
 
     if [[ "$1" == "-d" ]]; then
         nordvpn_cdn=${nordvpn_cdn}/${2}
@@ -103,9 +99,9 @@ download_hostname() {
     fi
 
     if [[ ${NORDVPN_PROTOCOL,,} == udp ]]; then
-        nordvpn_cdn="${nordvpn_cdn}.udp.ovpn"
+        nordvpn_cdn="${nordvpn_cdn}.${udp}.ovpn"
     elif [[ ${NORDVPN_PROTOCOL,,} == tcp ]];then
-        nordvpn_cdn="${nordvpn_cdn}.tcp.ovpn"
+        nordvpn_cdn="${nordvpn_cdn}.${tcp}.ovpn"
     fi
 
     log "Downloading config: ${ovpnName}"
