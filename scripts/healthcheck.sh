@@ -23,15 +23,15 @@ echo "Network is up"
 
 #Service check
 #Expected output is 2 for both checks, 1 for process and 1 for grep
-OPENVPN=$(ps -ef | grep 'openvpn --script-security' |wc| awk '{print $1}')
-TRANSMISSION=$(ps -ef | grep 'transmission-daemon' |wc| awk '{print $1}')
+OPENVPN=$(pgrep openvpn | wc -l )
+TRANSMISSION=$(pgrep transmission | wc -l)
 
-if [[ ${OPENVPN} -ne 2 ]]
+if [[ ${OPENVPN} -ne 1 ]]
 then
 	echo "Openvpn process not running"
 	exit 1
 fi
-if [[ ${TRANSMISSION} -ne 2 ]]
+if [[ ${TRANSMISSION} -ne 1 ]]
 then
 	echo "transmission-daemon process not running"
 	exit 1
