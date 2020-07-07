@@ -11,6 +11,7 @@ RUN apt-get update \
 ADD . /etc/transmission-rss
 
 ENV TRANSMISSION_DOWNLOAD_DIR=/data/completed \
-    RSS_URL=**None**
+    RSS_URL=**None** \
+    RSS_REGEXP=
 
 CMD ["/etc/transmission-rss/start.sh"]
