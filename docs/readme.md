@@ -230,6 +230,8 @@ Remember to add a port binding for your selected (or default) port when starting
 | ------------------ | ----------------------- | ----------------------- |
 | `WEBPROXY_ENABLED` | Enables the web proxy   | `WEBPROXY_ENABLED=true` |
 | `WEBPROXY_PORT`    | Sets the listening port | `WEBPROXY_PORT=8888`    |
+| `WEBPROXY_USERNAME`| Sets the BasicAuth username | `WEBPROXY_USERNAME=test`    |
+| `WEBPROXY_PASSWORD`| Sets the BasicAuth password  | `WEBPROXY_PASSWORD=password`    |
 
 ### User configuration options
 
