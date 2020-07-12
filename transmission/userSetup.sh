@@ -9,7 +9,7 @@ if [ -n "$PUID" ] && [ ! "$(id -u root)" -eq "$PUID" ]; then
     if [ ! "$(id -u ${RUN_AS})" -eq "$PUID" ]; then
         usermod -o -u "$PUID" ${RUN_AS};
     fi
-    if [ ! "$(id -g ${RUN_AS})" -eq "$PGID" ]; then
+    if [ -n "$PGID" ] && [ ! "$(id -g ${RUN_AS})" -eq "$PGID" ]; then
         groupmod -o -g "$PGID" ${RUN_AS};
     fi
 
