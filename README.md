@@ -4,6 +4,29 @@
 [![Docker Pulls](https://img.shields.io/docker/pulls/haugene/transmission-openvpn.svg)](https://hub.docker.com/r/haugene/transmission-openvpn/)
 [![Join the chat at https://gitter.im/docker-transmission-openvpn/Lobby](https://badges.gitter.im/docker-transmission-openvpn/Lobby.svg)](https://gitter.im/docker-transmission-openvpn/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
+## Depracation Warning - changes are coming!
+
+**TL;DR:** Nothing has changed yet for the `latest` tag, but there is a 3.0 version coming. Until then the `dev` tag could be more unstable than before.
+
+After years of maintaining and developing this project there are a couple of things that users keep asking about and that
+we now want to change in order to eventually make it easier for everyone.
+It looks like we will be close to 100% backwards compatible but we will probably have a couple of breaking changes where users would have to rename a config parameter or two, etc.
+
+As of now we are devoting the dev branch to development of the new version 3.0, and the master branch will continue on 2.x.
+Updates to openvpn configs and other smaller changes should be contributed to the master branch as the dev branch will not be merged into master before we have developed, tested and stabilized the new version.
+
+Some highlights on version 3.x:
+* We're dropping the ubuntu based image and making alpine the default (reduce double maintenance)
+* We're making Transmission settings persistent by default, removing the need for all the environment variables (but keeping support for it)
+* We're making it easier to provide your own OpenVPN (.ovpn) config file.
+* Possibly extracting the OpenVPN configs so that we can maintain that in a separate project and focus on the core in this project.
+
+These changes will not be in effect in a while yet, and I will update here when they are and provide a list of non backwards compatible changes.
+If you are following the "latest" tag, at some point it will be changed to the 3.x version and your container might break. At that point, either follow the
+upgrade guide (coming) or revert the version to the latest release on 2.x versions.
+
+The dev branch will be used for the 3.x going forwards, so to all of you following that one. You have been warned, it might be a bit unstable going forwards.
+
 ## Quick Start
 
 This container contains OpenVPN and Transmission with a configuration
