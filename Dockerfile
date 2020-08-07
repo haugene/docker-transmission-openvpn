@@ -1,43 +1,33 @@
-FROM ubuntu:19.10
+FROM alpine:3.12
 
 VOLUME /data
 VOLUME /config
 
 ARG DOCKERIZE_ARCH=amd64
-ARG DOCKERIZE_VERSION=v0.6.1
-ARG DUMBINIT_VERSION=1.2.2
-
-# Required for omitting the tzdata configuration dialog
-ENV DEBIAN_FRONTEND=noninteractive
-
-# Update, upgrade and install core software
-RUN apt update \
-    && apt -y install apt-utils software-properties-common wget git curl jq \
-    && add-apt-repository ppa:transmissionbt/ppa \
-    && apt update \
-    && apt install -y sudo transmission-cli transmission-common transmission-daemon curl rar unrar zip unzip ufw iputils-ping openvpn bc tzdata bash \
-    python2.7 python2.7-pysqlite2 && ln -sf /usr/bin/python2.7 /usr/bin/python2 \
-    && apt -y upgrade \
-    && wget https://github.com/Secretmapper/combustion/archive/release.zip \
-    && unzip release.zip -d /opt/transmission-ui/ \
-    && rm release.zip \
+ENV DOCKERIZE_VERSION=v0.6.0
+RUN echo "@community http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
+    && apk --no-cache add bash dumb-init ip6tables ufw@community openvpn shadow transmission-daemon transmission-cli curl jq tzdata openrc tinyproxy tinyproxy-openrc\
+    && echo "Install dockerize $DOCKERIZE_VERSION ($DOCKERIZE_ARCH)" \
+    && wget -qO- https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-$DOCKERIZE_ARCH-$DOCKERIZE_VERSION.tar.gz | tar xz -C /usr/bin \
+    && mkdir -p /opt/transmission-ui \
+    && echo "Install Combustion" \
+    && wget -qO- https://github.com/Secretmapper/combustion/archive/release.tar.gz | tar xz -C /opt/transmission-ui \
+    && echo "Install kettu" \
+    && wget -qO- https://github.com/endor/kettu/archive/master.tar.gz | tar xz -C /opt/transmission-ui \
+    && mv /opt/transmission-ui/kettu-master /opt/transmission-ui/kettu \
+    && echo "Install Transmission-Web-Control" \
     && mkdir /opt/transmission-ui/transmission-web-control \
     && curl -sL `curl -s https://api.github.com/repos/ronggang/transmission-web-control/releases/latest | jq --raw-output '.tarball_url'` | tar -C /opt/transmission-ui/transmission-web-control/ --strip-components=2 -xz \
     && ln -s /usr/share/transmission/web/style /opt/transmission-ui/transmission-web-control \
     && ln -s /usr/share/transmission/web/images /opt/transmission-ui/transmission-web-control \
     && ln -s /usr/share/transmission/web/javascript /opt/transmission-ui/transmission-web-control \
     && ln -s /usr/share/transmission/web/index.html /opt/transmission-ui/transmission-web-control/index.original.html \
-    && git clone git://github.com/endor/kettu.git /opt/transmission-ui/kettu \
-    && apt install -y tinyproxy telnet vim \
-    && wget https://github.com/Yelp/dumb-init/releases/download/v${DUMBINIT_VERSION}/dumb-init_${DUMBINIT_VERSION}_amd64.deb \
-    && dpkg -i dumb-init_${DUMBINIT_VERSION}_amd64.deb \
-    && rm -rf dumb-init_${DUMBINIT_VERSION}_amd64.deb \
-    && curl -L https://github.com/jwilder/dockerize/releases/download/${DOCKERIZE_VERSION}/dockerize-linux-${DOCKERIZE_ARCH}-${DOCKERIZE_VERSION}.tar.gz | tar -C /usr/local/bin -xzv \
-    && apt clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+    && rm -rf /tmp/* /var/tmp/* \
     && groupmod -g 1000 users \
     && useradd -u 911 -U -d /config -s /bin/false abc \
     && usermod -G users abc
 
+# Add configuration and scripts
 ADD openvpn/ /etc/openvpn/
 ADD transmission/ /etc/transmission/
 ADD tinyproxy /opt/tinyproxy/
@@ -135,12 +125,11 @@ ENV OPENVPN_USERNAME=**None** \
     WEBPROXY_PORT=8888 \
     WEBPROXY_USERNAME= \
     WEBPROXY_PASSWORD= \
-    HEALTH_CHECK_HOST=google.com \
-    DOCKER_LOG=false
+    DOCKER_LOG=false \
+    HEALTH_CHECK_HOST=google.com
 
 HEALTHCHECK --interval=5m CMD /etc/scripts/healthcheck.sh
 
 # Expose port and run
 EXPOSE 9091
-EXPOSE 8888
 CMD ["dumb-init", "/etc/openvpn/start.sh"]
