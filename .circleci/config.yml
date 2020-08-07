@@ -55,7 +55,7 @@ jobs:
           distro: alpine
       - run:
           name: Build Docker image
-          command: docker build -t $IMAGE_NAME:$IMAGE_TAG -f Dockerfile.alpine .
+          command: docker build -t $IMAGE_NAME:$IMAGE_TAG .
       - run:
           name: Login to Docker Hub
           command: echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
@@ -145,7 +145,7 @@ commands:
               TAG_VERSION=$CIRCLE_BRANCH;
             fi
 
-            if [ "<< parameters.distro >>" = "ubuntu" ]; then
+            if [ "<< parameters.distro >>" = "alpine" ]; then
               TAG_DISTRO="";
             else
               TAG_DISTRO=-<< parameters.distro >>;
