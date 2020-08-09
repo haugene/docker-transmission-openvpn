@@ -1,30 +1,44 @@
+import argparse
 import os
-import sys
-import json
 
+parser = argparse.ArgumentParser(
+    description='Store env vars into runnable .sh file with export statements',
+)
+parser.add_argument(
+    'env_var_script_file',
+    type=str,
+    help='Path to variables-script.sh',
+)
 
-# Verify script arguments
-if len(sys.argv) != 2:
-    sys.exit(
-        'Invalid number of arguments. Usage:\n persistEnvironment.py /path/to/varibles-script.sh')
+args = parser.parse_args()
 
-envVarsScriptFile = sys.argv[1]
+wanted_variables = {
+    'OPENVPN_PROVIDER',
+    'ENABLE_UFW',
+    'PUID',
+    'PGID',
+    'DROP_DEFAULT_ROUTE',
+    'GLOBAL_APPLY_PERMISSIONS',
+    'DOCKER_LOG',
+}
 
-wantedVariables = ['OPENVPN_PROVIDER', 'ENABLE_UFW', 'PUID', 'PGID', 'DROP_DEFAULT_ROUTE', 'GLOBAL_APPLY_PERMISSIONS', 'DOCKER_LOG']
+variables_to_persist = {}
 
-variablesToPersist = {}
-
-for variable in os.environ:
-    if variable.startswith('TRANSMISSION_'):
-        variablesToPersist[variable] = os.environ.get(variable)
-    if variable.startswith('WEBPROXY_'):
-        variablesToPersist[variable] = os.environ.get(variable)
-    if variable in wantedVariables:
-        variablesToPersist[variable] = os.environ.get(variable)
+for env_var in os.environ:
+    if env_var.startswith('TRANSMISSION_'):
+        variables_to_persist[env_var] = os.environ.get(env_var)
+    elif env_var.startswith('WEBPROXY_'):
+        variables_to_persist[env_var] = os.environ.get(env_var)
+    elif env_var in wanted_variables:
+        variables_to_persist[env_var] = os.environ.get(env_var)
 
 
 # Dump resulting settings to file
-with open(envVarsScriptFile, 'w') as file:
-    for variable in variablesToPersist:
-        file.write('export ' + variable + '=' +
-                   variablesToPersist[variable] + '\n')
+with open(args.env_var_script_file, 'w') as script_file:
+    for var_name, var_value in variables_to_persist.items():
+        script_file.write(
+            'export {env_var} = {env_var_value}\n'.format(
+                env_var=var_name,
+                env_var_value=var_value,
+            ),
+        )
