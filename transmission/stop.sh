@@ -8,7 +8,14 @@ then
    echo "/scripts/transmission-pre-stop.sh returned $?"
 fi
 
-kill $(pidof transmission-daemon)
+echo "Sending kill signal to transmission-daemon"
+PID=$(pidof transmission-daemon)
+kill $PID
+# Give transmission-daemon time to shut down
+for i in {1..10}; do
+    ps -p $PID &> /dev/null || break
+    sleep .2
+done
 
 # If transmission-post-stop.sh exists, run it
 if [[ -x /scripts/transmission-post-stop.sh ]]
