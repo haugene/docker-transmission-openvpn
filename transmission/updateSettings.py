@@ -1,23 +1,43 @@
+import argparse
+import json
 import os
 import sys
-import json
 
 
-# Verify script arguments
-if len(sys.argv) != 3:
-    sys.exit('Invalid number of arguments. Usage:\n updateSettings.py defaultSettingsFile.json outputSettingsFile.json')
+parser = argparse.ArgumentParser(
+    description='Updates output settings file based on a default file',
+)
 
-default_settings = sys.argv[1]
-transmission_settings = sys.argv[2]
+parser.add_argument(
+    'input_file',
+    type=str,
+    help='Path to default settings json file',
+)
 
+parser.add_argument(
+    'output_file',
+    type=str,
+    help='Path to output settings json file',
+)
+
+args = parser.parse_args()
+default_settings = args.input_file
+transmission_settings = args.output_file
+
+# Fail if default settings file doesnt exist.
 if not os.path.isfile(default_settings):
-    sys.exit('Invalid arguments, default settings file does not exist')
+    sys.exit(
+        'Invalid arguments, default settings file{file} does not exist'.format(
+            file=default_settings,
+        ),
+    )
+
 
 # Define which file to base the config on
 if os.path.isfile(transmission_settings):
-    configuration_baseline=transmission_settings
+    configuration_baseline = transmission_settings
 else:
-    configuration_baseline=default_settings
+    configuration_baseline = default_settings
 
 print('Using config baseline ' + configuration_baseline)
 
