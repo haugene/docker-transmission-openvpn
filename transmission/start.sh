@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Fail script on errors
+set -e
+
 # Source our persisted env variables from container startup
 . /etc/transmission/environment-variables.sh
 
@@ -39,10 +42,10 @@ if [[ "transmission-web-control" = "$TRANSMISSION_WEB_UI" ]]; then
   export TRANSMISSION_WEB_HOME=/opt/transmission-ui/transmission-web-control
 fi
 
-echo "Generating transmission settings.json from env variables"
+echo "Updating Transmission settings.json with values from env variables"
 # Ensure TRANSMISSION_HOME is created
 mkdir -p ${TRANSMISSION_HOME}
-dockerize -template /etc/transmission/settings.tmpl:${TRANSMISSION_HOME}/settings.json
+python3 /etc/transmission/updateSettings.py /etc/transmission/default-settings.json ${TRANSMISSION_HOME}/settings.json
 
 echo "sed'ing True to true"
 sed -i 's/True/true/g' ${TRANSMISSION_HOME}/settings.json
