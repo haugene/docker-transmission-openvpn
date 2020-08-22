@@ -12,7 +12,7 @@ transmission_settings_file=${TRANSMISSION_HOME}/settings.json
 
 # Calculate the port
 
-IPADDRESS=$1
+IPADDRESS=$TRANSMISSION_BIND_ADDRESS_IPV4
 echo "ipAddress to calculate port from $IPADDRESS"
 oct3=$(echo ${IPADDRESS} | tr "." " " | awk '{ print $3 }')
 oct4=$(echo ${IPADDRESS} | tr "." " " | awk '{ print $4 }')
