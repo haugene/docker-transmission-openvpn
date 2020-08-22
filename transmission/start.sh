@@ -23,6 +23,9 @@ fi
 
 echo "Updating TRANSMISSION_BIND_ADDRESS_IPV4 to the ip of $1 : $4"
 export TRANSMISSION_BIND_ADDRESS_IPV4=$4
+# Also update the persisted settings in case it is already set. First remove any old value, then add new.
+sed -i '/TRANSMISSION_BIND_ADDRESS_IPV4/d' /etc/transmission/environment-variables.sh
+echo "export TRANSMISSION_BIND_ADDRESS_IPV4=$4" >> /etc/transmission/environment-variables.sh
 
 if [[ "combustion" = "$TRANSMISSION_WEB_UI" ]]; then
   echo "Using Combustion UI, overriding TRANSMISSION_WEB_HOME"
