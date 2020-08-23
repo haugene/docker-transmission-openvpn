@@ -17,8 +17,7 @@ OPENVPN_IP=$(curl -s https://freevpn.${DOMAIN}/accounts/ | grep IP |  sed s/"^.*
 # freevpn.me , main server, presents two servers with different address
 # and related password to be used 
 SERVER=${OPENVPN_IP%".freevpn.${DOMAIN}"}
-PASSWORD=$(curl -s https://freevpn.${DOMAIN}/accounts/ | grep Password |  sed s/"^.*Password\:.... "/""/g | sed s/"<.*"/""/g)
-echo "${PASSWORD}" > /etc/freevpn_password
+export OPENVPN_PASSWORD=$(curl -s https://freevpn.${DOMAIN}/accounts/ | grep Password |  sed s/"^.*Password\:.... "/""/g | sed s/"<.*"/""/g)
 
 DIR="/tmp/freevpn"
 TARGET="/etc/openvpn/freevpn"
