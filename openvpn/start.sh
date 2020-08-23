@@ -43,9 +43,7 @@ then
 
     if [[ -n $OPENVPN_CONFIG ]]
     then
-      tmp_Protocol="${OPENVPN_CONFIG##*.}"
-      export NORDVPN_PROTOCOL=${tmp_Protocol^^}
-      echo "Setting NORDVPN_PROTOCOL to: ${NORDVPN_PROTOCOL}"
+      echo "Downloading user specified config. NORDVPN_PROTOCOL is set to: ${NORDVPN_PROTOCOL}"
       ${VPN_PROVIDER_CONFIGS}/updateConfigs.sh --openvpn-config
     elif [[ -n $NORDVPN_COUNTRY ]]
     then
