@@ -12,4 +12,4 @@ curl -s -X POST --header "apikey: 5a64d478-9c89-43d8-88e3-c65de9999580" \
     -F 'detectOrientation=false' \
     -F 'isTable=false' \
     "https://api.ocr.space/parse/image" -o /tmp/vpnbook_pwd
-export OPENVPN_PASSWORD=$(cat /tmp/vpnbook_pwd  | awk -F',' '{ print $1 }' | awk -F':' '{print $NF}' | tr -d '"')
+export OPENVPN_PASSWORD=$(awk -F',' '{ print $1 }' /tmp/vpnbook_pwd | awk -F':' '{print $NF}' | tr -d '"')
