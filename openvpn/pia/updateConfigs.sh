@@ -10,8 +10,8 @@ find . ! -name '*.sh' -delete
 
 baseURL="https://www.privateinternetaccess.com/openvpn/openvpn"
 extension=".zip"
-declare -a configsURLs=(    "" "-strong" "-tcp" "-strong-tcp" "-ip")
-declare -a configsFolders=( "" "strong"  "tcp"  "tcp-strong"  "ip")
+declare -a configsURLs=(    "" "-strong" "-tcp" "-strong-tcp" "-ip" "-nextgen")
+declare -a configsFolders=( "" "strong"  "tcp"  "tcp-strong"  "ip" "nextgen")
 
 # warning: keeping folder name "tcp-strong" for legacy reasons, but the url is "strong-tcp".
 
@@ -24,11 +24,11 @@ do
   then
     mkdir -p ${configsFolders[$i-1]} && cd ${configsFolders[$i-1]}
   fi
-  curl -kL $requestURL -o openvpn.zip \
-    && unzip -j openvpn.zip && rm openvpn.zip
+  curl -skL $requestURL -o openvpn.zip > /dev/null \
+    && unzip -jo openvpn.zip && rm openvpn.zip
 
   # Ensure linux line endings
-  dos2unix *
+  dos2unix * &> /dev/null
 
   # Update configs with correct paths
   folderNameWithEscapedSlash=""
