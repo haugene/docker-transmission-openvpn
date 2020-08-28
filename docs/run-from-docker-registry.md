@@ -38,4 +38,21 @@ To make sure this work in all cases, you should add ```--pull-filter ignore ping
 
 As you can see, the container also expects a data volume to be mounted.
 This is where Transmission will store your downloads, incomplete downloads and look for a watch directory for new .torrent files.
-By default a folder named transmission-home will also be created under /data, this is where Transmission stores its state.
+
+##### Alternative VPN configurations (PIA)
+When using PIA as VPN Provider, several custom configurations could be used: 
+```
+-e "OPENVPN_CONFIG=nextgen/France"
+```
+
+The following folders can be used:
+
+| Folder name | Description |
+| ------------- |-------------|
+| nextgen* | New configuration format, uses different domain names and supposedly has support for port forwarding in more locations |
+| strong | Uses stronger encryption than the standard |
+| ip | Does not use DNS names, but connects to IP addresses | 
+| tcp | uses TCP instead of UDP |
+| tcp-strong | Uses stronger encryption than standard and uses TCP instead of UDP |
+
+\* NOTE: nextgen config currently not working, since PIA is still migrating servers. 
