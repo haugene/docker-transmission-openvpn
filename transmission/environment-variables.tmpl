@@ -97,5 +97,6 @@ export DROP_DEFAULT_ROUTE={{ .Env.DROP_DEFAULT_ROUTE }}
 # Support using transmission ids for transmission paths
 export GLOBAL_APPLY_PERMISSIONS={{ .Env.GLOBAL_APPLY_PERMISSIONS }}
 
-#Support logging to docker logs
-export DOCKER_LOG={{ .Env.DOCKER_LOG }}
+# Support logging to stdout which docker logs uses, mark either true
+export DOCKER_LOG={{ .Env.DOCKER_LOG }} # DEPRECIATED -- variable name does not reflect usage
+export LOG_TO_STDOUT={{ .Env.LOG_TO_STDOUT }} # Updated variable name
