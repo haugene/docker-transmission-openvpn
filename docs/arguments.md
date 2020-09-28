@@ -105,3 +105,11 @@ This might lead to the default route (your untunneled connection) to be used.
 To drop the default route set the environment variable `DROP_DEFAULT_ROUTE` to `true`.
 
 *Note*: This is not compatible with all VPNs. You can check your iptables routing with the `ip r` command in a running container.
+
+### Changing logging locations
+
+By default Transmission will log to a file in `TRANSMISSION_HOME/transmission.log`. 
+
+To log to stdout instead set the environment variable `LOG_TO_STDOUT` to `true`.
+
+*Note*: By default stdout is what container engines read logs from. Set this to true to have Tranmission logs in commands like `docker logs` and `kubectl logs`. OpenVPN currently only logs to stdout.

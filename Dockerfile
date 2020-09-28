@@ -136,7 +136,8 @@ ENV OPENVPN_USERNAME=**None** \
     WEBPROXY_USERNAME= \
     WEBPROXY_PASSWORD= \
     HEALTH_CHECK_HOST=google.com \
-    DOCKER_LOG=false
+    DOCKER_LOG=false \
+    LOG_TO_STDOUT=false
 
 HEALTHCHECK --interval=5m CMD /etc/scripts/healthcheck.sh
 
