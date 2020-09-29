@@ -19,7 +19,7 @@ wanted_variables = {
     'PGID',
     'DROP_DEFAULT_ROUTE',
     'GLOBAL_APPLY_PERMISSIONS',
-    'DOCKER_LOG',
+    'LOG_TO_STDOUT',
 }
 
 variables_to_persist = {}
