@@ -90,7 +90,7 @@ jobs:
     environment:
       IMAGE_NAME: haugene/transmission-openvpn
     docker:
-      - image: circleci/buildpack-deps:stretch
+      - image: circleci/buildpack-deps:buster
     steps:
       - checkout
       - setup_remote_docker
@@ -104,7 +104,7 @@ jobs:
             docker build \
               -t $IMAGE_NAME:$IMAGE_TAG \
               -f Dockerfile.armhf \
-              --build-arg base_image=balenalib/raspberrypi3-64:stretch .
+              --build-arg base_image=balenalib/raspberrypi3-64:buster .
       - run:
           name: Login to Docker Hub
           command: echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
