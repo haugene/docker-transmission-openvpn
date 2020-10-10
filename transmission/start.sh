@@ -63,7 +63,7 @@ if [[ "true" = "$DROP_DEFAULT_ROUTE" ]]; then
   ip r del default || exit 1
 fi
 
-if [[ "true" = "$DOCKER_LOG" ]]; then
+if [[ "true" = "$DOCKER_LOG" || "true" = "$LOG_TO_STDOUT" ]]; then
   LOGFILE=/dev/stdout
 else
   LOGFILE=${TRANSMISSION_HOME}/transmission.log
