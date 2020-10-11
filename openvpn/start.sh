@@ -43,8 +43,8 @@ if [[ -n $OPENVPN_CONFIG_URL ]]; then
   echo "Found URL to OpenVPN config, will download it."
   CHOSEN_OPENVPN_CONFIG=$VPN_PROVIDER_HOME/downloaded_config.ovpn
   curl -o "$CHOSEN_OPENVPN_CONFIG" -sSL "$OPENVPN_CONFIG_URL"
-  # shellcheck source=/dev/null
-  . /etc/openvpn/modify-openvpn-config.sh
+  # shellcheck source=openvpn/modify-openvpn-config.sh
+  /etc/openvpn/modify-openvpn-config.sh $CHOSEN_OPENVPN_CONFIG
 elif [[ -x $VPN_PROVIDER_HOME/configure-openvpn.sh ]]; then
   echo "Provider $OPENVPN_PROVIDER has a custom startup script, executing it"
   # shellcheck source=/dev/null
@@ -91,7 +91,7 @@ if [[ "${OPENVPN_USERNAME}" == "**None**" ]] || [[ "${OPENVPN_PASSWORD}" == "**N
   fi
   echo "Found existing OPENVPN credentials at /config/openvpn-credentials.txt"
 else
-  echo "Setting OPENVPN credentials..."
+  echo "Setting OpenVPN credentials..."
   mkdir -p /config
   echo "${OPENVPN_USERNAME}" > /config/openvpn-credentials.txt
   echo "${OPENVPN_PASSWORD}" >> /config/openvpn-credentials.txt
