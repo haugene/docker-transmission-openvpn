@@ -13,7 +13,7 @@ if [ -n "$PUID" ] && [ ! "$(id -u root)" -eq "$PUID" ]; then
         groupmod -o -g "$PGID" ${RUN_AS};
     fi
 
-    if [[ "true" = "$DOCKER_LOG" || "true" = "$LOG_TO_STDOUT" ]]; then
+    if [[ "true" = "$LOG_TO_STDOUT" ]]; then
       chown ${RUN_AS}:${RUN_AS} /dev/stdout
     fi
 
