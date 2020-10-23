@@ -4,7 +4,7 @@
 [![Docker Pulls](https://img.shields.io/docker/pulls/haugene/transmission-openvpn.svg)](https://hub.docker.com/r/haugene/transmission-openvpn/)
 [![Join the chat at https://gitter.im/docker-transmission-openvpn/Lobby](https://badges.gitter.im/docker-transmission-openvpn/Lobby.svg)](https://gitter.im/docker-transmission-openvpn/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-## Depracation Warning - changes are coming!
+## Deprecation Warning - changes are coming!
 
 **TL;DR:** Nothing has changed yet for the `latest` tag, but there is a 3.0 version coming. Until then the `dev` tag could be more unstable than before.
 
