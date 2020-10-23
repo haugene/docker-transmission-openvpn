@@ -57,6 +57,24 @@ for setting in settings_dict:
     setting_env_name = setting_as_env(setting)
     if setting_env_name in os.environ:
         env_value = os.environ.get(setting_env_name)
+
+        # Coerce env var values to the expected type in settings.json
+        if type(settings_dict[setting]) == bool:
+            env_value = env_value.lower() in ['True', 'true']
+        else:
+            setting_type = type(settings_dict[setting])
+            try:
+                env_value = setting_type(env_value)
+            except ValueError:
+                print(
+                    'Could not coerce {setting_env_name} value {env_value} to expected type {setting_type}'.format(
+                    setting_env_name=setting_env_name,
+                    env_value=env_value,
+                    setting_type=setting_type,
+                    ),
+                )
+                raise
+
         print(
             'Overriding {setting} because {env_name} is set to {value}'.format(
                 setting=setting,
