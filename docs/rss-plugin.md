@@ -1,4 +1,4 @@
-The Transmission RSS plugin can optionally be run as a separate container. It allow to download torrents based on an RSS URL, see [Plugin page](https://github.com/nning/transmission-rss).
+The Transmission RSS plugin can optionally be run as a separate container. It allows downloading torrents based on an RSS URL, see [Plugin page](https://github.com/nning/transmission-rss).
 
 ```
 $ docker run -d \
