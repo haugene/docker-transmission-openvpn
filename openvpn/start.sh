@@ -13,6 +13,15 @@ if [[ -x /scripts/openvpn-pre-start.sh ]]; then
   echo "/scripts/openvpn-pre-start.sh returned $?"
 fi
 
+# Allow for overriding the DNS used directly in the /etc/resolv.conf
+if compgen -e | grep -q "OVERRIDE_DNS"; then
+    echo "One or more OVERRIDE_DNS addresses found. Will use them to overwrite /etc/resolv.conf"
+    echo "" > /etc/resolv.conf
+    for var in $(compgen -e | grep "OVERRIDE_DNS"); do
+        echo "nameserver $(printenv $var)" >> /etc/resolv.conf
+    done
+fi
+
 # If create_tun_device is set, create /dev/net/tun
 if [[ "${CREATE_TUN_DEVICE,,}" == "true" ]]; then
   mkdir -p /dev/net
