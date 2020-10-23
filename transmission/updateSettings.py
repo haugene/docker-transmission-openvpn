@@ -60,7 +60,7 @@ for setting in settings_dict:
 
         # Coerce env var values to the expected type in settings.json
         if type(settings_dict[setting]) == bool:
-            env_value = env_value.lower() in ['True', 'true']
+            env_value = env_value.lower() == 'true'
         else:
             setting_type = type(settings_dict[setting])
             try:
