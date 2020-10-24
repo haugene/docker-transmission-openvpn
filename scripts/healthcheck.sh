@@ -5,6 +5,9 @@
 # therefore we use this script to catch error code 2
 HOST=${HEALTH_CHECK_HOST}
 
+# Convert DNS resolution to ipv4 to accommodate VPN providers that block ipv6
+echo "precedence ::ffff:0:0/96 100" >> /etc/gai.conf
+
 if [[ -z "$HOST" ]]
 then
     echo "Host  not set! Set env 'HEALTH_CHECK_HOST'. For now, using default google.com"
