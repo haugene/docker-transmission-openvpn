@@ -9,7 +9,7 @@ cd "${0%/*}"
 find . ! -name '*.sh' -delete
 
 baseURL="https://www.privateinternetaccess.com/openvpn/openvpn"
-extension=".zip"
+extension="-nextgen.zip"
 declare -a configsURLs=(    "" "-strong" "-tcp" "-strong-tcp" "-ip")
 declare -a configsFolders=( "" "strong"  "tcp"  "tcp-strong"  "ip")
 
