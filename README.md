@@ -22,6 +22,7 @@ I'll try to keep a list of breaking changes here, and add to it if we come acros
 * The DOCKER_LOG variable is renamed to LOG_TO_STDOUT
 
 PS: Now more than ever. We appreciate that you report bugs and issues when you find them. But as there might be more than ususal, please make sure you search and look for a similar one before possibly creating a duplicate.
+And you can always revert back to the latest tag on the 2.x versions which is 2.14. Instead of running with `haugene/transmission-openvpn` simply use `haugene/transmission-openvpn:2.14` instead. We hope that won't be necessary though :)
 
 ## Quick Start
 
