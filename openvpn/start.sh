@@ -18,7 +18,7 @@ if compgen -e | grep -q "OVERRIDE_DNS"; then
     echo "One or more OVERRIDE_DNS addresses found. Will use them to overwrite /etc/resolv.conf"
     echo "" > /etc/resolv.conf
     for var in $(compgen -e | grep "OVERRIDE_DNS"); do
-        echo "nameserver $(printenv $var)" >> /etc/resolv.conf
+        echo "nameserver $(printenv "$var")" >> /etc/resolv.conf
     done
 fi
 
@@ -53,7 +53,7 @@ if [[ -n $OPENVPN_CONFIG_URL ]]; then
   CHOSEN_OPENVPN_CONFIG=$VPN_PROVIDER_HOME/downloaded_config.ovpn
   curl -o "$CHOSEN_OPENVPN_CONFIG" -sSL "$OPENVPN_CONFIG_URL"
   # shellcheck source=openvpn/modify-openvpn-config.sh
-  /etc/openvpn/modify-openvpn-config.sh $CHOSEN_OPENVPN_CONFIG
+  /etc/openvpn/modify-openvpn-config.sh "$CHOSEN_OPENVPN_CONFIG"
 elif [[ -x $VPN_PROVIDER_HOME/configure-openvpn.sh ]]; then
   echo "Provider $OPENVPN_PROVIDER has a custom startup script, executing it"
   # shellcheck source=/dev/null

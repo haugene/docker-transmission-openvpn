@@ -28,7 +28,7 @@ echo "Extract OpenVPN config bundle into PIA directory $VPN_PROVIDER_HOME"
 unzip -qjo "$tmp_file" -d "$VPN_PROVIDER_HOME"
 
 echo "Modify configs for this container"
-find "$VPN_PROVIDER_HOME" -type f -name "*.ovpn" -exec /etc/openvpn/modify-openvpn-config.sh {} \;
+find "$VPN_PROVIDER_HOME" -type f -name "*.ovpn" -print0 | xargs -n 1 -r0 /etc/openvpn/modify-openvpn-config.sh
 
 # Select a random server as default.ovpn
 ln -sf "$(find "$VPN_PROVIDER_HOME" -name "*.ovpn" | shuf -n 1)" "$VPN_PROVIDER_HOME"/default.ovpn

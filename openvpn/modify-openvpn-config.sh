@@ -18,5 +18,5 @@ CONFIG_MOD_USERPASS=${CONFIG_MOD_USERPASS:-"1"}
 ## Option 1 - Change the auth-user-pass line to point to credentials file
 if [[ $CONFIG_MOD_USERPASS == "1" ]]; then
     [[ "${DEBUG}" == "true" ]] && echo "Point auth-user-pass option to the username/password file"
-    sed -i "s/auth-user-pass/auth-user-pass \/config\/openvpn-credentials.txt/" "$CONFIG"
+    sed -i "s#auth-user-pass#auth-user-pass /config/openvpn-credentials.txt#g" "$CONFIG"
 fi
