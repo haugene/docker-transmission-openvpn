@@ -20,6 +20,7 @@ wanted_variables = {
     'DROP_DEFAULT_ROUTE',
     'GLOBAL_APPLY_PERMISSIONS',
     'LOG_TO_STDOUT',
+    'DISABLE_PORT_UPDATER',
 }
 
 variables_to_persist = {}
