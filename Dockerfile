@@ -34,6 +34,7 @@ ENV OPENVPN_USERNAME=**None** \
     OPENVPN_PROVIDER=**None** \
     GLOBAL_APPLY_PERMISSIONS=true \
     TRANSMISSION_HOME=/data/transmission-home \
+    TRANSMISSION_RPC_PORT=9091 \
     CREATE_TUN_DEVICE=true \
     ENABLE_UFW=false \
     UFW_ALLOW_GW_NET=false \
