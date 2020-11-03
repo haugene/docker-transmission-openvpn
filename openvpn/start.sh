@@ -4,6 +4,10 @@
 # Get some initial setup out of the way.
 ##
 
+if [[ -n "$REVISION" ]]; then
+  echo "Starting container with revision: $REVISION"
+fi
+
 [[ "${DEBUG}" == "true" ]] && set -x
 
 # If openvpn-pre-start.sh exists, run it

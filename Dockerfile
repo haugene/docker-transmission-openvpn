@@ -55,6 +55,13 @@ ENV OPENVPN_USERNAME=**None** \
 
 HEALTHCHECK --interval=1m CMD /etc/scripts/healthcheck.sh
 
+# Add labels to identify this image and version
+ARG REVISION
+# Set env from build argument or default to empty string
+ENV REVISION=${REVISION:-""}
+LABEL org.opencontainers.image.source=https://github.com/haugene/docker-transmission-openvpn
+LABEL org.opencontainers.image.revision=$REVISION
+
 # Expose port and run
 EXPOSE 9091
 CMD ["dumb-init", "/etc/openvpn/start.sh"]
