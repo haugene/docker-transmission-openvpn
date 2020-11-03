@@ -84,6 +84,9 @@ if [[ -z ${CHOSEN_OPENVPN_CONFIG} ]]; then
       CHOSEN_OPENVPN_CONFIG="${VPN_PROVIDER_HOME}/${OPENVPN_CONFIG}.ovpn"
     else
       echo "Supplied config ${OPENVPN_CONFIG}.ovpn could not be found."
+      echo "Your options for this provider are:"
+      ls "${VPN_PROVIDER_HOME}" | grep .ovpn
+      echo "NB: Remember to not specify .ovpn as part of the config name."
       exit 1 # No longer fall back to default. The user chose a specific config - we should use it or fail.
     fi
   else
