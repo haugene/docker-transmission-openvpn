@@ -55,7 +55,10 @@ jobs:
           distro: alpine
       - run:
           name: Build Docker image
-          command: docker build -t $IMAGE_NAME:$IMAGE_TAG .
+          command: |
+            docker build \
+              -t $IMAGE_NAME:$IMAGE_TAG \
+              --build-arg REVISION=$CIRCLE_SHA1 .
       - run:
           name: Login to Docker Hub
           command: echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
@@ -78,7 +81,10 @@ jobs:
           command: |
             echo "Un-commenting cross-build instructions in Dockerfile.armhf"
             sed -i 's/^#\(.*cross-build.*\)/\1/' Dockerfile.armhf
-            docker build -t $IMAGE_NAME:$IMAGE_TAG -f Dockerfile.armhf .
+            docker build \
+              -t $IMAGE_NAME:$IMAGE_TAG \
+              -f Dockerfile.armhf \
+              --build-arg REVISION=$CIRCLE_SHA1 .
       - run:
           name: Login to Docker Hub
           command: echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
@@ -104,7 +110,8 @@ jobs:
             docker build \
               -t $IMAGE_NAME:$IMAGE_TAG \
               -f Dockerfile.armhf \
-              --build-arg base_image=balenalib/raspberrypi3-64:buster .
+              --build-arg base_image=balenalib/raspberrypi3-64:buster \
+              --build-arg REVISION=$CIRCLE_SHA1 .
       - run:
           name: Login to Docker Hub
           command: echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
