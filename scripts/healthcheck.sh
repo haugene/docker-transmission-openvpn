@@ -11,18 +11,18 @@ HOST=${HEALTH_CHECK_HOST}
 NOW=$(date +"%Y-%m-%d %T")
 echo "${NOW}: Starting Health check script "
 
-#Check if host is set, if not fallback to default google.com
-if [[ -z "$HOST" ]]; then
-  echo "Host not set! Set env 'HEALTH_CHECK_HOST'. For now, using default google.com"
-  HOST="google.com"
-fi
-
 #Check if we have an tun interface
 INTERFACE=$(ls /sys/class/net | grep tun)
 ISINTERFACE=$?
 if [[ ${ISINTERFACE} -ne 0 ]]; then
   echo "TUN Interface not found"
   exit 1
+
+else
+  NINTERFACE=$(echo "${INTERFACE}" | wc -l)
+  if [[ ${NINTERFACE} -ne 1 ]]; then
+    echo "Warning: Multiple tun dev found! May not be using the correct interface"
+  fi
 fi
 
 #Ping the host 5 time
@@ -55,7 +55,7 @@ if [[ ${STATUS} -ne 0 ]]; then
 fi
 
 echo "Ping success, checking if using tun"
-IP=$(getent hosts ${HOST} | awk '{print $1}' | head -1)
+IP=$(getent ahostsv4 ${HOST} | awk '{print $1}' | head -1)
 ip r get "${IP}" | grep "${INTERFACE}"
 STATUS=$?
 if [[ ${STATUS} -ne 0 ]]; then
