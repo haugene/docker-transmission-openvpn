@@ -22,7 +22,7 @@ curl_retry=5
 curl_retry_delay=15
 user=$(sed -n 1p /config/openvpn-credentials.txt)
 pass=$(sed -n 2p /config/openvpn-credentials.txt)
-pf_host=$(ip route | head -1 | grep tun | awk '{ print $3 }')
+pf_host=$(ip route | grep tun | grep -v src | head -1 | awk '{ print $3 }')
 ###### Nextgen PIA port forwarding      ##################
    
 get_auth_token () {
@@ -148,7 +148,7 @@ pf_minreuse=$(( 60 * 60 * 24 * 7 ))
 
 pf_remaining=0
 pf_firstrun=1
-vpn_ip=$(ip route | head -1 | grep tun | awk '{ print $3 }')
+vpn_ip=$(ip route | grep tun | grep -v src | head -1 | awk '{ print $3 }')
 pf_host="$vpn_ip"
 
 while true; do
