@@ -61,6 +61,9 @@ ENV OPENVPN_USERNAME=**None** \
 
 HEALTHCHECK --interval=1m CMD /etc/scripts/healthcheck.sh
 
+# Compatability with https://hub.docker.com/r/willfarrell/autoheal/
+LABEL autoheal=true
+
 # Expose port and run
 EXPOSE 9091
 CMD ["dumb-init", "/etc/openvpn/start.sh"]

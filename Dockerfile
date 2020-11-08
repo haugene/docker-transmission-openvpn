@@ -62,6 +62,9 @@ ENV REVISION=${REVISION:-""}
 LABEL org.opencontainers.image.source=https://github.com/haugene/docker-transmission-openvpn
 LABEL org.opencontainers.image.revision=$REVISION
 
+# Compatability with https://hub.docker.com/r/willfarrell/autoheal/
+LABEL autoheal=true
+
 # Expose port and run
 EXPOSE 9091
 CMD ["dumb-init", "/etc/openvpn/start.sh"]
