@@ -21,12 +21,11 @@ ExecStartPre=/usr/bin/docker pull haugene/transmission-openvpn
 ExecStart=/usr/bin/docker run \
         --name transmission-openvpn \
         --cap-add=NET_ADMIN \
-        --device=/dev/net/tun \
         -v /home/bittorrent/data/:/data \
         -e "OPENVPN_PROVIDER=TORGUARD" \
         -e "OPENVPN_USERNAME=bittorrent@example.com" \
         -e "OPENVPN_PASSWORD=hunter2" \
-        -e "OPENVPN_CONFIG=CA\ Toronto" \
+        -e "OPENVPN_CONFIG=CA Toronto" \
         -e "OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60" \
         -e "TRANSMISSION_UMASK=0" \
         -p 9091:9091 \
