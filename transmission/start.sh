@@ -69,10 +69,6 @@ else
   LOGFILE=${TRANSMISSION_HOME}/transmission.log
 fi
 
-if [ ! -z ${TZ} ]; then
-  cp -f "/usr/share/zoneinfo/${TZ}" /etc/localtime && echo "${TZ}" > /etc/timezone
-fi
-
 echo "STARTING TRANSMISSION"
 exec su --preserve-environment ${RUN_AS} -s /bin/bash -c "/usr/bin/transmission-daemon -g ${TRANSMISSION_HOME} --logfile $LOGFILE" &
 
