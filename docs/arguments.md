@@ -13,6 +13,15 @@
 | `LOCAL_NETWORK`     | Sets the local network that should have access. Accepts comma separated list.                       | `LOCAL_NETWORK=192.168.0.0/24`                                                                                 |
 | `CREATE_TUN_DEVICE` | Creates /dev/net/tun device inside the container, mitigates the need mount the device from the host | `CREATE_TUN_DEVICE=true`                                                                                       |
 
+### Timezone option
+
+Set a custom timezone in tz database format. Look [here](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) for a list of valid timezones. Defaults to UTC.
+
+| Variable                      | Function                                                                                                                    | Example                            |
+| ----------------------------- | --------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- |
+| `TZ`                  | Set Timezone                                                                                                         | `TZ=UTC`                  |
+
+
 ### Firewall configuration options
 When enabled, the firewall blocks everything except traffic to the peer port and traffic to the rpc port from the LOCAL_NETWORK and the internal docker gateway.
 
