@@ -16,29 +16,6 @@ STATUS=$?
 if [[ ${STATUS} -ne 0 ]]
 then
     echo "Network is down"
-    INTERFACE=$(ls /sys/class/net | grep tun)
-    ISINTERFACE=$?
-
-    if [[ ${ISINTERFACE} -ne 0 ]]
-    then
-        echo "TUN Interface not found"
-        exit 1
-    fi
-
-    echo "Resetting TUN"
-    ip link set ${INTERFACE} down
-    sleep 1
-    ip link set ${INTERFACE} up
-    echo "Sent kill SIGUSR1 to openvpn"
-    pkill -SIGUSR1 openvpn
-    sleep 20
-fi
-
-ping -c 1 $HOST
-STATUS=$?
-if [[ ${STATUS} -ne 0 ]]
-then
-    echo "Network is still down"
     exit 1
 fi
 
