@@ -11,34 +11,11 @@ then
     HOST="google.com"
 fi
 
-ping -c 1 $HOST
+ping -c 2 -w 5 $HOST # Get at least 2 responses and timeout after 5 seconds
 STATUS=$?
 if [[ ${STATUS} -ne 0 ]]
 then
     echo "Network is down"
-    INTERFACE=$(ls /sys/class/net | grep tun)
-    ISINTERFACE=$?
-
-    if [[ ${ISINTERFACE} -ne 0 ]]
-    then
-        echo "TUN Interface not found"
-        exit 1
-    fi
-
-    echo "Resetting TUN"
-    ip link set ${INTERFACE} down
-    sleep 1
-    ip link set ${INTERFACE} up
-    echo "Sent kill SIGUSR1 to openvpn"
-    pkill -SIGUSR1 openvpn
-    sleep 20
-fi
-
-ping -c 1 $HOST
-STATUS=$?
-if [[ ${STATUS} -ne 0 ]]
-then
-    echo "Network is still down"
     exit 1
 fi
 
@@ -49,13 +26,11 @@ echo "Network is up"
 OPENVPN=$(pgrep openvpn | wc -l )
 TRANSMISSION=$(pgrep transmission | wc -l)
 
-if [[ ${OPENVPN} -ne 1 ]]
-then
+if [[ ${OPENVPN} -ne 1 ]]; then
 	echo "Openvpn process not running"
 	exit 1
 fi
-if [[ ${TRANSMISSION} -ne 1 ]]
-then
+if [[ ${TRANSMISSION} -ne 1 ]]; then
 	echo "transmission-daemon process not running"
 	exit 1
 fi
