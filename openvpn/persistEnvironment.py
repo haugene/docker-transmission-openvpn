@@ -21,6 +21,7 @@ wanted_variables = {
     'GLOBAL_APPLY_PERMISSIONS',
     'LOG_TO_STDOUT',
     'DISABLE_PORT_UPDATER',
+    'TZ'
 }
 
 variables_to_persist = {}
