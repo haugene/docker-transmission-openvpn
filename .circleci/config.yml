@@ -19,7 +19,6 @@ workflows:
               only:
                 - dev
                 - master
-                - multiarch
             tags:
               only: /^\d+\.\d+.*/
 
