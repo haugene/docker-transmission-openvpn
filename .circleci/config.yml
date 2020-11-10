@@ -12,112 +12,46 @@ workflows:
   # Defines workflow for when to build the different Docker images
   build-docker-images:
     jobs:
-      - build-alpine-image:
+      - build-with-buildx:
           context: dockerhub
           filters:
             branches:
               only:
                 - dev
                 - master
-            tags:
-              only: /^\d+\.\d+.*/
-      - build-armhf-image:
-          context: dockerhub
-          filters:
-            branches:
-              only:
-                - dev
-                - master
-            tags:
-              only: /^\d+\.\d+.*/
-      - build-arm64-image:
-          context: dockerhub
-          filters:
-            branches:
-              only:
-                - dev
-                - master
+                - multiarch
             tags:
               only: /^\d+\.\d+.*/
 
 # Job definitions, used by the workflows.
 jobs:
-
-  build-alpine-image:
-    environment:
-      IMAGE_NAME: haugene/transmission-openvpn
-    docker:
-      - image: circleci/buildpack-deps:stretch
+  build-with-buildx:
+    machine:
+      image: ubuntu-2004:202010-01
     steps:
       - checkout
-      - setup_remote_docker
-      - calculate-tag-name:
-          distro: alpine
+      - run: sudo apt update && sudo apt install -y qemu-user
       - run:
-          name: Build Docker image
+          name: Download and install docker-buildx plugin
           command: |
-            docker build \
-              -t $IMAGE_NAME:$IMAGE_TAG \
-              --build-arg REVISION=$CIRCLE_SHA1 .
+            mkdir -p ~/.docker/cli-plugins
+            curl -sSL https://github.com/docker/buildx/releases/download/v0.4.2/buildx-v0.4.2.linux-amd64 -o ~/.docker/cli-plugins/docker-buildx
+            chmod a+x ~/.docker/cli-plugins/docker-buildx
       - run:
           name: Login to Docker Hub
           command: echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+      - calculate-tag-name
       - run:
-          name: Push image
-          command: docker push $IMAGE_NAME:$IMAGE_TAG
-
-  build-armhf-image:
-    environment:
-      IMAGE_NAME: haugene/transmission-openvpn
-    docker:
-      - image: circleci/buildpack-deps:stretch
-    steps:
-      - checkout
-      - setup_remote_docker
-      - calculate-tag-name:
-          distro: armhf
-      - run:
-          name: Build Docker image
+          name: Set up buildx and build/push images
           command: |
-            echo "Un-commenting cross-build instructions in Dockerfile.armhf"
-            sed -i 's/^#\(.*cross-build.*\)/\1/' Dockerfile.armhf
-            docker build \
-              -t $IMAGE_NAME:$IMAGE_TAG \
-              -f Dockerfile.armhf \
-              --build-arg REVISION=$CIRCLE_SHA1 .
-      - run:
-          name: Login to Docker Hub
-          command: echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-      - run:
-          name: Push image
-          command: docker push $IMAGE_NAME:$IMAGE_TAG
-
-  build-arm64-image:
-    environment:
-      IMAGE_NAME: haugene/transmission-openvpn
-    docker:
-      - image: circleci/buildpack-deps:buster
-    steps:
-      - checkout
-      - setup_remote_docker
-      - calculate-tag-name:
-          distro: arm64
-      - run:
-          name: Build Docker image
-          command: |
-            echo "Un-commenting cross-build instructions in Dockerfile.armhf"
-            sed -i 's/^#\(.*cross-build.*\)/\1/' Dockerfile.armhf
-            docker build \
-              -t $IMAGE_NAME:$IMAGE_TAG \
-              -f Dockerfile.armhf \
-              --build-arg base_image=balenalib/raspberrypi3-64:buster \
-              --build-arg REVISION=$CIRCLE_SHA1 .
-      - run:
-          name: Login to Docker Hub
-          command: echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-      - run:
-          name: Push image
-          command: docker push $IMAGE_NAME:$IMAGE_TAG
+            docker buildx create --name mybuilder
+            docker buildx use mybuilder
+            docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+            docker buildx ls
+            docker buildx build -t haugene/transmission-openvpn:$IMAGE_TAG --progress plain \
+              --platform linux/arm,linux/arm64,linux/amd64 \
+              --build-arg REVISION=$CIRCLE_SHA1 \
+              --push .
 
   build-and-deploy-gh-pages:
     docker:
@@ -137,9 +71,6 @@ jobs:
 commands:
   calculate-tag-name:
     description: "Calculates the target tag name for Docker image"
-    parameters:
-      distro:
-        type: string
     steps:
       - run:
           name: Calculate tag to set for the built Docker image
@@ -150,12 +81,6 @@ commands:
               TAG_VERSION=latest
             else
               TAG_VERSION=$CIRCLE_BRANCH;
-            fi
-
-            if [ "<< parameters.distro >>" = "alpine" ]; then
-              TAG_DISTRO="";
-            else
-              TAG_DISTRO=-<< parameters.distro >>;
             fi
 
             echo "export IMAGE_TAG=$TAG_VERSION$TAG_DISTRO" >> $BASH_ENV
