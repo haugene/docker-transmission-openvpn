@@ -25,6 +25,7 @@ This is a list of providers that are bundled within the image. Feel free to crea
 | Ivacy                   | `IVACY`                           |
 | IVPN                    | `IVPN`                            |
 | Mullvad                 | `MULLVAD`                         |
+| Njalla                  | `NJALLA`                          |
 | NordVPN                 | `NORDVPN`                         |
 | OctaneVPN               | `OCTANEVPN`                       |
 | OVPN                    | `OVPN`                            |

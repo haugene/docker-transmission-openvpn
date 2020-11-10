@@ -115,6 +115,7 @@ This is a list of providers that are bundled within the image. Feel free to crea
 | IVPN                    | `IVPN`                            |
 | Mullvad                 | `MULLVAD`                         |
 | Newshosting             | `NEWSHOSTING`                     |
+| Njalla                  | `NJALLA`                          |
 | NordVPN                 | `NORDVPN`                         |
 | OVPN                    | `OVPN`                            |
 | Perfect Privacy         | `PERFECTPRIVACY`                  |
