@@ -112,17 +112,7 @@ download_hostname() {
     log "Downloading from: ${nordvpn_cdn}"
     curl -sSL ${nordvpn_cdn} -o "${ovpnName}"
 }
-update_hostname() {
-    log "Checking line endings"
-    sed -i 's/^M$//' *.ovpn
-    # Update configs with correct options
-    log "Updating configs for docker-transmission-openvpn"
-    sed -i 's=auth-user-pass=auth-user-pass /config/openvpn-credentials.txt=g' *.ovpn
-    sed -i 's/ping 15/inactive 3600\
-    ping 10/g' *.ovpn
-    sed -i 's/ping-restart 0/ping-exit 60/g' *.ovpn
-    sed -i 's/ping-timer-rem//g' *.ovpn
-}
+
 
 # If the script is called from elsewhere
 cd "${0%/*}"
@@ -154,7 +144,6 @@ else
     selected="default"
 fi
 
-update_hostname
 
 if [[ ! -z $selected ]]
 then

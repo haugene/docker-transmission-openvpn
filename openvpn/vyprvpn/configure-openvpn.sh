@@ -37,8 +37,7 @@ rename_configs () {
     cd ..
   done
   cp "${temp_dir}"/GF_OpenVPN_20200320/OpenVPN256/ca.vyprvpn.com.crt "${VPN_PROVIDER_HOME}"
-  echo "Modify configs for this container"
-  find "${VPN_PROVIDER_HOME}" -type f -iname "*.ovpn" -exec /etc/openvpn/modify-openvpn-config.sh {} \;
+
   # Select a random server as default.ovpn
   ln -sf "$(find "${VPN_PROVIDER_HOME}" -iname "*.ovpn" | shuf -n 1)" "${VPN_PROVIDER_HOME}/default.ovpn"
 }

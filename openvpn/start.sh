@@ -56,12 +56,12 @@ if [[ -n $OPENVPN_CONFIG_URL ]]; then
   echo "Found URL to OpenVPN config, will download it."
   CHOSEN_OPENVPN_CONFIG=$VPN_PROVIDER_HOME/downloaded_config.ovpn
   curl -o "$CHOSEN_OPENVPN_CONFIG" -sSL "$OPENVPN_CONFIG_URL"
-  # shellcheck source=openvpn/modify-openvpn-config.sh
-  /etc/openvpn/modify-openvpn-config.sh "$CHOSEN_OPENVPN_CONFIG"
+  MODIFY_CHOSEN_CONFIG=yeah
 elif [[ -x $VPN_PROVIDER_HOME/configure-openvpn.sh ]]; then
-  echo "Provider $OPENVPN_PROVIDER has a custom startup script, executing it"
+  echo "Provider $OPENVPN_PROVIDER has a custom setup script, executing it"
   # shellcheck source=/dev/null
   . "$VPN_PROVIDER_HOME"/configure-openvpn.sh
+  MODIFY_CHOSEN_CONFIG=yeah
 fi
 
 if [[ -z ${CHOSEN_OPENVPN_CONFIG} ]]; then
@@ -97,6 +97,12 @@ if [[ -z ${CHOSEN_OPENVPN_CONFIG} ]]; then
     echo "No VPN configuration provided. Using default."
     CHOSEN_OPENVPN_CONFIG="${VPN_PROVIDER_HOME}/default.ovpn"
   fi
+fi
+
+# The config file we're supposed to use is chosen, modify it if necessary
+if [[ -n $MODIFY_CHOSEN_CONFIG ]]; then
+  # shellcheck source=openvpn/modify-openvpn-config.sh
+  /etc/openvpn/modify-openvpn-config.sh "$CHOSEN_OPENVPN_CONFIG"
 fi
 
 # add OpenVPN user/pass
