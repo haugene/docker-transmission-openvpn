@@ -28,6 +28,7 @@ fi
 
 # If create_tun_device is set, create /dev/net/tun
 if [[ "${CREATE_TUN_DEVICE,,}" == "true" ]]; then
+  echo "Creating TUN device /dev/net/tun"
   mkdir -p /dev/net
   mknod /dev/net/tun c 10 200
   chmod 0666 /dev/net/tun
