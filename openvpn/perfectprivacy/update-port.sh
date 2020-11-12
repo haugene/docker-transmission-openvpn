@@ -14,20 +14,13 @@ transmission_settings_file=${TRANSMISSION_HOME}/settings.json
 
 IPADDRESS=$TRANSMISSION_BIND_ADDRESS_IPV4
 echo "ipAddress to calculate port from $IPADDRESS"
-oct3=$(echo ${IPADDRESS} | tr "." " " | awk '{ print $3 }')
-oct4=$(echo ${IPADDRESS} | tr "." " " | awk '{ print $4 }')
-oct3binary=$(bc <<<"obase=2;$oct3" | awk '{ len = (8 - length % 8) % 8; printf "%.*s%s\n", len, "00000000", $0}')
-oct4binary=$(bc <<<"obase=2;$oct4" | awk '{ len = (8 - length % 8) % 8; printf "%.*s%s\n", len, "00000000", $0}')
-
-sum=${oct3binary}${oct4binary}
-portPartBinary=${sum:4}
-portPartDecimal=$((2#$portPartBinary))
-if [ ${#portPartDecimal} -ge 4 ]
-	then
-	new_port="1"${portPartDecimal}
-else
-	new_port="10"${portPartDecimal}
-fi
+IFS='.' read -ra ADDR <<< "$IPADDRESS"
+function d2b() {
+    printf "%08d" $(echo "obase=2;$1"|bc)
+}
+port_bin="$(d2b ${ADDR[2]})$(d2b ${ADDR[3]})"
+port_dec=$(printf "%04d" $(echo "ibase=2;${port_bin:4}"|bc))
+new_port=3$port_dec
 echo "calculated port $new_port"
 
 #
