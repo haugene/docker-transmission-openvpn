@@ -19,7 +19,6 @@ This is a list of providers that are bundled within the image. Feel free to crea
 | HideMe                  | `HIDEME`                          |
 | HideMyAss               | `HIDEMYASS`                       |
 | IntegrityVPN            | `INTEGRITYVPN`                    |
-| IPredator               | `IPREDATOR`                       |
 | IPVanish                | `IPVANISH`                        |
 | IronSocket              | `IRONSOCKET`                      |
 | Ivacy                   | `IVACY`                           |

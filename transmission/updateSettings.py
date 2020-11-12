@@ -54,9 +54,11 @@ def setting_as_env(setting: str) -> str:
 
 # For each setting, check if an environment variable is set to override it
 for setting in settings_dict:
+    setting_is_sensitive = setting == "rpc-password"
     setting_env_name = setting_as_env(setting)
     if setting_env_name in os.environ:
         env_value = os.environ.get(setting_env_name)
+        env_log_value = "[REDACTED]" if setting_is_sensitive else env_value
 
         # Coerce env var values to the expected type in settings.json
         if type(settings_dict[setting]) == bool:
@@ -67,9 +69,9 @@ for setting in settings_dict:
                 env_value = setting_type(env_value)
             except ValueError:
                 print(
-                    'Could not coerce {setting_env_name} value {env_value} to expected type {setting_type}'.format(
+                    'Could not coerce {setting_env_name} value {env_log_value} to expected type {setting_type}'.format(
                     setting_env_name=setting_env_name,
-                    env_value=env_value,
+                    env_log_value=env_log_value,
                     setting_type=setting_type,
                     ),
                 )
@@ -79,7 +81,7 @@ for setting in settings_dict:
             'Overriding {setting} because {env_name} is set to {value}'.format(
                 setting=setting,
                 env_name=setting_env_name,
-                value=env_value,
+                value=env_log_value,
             ),
         )
         settings_dict[setting] = env_value
