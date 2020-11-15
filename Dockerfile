@@ -38,6 +38,7 @@ ENV OPENVPN_USERNAME=**None** \
     TRANSMISSION_DOWNLOAD_DIR=/data/completed \
     TRANSMISSION_INCOMPLETE_DIR=/data/incomplete \
     TRANSMISSION_WATCH_DIR=/data/watch \
+    TRANSMISSION_UMASK=2 \
     CREATE_TUN_DEVICE=true \
     ENABLE_UFW=false \
     UFW_ALLOW_GW_NET=false \
