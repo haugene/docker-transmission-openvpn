@@ -22,7 +22,7 @@ for i in $(seq $TIMEOUT_NITER); do
 done
 
 # Check whether transmission-daemon is still running
-if ! ps -p "$PID" &> /dev/null; then
+if ps -p "$PID" &> /dev/null; then
     echo "Sending kill signal (SIGKILL) to transmission-daemon"
     kill -9 $PID
 else
