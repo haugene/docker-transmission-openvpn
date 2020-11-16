@@ -18,7 +18,6 @@ nav:
    - 'Access': 'access.md'
    - 'Running on ARM': 'run-on-arm.md'
    - 'NORDVPN update script': 'nordvpn-script.md'
-   - 'Synology NAS': 'synology-nas.md'
    - 'Systemd integration': 'systemd-integration.md'
    - 'Known issues, tips and tricks': 'known-issues.md'
 plugins:

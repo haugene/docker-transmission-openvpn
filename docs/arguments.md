@@ -13,6 +13,15 @@
 | `LOCAL_NETWORK`     | Sets the local network that should have access. Accepts comma separated list.                       | `LOCAL_NETWORK=192.168.0.0/24`                                                                                 |
 | `CREATE_TUN_DEVICE` | Creates /dev/net/tun device inside the container, mitigates the need mount the device from the host | `CREATE_TUN_DEVICE=true`                                                                                       |
 
+### Timezone option
+
+Set a custom timezone in tz database format. Look [here](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) for a list of valid timezones. Defaults to UTC.
+
+| Variable                      | Function                                                                                                                    | Example                            |
+| ----------------------------- | --------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- |
+| `TZ`                  | Set Timezone                                                                                                         | `TZ=UTC`                  |
+
+
 ### Firewall configuration options
 When enabled, the firewall blocks everything except traffic to the peer port and traffic to the rpc port from the LOCAL_NETWORK and the internal docker gateway.
 
@@ -105,3 +114,11 @@ This might lead to the default route (your untunneled connection) to be used.
 To drop the default route set the environment variable `DROP_DEFAULT_ROUTE` to `true`.
 
 *Note*: This is not compatible with all VPNs. You can check your iptables routing with the `ip r` command in a running container.
+
+### Changing logging locations
+
+By default Transmission will log to a file in `TRANSMISSION_HOME/transmission.log`. 
+
+To log to stdout instead set the environment variable `LOG_TO_STDOUT` to `true`.
+
+*Note*: By default stdout is what container engines read logs from. Set this to true to have Tranmission logs in commands like `docker logs` and `kubectl logs`. OpenVPN currently only logs to stdout.

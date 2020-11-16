@@ -23,6 +23,9 @@ fi
 
 echo "Updating TRANSMISSION_BIND_ADDRESS_IPV4 to the ip of $1 : $4"
 export TRANSMISSION_BIND_ADDRESS_IPV4=$4
+# Also update the persisted settings in case it is already set. First remove any old value, then add new.
+sed -i '/TRANSMISSION_BIND_ADDRESS_IPV4/d' /etc/transmission/environment-variables.sh
+echo "export TRANSMISSION_BIND_ADDRESS_IPV4=$4" >> /etc/transmission/environment-variables.sh
 
 if [[ "combustion" = "$TRANSMISSION_WEB_UI" ]]; then
   echo "Using Combustion UI, overriding TRANSMISSION_WEB_HOME"
@@ -39,10 +42,10 @@ if [[ "transmission-web-control" = "$TRANSMISSION_WEB_UI" ]]; then
   export TRANSMISSION_WEB_HOME=/opt/transmission-ui/transmission-web-control
 fi
 
-echo "Generating transmission settings.json from env variables"
+echo "Updating Transmission settings.json with values from env variables"
 # Ensure TRANSMISSION_HOME is created
 mkdir -p ${TRANSMISSION_HOME}
-dockerize -template /etc/transmission/settings.tmpl:${TRANSMISSION_HOME}/settings.json
+python3 /etc/transmission/updateSettings.py /etc/transmission/default-settings.json ${TRANSMISSION_HOME}/settings.json
 
 echo "sed'ing True to true"
 sed -i 's/True/true/g' ${TRANSMISSION_HOME}/settings.json
@@ -60,7 +63,7 @@ if [[ "true" = "$DROP_DEFAULT_ROUTE" ]]; then
   ip r del default || exit 1
 fi
 
-if [[ "true" = "$DOCKER_LOG" ]]; then
+if [[ "true" = "$LOG_TO_STDOUT" ]]; then
   LOGFILE=/dev/stdout
 else
   LOGFILE=${TRANSMISSION_HOME}/transmission.log
@@ -69,20 +72,11 @@ fi
 echo "STARTING TRANSMISSION"
 exec su --preserve-environment ${RUN_AS} -s /bin/bash -c "/usr/bin/transmission-daemon -g ${TRANSMISSION_HOME} --logfile $LOGFILE" &
 
-if [[ "${OPENVPN_PROVIDER^^}" = "PIA" ]]
-then
-    echo "CONFIGURING PORT FORWARDING"
-    exec /etc/transmission/updatePort.sh &
-elif [[ "${OPENVPN_PROVIDER^^}" = "PERFECTPRIVACY" ]]
-then
-    echo "CONFIGURING PORT FORWARDING"
-    exec /etc/transmission/updatePPPort.sh ${TRANSMISSION_BIND_ADDRESS_IPV4} &
-elif [[ "${OPENVPN_PROVIDER^^}" = "PRIVATEVPN" ]]
-then
-    echo "CONFIGURING PORT FORWARDING"
-    exec /etc/transmission/updatePrivateVPNPort.sh &
-else
-    echo "NO PORT UPDATER FOR THIS PROVIDER"
+# Configure port forwarding if applicable
+if [[ -x /etc/openvpn/${OPENVPN_PROVIDER,,}/update-port.sh && -z $DISABLE_PORT_UPDATER ]]; then
+    echo "Provider ${OPENVPN_PROVIDER^^} has a script for automatic port forwarding. Will run it now."
+    echo "If you want to disable this, set environment variable DISABLE_PORT_UPDATER=yes"
+    exec /etc/openvpn/${OPENVPN_PROVIDER,,}/update-port.sh &
 fi
 
 # If transmission-post-start.sh exists, run it
