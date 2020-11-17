@@ -20,6 +20,7 @@ Hopefully these changes will improve the usability of this container. As maintai
 I'll try to keep a list of breaking changes here, and add to it if we come across more:
 * The CREATE_TUN_DEVICE variable now defaults to true. Mounting /dev/net/tun will lead to an error message in the logs unless you explicitly set it to false.
 * The DOCKER_LOG variable is renamed to LOG_TO_STDOUT
+* If Transmission is running but you can't connect to torrents, try deleting (or rename to .backup) the settings.json file and restart.
 
 PS: Now more than ever. We appreciate that you report bugs and issues when you find them. But as there might be more than ususal, please make sure you search and look for a similar one before possibly creating a duplicate.
 And you can always revert back to the latest tag on the 2.x versions which is 2.14. Instead of running with `haugene/transmission-openvpn` simply use `haugene/transmission-openvpn:2.14` instead. We hope that won't be necessary though :)
