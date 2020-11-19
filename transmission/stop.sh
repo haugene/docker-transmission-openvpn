@@ -21,6 +21,15 @@ do
     [[ $i == 1 ]] && echo "Waiting ${TRANSMISSION_TIMEOUT_SEC}s for transmission-daemon to die"
 done
 
+# Check whether transmission-daemon is still running
+if [[ -z "$(pidof transmission-daemon)" ]]
+then
+    echo "Successfuly closed transmission-daemon"
+else
+    echo "Sending kill signal (SIGKILL) to transmission-daemon"
+    kill -9 $PID
+fi
+
 # If transmission-post-stop.sh exists, run it
 if [[ -x /scripts/transmission-post-stop.sh ]]
 then
