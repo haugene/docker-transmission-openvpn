@@ -13,7 +13,7 @@ PID=$(pidof transmission-daemon)
 kill $PID
 # Give transmission-daemon time to shut down
 for i in {1..10}; do
-    ps -p $PID &> /dev/null || break
+    [[ -z "$(pidof transmission-daemon)" ]] && break
     sleep .2
 done
 
