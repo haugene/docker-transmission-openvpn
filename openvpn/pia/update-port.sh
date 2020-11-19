@@ -36,8 +36,6 @@ get_auth_token () {
 
 get_auth_token
 
-yes '' | sed 3q
-
 get_sig () {
   pf_getsig=$(curl --insecure --get --silent --show-error \
     --retry $curl_retry --retry-delay $curl_retry_delay --max-time $curl_max_time \
