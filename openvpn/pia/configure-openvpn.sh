@@ -3,14 +3,13 @@
 set -e
 
 # These are the possible bundles from PIA
-# https://www.privateinternetaccess.com/openvpn/openvpn-nextgen.zip
-# https://www.privateinternetaccess.com/openvpn/openvpn-strong-nextgen.zip
-# https://www.privateinternetaccess.com/openvpn/openvpn-ip-nextgen.zip
-# https://www.privateinternetaccess.com/openvpn/openvpn-tcp-nextgen.zip
-# https://www.privateinternetaccess.com/openvpn/openvpn-strong-tcp-nextgen.zip
+# https://www.privateinternetaccess.com/openvpn/openvpn.zip
+# https://www.privateinternetaccess.com/openvpn/openvpn-strong.zip
+# https://www.privateinternetaccess.com/openvpn/openvpn-tcp.zip
+# https://www.privateinternetaccess.com/openvpn/openvpn-strong-tcp.zip
 
 baseURL="https://www.privateinternetaccess.com/openvpn"
-PIA_OPENVPN_CONFIG_BUNDLE=${PIA_OPENVPN_CONFIG_BUNDLE:-"openvpn-nextgen"}
+PIA_OPENVPN_CONFIG_BUNDLE=${PIA_OPENVPN_CONFIG_BUNDLE:-"openvpn"}
 
 if [ -z "$VPN_PROVIDER_HOME" ]; then
     echo "ERROR: Need to have VPN_PROVIDER_HOME set to call this script" && exit 1
