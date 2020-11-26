@@ -15,54 +15,44 @@
   <a href="https://gitter.im/docker-transmission-openvpn/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge">
     <img alt="Join the chat at https://gitter.im/docker-transmission-openvpn/Lobby" src="https://badges.gitter.im/docker-transmission-openvpn/Lobby.svg" />
   </a>
+  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=73XHRSK65KQYC">
+    <img alt="Donate with PayPal" src="https://img.shields.io/badge/Donate-PayPal-green.svg">
+  </a>
+  <a href="https://www.patreon.com/haugene">
+    <img alt="Donate with Patreon" src="https://github.com/haugene/docker-transmission-openvpn/raw/master/images/patreon.png">
+  </a>
 </p>
 
-## Quick Start
+## Overview
 
-This container contains OpenVPN and Transmission with a configuration where Transmission is running only when OpenVPN has an active tunnel. It bundles configuration files for many popular VPN providers to make the setup easier.
+You have found the documentation. That usually means that you either:
 
-You need to specify your provider and credentials with environment variables, as well as mounting volumes where the data should be stored. An example run command to get you going is provided below.
+1. Want to read a bit about how the image is built and how it works
+2. Want to get started, and are looking for a setup guide
+3. Already have a setup, but something is broken
 
-It also bundles an installation of Tinyproxy to also be able to proxy web traffic over your VPN, as well as scripts for opening a port for Transmission if you are using PIA or Perfect Privacy providers.
+We'll try to address them here but no matter which one of them it is, knowing
+more about this image makes it easier to understand how it should be and what
+could be wrong. So starting with number 1 is never a bad idea.
 
-```
-$ docker run --cap-add=NET_ADMIN -d \
-              -v /your/storage/path/:/data \
-              -v /etc/localtime:/etc/localtime:ro \
-              -e CREATE_TUN_DEVICE=true \
-              -e OPENVPN_PROVIDER=PIA \
-              -e OPENVPN_CONFIG=CA\ Toronto \
-              -e OPENVPN_USERNAME=user \
-              -e OPENVPN_PASSWORD=pass \
-              -e WEBPROXY_ENABLED=false \
-              -e LOCAL_NETWORK=192.168.0.0/16 \
-              --log-driver json-file \
-              --log-opt max-size=10m \
-              -p 9091:9091 \
-              haugene/transmission-openvpn
-```
+**NB:** These pages are under re-construction. Follow the issue [here](https://github.com/haugene/docker-transmission-openvpn/issues/1558) and feel free to comment or help out :) Also we just released version 3.0, so if you have some breakage - [please read here](v3.md).
 
-## Please help out (about:maintenance)
+## Good places to start
 
-This image was created for my own use, but sharing is caring, so it had to be open source.
-It has now gotten quite popular, and that's great! But keeping it up to date, providing support, fixes
-and new features takes a lot of time.
+* [The basic building blocks](building-blocks.md)
+* [Running the container](run-container.md)
+* [VPN and networking in containers](vpn-networking.md)
+* [Supported providers and server locations](supported-providers.md)
+* [Provider specific features/instructions](provider-specific.md)
+* [Configuration options list](config-options.md)
 
-I'm therefore kindly asking you to donate if you feel like you're getting a good tool
-and you're able to spare some dollars to keep it functioning as it should. There's a couple of ways to do it:
+## Troubleshooting
 
-Become a patron, supporting the project with a small monthly amount.
+* [Frequently asked questions](faq.md)
+* Debugging your setup (coming)
+* [Tips & Tricks](tips-tricks.md)
 
-[![Donate with Patreon](https://github.com/haugene/docker-transmission-openvpn/raw/master/images/patreon.png)](https://www.patreon.com/haugene)
+## Additional features
 
-Make a one time donation through PayPal.
-
-[![Donate with PayPal](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=73XHRSK65KQYC)
-
-Or use this referral code to DigitalOcean and get 25$ in credits, if you're interested in a cloud setup.
-
-[![Credits on DigitalOcean](https://raw.githubusercontent.com/haugene/docker-transmission-openvpn/master/images/digitalocean.png)](https://m.do.co/c/ca994f1552bc)
-
-You can also help out by submitting pull-requests or helping others with
-open issues or in the gitter chat. A big thanks to everyone who has contributed so far!
-And if you could be interested in joining as collaborator, let me know.
+* [Web proxy: Tinyproxy](web-proxy.md)
+* [RSS Plugin support](rss-plugin.md)

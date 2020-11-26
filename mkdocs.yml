@@ -8,17 +8,16 @@ markdown_extensions:
         permalink: True
         separator: "_"
 nav:
-   - 'Home': 'index.md'
-   - 'Run from Docker registry': 'run-from-docker-registry.md'
+   - 'Overview': 'index.md'
+   - 'Image Building Blocks': 'building-blocks.md'
+   - 'VPN and Networking': 'vpn-networking.md'
+   - 'Running the container': 'run-container.md'
    - 'Supported providers': 'supported-providers.md'
-   - 'Arguments': 'arguments.md'
-   - 'Custom pre/post scripts': 'custom-scripts.md'
+   - 'Provider specific settings': 'provider-specific.md'
+   - 'Configuration options': 'config-options.md'
+   - 'Frequently asked questions': 'faq.md'
+   - 'Tips & Tricks': 'tips-tricks.md'
    - 'RSS plugin': 'rss-plugin.md'
-   - 'Use docker env file': 'dockerenv.md'
-   - 'Access': 'access.md'
-   - 'Running on ARM': 'run-on-arm.md'
-   - 'NORDVPN update script': 'nordvpn-script.md'
-   - 'Systemd integration': 'systemd-integration.md'
-   - 'Known issues, tips and tricks': 'known-issues.md'
+   - 'Web Proxy': 'web-proxy.md'
 plugins:
     - search

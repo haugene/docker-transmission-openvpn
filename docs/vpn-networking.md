@@ -1,3 +1,9 @@
+## COMING SOON
+
+**NOTE:** This page is just moved from it's previous location. A re-write is coming and I know that
+there are links to this page that promises more than what's here now. I'm [on it (#1558)](https://github.com/haugene/docker-transmission-openvpn/issues/1558)
+
+
 ## Access the WebUI
 But what's going on? My http://my-host:9091 isn't responding?
 This is because the VPN is active, and since docker is running in a different ip range than your client the response

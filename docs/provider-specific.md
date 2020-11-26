@@ -1,4 +1,9 @@
-## NORDVPN API
+## COMING SOON
+
+**NOTE:** This page is just moved from it's previous location. A re-write is coming.
+I'm [on it (#1558)](https://github.com/haugene/docker-transmission-openvpn/issues/1558)
+
+### NORDVPN
 
 The update script is based on the NordVPN API. The API sends back the best recommended OpenVPN configuration file based on the filters given.
 
