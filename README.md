@@ -69,9 +69,6 @@ services:
         image: haugene/transmission-openvpn
 ```
 
-## Documentation
-The full documentation is available at https://haugene.github.io/docker-transmission-openvpn/.
-
 ## Please help out (about:maintenance)
 This image was created for my own use, but sharing is caring, so it had to be open source.
 It has now gotten quite popular, and that's great! But keeping it up to date, providing support, fixes
