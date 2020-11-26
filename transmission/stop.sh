@@ -10,11 +10,11 @@ fi
 
 echo "Sending kill signal to transmission-daemon"
 PID=$(pidof transmission-daemon)
-kill $PID
+kill "$PID"
 
 # Give transmission-daemon some time to shut down
-TRANSMISSION_TIMEOUT_SEC=${TRANSMISION_TIMEOUT_SEC:-10}
-for i in $(seq $TRANSMISSION_TIMEOUT_SEC)
+TRANSMISSION_TIMEOUT_SEC=${TRANSMISION_TIMEOUT_SEC:-5}
+for i in $(seq "$TRANSMISSION_TIMEOUT_SEC")
 do
     sleep 1
     [[ -z "$(pidof transmission-daemon)" ]] && break
@@ -27,7 +27,7 @@ then
     echo "Successfuly closed transmission-daemon"
 else
     echo "Sending kill signal (SIGKILL) to transmission-daemon"
-    kill -9 $PID
+    kill -9 "$PID"
 fi
 
 # If transmission-post-stop.sh exists, run it
