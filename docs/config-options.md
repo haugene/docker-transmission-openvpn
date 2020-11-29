@@ -80,6 +80,14 @@ Transmission options changed in the WebUI or in settings.json will be overridden
 PS: `TRANSMISSION_BIND_ADDRESS_IPV4` will be overridden to the IP assigned to your OpenVPN tunnel interface.
 This is to prevent leaking the host IP.
 
+### Transmission daemon configuration options
+
+You may set the following parameter to pass additional startup options to the transmission daemon. See transmission-daemon documentation for available options.
+
+| Variable | Function                                    | Example     |
+| -------- | ------------------------------------------- | ----------- |
+| `TRANSMISSION_DAEMON_OPTIONS`   | Adds these options to the daemon startup command  | `TRANSMISSION_DAEMON_OPTIONS=--log-error` |
+
 ### User configuration options
 
 By default everything will run as the root user. However, it is possible to change who runs the transmission process.
@@ -89,6 +97,7 @@ You may set the following parameters to customize the user id that runs transmis
 | -------- | ------------------------------------------- | ----------- |
 | `PUID`   | Sets the user id who will run transmission  | `PUID=1003` |
 | `PGID`   | Sets the group id for the transmission user | `PGID=1003` |
+
 
 ### Dropping default route from iptables (advanced)
 
