@@ -24,7 +24,7 @@ user=$(sed -n 1p /config/openvpn-credentials.txt)
 pass=$(sed -n 2p /config/openvpn-credentials.txt)
 pf_host=$(ip route | grep tun | grep -v src | head -1 | awk '{ print $3 }')
 ###### Nextgen PIA port forwarding      ##################
-   
+
 get_auth_token () {
             tok=$(curl --insecure --silent --show-error --request POST --max-time $curl_max_time \
                  --header "Content-Type: application/json" \
@@ -66,7 +66,7 @@ bind_port () {
       $verify \
       "https://$pf_host:19999/bindPort")
   if [ "$(echo $pf_bind | jq -r .status)" = "OK" ]; then
-    echo "the port has been bound to $pf_port  $(date)"		
+    echo "the port has been bound to $pf_port  $(date)"
   else  
     echo "$(date): bindPort error"
     echo $pf_bind
@@ -169,5 +169,5 @@ while true; do
   sleep $pf_bindinterval &
   wait $!
   
-bind_port  
+bind_port
 done
