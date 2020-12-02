@@ -26,5 +26,19 @@ curl -sSL "${baseURL}/${PIA_OPENVPN_CONFIG_BUNDLE}.zip" -o "$tmp_file"
 echo "Extract OpenVPN config bundle into PIA directory $VPN_PROVIDER_HOME"
 unzip -qjo "$tmp_file" -d "$VPN_PROVIDER_HOME"
 
+# Normalize *.ovpn files to be lower case and replace sequential non-alphanumeric with an underscore
+pushd "$VPN_PROVIDER_HOME" > /dev/null
+for file in *.ovpn; do
+    normalized="$(echo "$file" | awk '{gsub(/[^a-zA-Z0-9\.]+/, "_") ; print tolower($0)}')"
+    mv "$file" "$normalized"
+done
+unset normalized
+popd > /dev/null
+
+# Normalize OPENVPN_CONFIG environment variable to be lower case and replace sequential non-alphanumeric with an underscore
+if [[ -n "${OPENVPN_CONFIG-}" ]]; then
+    OPENVPN_CONFIG="$(echo "$OPENVPN_CONFIG" | awk '{gsub(/[^a-zA-Z0-9\.,]+/, "_") ; print tolower($0)}')"
+fi
+
 # Select a random server as default.ovpn
 ln -sf "$(find "$VPN_PROVIDER_HOME" -name "*.ovpn" | shuf -n 1)" "$VPN_PROVIDER_HOME"/default.ovpn
