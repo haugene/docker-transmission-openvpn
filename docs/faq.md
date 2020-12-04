@@ -63,7 +63,9 @@ SIGUSR1[soft,ping-restart] received, process restarting
 ### Use a third party tool to monitor and restart the container
 
 The container has a health check script that is run periodically. It will report the health status to Docker and the container will show as "unhealthy"
-if basic network connectivity is broken. You can write your own script and add it to cron, or you can use a tool like https://hub.docker.com/r/willfarrell/autoheal/ to look for and restart unhealthy containers.
+if basic network connectivity is broken. You can write your own script and add it to cron, or you can use a tool like [https://github.com/willfarrell/docker-autoheal](https://github.com/willfarrell/docker-autoheal) to look for and restart unhealthy containers.
+
+This container has the `autoheal` label by default so it is compatible with the [willfarrell/autoheal image](https://hub.docker.com/r/willfarrell/autoheal/)
 
 ## AUTH: Received control message: AUTH_FAILED
 
