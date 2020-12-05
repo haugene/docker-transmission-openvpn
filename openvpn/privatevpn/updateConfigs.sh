@@ -35,6 +35,33 @@ us-nyc.pvdata.host
 EOF
 )
 
+# From PrivateVPN support as of 2020/11/15
+KNOWN_FORWARDING_SERVERS_LIST=$(cat <<EOF
+au-syd.pvdata.host
+br-sao.pvdata.host
+ca-tor.pvdata.host
+de-fra.pvdata.host
+de-nur.pvdata.host
+es-mad.pvdata.host
+fi-esp.pvdata.host
+fr-par.pvdata.host
+in-che.pvdata.host
+it-mil.pvdata.host
+jp-tok.pvdata.host
+nl-ams.pvdata.host
+no-osl.pvdata.host
+pl-tor.pvdata.host
+se-got.pvdata.host
+se-kis.pvdata.host
+se-sto.pvdata.host
+uk-lon.pvdata.host
+us-buf.pvdata.host
+us-los.pvdata.host
+us-nyc4.pvdata.host
+us-nyc.pvdata.host
+EOF
+)
+
 # If the script is called from elsewhere
 cd "${0%/*}"
 
@@ -49,7 +76,8 @@ mkdir -p tcp \
 	strong \
 	tcp-strong \
 	dedicated \
-	dedicated-strong
+	dedicated-strong \
+	forwarding
 
 # Download/unpack PrivateVPN configs
 curl -sOJL "$PVPN_CONFIGS_URL"
@@ -96,6 +124,13 @@ sed -i 's/^auth-user-pass.*$/auth-user-pass \/config\/openvpn-credentials\.txt/'
 # Create "dedicated" variation
 grep -Fl "${KNOWN_DEDICATED_IP_SERVERS_LIST}" *.ovpn \
 	| xargs -d '\n' -I{} cp "{}" ./dedicated/ 
+
+# Create "forwarding" variations
+grep -Fl "${KNOWN_FORWARDING_SERVERS_LIST}" *.ovpn \
+	| xargs -d '\n' -I{} cp "{}" ./forwarding/ 
+for file in ./*forwarding/*.ovpn; do
+	sed -i 's/1194 udp/1195 udp/g' "$file"
+done
 
 # Create "strong" variations
 cp *.ovpn ./strong/
