@@ -8,7 +8,7 @@ assignees: ''
 ---
 
 **Before creating this issue I have:**
-
+<!-- Put an X in the boxes to tick them, like this [X] -->
 - [ ] Searched for [similar issues](https://github.com/haugene/docker-transmission-openvpn/issues)
 - [ ] [Read the documentation](https://haugene.github.io/docker-transmission-openvpn/) to a reasonable degree
 

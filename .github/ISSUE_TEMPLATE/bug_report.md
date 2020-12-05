@@ -11,7 +11,7 @@ assignees: ''
 Thanks for filing an issue! Before hitting the button, please answer these questions. It's helpful to search the existing GitHub issues first. It's likely that another user has already reported the issue you're facing, or it's a known issue that we're already aware of.
 -->
 **Before creating this issue I have:**
-
+<!-- Put an X in the boxes to tick them, like this [X] -->
 - [ ] Searched for [similar issues](https://github.com/haugene/docker-transmission-openvpn/issues)
 - [ ] [Read the documentation](https://haugene.github.io/docker-transmission-openvpn/). Especially the troubleshooting section
 - [ ] Tried to add as much relevant information to the issue as possible
