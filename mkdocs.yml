@@ -16,6 +16,7 @@ nav:
    - 'Provider specific settings': 'provider-specific.md'
    - 'Configuration options': 'config-options.md'
    - 'Frequently asked questions': 'faq.md'
+   - 'Debug your setup': 'debug.md'
    - 'Tips & Tricks': 'tips-tricks.md'
    - 'RSS plugin': 'rss-plugin.md'
    - 'Web Proxy': 'web-proxy.md'

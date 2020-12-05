@@ -49,7 +49,7 @@ could be wrong. So starting with number 1 is never a bad idea.
 ## Troubleshooting
 
 * [Frequently asked questions](faq.md)
-* Debugging your setup (coming)
+* [Debugging your setup](debug.md)
 * [Tips & Tricks](tips-tricks.md)
 
 ## Additional features
