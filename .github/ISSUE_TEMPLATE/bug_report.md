@@ -2,21 +2,25 @@
 name: Bug report
 about: Container is not behaving as expected
 title: ''
-labels: ''
+labels: 'bug'
 assignees: ''
 
 ---
 
 <!-- 
 Thanks for filing an issue! Before hitting the button, please answer these questions. It's helpful to search the existing GitHub issues first. It's likely that another user has already reported the issue you're facing, or it's a known issue that we're already aware of.
-
-Also. If you don't suspect that there are any issues with the image itself, but that you have issues configuring it - please read the README twice and try the gitter chat before posting here.
 -->
+**Before creating this issue I have:**
+
+- [ ] Searched for [similar issues](https://github.com/haugene/docker-transmission-openvpn/issues)
+- [ ] [Read the documentation](https://haugene.github.io/docker-transmission-openvpn/). Especially the troubleshooting section
+- [ ] Tried to add as much relevant information to the issue as possible
+
 
 **Describe the problem**
 <!-- A clear and concise description of what the bug is. -->
 
-**Add your docker run command**
+**Add your docker run command or docker-compose file**
 <!-- To understand how your container is running, provide the docker run command or the docker-compose.yml file you used to start it. If you're using a GUI to set up the container then provide screenshots or a list of options and settings. -->
 
 **Logs**
