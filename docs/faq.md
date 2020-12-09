@@ -129,6 +129,10 @@ SIGTERM[soft,auth-failure] received, process exiting
 We can divide the possible errors here into three. You have entered the wrong credentials, the server has some kind of error or the container has messed
 up your credentials. We have had challenges with special characters. Having "?= as part of your password has tripped up our scripts from time to time.
 
+**NOTE** Some providers have multiple sets of credentials. Some for OpenVPN, others for web login, proxy solutions, etc.
+Make sure that you use the ones intended for OpenVPN. **PIA users:** this has recently changed. It used to be a separate pair, but now
+you should use the same login as you do in the web control panel. Before you were supposed to use a username like x12345, now its the p12345 one.
+
 First check that your credentials are correct. Some providers have separate credentials for OpenVPN so it might not be the same as for their apps.
 Secondly, test a few different servers just to make sure that it's not just a faulty server. If this doesn't resolve it, it's probably the container.
 
