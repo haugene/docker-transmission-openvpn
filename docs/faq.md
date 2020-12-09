@@ -3,6 +3,7 @@
 * [How do I verify that my traffic is using VPN](#how_do_i_verify_that_my_traffic_is_using_vpn)
 * [RTNETLINK answers: File exists](#rtnetlink_answers_file_exists)
 * [TUNSETIFF tun: Operation not permitted](#tunsetiff_tun_operation_not_permitted)
+* [Error resolving host address](#error_resolving_host_address)
 * [AUTH: Received control message: AUTH_FAILED](#auth_received_control_message_auth_failed)
 * [Container loses connection after some time](#container_loses_connection_after_some_time)
 
@@ -36,6 +37,56 @@ Or you could use a test torrent service to download a torrent file and then you 
 This is usually a question of permissions. Have you set the [NET_ADMIN capabilities](https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities) to the container? What if you use `docker run --privileged`, do you still get that error?
 
 This is an error where we haven't got too much information. If the hints above get you nowhere, create an issue.
+
+## Error resolving host address
+
+This error can happen multiple places in the scripts. The most common is that it happens with `curl` trying to download the latest .ovpn
+config bundle for those providers that has an update script, or that OpenVPN throws the error when trying to connect to the VPN server.
+
+The curl error looks something like `curl: (6) Could not resolve host: ...` and OpenVPN says `RESOLVE: Cannot resolve host address: ...`.
+Either way the problem is that your container does not have a valid DNS setup. We have two recommended ways of addressing this.
+
+The first solution is to use the `dns` option offered by Docker. This is available in
+[Docker run](https://docs.docker.com/engine/reference/run/#network-settings) as well as
+[Docker Compose](https://docs.docker.com/compose/compose-file/#dns). You can add `--dns 8.8.8.8 --dns 8.8.4.4` to use Google DNS servers.
+Or add the corresponding block in docker-compose.yml:
+```
+  dns:
+    - 8.8.8.8
+    - 8.8.4.4
+```
+You can of course use any DNS servers you want here. Google servers are popular. So is Cloudflare DNS.
+
+The second approach is to use some environment variables to override `/etc/resolv.conf` in the container.
+Using the same DNS servers as in the previous approach you can set:
+```
+OVERRIDE_DNS_1=8.8.8.8
+OVERRIDE_DNS_2=8.8.4.4
+```
+
+This will be read by the startup script and it will override the contents of `/etc/resolv.conf` accordingly. You can have one
+or more of these servers and they will be sorted alphabetically.
+
+**What is the difference between these solutions?**
+
+A good question as they both seem to override what DNS servers the container should use. However they are not equal.
+
+The first solution uses the dns flags from Docker. This will mean that we instruct Docker to use these DNS servers for the container,
+but the resolv.conf file in the container will still point to the Docker DNS service. Docker might have many reasons for this but one of
+them is at least for service discovery. If you're running your container as a part of a larger docker-compose file or custom docker network
+and you want to be able to lookup the other containers based on their service names then you need to use the Docker DNS service.
+By using the `--dns` flags you should have both control of what DNS servers are used for external requests as well as container DNS lookup.
+
+The second solution is more direct. It rewrites the resolv.conf file so that it no longer refers to the Docker DNS service.
+The effects of this is that you lose Docker service discovery from the container (other containers in the same network can still resolve it)
+but you have cut out a middleman and potential point of error. I'm not sure why this some times is necessary but it has proven to fix
+the issue in some cases.
+
+**A possible third option**
+
+If you're facing the OpenVPN error (not curl) then your provider might have config files with IP addresses instead of DNS.
+That way your container won't need DNS to do a lookup for the server. Note that the trackers will still need DNS, so this will only
+solve the problem for you if it is your local network that in some way is blocking the DNS.
 
 
 ## Container loses connection after some time
@@ -85,4 +136,4 @@ To verify this you can mount a volume to `/config` in the container. So for exam
 `/config/openvpn-credentials.txt` when the container starts, more on that [here](building-blocks.md#starting_openvpn). So by mounting this folder
 you will be able to check the contents of that text file. The first line should be your username, the second should be your password.
 
-This file is what's passed to OpenVPN. If your username/password is correct here than you should probably contact your provider.
+This file is what's passed to OpenVPN. If your username/password is correct here then you should probably contact your provider.
