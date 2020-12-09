@@ -23,6 +23,7 @@ curl_retry_delay=15
 user=$(sed -n 1p /config/openvpn-credentials.txt)
 pass=$(sed -n 2p /config/openvpn-credentials.txt)
 pf_host=$(ip route | grep tun | grep -v src | head -1 | awk '{ print $3 }')
+
 ###### Nextgen PIA port forwarding      ##################
    
 get_auth_token () {
@@ -34,7 +35,6 @@ get_auth_token () {
             #echo "$tok"
     }
 
-get_auth_token
 
 get_sig () {
   pf_getsig=$(curl --insecure --get --silent --show-error \
@@ -66,7 +66,7 @@ bind_port () {
       $verify \
       "https://$pf_host:19999/bindPort")
   if [ "$(echo $pf_bind | jq -r .status)" = "OK" ]; then
-    echo "the port has been bound to $pf_port  $(date)"		
+    echo "Reserved Port: $pf_port  $(date)"		
   else  
     echo "$(date): bindPort error"
     echo $pf_bind
@@ -74,15 +74,8 @@ bind_port () {
   fi
 }
 
-get_sig
-
-#echo "sig is $pf_getsig"
-echo "port is $pf_port"
-
-bind_port
-#echo "pf bind is $pf_bind"
-new_port="$pf_port"
-
+bind_trans () {
+new_port=$pf_port
 #
 # Now, set port in Transmission
 #
@@ -130,44 +123,35 @@ if [[ "$new_port" != "$transmission_peer_port" ]]; then
 else
     echo "No action needed, port hasn't changed"
 fi
-
-echo ""
-echo "initial setup complete!"
-echo ""
-echo "waiting for rebind loop................."
-
-echo "token expiry $pf_token_expiry"
-pf_remaining=$((  $pf_token_expiry - $(date +%s) ))
-echo "remaining = $pf_remaining"
-pf_bindinterval=$(( 30 * 60))
-# Get a new token when the current one has less than this remaining
-# Defaults to 7 days (same as desktop app)
+}
+echo "Running functions for token based port fowarding"
+get_auth_token
+get_sig
+bind_port
+bind_trans
+format_expiry=$(date -d @$pf_token_expiry)
+echo "#######################"
+echo "        SUCCESS        "
+echo "#######################"
+echo "Port: $pf_port"
+echo "Expiration $format_expiry"
+echo "#######################"
+echo "Entering infinite while loop"
+echo "Every 15 minutes, check port status"
 pf_minreuse=$(( 60 * 60 * 24 * 7 ))
-
-pf_remaining=0
-pf_firstrun=1
-vpn_ip=$(ip route | grep tun | grep -v src | head -1 | awk '{ print $3 }')
-pf_host="$vpn_ip"
+pf_remaining=$((  $pf_token_expiry - $(date +%s) ))
 
 while true; do
-  pf_remaining=$((  $pf_token_expiry - $(date +%s) ))
-  # Get a new pf token as the previous one will expire soon
-  if [ $pf_remaining -lt $pf_minreuse ]; then
-    if [ $pf_firstrun -ne 1 ]; then
-      echo "$(date): PF token will expire soon. Getting new one."
-    else
-      echo "$(date): Getting PF token"
-      pf_firstrun=0
-    fi
-    get_sig
-    echo "$(date): Obtained PF token. Expires at $pf_token_expiry_raw"
-    bind_port
-    echo "$(date): Server accepted PF bind"
-    echo "$(date): Forwarding on port $pf_port"
-    echo "$(date): Rebind interval: $pf_bindinterval seconds"
-  fi
-  sleep $pf_bindinterval &
-  wait $!
-  
-bind_port  
+	pf_remaining=$((  $pf_token_expiry - $(date +%s) ))
+	if [ $pf_remaining -lt $pf_minreuse ]; then
+		echo "60 day port reservation reached"
+		echo "Getting a new one"
+		get_auth_token
+		get_sig
+		bind_port
+		bind_trans
+	fi
+	sleep 900 &
+	wait $!
+	bind_port
 done
