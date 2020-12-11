@@ -7,6 +7,6 @@ ENV TRANSMISSION_DOWNLOAD_DIR=/data/completed \
     RSS_REGEXP=
 
 # Install build-base and transmission-rss gem
-RUN apk add build-base && gem install transmission-rss
+RUN apk add build-base bash && gem install transmission-rss
 
 ADD . /etc/transmission-rss
