@@ -66,7 +66,7 @@ bind_port () {
       $verify \
       "https://$pf_host:19999/bindPort")
   if [ "$(echo $pf_bind | jq -r .status)" = "OK" ]; then
-    echo "the port has been bound to $pf_port  $(date)"
+    echo "Reserved Port: $pf_port  $(date)"
   else  
     echo "$(date): bindPort error"
     echo $pf_bind
@@ -151,23 +151,15 @@ pf_host="$vpn_ip"
 
 while true; do
   pf_remaining=$((  $pf_token_expiry - $(date +%s) ))
-  # Get a new pf token as the previous one will expire soon
   if [ $pf_remaining -lt $pf_minreuse ]; then
-    if [ $pf_firstrun -ne 1 ]; then
-      echo "$(date): PF token will expire soon. Getting new one."
-    else
-      echo "$(date): Getting PF token"
-      pf_firstrun=0
-    fi
-    get_sig
-    echo "$(date): Obtained PF token. Expires at $pf_token_expiry_raw"
-    bind_port
-    echo "$(date): Server accepted PF bind"
-    echo "$(date): Forwarding on port $pf_port"
-    echo "$(date): Rebind interval: $pf_bindinterval seconds"
+  	echo "60 day port reservation reached"
+  	echo "Getting a new one"
+	get_auth_token
+	get_sig
+	bind_port
+	bind_trans
   fi
-  sleep $pf_bindinterval &
+  sleep 900 &
   wait $!
-  
-bind_port
+  bind_port
 done
