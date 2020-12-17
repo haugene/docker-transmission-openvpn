@@ -75,7 +75,7 @@ exec su --preserve-environment ${RUN_AS} -s /bin/bash -c "/usr/bin/transmission-
 # Configure port forwarding if applicable
 if [[ -x /etc/openvpn/${OPENVPN_PROVIDER,,}/update-port.sh && -z $DISABLE_PORT_UPDATER ]]; then
     echo "Provider ${OPENVPN_PROVIDER^^} has a script for automatic port forwarding. Will run it now."
-    echo "If you want to disable this, set environment variable DISABLE_PORT_UPDATER=yes"
+    echo "If you want to disable this, set environment variable DISABLE_PORT_UPDATER=true"
     exec /etc/openvpn/${OPENVPN_PROVIDER,,}/update-port.sh &
 fi
 
