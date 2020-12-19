@@ -21,7 +21,7 @@ find "$VPN_PROVIDER_HOME" -type f ! -name "*.sh" -delete
 # Download and extract wanted bundle into temporary file
 tmp_file=$(mktemp)
 echo "Downloading OpenVPN config bundle $PIA_OPENVPN_CONFIG_BUNDLE into temporary file $tmp_file"
-curl -sSL "${baseURL}/${PIA_OPENVPN_CONFIG_BUNDLE}.zip" -o "$tmp_file"
+curl -sSL --cookie /dev/null "${baseURL}/${PIA_OPENVPN_CONFIG_BUNDLE}.zip" -o "$tmp_file"
 
 echo "Extract OpenVPN config bundle into PIA directory $VPN_PROVIDER_HOME"
 unzip -qjo "$tmp_file" -d "$VPN_PROVIDER_HOME"
