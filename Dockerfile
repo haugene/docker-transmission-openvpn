@@ -22,8 +22,8 @@ RUN echo "@community http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /et
     && rm -rf /tmp/* /var/tmp/* \
     && groupmod -g 1000 users \
     && useradd -u 911 -U -d /config -s /bin/false abc \
-    && usermod -G users abc 
-    #&& /bin/sh /qbittorrent/install-bitorrent.sh
+    && usermod -G users abc \
+    && /bin/sh /qbittorrent/install-bitorrent.sh
 
 # Add configuration and scripts
 ADD openvpn/ /etc/openvpn/
