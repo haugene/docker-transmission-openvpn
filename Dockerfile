@@ -72,5 +72,4 @@ LABEL autoheal=true
 
 # Expose port and run
 EXPOSE 9091
-EXPOSE 8080
 CMD ["dumb-init", "/etc/openvpn/start.sh"]
