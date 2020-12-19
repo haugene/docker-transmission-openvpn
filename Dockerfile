@@ -32,8 +32,6 @@ ADD tinyproxy /opt/tinyproxy/
 ADD scripts /etc/scripts/
 ADD qbittorrent /qbittorrent/
 
-RUN /bin/sh /qbittorrent/install-bitorrent.sh
-
 ENV OPENVPN_USERNAME=**None** \
     OPENVPN_PASSWORD=**None** \
     OPENVPN_PROVIDER=**None** \
