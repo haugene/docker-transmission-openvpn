@@ -53,7 +53,10 @@ ENV OPENVPN_USERNAME=**None** \
     WEBPROXY_USERNAME= \
     WEBPROXY_PASSWORD= \
     LOG_TO_STDOUT=false \
-    HEALTH_CHECK_HOST=google.com
+    HEALTH_CHECK_HOST=google.com \
+    CONFIG_DIR=/config \
+    QBT_SAVE_PATH=/downloads \
+    QBT_WEBUI_PORT=8080
 
 HEALTHCHECK --interval=1m CMD /etc/scripts/healthcheck.sh
 
