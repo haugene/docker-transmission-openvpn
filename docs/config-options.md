@@ -61,10 +61,9 @@ You can override the default web UI by setting the ```TRANSMISSION_WEB_HOME``` e
 
 ### Transmission configuration options
 
-You may override Transmission options by setting the appropriate environment variable.
+You may override Transmission options by setting the appropriate environment variable. A full list of variables can be found in the Transmission documentation [here](https://github.com/transmission/transmission/wiki/Editing-Configuration-Files).
 
-The environment variables are the same name as used in the transmission settings.json file
-and follow the format given in these examples:
+The environment variables are the same name as found in the transmission documentation linked above but must be translated as shown below:
 
 | Transmission variable name   | Environment variable name                 |
 |------------------------------|-------------------------------------------|
@@ -72,8 +71,6 @@ and follow the format given in these examples:
 | `speed-limit-up-enabled`     | `TRANSMISSION_SPEED_LIMIT_UP_ENABLED`     |
 | `ratio-limit`                | `TRANSMISSION_RATIO_LIMIT`                |
 | `ratio-limit-enabled`        | `TRANSMISSION_RATIO_LIMIT_ENABLED`        |
-| `idle-seeding-limit`         | `TRANSMISSION_IDLE_SEEDING_LIMIT`         |
-| `idle-seeding-limit-enabled` | `TRANSMISSION_IDLE_SEEDING_LIMIT_ENABLED` |
 
 As you can see the variables are prefixed with `TRANSMISSION_`, the variable is capitalized, and `-` is converted to `_`.
 
