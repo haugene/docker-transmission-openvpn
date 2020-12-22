@@ -66,12 +66,14 @@ You may override Transmission options by setting the appropriate environment var
 The environment variables are the same name as used in the transmission settings.json file
 and follow the format given in these examples:
 
-| Transmission variable name | Environment variable name             |
-| -------------------------- | ------------------------------------- |
-| `speed-limit-up`           | `TRANSMISSION_SPEED_LIMIT_UP`         |
-| `speed-limit-up-enabled`   | `TRANSMISSION_SPEED_LIMIT_UP_ENABLED` |
-| `ratio-limit`              | `TRANSMISSION_RATIO_LIMIT`            |
-| `ratio-limit-enabled`      | `TRANSMISSION_RATIO_LIMIT_ENABLED`    |
+| Transmission variable name   | Environment variable name                 |
+|------------------------------|-------------------------------------------|
+| `speed-limit-up`             | `TRANSMISSION_SPEED_LIMIT_UP`             |
+| `speed-limit-up-enabled`     | `TRANSMISSION_SPEED_LIMIT_UP_ENABLED`     |
+| `ratio-limit`                | `TRANSMISSION_RATIO_LIMIT`                |
+| `ratio-limit-enabled`        | `TRANSMISSION_RATIO_LIMIT_ENABLED`        |
+| `idle-seeding-limit`         | `TRANSMISSION_IDLE_SEEDING_LIMIT`         |
+| `idle-seeding-limit-enabled` | `TRANSMISSION_IDLE_SEEDING_LIMIT_ENABLED` |
 
 As you can see the variables are prefixed with `TRANSMISSION_`, the variable is capitalized, and `-` is converted to `_`.
 
