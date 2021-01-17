@@ -46,33 +46,33 @@ set_authentication()
 
 if [[ "${WEBPROXY_ENABLED}" = "true" ]]; then
 
-  echo "STARTING TINYPROXY"
+  echo "STARTING PRIVOXY"
 
-  find_proxy_conf
-  echo "Found config file $PROXY_CONF, updating settings."
+  # find_proxy_conf
+  # echo "Found config file $PROXY_CONF, updating settings."
 
-  set_port ${WEBPROXY_PORT} ${PROXY_CONF}
+  # set_port ${WEBPROXY_PORT} ${PROXY_CONF}
 
-  if [[ ! -z "${WEBPROXY_USERNAME}" ]] && [[ ! -z "${WEBPROXY_PASSWORD}" ]]; then
-    set_authentication ${WEBPROXY_USERNAME} ${WEBPROXY_PASSWORD} ${PROXY_CONF}
-  fi
+  # if [[ ! -z "${WEBPROXY_USERNAME}" ]] && [[ ! -z "${WEBPROXY_PASSWORD}" ]]; then
+  #   set_authentication ${WEBPROXY_USERNAME} ${WEBPROXY_PASSWORD} ${PROXY_CONF}
+  # fi
 
-  # Allow all clients
-  sed -i -e"s/^Allow /#Allow /" ${PROXY_CONF}
+  # # Allow all clients
+  # sed -i -e"s/^Allow /#Allow /" ${PROXY_CONF}
 
-  # Disable Via Header for privacy (leaks that you're using a proxy)
-  sed -i -e "s/#DisableViaHeader/DisableViaHeader/" ${PROXY_CONF}
+  # # Disable Via Header for privacy (leaks that you're using a proxy)
+  # sed -i -e "s/#DisableViaHeader/DisableViaHeader/" ${PROXY_CONF}
 
-  # Lower log level for privacy (writes dns names by default)
-  sed -i -e "s/LogLevel Info/LogLevel Critical/" ${PROXY_CONF}
+  # # Lower log level for privacy (writes dns names by default)
+  # sed -i -e "s/LogLevel Info/LogLevel Critical/" ${PROXY_CONF}
 
-  if command -v tinyproxy &> /dev/null; then
-    echo "tinyproxy is on the PATH, run it"
-    tinyproxy -c ${PROXY_CONF}
+  if command -v privoxy &> /dev/null; then
+    echo "privoxy is on the PATH, run it"
+    privoxy /usr/local/etc/privoxy/config
   else
-    /etc/init.d/tinyproxy start
+    /usr/local/sbin/privoxy /usr/local/etc/privoxy/config
   fi
 
-  echo "Tinyproxy startup script complete."
+  echo "privoxy startup script complete."
 
 fi
