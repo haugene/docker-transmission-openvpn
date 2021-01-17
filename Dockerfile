@@ -1,11 +1,13 @@
-FROM alpine:3.12
+FROM alpine:latest
 
 VOLUME /data
 VOLUME /config
 
+#libressl3.1-libcrypto openssl-dev ?
 RUN echo "@community http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
     && apk --no-cache add bash dumb-init ip6tables ufw@community openvpn shadow transmission-daemon transmission-cli \
         curl jq tzdata openrc tinyproxy tinyproxy-openrc openssh unrar git \
+         brotli-dev autoconf build-base libc-utils pkgconf lzip zlib-dev pcre-dev mbedtls-dev \
     && mkdir -p /opt/transmission-ui \
     && echo "Install Combustion" \
     && wget -qO- https://github.com/Secretmapper/combustion/archive/release.tar.gz | tar xz -C /opt/transmission-ui \
@@ -22,13 +24,24 @@ RUN echo "@community http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /et
     && rm -rf /tmp/* /var/tmp/* \
     && groupmod -g 1000 users \
     && useradd -u 911 -U -d /config -s /bin/false abc \
-    && usermod -G users abc
+    && usermod -G users abc \
+    && addgroup -S privoxy && adduser -S privoxy -G privoxy \
+    # && git clone https://www.privoxy.org/git/privoxy.git /opt/privoxy \
+    && mkdir /opt/privoxy \
+    && curl -sL https://www.privoxy.org/sf-download-mirror/Sources/3.0.29%20%28stable%29/privoxy-3.0.29-stable-src.tar.gz | tar -C /opt/privoxy --strip-components=2 -xz \
+    && cd /opt/privoxy \
+    && autoheader \
+    && autoconf \
+    && ./configure --enable-compression --with-brotli  --with-mbedtls --enable-extended-statistics  \
+    && make -j4 \
+    && make install
 
 # Add configuration and scripts
 ADD openvpn/ /etc/openvpn/
 ADD transmission/ /etc/transmission/
 ADD tinyproxy /opt/tinyproxy/
 ADD scripts /etc/scripts/
+ADD privoxy/config /usr/local/etc/privoxy/config
 
 ENV OPENVPN_USERNAME=**None** \
     OPENVPN_PASSWORD=**None** \
@@ -68,4 +81,5 @@ LABEL autoheal=true
 
 # Expose port and run
 EXPOSE 9091
+EXPOSE 8118
 CMD ["dumb-init", "/etc/openvpn/start.sh"]
