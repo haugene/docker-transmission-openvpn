@@ -27,7 +27,6 @@ This is a list of providers that are bundled within the image. Feel free to crea
 | NordVPN                 | `NORDVPN`                         |
 | OctaneVPN               | `OCTANEVPN`                       |
 | OVPN                    | `OVPN`                            |
-| Perfect Privacy         | `PERFECTPRIVACY`                  |
 | Private Internet Access | `PIA`                             |
 | Privado                 | `PRIVADO`                         |
 | PrivateVPN              | `PRIVATEVPN`                      |
@@ -89,8 +88,8 @@ If you have an separate ca.crt, client.key or client.crt file in your volume mou
 Mount the folder contianing all the required files instead of the openvpn.ovpn file.
 `-v /path/to/your/config/:/etc/openvpn/custom/`
 
-Additionally the .ovpn config should include the full path on the docker container to the ca.crt and additional files. 
+Additionally the .ovpn config should include the full path on the docker container to the ca.crt and additional files.
 `ca /etc/openvpn/custom/ca.crt`
 
-If `-e OPENVPN_CONFIG=` variable has been omitted from the `docker run` command the .ovpn config file must be named default.ovpn. 
+If `-e OPENVPN_CONFIG=` variable has been omitted from the `docker run` command the .ovpn config file must be named default.ovpn.
 If `-e OPENVPN_CONFIG=` is used with the custom provider the .ovpn config and variable must match as described above.
