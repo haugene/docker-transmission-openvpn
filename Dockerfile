@@ -1,3 +1,13 @@
+# Build Flood UI seperately to keep image size small
+FROM node:15.5.1-alpine3.10 AS FloodUIBuilder
+WORKDIR /tmp/flood
+
+RUN echo "Build Flood UI" \
+    && apk add --no-cache git \
+    && git clone --depth=1 https://github.com/johman10/flood-for-transmission.git . \
+    && npm install \
+    && npm run build
+
 FROM alpine:3.12
 
 VOLUME /data
@@ -23,6 +33,9 @@ RUN echo "@community http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /et
     && groupmod -g 1000 users \
     && useradd -u 911 -U -d /config -s /bin/false abc \
     && usermod -G users abc
+
+# Bring over flood UI from previous build stage
+COPY --from=FloodUIBuilder /tmp/flood/public /opt/transmission-ui/flood
 
 # Add configuration and scripts
 ADD openvpn/ /etc/openvpn/

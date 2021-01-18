@@ -7,25 +7,24 @@
 # See https://openvpn.net/index.php/open-source/documentation/manuals/65-openvpn-20x-manpage.html (--up cmd)
 echo "Up script executed with $*"
 if [[ "$4" = "" ]]; then
-   echo "ERROR, unable to obtain tunnel address"
-   echo "killing $PPID"
-   kill -9 $PPID
-   exit 1
+  echo "ERROR, unable to obtain tunnel address"
+  echo "killing $PPID"
+  kill -9 $PPID
+  exit 1
 fi
 
 # If transmission-pre-start.sh exists, run it
-if [[ -x /scripts/transmission-pre-start.sh ]]
-then
-   echo "Executing /scripts/transmission-pre-start.sh"
-   /scripts/transmission-pre-start.sh "$@"
-   echo "/scripts/transmission-pre-start.sh returned $?"
+if [[ -x /scripts/transmission-pre-start.sh ]]; then
+  echo "Executing /scripts/transmission-pre-start.sh"
+  /scripts/transmission-pre-start.sh "$@"
+  echo "/scripts/transmission-pre-start.sh returned $?"
 fi
 
 echo "Updating TRANSMISSION_BIND_ADDRESS_IPV4 to the ip of $1 : $4"
 export TRANSMISSION_BIND_ADDRESS_IPV4=$4
 # Also update the persisted settings in case it is already set. First remove any old value, then add new.
 sed -i '/TRANSMISSION_BIND_ADDRESS_IPV4/d' /etc/transmission/environment-variables.sh
-echo "export TRANSMISSION_BIND_ADDRESS_IPV4=$4" >> /etc/transmission/environment-variables.sh
+echo "export TRANSMISSION_BIND_ADDRESS_IPV4=$4" >>/etc/transmission/environment-variables.sh
 
 if [[ "combustion" = "$TRANSMISSION_WEB_UI" ]]; then
   echo "Using Combustion UI, overriding TRANSMISSION_WEB_HOME"
@@ -40,6 +39,11 @@ fi
 if [[ "transmission-web-control" = "$TRANSMISSION_WEB_UI" ]]; then
   echo "Using Transmission Web Control  UI, overriding TRANSMISSION_WEB_HOME"
   export TRANSMISSION_WEB_HOME=/opt/transmission-ui/transmission-web-control
+fi
+
+if [[ "flood" = "$TRANSMISSION_WEB_UI" ]]; then
+  echo "Using Transmission Web Control  UI, overriding TRANSMISSION_WEB_HOME"
+  export TRANSMISSION_WEB_HOME=/opt/transmission-ui/flood
 fi
 
 echo "Updating Transmission settings.json with values from env variables"
@@ -74,17 +78,16 @@ exec su --preserve-environment ${RUN_AS} -s /bin/bash -c "/usr/bin/transmission-
 
 # Configure port forwarding if applicable
 if [[ -x /etc/openvpn/${OPENVPN_PROVIDER,,}/update-port.sh && -z $DISABLE_PORT_UPDATER ]]; then
-    echo "Provider ${OPENVPN_PROVIDER^^} has a script for automatic port forwarding. Will run it now."
-    echo "If you want to disable this, set environment variable DISABLE_PORT_UPDATER=true"
-    exec /etc/openvpn/${OPENVPN_PROVIDER,,}/update-port.sh &
+  echo "Provider ${OPENVPN_PROVIDER^^} has a script for automatic port forwarding. Will run it now."
+  echo "If you want to disable this, set environment variable DISABLE_PORT_UPDATER=true"
+  exec /etc/openvpn/${OPENVPN_PROVIDER,,}/update-port.sh &
 fi
 
 # If transmission-post-start.sh exists, run it
-if [[ -x /scripts/transmission-post-start.sh ]]
-then
-   echo "Executing /scripts/transmission-post-start.sh"
-   /scripts/transmission-post-start.sh "$@"
-   echo "/scripts/transmission-post-start.sh returned $?"
+if [[ -x /scripts/transmission-post-start.sh ]]; then
+  echo "Executing /scripts/transmission-post-start.sh"
+  /scripts/transmission-post-start.sh "$@"
+  echo "/scripts/transmission-post-start.sh returned $?"
 fi
 
 echo "Transmission startup script complete."
