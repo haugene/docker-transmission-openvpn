@@ -66,12 +66,13 @@ if [[ "${WEBPROXY_ENABLED}" = "true" ]]; then
   # # Lower log level for privacy (writes dns names by default)
   # sed -i -e "s/LogLevel Info/LogLevel Critical/" ${PROXY_CONF}
 
-  if command -v privoxy &> /dev/null; then
-    echo "privoxy is on the PATH, run it"
-    privoxy /usr/local/etc/privoxy/config
-  else
-    /usr/local/sbin/privoxy /usr/local/etc/privoxy/config
-  fi
+  # if command -v privoxy &> /dev/null; then
+  #   echo "privoxy is on the PATH, run it"
+  #   privoxy /usr/local/etc/privoxy/config
+  # else
+    cd /usr/local/etc/privoxy
+    /usr/local/sbin/privoxy config
+  # fi
 
   echo "privoxy startup script complete."
 

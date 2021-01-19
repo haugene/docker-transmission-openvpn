@@ -7,7 +7,7 @@ VOLUME /config
 RUN echo "@community http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
     && apk --no-cache add bash dumb-init ip6tables ufw@community openvpn shadow transmission-daemon transmission-cli \
         curl jq tzdata openrc tinyproxy tinyproxy-openrc openssh unrar git \
-         brotli-dev autoconf build-base libc-utils pkgconf lzip zlib-dev pcre-dev mbedtls-dev \
+         brotli-dev autoconf build-base libc-utils pkgconf lzip zlib-dev pcre-dev mbedtls-dev w3m \
     && mkdir -p /opt/transmission-ui \
     && echo "Install Combustion" \
     && wget -qO- https://github.com/Secretmapper/combustion/archive/release.tar.gz | tar xz -C /opt/transmission-ui \
@@ -80,6 +80,10 @@ LABEL org.opencontainers.image.revision=$REVISION
 LABEL autoheal=true
 
 # Expose port and run
+
+#Transmission-RPC
 EXPOSE 9091
+# Privoxy
 EXPOSE 8118
+
 CMD ["dumb-init", "/etc/openvpn/start.sh"]
