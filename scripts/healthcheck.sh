@@ -11,6 +11,15 @@ then
     HOST="google.com"
 fi
 
+# Check DNS resolution works
+nslookup $HOST > /dev/null
+STATUS=$?
+if [[ ${STATUS} -ne 0 ]]
+then
+    echo "DNS resolution failed"
+    exit 1
+fi
+
 ping -c 2 -w 10 $HOST # Get at least 2 responses and timeout after 10 seconds
 STATUS=$?
 if [[ ${STATUS} -ne 0 ]]
