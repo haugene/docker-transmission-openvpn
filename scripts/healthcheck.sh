@@ -20,7 +20,7 @@ then
     exit 1
 fi
 
-ping -c 2 -w 5 $HOST # Get at least 2 responses and timeout after 5 seconds
+ping -c 2 -w 10 $HOST # Get at least 2 responses and timeout after 10 seconds
 STATUS=$?
 if [[ ${STATUS} -ne 0 ]]
 then
