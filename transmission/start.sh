@@ -49,7 +49,7 @@ fi
 echo "Updating Transmission settings.json with values from env variables"
 # Ensure TRANSMISSION_HOME is created
 mkdir -p ${TRANSMISSION_HOME}
-python3 /etc/transmission/updateSettings.py /etc/transmission/default-settings.json ${TRANSMISSION_HOME}/settings.json
+python3 /etc/transmission/updateSettings.py /etc/transmission/default-settings.json ${TRANSMISSION_HOME}/settings.json || exit 1
 
 echo "sed'ing True to true"
 sed -i 's/True/true/g' ${TRANSMISSION_HOME}/settings.json
