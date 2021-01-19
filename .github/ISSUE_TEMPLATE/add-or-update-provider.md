@@ -2,7 +2,7 @@
 name: Add or update provider
 about: Request for a new provider or update configs for an existing provider.
 title: ''
-labels: provider
+labels: 'Add/update provider'
 assignees: ''
 
 ---
