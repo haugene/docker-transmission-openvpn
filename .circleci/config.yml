@@ -39,6 +39,9 @@ jobs:
       - run:
           name: Login to Docker Hub
           command: echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+      - run:
+          name: Login to GitHub Container Registry
+          command: echo $GITHUB_PASS | docker login ghcr.io -u $DOCKER_USER --password-stdin
       - calculate-tag-name
       - run:
           name: Set up buildx and build/push images
@@ -47,7 +50,10 @@ jobs:
             docker buildx use mybuilder
             docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
             docker buildx ls
-            docker buildx build -t haugene/transmission-openvpn:$IMAGE_TAG --progress plain \
+            docker buildx build \
+              -t haugene/transmission-openvpn:$IMAGE_TAG \
+              -t ghcr.io/haugene/transmission-openvpn:$IMAGE_TAG \
+              --progress plain \
               --platform linux/arm,linux/arm64,linux/amd64 \
               --build-arg REVISION=$CIRCLE_SHA1 \
               --push .
