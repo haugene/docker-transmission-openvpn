@@ -3,8 +3,7 @@ FROM node:15.5.1-alpine3.10 AS FloodUIBuilder
 WORKDIR /tmp/flood
 
 RUN echo "Build Flood UI" \
-    && apk add --no-cache git \
-    && git clone --depth=1 https://github.com/johman10/flood-for-transmission.git . \
+    && wget -qO- https://github.com/johman10/flood-for-transmission/archive/master.tar.gz | tar xz -C . --strip=1 \
     && npm install \
     && npm run build
 
