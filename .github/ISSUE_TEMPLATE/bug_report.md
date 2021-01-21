@@ -9,6 +9,7 @@ assignees: ''
 
 <!-- 
 PLEASE READ BELOW AND FILL IN THE TEMPLATE!
+DO NOT DELETE ANY PART OF THE TEMPLATE!
 In the future, any issues NOT using the template will be closed.
 Thanks for filing an issue! Before hitting the button, please answer these questions. It's helpful to search the existing GitHub issues first. It's likely that another user has already reported the issue you're facing, or it's a known issue that we're already aware of.
 -->
@@ -21,6 +22,7 @@ Thanks for filing an issue! Before hitting the button, please answer these quest
 
 **Describe the problem**
 <!-- A clear and concise description of what the bug is. -->
+<!-- Check your logs, if it says things like (cannot resolve..) it is DNS related most likely, there are solutions, search -->
 
 **Add your docker run command or docker-compose file**
 <!-- To understand how your container is running, provide the docker run command or the docker-compose.yml file you used to start it. If you're using a GUI to set up the container then provide screenshots or a list of options and settings. -->
