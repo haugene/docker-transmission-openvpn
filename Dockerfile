@@ -1,13 +1,13 @@
 # Build Flood UI seperately to keep image size small
-FROM node:15.5.1-alpine3.10 AS FloodUIBuilder
+FROM node:15.7.0-alpine3.12 AS FloodUIBuilder
 WORKDIR /tmp/flood
 
 RUN echo "Build Flood UI" \
     && wget -qO- https://github.com/johman10/flood-for-transmission/archive/master.tar.gz | tar xz -C . --strip=1 \
-    && npm install \
+    && npm ci \
     && npm run build
 
-FROM alpine:3.12
+FROM alpine:3.13
 
 VOLUME /data
 VOLUME /config
@@ -23,7 +23,7 @@ RUN echo "@community http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /et
     && mv /opt/transmission-ui/kettu-master /opt/transmission-ui/kettu \
     && echo "Install Transmission-Web-Control" \
     && mkdir /opt/transmission-ui/transmission-web-control \
-    && curl -sL `curl -s https://api.github.com/repos/ronggang/transmission-web-control/releases/latest | jq --raw-output '.tarball_url'` | tar -C /opt/transmission-ui/transmission-web-control/ --strip-components=2 -xz \
+    && curl -sL $(curl -s https://api.github.com/repos/ronggang/transmission-web-control/releases/latest | jq --raw-output '.tarball_url') | tar -C /opt/transmission-ui/transmission-web-control/ --strip-components=2 -xz \
     && ln -s /usr/share/transmission/web/style /opt/transmission-ui/transmission-web-control \
     && ln -s /usr/share/transmission/web/images /opt/transmission-ui/transmission-web-control \
     && ln -s /usr/share/transmission/web/javascript /opt/transmission-ui/transmission-web-control \
