@@ -65,8 +65,12 @@ if [[ -n $OPENVPN_CONFIG_URL ]]; then
   MODIFY_CHOSEN_CONFIG=yeah
 elif [[ -x $VPN_PROVIDER_HOME/configure-openvpn.sh ]]; then
   echo "Provider $OPENVPN_PROVIDER has a custom setup script, executing it"
+  # Preserve $PWD in case it changes when sourcing the script
+  pushd -n "$PWD" > /dev/null
   # shellcheck source=/dev/null
   . "$VPN_PROVIDER_HOME"/configure-openvpn.sh
+  # Restore previous PWD
+  popd > /dev/null
   MODIFY_CHOSEN_CONFIG=yeah
 fi
 

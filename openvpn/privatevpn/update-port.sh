@@ -62,7 +62,7 @@ fi
 
 # get current listening port
 sleep 3
-transmission_peer_port=$(transmission-remote $myauth -si | grep Listenport | grep -oE '[0-9]+')
+transmission_peer_port=$(transmission-remote $TRANSMISSION_RPC_PORT $myauth -si | grep Listenport | grep -oE '[0-9]+')
 if [ "$new_port" != "$transmission_peer_port" ]; then
   if [ "true" = "$ENABLE_UFW" ]; then
     echo "Update UFW rules before changing port in Transmission"
@@ -74,11 +74,11 @@ if [ "$new_port" != "$transmission_peer_port" ]; then
     ufw allow ${new_port}
   fi
 
-  transmission-remote ${myauth} -p "$new_port"
+  transmission-remote ${TRANSMISSION_RPC_PORT} ${myauth} -p "$new_port"
 
   echo "Checking port..."
   sleep 10
-  transmission-remote ${myauth} -pt
+  transmission-remote ${TRANSMISSION_RPC_PORT} ${myauth} -pt
 else
     echo "No action needed, port hasn't changed"
 fi

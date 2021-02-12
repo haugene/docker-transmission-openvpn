@@ -37,7 +37,7 @@
     "prefetch-enabled": true,
     "queue-stalled-enabled": true,
     "queue-stalled-minutes": 30,
-    "ratio-limit": 2,
+    "ratio-limit": 2.0,
     "ratio-limit-enabled": false,
     "rename-partial-files": true,
     "rpc-authentication-required": false,
