@@ -63,8 +63,9 @@ fi
 . /etc/transmission/userSetup.sh
 
 if [[ "true" = "$DROP_DEFAULT_ROUTE" ]]; then
-  echo "DROPPING DEFAULT ROUTE"
-  ip r del default || exit 1
+    echo "DROPPING DEFAULT ROUTE"
+    # Remove the original default route to avoid leaks.
+    route del default gw "${route_net_gateway}" || exit 1
 fi
 
 if [[ "true" = "$LOG_TO_STDOUT" ]]; then
