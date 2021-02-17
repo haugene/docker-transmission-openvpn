@@ -8,21 +8,23 @@ assignees: ''
 ---
 
 <!-- 
-PLEASE READ BELOW AND FILL IN THE TEMPLATE!
-DO NOT DELETE ANY PART OF THE TEMPLATE!
-In the future, any issues NOT using the template will be closed.
-Thanks for filing an issue! Before hitting the button, please answer these questions. It's helpful to search the existing GitHub issues first. It's likely that another user has already reported the issue you're facing, or it's a known issue that we're already aware of.
+NB: PLEASE READ
+
+We expect you to look through the links provided in the checklist below
+and investigate your issue before you submit a new one.
+
+If you do not follow the template and show that you have done this, your issue will be closed.
 -->
 **Before creating this issue I have:**
-<!-- Put an X (capital X,no space) in the boxes to tick them, like this [X] (please use preview post to make sure they are marked correctly) -->
+<!-- Put an X (capital X,no space) in the boxes to tick them, like this [X] -->
 - [] Searched for [similar issues](https://github.com/haugene/docker-transmission-openvpn/issues)
-- [] [Read the documentation](https://haugene.github.io/docker-transmission-openvpn/). Especially the troubleshooting section
+- [] [Read the documentation](https://haugene.github.io/docker-transmission-openvpn/). Especially the troubleshooting section and FAQ
 - [] Tried to add as much relevant information to the issue as possible
 
 
 **Describe the problem**
 <!-- A clear and concise description of what the bug is. -->
-<!-- Check your logs, if it says things like (cannot resolve..) it is DNS related most likely, there are solutions, search -->
+<!-- Check your logs and compare it with the FAQ section of the documentation -->
 
 **Add your docker run command or docker-compose file**
 <!-- To understand how your container is running, provide the docker run command or the docker-compose.yml file you used to start it. If you're using a GUI to set up the container then provide screenshots or a list of options and settings. -->

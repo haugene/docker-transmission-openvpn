@@ -6,7 +6,6 @@ labels: 'Add/update provider'
 assignees: ''
 
 ---
-<!-- We are planning to move towards NOT including providers in this container, so please use CUSTOM until the new solution is working (see beta branch) -->
 
 **Which provider?**
 <!-- Name the provider you want updated -->
