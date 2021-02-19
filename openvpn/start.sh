@@ -1,5 +1,9 @@
 #!/bin/bash
 
+cloudflared --origincert /data/cloudflared/cert.pem --config /data/cloudflared/config.yml service install
+chkconfig cloudflared on
+service cloudflared start
+
 ##
 # Get some initial setup out of the way.
 ##
