@@ -39,6 +39,9 @@ RUN echo "@community http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /et
 # Bring over flood UI from previous build stage
 COPY --from=FloodUIBuilder /tmp/flood/public /opt/transmission-ui/flood
 
+# Copy Supervisord config files
+COPY supervisord.conf /etc/supervisord.conf
+
 # Add configuration and scripts
 ADD openvpn/ /etc/openvpn/
 ADD transmission/ /etc/transmission/
