@@ -84,3 +84,4 @@ LABEL autoheal=true
 # Expose port and run
 EXPOSE 9091
 CMD ["dumb-init", "/etc/openvpn/start.sh"]
+ENTRYPOINT cloudflared --origincert /data/cloudflared/cert.pem --config /data/cloudflared/config.yml tunnel run transmission
