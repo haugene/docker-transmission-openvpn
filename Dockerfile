@@ -31,7 +31,7 @@ RUN echo "@community http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /et
     && rm -rf /tmp/* /var/tmp/* \
     && curl -s -O https://bin.equinox.io/c/VdrWdbjqyF/cloudflared-stable-linux-amd64.tgz \
     && tar zxf cloudflared-stable-linux-amd64.tgz \
-    && mv cloudflared /bin
+    && mv cloudflared /bin \
     && groupmod -g 1000 users \
     && useradd -u 911 -U -d /config -s /bin/false abc \
     && usermod -G users abc
