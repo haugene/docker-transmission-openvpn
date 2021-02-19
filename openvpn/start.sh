@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cloudflared --origincert /data/cloudflared/cert.pem --config /data/cloudflared/config.yml tunnel run transmission
+#cloudflared --origincert /data/cloudflared/cert.pem --config /data/cloudflared/config.yml tunnel run transmission
 
 ##
 # Get some initial setup out of the way.
