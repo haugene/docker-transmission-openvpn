@@ -42,6 +42,7 @@ COPY --from=FloodUIBuilder /tmp/flood/public /opt/transmission-ui/flood
 # Copy Supervisord config files
 COPY supervisord.conf /etc/supervisord.conf
 COPY argo-tunnel.sh /usr/share/argo-tunnel.sh
+RUN chmod +x /usr/share/argo-tunnel.sh
 
 # Add configuration and scripts
 ADD openvpn/ /etc/openvpn/
