@@ -1,5 +1,6 @@
 
 * [The container runs, but I can't access the web ui](#the_container_runs_but_i_cant_access_the_web_ui)
+* [How do I enable authentication in the web ui](#how_do_i_enable_authentication_in_the_web_ui)
 * [How do I verify that my traffic is using VPN](#how_do_i_verify_that_my_traffic_is_using_vpn)
 * [RTNETLINK answers: File exists](#rtnetlink_answers_file_exists)
 * [RTNETLINK answers: Invalid argument](#rtnetlink_answers_invalid_argument)
@@ -13,6 +14,25 @@
 ## The container runs, but I can't access the web ui
 
 [TODO](https://github.com/haugene/docker-transmission-openvpn/issues/1558): Short explanation and link to [networking](vpn-networking.md)
+
+## How do I enable authentication in the web ui
+
+You can do this either by setting the appropriate fields in `settings.json` which is
+found in TRANSMISSION_HOME which defaults to `/data/transmission-home` so it will be available
+on your host where you mount the `/data` volume. Remember that Transmission overwrites the config
+when it shuts down, so do this when the container is not running.
+
+Or you can set it using the convenience environment variables. They will then override the settings
+on every container startup. The environment variables you have to set are:
+
+* `TRANSMISSION_RPC_USERNAME=username`
+* `TRANSMISSION_RPC_PASSWORD=password`
+* `TRANSMISSION_RPC_AUTHENTICATION_REQUIRED=true`
+
+PS: Be cautious of special characters in the username or password. We've had multiple errors with
+that and have not provided a fix yet. Escaping special characters could be an option, but it the
+easiest solution is just to avoid them. Make the password longer instead ;)
+Or write it into `settings.json` manually as first described.
 
 ## How do I verify that my traffic is using VPN
 
