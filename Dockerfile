@@ -1,5 +1,5 @@
 # Build Flood UI seperately to keep image size small
-FROM node:15.7.0-alpine3.12 AS FloodUIBuilder
+FROM node:latest AS FloodUIBuilder
 WORKDIR /tmp/flood
 
 RUN echo "Build Flood UI" \
