@@ -63,26 +63,6 @@ You can override the default web UI by setting the `TRANSMISSION_WEB_HOME` envir
 | `TRANSMISSION_WEB_HOME` | Set Transmission web home        | `TRANSMISSION_WEB_HOME=/path/to/web/ui`                                                                                                       |
 | `TRANSMISSION_WEB_UI`   | Use the specified bundled web UI | `TRANSMISSION_WEB_UI=combustion`, `TRANSMISSION_WEB_UI=kettu`, `TRANSMISSION_WEB_UI=transmission-web-control`, or `TRANSMISSION_WEB_UI=flood` |
 
-### Transmission configuration options
-
-You may override Transmission options by setting the appropriate environment variable. A full list of variables can be found in the Transmission documentation [here](https://github.com/transmission/transmission/wiki/Editing-Configuration-Files).
-
-The environment variables are the same name as found in the transmission documentation linked above but must be translated as shown below:
-
-| Transmission variable name   | Environment variable name                 |
-|------------------------------|-------------------------------------------|
-| `speed-limit-up`             | `TRANSMISSION_SPEED_LIMIT_UP`             |
-| `speed-limit-up-enabled`     | `TRANSMISSION_SPEED_LIMIT_UP_ENABLED`     |
-| `ratio-limit`                | `TRANSMISSION_RATIO_LIMIT`                |
-| `ratio-limit-enabled`        | `TRANSMISSION_RATIO_LIMIT_ENABLED`        |
-
-As you can see the variables are prefixed with `TRANSMISSION_`, the variable is capitalized, and `-` is converted to `_`.
-
-Transmission options changed in the WebUI or in settings.json will be overridden at startup and will not survive after a reboot of the container. You may want to use these variables in order to keep your preferences.
-
-PS: `TRANSMISSION_BIND_ADDRESS_IPV4` will be overridden to the IP assigned to your OpenVPN tunnel interface.
-This is to prevent leaking the host IP.
-
 ### User configuration options
 
 By default everything will run as the root user. However, it is possible to change who runs the transmission process.
@@ -92,6 +72,34 @@ You may set the following parameters to customize the user id that runs transmis
 | -------- | ------------------------------------------- | ----------- |
 | `PUID`   | Sets the user id who will run transmission  | `PUID=1003` |
 | `PGID`   | Sets the group id for the transmission user | `PGID=1003` |
+
+### Transmission configuration options
+
+In previous versions of this container the settings were not persistent but was generated from environment variables on container startup.
+This had the benefit of being very explicit and reproducable but you had to provide Transmission config as environment variables if you
+wanted them to stay that way between container restarts. This felt cumbersome to many.
+
+As of version 3.0 this is no longer true. Settings are now persisted in the `/data/transmission-home` folder in the container and as
+long as you mount `/data` you should be able to configure Transmission using the UI as you normally would.
+
+You may still override Transmission options by setting environment variables if that's your thing.
+The variables are named after the transmission config they target but are prefixed with `TRANSMISSION_`, capitalized, and `-` is converted to `_`.
+
+For example:
+
+| Transmission variable name   | Environment variable name                 |
+|------------------------------|-------------------------------------------|
+| `speed-limit-up`             | `TRANSMISSION_SPEED_LIMIT_UP`             |
+| `speed-limit-up-enabled`     | `TRANSMISSION_SPEED_LIMIT_UP_ENABLED`     |
+| `ratio-limit`                | `TRANSMISSION_RATIO_LIMIT`                |
+| `ratio-limit-enabled`        | `TRANSMISSION_RATIO_LIMIT_ENABLED`        |
+
+A full list of variables can be found in the Transmission documentation [here](https://github.com/transmission/transmission/wiki/Editing-Configuration-Files).
+
+All variables overridden by environment variables will be logged during startup.
+
+PS: `TRANSMISSION_BIND_ADDRESS_IPV4` will automatically be overridden to the IP assigned to your OpenVPN tunnel interface.
+This ensures that Transmission only listens for torrent traffic on the VPN interface and is part of the fail safe mechanisms.
 
 ### Dropping default route from iptables (advanced)
 
