@@ -7,7 +7,7 @@ RUN echo "Build Flood UI" \
     && npm ci \
     && npm run build
 
-FROM alpine:3.13
+FROM alpine:latest
 
 VOLUME /data
 VOLUME /config
