@@ -8,7 +8,7 @@ RUN echo "Build Flood UI" \
     && npm run build
 
 FROM varuntirumala1/alpine:latest
-COPY /etc/services.d/ /etc/services.d/
+COPY /etc/cont-init.d /etc/cont-init.d
 VOLUME /data
 VOLUME /config
 
