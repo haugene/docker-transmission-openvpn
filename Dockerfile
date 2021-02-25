@@ -36,7 +36,7 @@ RUN echo "@community http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /et
 # Bring over flood UI from previous build stage
 COPY --from=FloodUIBuilder /tmp/flood/public /opt/transmission-ui/flood
 
-RUN chmod +x /etc/cont-init.d/cloudflared/run
+RUN chmod +x /etc/cont-init.d/run
 
 # Add configuration and scripts
 ADD openvpn/ /etc/openvpn/
