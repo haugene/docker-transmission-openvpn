@@ -1,0 +1,3 @@
+#!/usr/bin/with-contenv bash
+
+exec /bin/cloudflared --origincert /agro/cert.pem --config /argo/config.yml tunnel run -p http2 transmission
