@@ -7,14 +7,14 @@ RUN echo "Build Flood UI" \
     && npm ci \
     && npm run build
 
-FROM alpine:latest
-
+FROM varuntirumala1/alpine:latest
+COPY /etc/services.d/ /etc/services.d/
 VOLUME /data
 VOLUME /config
 
 RUN echo "@community http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
-    && apk --no-cache add bash supervisor ip6tables ufw@community openvpn shadow transmission-daemon transmission-cli libc6-compat nano \
-        curl jq tzdata openrc tinyproxy tinyproxy-openrc openssh unrar git \
+    && apk --no-cache add ip6tables ufw@community openvpn shadow transmission-daemon transmission-cli \
+        openrc jq tinyproxy tinyproxy-openrc openssh unrar git \
     && mkdir -p /opt/transmission-ui \
     && echo "Install Combustion" \
     && wget -qO- https://github.com/Secretmapper/combustion/archive/release.tar.gz | tar xz -C /opt/transmission-ui \
@@ -29,9 +29,6 @@ RUN echo "@community http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /et
     && ln -s /usr/share/transmission/web/javascript /opt/transmission-ui/transmission-web-control \
     && ln -s /usr/share/transmission/web/index.html /opt/transmission-ui/transmission-web-control/index.original.html \
     && rm -rf /tmp/* /var/tmp/* \
-    && curl -s -O https://bin.equinox.io/c/VdrWdbjqyF/cloudflared-stable-linux-amd64.tgz \
-    && tar zxf cloudflared-stable-linux-amd64.tgz \
-    && mv cloudflared /bin \
     && groupmod -g 1000 users \
     && useradd -u 911 -U -d /config -s /bin/false abc \
     && usermod -G users abc
@@ -39,10 +36,7 @@ RUN echo "@community http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /et
 # Bring over flood UI from previous build stage
 COPY --from=FloodUIBuilder /tmp/flood/public /opt/transmission-ui/flood
 
-# Copy Supervisord config files
-COPY supervisord.conf /etc/supervisord.conf
-COPY argo-tunnel.sh /usr/share/argo-tunnel.sh
-RUN chmod +x /usr/share/argo-tunnel.sh
+RUN chmod +x /etc/services.d/cloudflared/run
 
 # Add configuration and scripts
 ADD openvpn/ /etc/openvpn/
@@ -76,16 +70,6 @@ ENV OPENVPN_USERNAME=**None** \
 
 HEALTHCHECK --interval=1m CMD /etc/scripts/healthcheck.sh
 
-# Add labels to identify this image and version
-ARG REVISION
-# Set env from build argument or default to empty string
-ENV REVISION=${REVISION:-""}
-LABEL org.opencontainers.image.source=https://github.com/haugene/docker-transmission-openvpn
-LABEL org.opencontainers.image.revision=$REVISION
-
-# Compatability with https://hub.docker.com/r/willfarrell/autoheal/
-LABEL autoheal=true
-
 # Expose port and run
 EXPOSE 9091
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
+CMD ["/etc/openvpn/start.sh"]
