@@ -7,8 +7,6 @@ This is a list of providers that are bundled within the image. Feel free to crea
 | BlackVPN                | `BLACKVPN`                        |
 | BTGuard                 | `BTGUARD`                         |
 | Cryptostorm             | `CRYPTOSTORM`                     |
-| Cypherpunk              | `CYPHERPUNK`                      |
-| elastictunnel.com       | `ELASTICTUNNEL`                   |
 | ExpressVPN              | `EXPRESSVPN`                      |
 | FastestVPN              | `FASTESTVPN`                      |
 | FreeVPN                 | `FREEVPN`                         |
@@ -32,7 +30,6 @@ This is a list of providers that are bundled within the image. Feel free to crea
 | PrivateVPN              | `PRIVATEVPN`                      |
 | ProtonVPN               | `PROTONVPN`                       |
 | proXPN                  | `PROXPN`                          |
-| proxy.sh                | `PROXYSH `                        |
 | PureVPN                 | `PUREVPN`                         |
 | RA4W VPN                | `RA4W`                            |
 | SaferVPN                | `SAFERVPN`                        |
