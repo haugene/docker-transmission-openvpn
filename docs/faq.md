@@ -30,7 +30,7 @@ on every container startup. The environment variables you have to set are:
 * `TRANSMISSION_RPC_AUTHENTICATION_REQUIRED=true`
 
 PS: Be cautious of special characters in the username or password. We've had multiple errors with
-that and have not provided a fix yet. Escaping special characters could be an option, but it the
+that and have not provided a fix yet. Escaping special characters could be an option, but the
 easiest solution is just to avoid them. Make the password longer instead ;)
 Or write it into `settings.json` manually as first described.
 
