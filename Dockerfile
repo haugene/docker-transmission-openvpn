@@ -7,7 +7,7 @@ RUN echo "Build Flood UI" \
     && npm ci \
     && npm run build
 
-FROM varuntirumala1/alpine:latest
+FROM gcr.io/prime-burner-274908/alpine:latest
 COPY /etc/cont-init.d/ /etc/cont-init.d/
 VOLUME /data
 VOLUME /config
