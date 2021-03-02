@@ -1,0 +1,5 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker' 
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/transmission:$_TAG', '.']
+images: ['gcr.io/$PROJECT_ID/transmission:$_TAG']
+timeout: '3600s'
