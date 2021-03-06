@@ -614,6 +614,7 @@ logfile logfile
 #debug  1024 # Log the destination for requests Privoxy didn't let through, and the reason why.
 #debug  4096 # Startup banner and warnings
 #debug  8192 # Non-fatal errors
+debug 12288
 #
 #  3.2. single-threaded
 #  =====================
