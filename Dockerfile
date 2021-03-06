@@ -1,4 +1,13 @@
-FROM alpine:latest
+# Build Flood UI seperately to keep image size small
+FROM node:15.7.0-alpine3.12 AS FloodUIBuilder
+WORKDIR /tmp/flood
+
+RUN echo "Build Flood UI" \
+    && wget -qO- https://github.com/johman10/flood-for-transmission/archive/master.tar.gz | tar xz -C . --strip=1 \
+    && npm ci \
+    && npm run build
+
+FROM alpine:3.13
 
 VOLUME /data
 VOLUME /config
@@ -16,7 +25,7 @@ RUN echo "@community http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /et
     && mv /opt/transmission-ui/kettu-master /opt/transmission-ui/kettu \
     && echo "Install Transmission-Web-Control" \
     && mkdir /opt/transmission-ui/transmission-web-control \
-    && curl -sL `curl -s https://api.github.com/repos/ronggang/transmission-web-control/releases/latest | jq --raw-output '.tarball_url'` | tar -C /opt/transmission-ui/transmission-web-control/ --strip-components=2 -xz \
+    && curl -sL $(curl -s https://api.github.com/repos/ronggang/transmission-web-control/releases/latest | jq --raw-output '.tarball_url') | tar -C /opt/transmission-ui/transmission-web-control/ --strip-components=2 -xz \
     && ln -s /usr/share/transmission/web/style /opt/transmission-ui/transmission-web-control \
     && ln -s /usr/share/transmission/web/images /opt/transmission-ui/transmission-web-control \
     && ln -s /usr/share/transmission/web/javascript /opt/transmission-ui/transmission-web-control \
@@ -35,6 +44,9 @@ RUN echo "@community http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /et
     && ./configure --enable-compression --with-brotli  --with-mbedtls --enable-extended-statistics  \
     && make -j4 \
     && make install
+
+# Bring over flood UI from previous build stage
+COPY --from=FloodUIBuilder /tmp/flood/public /opt/transmission-ui/flood
 
 # Add configuration and scripts
 ADD openvpn/ /etc/openvpn/

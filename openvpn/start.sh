@@ -26,6 +26,11 @@ if compgen -e | grep -q "OVERRIDE_DNS"; then
     done
 fi
 
+# Test DNS resolution
+if ! nslookup ${HEALTH_CHECK_HOST:-"google.com"} 1>/dev/null 2>&1; then
+    echo "WARNING: initial DNS resolution test failed"
+fi
+
 # If create_tun_device is set, create /dev/net/tun
 if [[ "${CREATE_TUN_DEVICE,,}" == "true" ]]; then
   echo "Creating TUN device /dev/net/tun"
@@ -60,8 +65,12 @@ if [[ -n $OPENVPN_CONFIG_URL ]]; then
   MODIFY_CHOSEN_CONFIG=yeah
 elif [[ -x $VPN_PROVIDER_HOME/configure-openvpn.sh ]]; then
   echo "Provider $OPENVPN_PROVIDER has a custom setup script, executing it"
+  # Preserve $PWD in case it changes when sourcing the script
+  pushd -n "$PWD" > /dev/null
   # shellcheck source=/dev/null
   . "$VPN_PROVIDER_HOME"/configure-openvpn.sh
+  # Restore previous PWD
+  popd > /dev/null
   MODIFY_CHOSEN_CONFIG=yeah
 fi
 

@@ -1,15 +1,38 @@
 
 * [The container runs, but I can't access the web ui](#the_container_runs_but_i_cant_access_the_web_ui)
+* [How do I enable authentication in the web ui](#how_do_i_enable_authentication_in_the_web_ui)
 * [How do I verify that my traffic is using VPN](#how_do_i_verify_that_my_traffic_is_using_vpn)
 * [RTNETLINK answers: File exists](#rtnetlink_answers_file_exists)
+* [RTNETLINK answers: Invalid argument](#rtnetlink_answers_invalid_argument)
 * [TUNSETIFF tun: Operation not permitted](#tunsetiff_tun_operation_not_permitted)
 * [Error resolving host address](#error_resolving_host_address)
-* [AUTH: Received control message: AUTH_FAILED](#auth_received_control_message_auth_failed)
 * [Container loses connection after some time](#container_loses_connection_after_some_time)
+  * [Set the ping-exit option for OpenVPN and restart-flag in Docker](#set_the_ping-exit_option_for_openvpn_and_restart-flag_in_docker)
+  * [Use a third party tool to monitor and restart the container](#use_a_third_party_tool_to_monitor_and_restart_the_container)
+* [AUTH: Received control message: AUTH_FAILED](#auth_received_control_message_auth_failed)
 
 ## The container runs, but I can't access the web ui
 
 [TODO](https://github.com/haugene/docker-transmission-openvpn/issues/1558): Short explanation and link to [networking](vpn-networking.md)
+
+## How do I enable authentication in the web ui
+
+You can do this either by setting the appropriate fields in `settings.json` which is
+found in TRANSMISSION_HOME which defaults to `/data/transmission-home` so it will be available
+on your host where you mount the `/data` volume. Remember that Transmission overwrites the config
+when it shuts down, so do this when the container is not running.
+
+Or you can set it using the convenience environment variables. They will then override the settings
+on every container startup. The environment variables you have to set are:
+
+* `TRANSMISSION_RPC_USERNAME=username`
+* `TRANSMISSION_RPC_PASSWORD=password`
+* `TRANSMISSION_RPC_AUTHENTICATION_REQUIRED=true`
+
+PS: Be cautious of special characters in the username or password. We've had multiple errors with
+that and have not provided a fix yet. Escaping special characters could be an option, but the
+easiest solution is just to avoid them. Make the password longer instead ;)
+Or write it into `settings.json` manually as first described.
 
 ## How do I verify that my traffic is using VPN
 
@@ -31,6 +54,27 @@ Or you could use a test torrent service to download a torrent file and then you 
 
 [TODO](https://github.com/haugene/docker-transmission-openvpn/issues/1558): Conflicting LOCAL_NETWORK values. Short explanation and link to [networking](vpn-networking.md)
 
+## RTNETLINK answers: Invalid argument
+
+This can occur because you have specified an invalid **subnet** or possibly specified an IP Address in CIDR format instead of a subnet. Your LOCAL_NETWORK property must be aimed at a **subnet** and not at an IP Address. 
+
+A valid example would be
+
+     ```
+     LOCAL_NETWORK=10.80.0.0/24
+     ```
+
+but an invalid target route that would cause this error might be 
+
+     ```
+     #Invalid because the subnet for this range would be 10.20.30.0/24
+     LOCAL_NETWORK=10.20.30.45/24
+     ```
+
+To check your value, you can use a [subnet calculator](https://www.calculator.net/ip-subnet-calculator.html). 
+* Enter your IP Address - the portion before the mask, `10.20.30.45` here
+* select the subnet that matches - the `/24` portion here
+* Take the Network Address that is returned - `10.20.30.0` in this case 
 
 ## TUNSETIFF tun: Operation not permitted
 
@@ -131,7 +175,7 @@ up your credentials. We have had challenges with special characters. Having "?= 
 
 **NOTE** Some providers have multiple sets of credentials. Some for OpenVPN, others for web login, proxy solutions, etc.
 Make sure that you use the ones intended for OpenVPN. **PIA users:** this has recently changed. It used to be a separate pair, but now
-you should use the same login as you do in the web control panel. Before you were supposed to use a username like x12345, now its the p12345 one.
+you should use the same login as you do in the web control panel. Before you were supposed to use a username like x12345, now its the p12345 one. There is also a 99 character limit on password length.
 
 First check that your credentials are correct. Some providers have separate credentials for OpenVPN so it might not be the same as for their apps.
 Secondly, test a few different servers just to make sure that it's not just a faulty server. If this doesn't resolve it, it's probably the container.
