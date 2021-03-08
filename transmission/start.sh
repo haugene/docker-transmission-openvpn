@@ -37,13 +37,13 @@ if [[ "kettu" = "$TRANSMISSION_WEB_UI" ]]; then
 fi
 
 if [[ "transmission-web-control" = "$TRANSMISSION_WEB_UI" ]]; then
-  echo "Using Transmission Web Control  UI, overriding TRANSMISSION_WEB_HOME"
+  echo "Using Transmission Web Control UI, overriding TRANSMISSION_WEB_HOME"
   export TRANSMISSION_WEB_HOME=/opt/transmission-ui/transmission-web-control
 fi
 
 if [[ "flood" = "$TRANSMISSION_WEB_UI" ]]; then
-  echo "Using Transmission Web Control  UI, overriding TRANSMISSION_WEB_HOME"
-  export TRANSMISSION_WEB_HOME=/opt/transmission-ui/flood
+  echo "Using Flood for Transmission UI, overriding TRANSMISSION_WEB_HOME"
+  export TRANSMISSION_WEB_HOME=/opt/transmission-ui/flood-for-transmission
 fi
 
 echo "Updating Transmission settings.json with values from env variables"
