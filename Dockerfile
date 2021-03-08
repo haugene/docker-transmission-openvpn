@@ -1,12 +1,3 @@
-# Build Flood UI seperately to keep image size small
-FROM node:15.7.0-alpine3.12 AS FloodUIBuilder
-WORKDIR /tmp/flood
-
-RUN echo "Build Flood UI" \
-    && wget -qO- https://github.com/johman10/flood-for-transmission/archive/master.tar.gz | tar xz -C . --strip=1 \
-    && npm ci \
-    && npm run build
-
 FROM alpine:3.13
 
 VOLUME /data
@@ -16,6 +7,8 @@ RUN echo "@community http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /et
     && apk --no-cache add bash dumb-init ip6tables ufw@community openvpn shadow transmission-daemon transmission-cli \
         curl jq tzdata openrc tinyproxy tinyproxy-openrc openssh unrar git \
     && mkdir -p /opt/transmission-ui \
+    && echo "Install Flood for Transmission" \
+    && wget -qO- https://github.com/johman10/flood-for-transmission/releases/download/latest/flood-for-transmission.tar.gz | tar xz -C /opt/transmission-ui \
     && echo "Install Combustion" \
     && wget -qO- https://github.com/Secretmapper/combustion/archive/release.tar.gz | tar xz -C /opt/transmission-ui \
     && echo "Install kettu" \
@@ -32,9 +25,6 @@ RUN echo "@community http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /et
     && groupmod -g 1000 users \
     && useradd -u 911 -U -d /config -s /bin/false abc \
     && usermod -G users abc
-
-# Bring over flood UI from previous build stage
-COPY --from=FloodUIBuilder /tmp/flood/public /opt/transmission-ui/flood
 
 # Add configuration and scripts
 ADD openvpn/ /etc/openvpn/
