@@ -28,6 +28,12 @@ else
   else
     sed -i "s#regexp: placeholder#regexp: $rss_regex_esc#" /etc/transmission-rss.conf
   fi
+  if [[ $TRANSMISSION_RPC_ENABLED == 'true' ]] && [ -z $(grep login /etc/transmission-rss.conf) ]; then
+    echo "RPC enabled, adding login details to rss config as no login details exist"
+    printf "login:\n  username: $TRANSMISSION_RPC_USERNAME\n  password: $TRANSMISSION_RPC_PASSWORD" >>/etc/transmission-rss.conf
+  else
+    echo "Login already provided in config OR RPC does not seem to be enabled"
+  fi
 fi
 
 echo "Starting RSS plugin with the following config:"
