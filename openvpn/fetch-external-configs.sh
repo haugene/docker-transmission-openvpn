@@ -24,7 +24,7 @@ if [[ "${VPN_CONFIG_SOURCE_TYPE}" == "github_zip" ]]; then
   # Create a temporary file and download bundle to it
   config_repo_temp_zip_file=$(mktemp)
   echo "Downloading configs from ${GITHUB_CONFIG_BUNDLE_URL} into ${config_repo_temp_zip_file}"
-  curl -sSL -o "${config_repo_temp_zip_file}" "${GITHUB_CONFIG_BUNDLE_URL}"
+  curl -sSL --fail -o "${config_repo_temp_zip_file}" "${GITHUB_CONFIG_BUNDLE_URL}"
 
   # Create a temporary folder and extract configs there
   config_repo_temp_dir=$(mktemp -d)
