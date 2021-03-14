@@ -1,5 +1,9 @@
 #! /bin/bash
 
+set -o nounset
+set -o errexit
+set -o pipefail
+
 VPN_CONFIG_SOURCE_TYPE="${VPN_CONFIG_SOURCE_TYPE:-github_zip}"
 
 # Set default GitHub config repo
@@ -7,6 +11,12 @@ GITHUB_CONFIG_SOURCE_REPO="${GITHUB_CONFIG_SOURCE_REPO:-haugene/vpn-configs-cont
 GITHUB_CONFIG_SOURCE_REVISION="${GITHUB_CONFIG_SOURCE_REVISION:-main}"
 
 if [[ "${VPN_CONFIG_SOURCE_TYPE}" == "github_zip" ]]; then
+
+  function cleanup {
+    echo "Cleanup: deleting ${config_repo_temp_zip_file} and ${config_repo_temp_dir}"
+    rm -rf "${config_repo_temp_zip_file}" "${config_repo_temp_dir}"
+  }
+  trap cleanup EXIT
 
   # Concatenate URL for config bundle from the given GitHub repo
   GITHUB_CONFIG_BUNDLE_URL="https://github.com/${GITHUB_CONFIG_SOURCE_REPO}/archive/${GITHUB_CONFIG_SOURCE_REVISION}.zip"
@@ -33,8 +43,7 @@ if [[ "${VPN_CONFIG_SOURCE_TYPE}" == "github_zip" ]]; then
   rm -r "${VPN_PROVIDER_HOME}"
   mv "${provider_configs}" "${VPN_PROVIDER_HOME}"
 
-  # Clean up temporary files
-  rm -rf "${config_repo_temp_zip_file}" "${config_repo_temp_dir}"
+  exit 0
 
 else
     "ERROR: VPN config source type ${VPN_CONFIG_SOURCE_TYPE} does not exist..."
