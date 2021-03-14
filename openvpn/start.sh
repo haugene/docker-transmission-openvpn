@@ -46,8 +46,8 @@ fi
 
 # If no OPENVPN_PROVIDER is given, we default to "custom" provider.
 VPN_PROVIDER="${OPENVPN_PROVIDER:-custom}"
-VPN_PROVIDER="${VPN_PROVIDER,,}" # to lowercase
-VPN_PROVIDER_HOME="/etc/openvpn/${VPN_PROVIDER}"
+export VPN_PROVIDER="${VPN_PROVIDER,,}" # to lowercase
+export VPN_PROVIDER_HOME="/etc/openvpn/${VPN_PROVIDER}"
 mkdir -p "$VPN_PROVIDER_HOME"
 
 # Make sure that we have enough information to start OpenVPN
