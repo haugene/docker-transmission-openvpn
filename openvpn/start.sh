@@ -59,19 +59,43 @@ fi
 echo "Using OpenVPN provider: ${VPN_PROVIDER^^}"
 
 if [[ -n $OPENVPN_CONFIG_URL ]]; then
-  echo "Found URL to OpenVPN config, will download it."
+  echo "Found URL to single OpenVPN config, will download and use it."
   CHOSEN_OPENVPN_CONFIG=$VPN_PROVIDER_HOME/downloaded_config.ovpn
   curl -o "$CHOSEN_OPENVPN_CONFIG" -sSL "$OPENVPN_CONFIG_URL"
-  MODIFY_CHOSEN_CONFIG=yeah
-elif [[ -x $VPN_PROVIDER_HOME/configure-openvpn.sh ]]; then
-  echo "Provider $OPENVPN_PROVIDER has a custom setup script, executing it"
-  # Preserve $PWD in case it changes when sourcing the script
-  pushd -n "$PWD" > /dev/null
-  # shellcheck source=/dev/null
-  . "$VPN_PROVIDER_HOME"/configure-openvpn.sh
-  # Restore previous PWD
-  popd > /dev/null
-  MODIFY_CHOSEN_CONFIG=yeah
+fi
+
+if [[ -z ${CHOSEN_OPENVPN_CONFIG} ]]; then
+
+  # Support pulling configs from external config sources
+  VPN_CONFIG_SOURCE="${VPN_CONFIG_SOURCE:-auto}"
+  VPN_CONFIG_SOURCE="${VPN_CONFIG_SOURCE,,}" # to lowercase
+
+  echo "Running with VPN_CONFIG_SOURCE ${VPN_CONFIG_SOURCE}"
+
+  if [[ "${VPN_CONFIG_SOURCE}" == "auto" ]]; then
+    if [[ -x $VPN_PROVIDER_HOME/configure-openvpn.sh ]]; then
+      echo "Provider ${VPN_PROVIDER^^} has a bundled setup script. Defaulting to internal config"
+      VPN_CONFIG_SOURCE=internal
+    else
+      echo "No bundled config script found for ${VPN_PROVIDER^^}. Defaulting to external config"
+      VPN_CONFIG_SOURCE=external
+    fi
+  fi
+
+  if [[ "${VPN_CONFIG_SOURCE}" == "external" ]]; then
+    # shellcheck source=openvpn/fetch-external-configs.sh
+    ./etc/openvpn/fetch-external-configs.sh
+  fi
+
+  if [[ -x $VPN_PROVIDER_HOME/configure-openvpn.sh ]]; then
+    echo "Executing setup script for $OPENVPN_PROVIDER"
+    # Preserve $PWD in case it changes when sourcing the script
+    pushd -n "$PWD" > /dev/null
+    # shellcheck source=/dev/null
+    . "$VPN_PROVIDER_HOME"/configure-openvpn.sh
+    # Restore previous PWD
+    popd > /dev/null
+  fi
 fi
 
 if [[ -z ${CHOSEN_OPENVPN_CONFIG} ]]; then
@@ -109,8 +133,9 @@ if [[ -z ${CHOSEN_OPENVPN_CONFIG} ]]; then
   fi
 fi
 
-# The config file we're supposed to use is chosen, modify it if necessary
-if [[ -n $MODIFY_CHOSEN_CONFIG ]]; then
+MODIFY_CHOSEN_CONFIG="${MODIFY_CHOSEN_CONFIG:-true}"
+# The config file we're supposed to use is chosen, modify it to fit this container setup
+if [[ "${MODIFY_CHOSEN_CONFIG,,}" == "true" ]]; then
   # shellcheck source=openvpn/modify-openvpn-config.sh
   /etc/openvpn/modify-openvpn-config.sh "$CHOSEN_OPENVPN_CONFIG"
 fi
