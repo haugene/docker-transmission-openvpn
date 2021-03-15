@@ -19,19 +19,20 @@ CONFIG_MOD_PING=${CONFIG_MOD_PING:-"1"}
 
 ## Option 1 - Change the auth-user-pass line to point to credentials file
 if [[ $CONFIG_MOD_USERPASS == "1" ]]; then
-    [[ "${DEBUG}" == "true" ]] && echo "Point auth-user-pass option to the username/password file"
+    echo "Modification: Point auth-user-pass option to the username/password file"
     sed -i "s#auth-user-pass.*#auth-user-pass /config/openvpn-credentials.txt#g" "$CONFIG"
 fi
 
 ## Option 2 - Change the ca certificate path to point relative to the provider home
 if [[ $CONFIG_MOD_CA_CERTS == "1" ]]; then
-    [[ "${DEBUG}" == "true" ]] && echo "Change ca certificate path"
+    echo "Modification: Change ca certificate path"
     config_directory=$(dirname "$CONFIG")
     sed -i "s#^ca #ca $config_directory/#g" "$CONFIG"
 fi
 
 ## Option 3 - Update ping options to exit the container, so Docker will restart it
 if [[ $CONFIG_MOD_PING == "1" ]]; then
+    echo "Modification: Change ping options"
     # Remove any old options
     sed -i "s/^ping.*//g" "$CONFIG"
 
