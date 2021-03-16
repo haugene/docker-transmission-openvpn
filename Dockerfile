@@ -51,7 +51,7 @@ COPY --from=FloodUIBuilder /tmp/flood/public /opt/transmission-ui/flood
 ADD openvpn/ /etc/openvpn/
 ADD transmission/ /etc/transmission/
 ADD scripts /etc/scripts/
-ADD privoxy /opt/privoxy/
+ADD privoxy/scripts /opt/privoxy/
 ADD privoxy/config /usr/local/etc/privoxy/config
 
 ENV OPENVPN_USERNAME=**None** \
