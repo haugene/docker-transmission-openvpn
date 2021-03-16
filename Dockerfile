@@ -27,7 +27,7 @@ VOLUME /config
 
 RUN echo "@community http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
     && apk --no-cache add bash dumb-init ip6tables ufw@community openvpn shadow transmission-daemon transmission-cli \
-        curl jq tzdata openrc openssh unrar git \
+        curl jq tzdata openrc openssh unrar git pcre mbedtls \
     && mkdir -p /opt/transmission-ui \
     && echo "Install Combustion" \
     && wget -qO- https://github.com/Secretmapper/combustion/archive/release.tar.gz | tar xz -C /opt/transmission-ui \
