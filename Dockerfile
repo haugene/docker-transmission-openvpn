@@ -42,7 +42,7 @@ RUN echo "@community http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /et
     && autoconf \
     && ./configure --enable-compression --with-brotli  --with-mbedtls --enable-extended-statistics  \
     && make -j4 \
-    && make install
+    && make install-strip
 
 # Bring over flood UI from previous build stage
 COPY --from=FloodUIBuilder /tmp/flood/public /opt/transmission-ui/flood
