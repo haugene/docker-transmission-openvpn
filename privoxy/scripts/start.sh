@@ -42,13 +42,13 @@ if [[ "${WEBPROXY_ENABLED}" = "true" ]]; then
 
   echo "STARTING PRIVOXY"
 
-    find_proxy_conf
-    echo "Found config file $PROXY_CONF, updating settings."
+  find_proxy_conf
+  echo "Found config file $PROXY_CONF, updating settings."
 
-    set_port ${WEBPROXY_PORT} ${PROXY_CONF}
+  set_port ${WEBPROXY_PORT} ${PROXY_CONF}
 
-    cd /usr/local/etc/privoxy
-    /usr/local/sbin/privoxy config
+  cd /usr/local/etc/privoxy
+  /usr/local/sbin/privoxy config
 
   echo "privoxy startup script complete."
 
