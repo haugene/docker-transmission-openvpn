@@ -7,16 +7,27 @@ RUN echo "Build Flood UI" \
     && npm ci \
     && npm run build
 
+FROM alpine:latest AS PrivoxyBuilder
+WORKDIR /tmp/privoxy
+
+RUN echo "Build Privoxy" \
+    && apk --no-cache add curl bash brotli-dev autoconf build-base libc-utils pkgconf lzip zlib-dev pcre-dev mbedtls-dev w3m \
+    && addgroup -S privoxy && adduser -S privoxy -G privoxy \
+    && curl -sL https://www.privoxy.org/sf-download-mirror/Sources/3.0.29%20%28stable%29/privoxy-3.0.29-stable-src.tar.gz | tar -C . --strip-components=2 -xz \
+    && autoheader \
+    && autoconf \
+    && ./configure --enable-compression --with-brotli  --with-mbedtls --enable-extended-statistics  \
+    && make -j4 \
+    && make install-strip
+
 FROM alpine:3.13
 
 VOLUME /data
 VOLUME /config
 
-#libressl3.1-libcrypto openssl-dev ?
 RUN echo "@community http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
     && apk --no-cache add bash dumb-init ip6tables ufw@community openvpn shadow transmission-daemon transmission-cli \
         curl jq tzdata openrc openssh unrar git \
-         brotli-dev autoconf build-base libc-utils pkgconf lzip zlib-dev pcre-dev mbedtls-dev w3m \
     && mkdir -p /opt/transmission-ui \
     && echo "Install Combustion" \
     && wget -qO- https://github.com/Secretmapper/combustion/archive/release.tar.gz | tar xz -C /opt/transmission-ui \
@@ -34,18 +45,13 @@ RUN echo "@community http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /et
     && groupmod -g 1000 users \
     && useradd -u 911 -U -d /config -s /bin/false abc \
     && usermod -G users abc \
-    && addgroup -S privoxy && adduser -S privoxy -G privoxy \
-    && mkdir /opt/privoxy \
-    && curl -sL https://www.privoxy.org/sf-download-mirror/Sources/3.0.29%20%28stable%29/privoxy-3.0.29-stable-src.tar.gz | tar -C /opt/privoxy --strip-components=2 -xz \
-    && cd /opt/privoxy \
-    && autoheader \
-    && autoconf \
-    && ./configure --enable-compression --with-brotli  --with-mbedtls --enable-extended-statistics  \
-    && make -j4 \
-    && make install-strip
+    && addgroup -S privoxy && adduser -S privoxy -G privoxy
 
 # Bring over flood UI from previous build stage
 COPY --from=FloodUIBuilder /tmp/flood/public /opt/transmission-ui/flood
+
+COPY --from=PrivoxyBuilder /usr/local/etc/privoxy /usr/local/etc/privoxy
+COPY --from=PrivoxyBuilder /usr/local/sbin/privoxy /usr/local/sbin/privoxy
 
 # Add configuration and scripts
 ADD openvpn/ /etc/openvpn/
