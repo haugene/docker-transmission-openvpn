@@ -37,7 +37,6 @@ RUN echo "@community http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /et
     && addgroup -S privoxy && adduser -S privoxy -G privoxy \
     && mkdir /opt/privoxy \
     && curl -sL https://www.privoxy.org/sf-download-mirror/Sources/3.0.29%20%28stable%29/privoxy-3.0.29-stable-src.tar.gz | tar -C /opt/privoxy --strip-components=2 -xz \
-    # && git clone https://www.privoxy.org/git/privoxy.git /opt/privoxy \
     && cd /opt/privoxy \
     && autoheader \
     && autoconf \
