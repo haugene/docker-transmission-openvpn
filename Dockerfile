@@ -15,7 +15,7 @@ VOLUME /config
 #libressl3.1-libcrypto openssl-dev ?
 RUN echo "@community http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
     && apk --no-cache add bash dumb-init ip6tables ufw@community openvpn shadow transmission-daemon transmission-cli \
-        curl jq tzdata openrc tinyproxy tinyproxy-openrc openssh unrar git \
+        curl jq tzdata openrc openssh unrar git \
          brotli-dev autoconf build-base libc-utils pkgconf lzip zlib-dev pcre-dev mbedtls-dev w3m \
     && mkdir -p /opt/transmission-ui \
     && echo "Install Combustion" \
@@ -50,8 +50,8 @@ COPY --from=FloodUIBuilder /tmp/flood/public /opt/transmission-ui/flood
 # Add configuration and scripts
 ADD openvpn/ /etc/openvpn/
 ADD transmission/ /etc/transmission/
-ADD tinyproxy /opt/tinyproxy/
 ADD scripts /etc/scripts/
+ADD privoxy /opt/privoxy/
 ADD privoxy/config /usr/local/etc/privoxy/config
 
 ENV OPENVPN_USERNAME=**None** \

@@ -63,7 +63,7 @@ This means that Transmission will be started when OpenVPN has connected successf
 We are having OpenVPN call the [tunnelUp.sh](https://github.com/haugene/docker-transmission-openvpn/blob/master/openvpn/tunnelUp.sh)
 script which in turn will call the start scripts for
 [Transmission](https://github.com/haugene/docker-transmission-openvpn/blob/master/transmission/start.sh) and 
-[Tinyproxy](https://github.com/haugene/docker-transmission-openvpn/blob/master/tinyproxy/start.sh).
+[Privoxy](https://github.com/haugene/docker-transmission-openvpn/blob/master/privoxy/start.sh).
 
 The up script will be called with a number of parameters from OpenVPN, and among them is the IP of the tunnel interface.
 This IP is the one we've been assigned by DHCP from the OpenVPN server we're connecting to.

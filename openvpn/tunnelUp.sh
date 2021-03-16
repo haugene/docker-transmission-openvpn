@@ -40,6 +40,6 @@ if [ "${PEER_DNS}" != "no" ]; then
 fi
 
 /etc/transmission/start.sh "$@"
-[[ ! -f /opt/tinyproxy/start.sh ]] || /opt/tinyproxy/start.sh
+[[ ! -f /opt/privoxy/start.sh ]] || /opt/privoxy/start.sh
 
 exit 0
