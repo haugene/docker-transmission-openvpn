@@ -10,7 +10,7 @@ find_proxy_conf()
     elif [[ -f /usr/local/etc/privoxy/privoxy/config ]]; then
       PROXY_CONF='/usr/local/etc/privoxy/privoxy/config'
     else
-     echo "ERROR: Could not find tinyproxy config file. Exiting..."
+     echo "ERROR: Could not find privoxy config file. Exiting..."
      exit 1
     fi
 }
@@ -24,13 +24,13 @@ set_port()
     echo "Port [$1]: Not a number" >&2; exit 1
   fi
 
-  # Port: Specify the port which tinyproxy will listen on.  Please note
+  # Port: Specify the port which privoxy will listen on.  Please note
   # that should you choose to run on a port lower than 1024 you will need
-  # to start tinyproxy using root.
+  # to start privoxy using root.
 
   if test $1 -lt 1024
   then
-    echo "tinyproxy: $1 is lower than 1024. Ports below 1024 are not permitted.";
+    echo "privoxy: $1 is lower than 1024. Ports below 1024 are not permitted.";
     exit 1
   fi
 
