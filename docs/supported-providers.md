@@ -1,4 +1,4 @@
-This is a list of providers that are bundled within the image. Feel free to create an issue if your provider is not on the list, but keep in mind that some providers generate config files per user. This means that your login credentials are part of the config an can therefore not be bundled. In this case you can use the custom provider setup described later in this readme. The custom provider setting can be used with any provider.
+This is a list of providers that are currently usable with the image (*TODO update with latest list). Feel free to create an issue at the NEW provider repo: https://github.com/haugene/vpn-configs-contrib if your provider is not on the list, but keep in mind that some providers generate config files per user. This means that your login credentials are part of the config an can therefore not be bundled. In this case you can use the custom provider setup described later in this readme. The custom provider setting can be used with any provider.
 
 | Provider Name           | Config Value (`OPENVPN_PROVIDER`) |
 | :---------------------- | :-------------------------------- |
@@ -53,8 +53,9 @@ This is a list of providers that are bundled within the image. Feel free to crea
 | ZoogVPN                 | `ZOOGVPN`                         |
 
 ## Adding new providers
-If your VPN provider is not in the list of supported providers you could always create an issue on GitHub and see if someone could add it for you. But if you're feeling up for doing it yourself, here's a couple of pointers.
+If your VPN provider is not in the list of supported providers you could always create an issue on GitHub at our dedicated provider repo: https://github.com/haugene/vpn-configs-contrib and see if someone could add it for you. But if you're feeling up for doing it yourself, here's a couple of pointers.
 
+(*TODO this section will need quite a bit of updates once the split is released)
 You clone this repository and create a new folder under "openvpn" where you put the .ovpn files your provider gives you. Depending on the structure of these files you need to make some adjustments. For example if they come with a ca.crt file that is referenced in the config you need to update this reference to the path it will have inside the container (which is /etc/openvpn/...). You also have to set where to look for your username/password.
 
 There is a script called adjustConfigs.sh that could help you. After putting your .ovpn files in a folder, run that script with your folder name as parameter and it will try to do the changes described above. If you use it or not, reading it might give you some help in what you're looking to change in the .ovpn files.

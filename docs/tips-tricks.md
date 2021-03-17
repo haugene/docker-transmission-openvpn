@@ -26,6 +26,8 @@ now be fixed. If you have issues and the logs seem to blame "/dev/net/tun" in so
 then you might consider trying to mount a host device and see if that works better.
 Setting up a TUN device is probably easiest to accomplish by installing an OpenVPN package
 for the NAS. This should set up the device and you can mount it.
+There are some issues involved running it on Synology NAS, 
+Please see following issue that discusses [solutions](https://github.com/haugene/docker-transmission-openvpn/issues/1542#issuecomment-793605649)
 
 #### Systemd Integration
 On many modern linux systems, including Ubuntu, systemd can be used to start the transmission-openvpn at boot time, and restart it after any failure.

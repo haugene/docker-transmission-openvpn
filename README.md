@@ -23,6 +23,10 @@ Still can't figure it out? Open a new issue and share the details of your setup 
 Without that it's hard to help you. If you have a proposal for better documentation, come
 with it. PR's are always welcome! :)
 
+**FYI**: We are preparing for a 4.0 release where we will extract the bundled .ovpn configs into a separate repository.
+If you are running the dev branch and experience issues, please let us know.
+The documentation might be a bit out of sync for a while. We're on it :)
+
 ## Quick Start
 
 These examples shows valid setups using PIA as provider for both

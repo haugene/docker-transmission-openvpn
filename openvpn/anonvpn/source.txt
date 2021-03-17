@@ -1,2 +1,0 @@
-downloaded from https://www.anonvpn.io/ios_instructions.php
-for your username you'll need to prefix it with anonvpn-, i.e. anonvpn-user@mail.com

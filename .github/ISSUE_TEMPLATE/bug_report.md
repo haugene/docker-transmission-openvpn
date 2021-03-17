@@ -18,6 +18,7 @@ If you do not follow the template and show that you have done this, your issue w
 -->
 ## Before creating this issue I have:
 <!-- Put an X (capital X,no space) in the boxes to tick them, like this [X] -->
+- [] Read through the pinned issues for related problems
 - [] Searched for [similar issues](https://github.com/haugene/docker-transmission-openvpn/issues)
 - [] [Read the documentation](https://haugene.github.io/docker-transmission-openvpn/). Especially the troubleshooting section and FAQ
 - [] Tried to add as much relevant information to the issue as possible
