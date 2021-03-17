@@ -1,8 +1,5 @@
 #!/bin/bash
 
-set -o errexit
-set -o pipefail
-
 ##
 # Get some initial setup out of the way.
 ##
