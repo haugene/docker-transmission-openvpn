@@ -29,6 +29,8 @@ RUN echo "@community http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /et
     && apk --no-cache add bash dumb-init ip6tables ufw@community openvpn shadow transmission-daemon transmission-cli \
         curl jq tzdata openrc openssh unrar git pcre mbedtls \
     && mkdir -p /opt/transmission-ui \
+    && echo "Install Flood for Transmission" \
+    && wget -qO- https://github.com/johman10/flood-for-transmission/releases/download/latest/flood-for-transmission.tar.gz | tar xz -C /opt/transmission-ui \
     && echo "Install Combustion" \
     && wget -qO- https://github.com/Secretmapper/combustion/archive/release.tar.gz | tar xz -C /opt/transmission-ui \
     && echo "Install kettu" \
