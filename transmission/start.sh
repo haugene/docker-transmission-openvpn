@@ -42,6 +42,12 @@ if [[ "transmission-web-control" = "$TRANSMISSION_WEB_UI" ]]; then
 fi
 
 if [[ "flood" = "$TRANSMISSION_WEB_UI" ]]; then
+  echo "WARNING: Using TRANSMISSION_WEB_UI=flood is deprecated. Use TRANSMISSION_WEB_UI=flood-for-transmission instead"
+  echo "WARNING: We will load flood-for-transmission for you now, but this will break with the next major release"
+  export TRANSMISSION_WEB_HOME=/opt/transmission-ui/flood-for-transmission
+fi
+
+if [[ "flood-for-transmission" = "$TRANSMISSION_WEB_UI" ]]; then
   echo "Using Flood for Transmission UI, overriding TRANSMISSION_WEB_HOME"
   export TRANSMISSION_WEB_HOME=/opt/transmission-ui/flood-for-transmission
 fi
