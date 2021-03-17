@@ -52,16 +52,21 @@ By default the startup script applies a default set of permissions and ownership
 | -------------------------- | -------------------------------------- | -------------------------------- |
 | `GLOBAL_APPLY_PERMISSIONS` | Disable setting of default permissions | `GLOBAL_APPLY_PERMISSIONS=false` |
 
-### Alternative web UIs
+### Alternative Web UIs
 
-You can override the default web UI by setting the `TRANSMISSION_WEB_HOME` environment variable. If set, Transmission will look there for the Web Interface files, such as the javascript, html, and graphics files.
+This container comes bundled with some alternative Web UIs:
 
-[Combustion UI](https://github.com/Secretmapper/combustion), [Kettu](https://github.com/endor/kettu), [Transmission-Web-Control](https://github.com/ronggang/transmission-web-control/), and [Flood for Transmission](https://github.com/johman10/flood-for-transmission) come bundled with the container. You can enable one of them by setting`TRANSMISSION_WEB_UI=combustion`, `TRANSMISSION_WEB_UI=kettu`, `TRANSMISSION_WEB_UI=transmission-web-control`, or `TRANSMISSION_WEB_UI=flood` respectively. Note that this will override the `TRANSMISSION_WEB_HOME` variable if set.
+* [Combustion UI](https://github.com/Secretmapper/combustion)
+* [Kettu](https://github.com/endor/kettu)
+* [Transmission-Web-Control](https://github.com/ronggang/transmission-web-control/)
+* [Flood for Transmission](https://github.com/johman10/flood-for-transmission)
+
+To use one of them instead of the default Transmission UI you can set `TRANSMISSION_WEB_UI`
+to either `combustion`, `kettu`, `transmission-web-control` or `flood-for-transmission` respectively.
 
 | Variable                | Function                         | Example                                                                                                                                       |
 | ----------------------- | -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| `TRANSMISSION_WEB_HOME` | Set Transmission web home        | `TRANSMISSION_WEB_HOME=/path/to/web/ui`                                                                                                       |
-| `TRANSMISSION_WEB_UI`   | Use the specified bundled web UI | `TRANSMISSION_WEB_UI=combustion`, `TRANSMISSION_WEB_UI=kettu`, `TRANSMISSION_WEB_UI=transmission-web-control`, or `TRANSMISSION_WEB_UI=flood` |
+| `TRANSMISSION_WEB_UI`   | Use the specified bundled web UI | `TRANSMISSION_WEB_UI=combustion` <br>`TRANSMISSION_WEB_UI=kettu` <br>`TRANSMISSION_WEB_UI=transmission-web-control` <br>`TRANSMISSION_WEB_UI=flood-for-transmission` |
 
 ### User configuration options
 
