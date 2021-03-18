@@ -16,12 +16,12 @@ Please elaborate on what you tried before opening this issue.
 <b>If you do not follow the template and show that you have done this, your issue will be closed without further comment!!</b>
 
 ## Before creating this issue I have:
-<!-- Put an X (capital X,no space) in the boxes to tick them, like this [X] -->
-- [] Read through the pinned issues for related problems
-- [] Searched for [similar issues](https://github.com/haugene/docker-transmission-openvpn/issues)
-- [] [Read the documentation](https://haugene.github.io/docker-transmission-openvpn/). Especially the troubleshooting section and FAQ
-- [] Tried to add as much relevant information to the issue as possible
-- [] Verified I have tried using newest release as well
+<!-- Please tick all boxes -->
+- [ ] Read through the pinned issues for related problems
+- [ ] Searched for [similar issues](https://github.com/haugene/docker-transmission-openvpn/issues)
+- [ ] [Read the documentation](https://haugene.github.io/docker-transmission-openvpn/). Especially the troubleshooting section and FAQ
+- [ ] Tried to add as much relevant information to the issue as possible
+- [ ] Verified I have tried using newest release as well
 
 
 ### Container version & last working release
