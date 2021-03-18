@@ -16,7 +16,7 @@ Please elaborate on what you tried before opening this issue.
 <b>If you do not follow the template and show that you have done this, your issue will be closed without further comment!!</b>
 
 ## Before creating this issue I have:
-<!-- Please tick all boxes -->
+<!-- Please tick all boxes, mark like [X] and check preview to make sure its ticked -->
 - [ ] Read through the pinned issues for related problems
 - [ ] Searched for [similar issues](https://github.com/haugene/docker-transmission-openvpn/issues)
 - [ ] [Read the documentation](https://haugene.github.io/docker-transmission-openvpn/). Especially the troubleshooting section and FAQ
