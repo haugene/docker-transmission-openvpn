@@ -44,7 +44,7 @@ Please elaborate on what you tried before opening this issue.
 <!-- Check your logs and compare it with the FAQ section of the documentation -->
 
 **REQUIRED**
-```
+```txt
 <placeholder>
 ```
 ### Describe the steps you have tried to solve the problem
@@ -60,7 +60,7 @@ Please elaborate on what you tried before opening this issue.
 <!-- (please paste into the code block) -->
 
 **REQUIRED**
-```
+```txt
 <-- Paste here -->
 ```
 
@@ -69,7 +69,7 @@ Please elaborate on what you tried before opening this issue.
 <!-- (please paste into the code block) -->
 
 **REQUIRED**
-```
+```txt
 <-- Paste here -->
 ```
 
@@ -92,7 +92,7 @@ Make sure you include all the log-->
 -->
 
 **REQUIRED**
-```
+```txt
 <-- Paste here -->
 ```
 
@@ -102,6 +102,7 @@ Which version of Docker are you using? -->
 <!-- (please paste into the code block) -->
 
 **REQUIRED**
-```
+```txt
 <-- Paste here -->
 ```
+<!-- check *Preview Issue* before submitting -->
