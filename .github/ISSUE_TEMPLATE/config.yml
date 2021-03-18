@@ -1,1 +1,5 @@
 blank_issues_enabled: false
+contact_links:
+  - name: Requesting new providers/provider specific problems
+    url: https://github.com/haugene/vpn-configs-contrib/issues
+    about: This is the issue tracker for our backend. Please report issues with specific providers in the provider repo.
