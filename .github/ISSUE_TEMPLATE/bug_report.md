@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Container is not behaving as expected
+about: Container is not behaving as expected, please make sure this is docker/transmission related and NOT provider related
 title: ''
 labels: 'bug'
 assignees: ''
@@ -21,11 +21,15 @@ Please elaborate on what you tried before opening this issue.
 <!-- Put an X (no space) in the boxes to tick them, like this [X], check *Preview Issue* to make sure they are ticked -->
 **REQUIRED**
 - [ ] Read through the pinned issues for related problems
-- [ ] Searched for [similar issues](https://github.com/haugene/docker-transmission-openvpn/issues)
-- [ ] [Read the documentation](https://haugene.github.io/docker-transmission-openvpn/). Especially the troubleshooting section and FAQ
+- [ ] Searched for similar [provider issues][pi] and [container issues][ci]
+- [ ] [Read the documentation][rd], especially the troubleshooting section and FAQ
 - [ ] Tried to add as much relevant information to the issue as possible
 - [ ] Verified I have tried using newest release as well
 - [ ] Agreed that my issue will be closed if I do not follow this template and will remain closed until I complete the template
+
+[pi]: https://github.com/haugene/vpn-configs-contrib/issues
+[ci]: https://github.com/haugene/docker-transmission-openvpn/issues
+[rd]: https://haugene.github.io/docker-transmission-openvpn/
 
 
 ### Container version & last working release
