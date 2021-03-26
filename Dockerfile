@@ -1,12 +1,3 @@
-# Build Flood UI seperately to keep image size small
-FROM node:15.7.0-alpine3.12 AS FloodUIBuilder
-WORKDIR /tmp/flood
-
-RUN echo "Build Flood UI" \
-    && wget -qO- https://github.com/johman10/flood-for-transmission/archive/master.tar.gz | tar xz -C . --strip=1 \
-    && npm ci \
-    && npm run build
-
 FROM alpine:latest AS PrivoxyBuilder
 WORKDIR /tmp/privoxy
 
@@ -48,9 +39,6 @@ RUN echo "@community http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /et
     && useradd -u 911 -U -d /config -s /bin/false abc \
     && usermod -G users abc \
     && addgroup -S privoxy && adduser -S privoxy -G privoxy
-
-# Bring over flood UI from previous build stage
-COPY --from=FloodUIBuilder /tmp/flood/public /opt/transmission-ui/flood
 
 COPY --from=PrivoxyBuilder /usr/local/etc/privoxy /usr/local/etc/privoxy
 COPY --from=PrivoxyBuilder /usr/local/sbin/privoxy /usr/local/sbin/privoxy
