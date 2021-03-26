@@ -40,7 +40,7 @@ if [[ "${VPN_CONFIG_SOURCE_TYPE}" == "github_zip" ]]; then
 
   # Replace current provider home folder with the downloaded directory
   echo "Found configs for ${VPN_PROVIDER^^} in ${provider_configs}, will replace current content in ${VPN_PROVIDER_HOME}"
-  rm -r "${VPN_PROVIDER_HOME}"
+  rm -rf "${VPN_PROVIDER_HOME}"
   mv "${provider_configs}" "${VPN_PROVIDER_HOME}"
 
   exit 0
