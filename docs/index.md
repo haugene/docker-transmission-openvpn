@@ -54,5 +54,5 @@ could be wrong. So starting with number 1 is never a bad idea.
 
 ## Additional features
 
-* [Web proxy: Tinyproxy](web-proxy.md)
+* [Web proxy: Privoxy](web-proxy.md)
 * [RSS Plugin support](rss-plugin.md)
