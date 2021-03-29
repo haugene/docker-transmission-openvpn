@@ -1,55 +1,55 @@
 #!/bin/bash
 
 # Source our persisted env variables from container startup
+# shellcheck source=/dev/null
 . /etc/transmission/environment-variables.sh
-
-find_proxy_conf()
-{
-    if [[ -f /usr/local/etc/privoxy/config ]]; then
-      PROXY_CONF='/usr/local/etc/privoxy/config'
-    elif [[ -f /usr/local/etc/privoxy/privoxy/config ]]; then
-      PROXY_CONF='/usr/local/etc/privoxy/privoxy/config'
-    else
-     echo "ERROR: Could not find privoxy config file. Exiting..."
-     exit 1
-    fi
-}
 
 set_port()
 {
-  expr $1 + 0 1>/dev/null 2>&1
-  status=$?
-  if test ${status} -gt 1
-  then
-    echo "Port [$1]: Not a number" >&2; exit 1
+  re='^[0-9]+$'
+  if ! [[ $1 =~ $re ]] ; then
+    echo "Privoxy: ERROR. Supplied port $1 is not a number" >&2; exit 1
   fi
 
   # Port: Specify the port which privoxy will listen on.  Please note
   # that should you choose to run on a port lower than 1024 you will need
   # to start privoxy using root.
 
-  if test $1 -lt 1024
+  if test "$1" -lt 1024
   then
     echo "privoxy: $1 is lower than 1024. Ports below 1024 are not permitted.";
     exit 1
   fi
 
-  echo "Setting privoxy port to $1";
-  sed -i -e"s,^listen-address .*,listen-address 0.0.0.0:$1," $2
+  echo "Privoxy: Setting port to $1";
+
+  # Set the port for the IPv4 interface
+  sed -i -E "s/^listen-address\s+127.*/listen-address 0.0.0.0:$1/" "$2"
+
+  # Remove the listen-address for IPv6 for now. IPv6 compatibility should come later
+  sed -i -E "s/^listen-address\s+\[\:\:1.*//" "$2"
 }
 
 if [[ "${WEBPROXY_ENABLED}" = "true" ]]; then
 
-  echo "STARTING PRIVOXY"
+  echo "Privoxy: Starting"
 
-  find_proxy_conf
-  echo "Found config file $PROXY_CONF, updating settings."
+  PROXY_CONF=/etc/privoxy/config
+  echo "Privoxy: Using config file at $PROXY_CONF"
 
-  set_port ${WEBPROXY_PORT} ${PROXY_CONF}
+  set_port "${WEBPROXY_PORT}" "${PROXY_CONF}"
 
-  cd /usr/local/etc/privoxy
-  /usr/local/sbin/privoxy config
+  /usr/sbin/privoxy --pidfile /opt/privoxy/pidfile ${PROXY_CONF}
+  sleep 1 # Give it one sec to start up, or at least create the pidfile
 
-  echo "privoxy startup script complete."
+  if [[ -f /opt/privoxy/pidfile ]]; then
+    privoxy_pid=$(cat /opt/privoxy/pidfile)
+    echo "Privoxy: Running as PID $privoxy_pid"
+  else
+    echo "Privoxy: ERROR. Did not start correctly, outputting logs"
+    echo
+    cat /var/log/privoxy/logfile
+    echo
+  fi
 
 fi

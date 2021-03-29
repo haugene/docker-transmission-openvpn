@@ -2,6 +2,6 @@
 
 if [[ "${WEBPROXY_ENABLED}" = "true" ]]; then
 
-  killall privoxy
+  pkill privoxy
 
 fi

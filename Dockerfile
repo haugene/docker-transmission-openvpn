@@ -5,7 +5,7 @@ VOLUME /config
 
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y \
-    dumb-init openvpn transmission-daemon transmission-cli \
+    dumb-init openvpn transmission-daemon transmission-cli privoxy \
     tzdata iputils-ping ufw openssh-client git jq curl wget unrar unzip bc \
     && mkdir -p /opt/transmission-ui \
     && echo "Install Flood for Transmission" \
@@ -33,7 +33,6 @@ ADD openvpn/ /etc/openvpn/
 ADD transmission/ /etc/transmission/
 ADD scripts /etc/scripts/
 ADD privoxy/scripts /opt/privoxy/
-ADD privoxy/config /usr/local/etc/privoxy/config
 
 ENV OPENVPN_USERNAME=**None** \
     OPENVPN_PASSWORD=**None** \
