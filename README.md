@@ -2,7 +2,6 @@
 
 [![CircleCI builds](https://img.shields.io/circleci/build/github/haugene/docker-transmission-openvpn)](https://circleci.com/gh/haugene/docker-transmission-openvpn)
 [![Docker Pulls](https://img.shields.io/docker/pulls/haugene/transmission-openvpn.svg)](https://hub.docker.com/r/haugene/transmission-openvpn/)
-[![Join the chat at https://gitter.im/docker-transmission-openvpn/Lobby](https://badges.gitter.im/docker-transmission-openvpn/Lobby.svg)](https://gitter.im/docker-transmission-openvpn/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 This container contains OpenVPN and Transmission with a configuration
 where Transmission is running only when OpenVPN has an active tunnel.
@@ -14,18 +13,22 @@ The documentation for this image is here:
 
 https://haugene.github.io/docker-transmission-openvpn/
 
-Start there if you're having issues or questions about your container.
-If you can't find your answer in the docs, please
-[search for similar issues](https://github.com/haugene/docker-transmission-openvpn/issues?q=is%3Aissue+your+issue)
-(open and closed) before opening a new one.
+Start there if you're having issues or questions about your container. Another great source of information is
+to [search for similar issues](https://github.com/haugene/docker-transmission-openvpn/issues?q=is%3Aissue+your+issue).
 
-Still can't figure it out? Open a new issue and share the details of your setup and some logs.
-Without that it's hard to help you. If you have a proposal for better documentation, come
-with it. PR's are always welcome! :)
+We're also in the process of setting up GitHub Discussions for general help and Q&A sections. If you've tried
+everything else you can create an issue, but we might convert it to a discussion if it does not relate to an actual
+problem or feature request with the container itself.
 
-**FYI**: We are preparing for a 4.0 release where we will extract the bundled .ovpn configs into a separate repository.
-If you are running the dev branch and experience issues, please let us know.
-The documentation might be a bit out of sync for a while. We're on it :)
+**Release 4.0:**
+We've recently released version 4.0 which brings the following major changes:
+* Image is based on Ubuntu instead of Alpine
+* OpenVPN config files are moved to a separate repository
+* Replaced Tinyproxy with Privoxy for our web proxy
+
+If you're experiencing issues with the new major version please open an issue for it. As a temporary workaround
+you can have a look at our [releases](https://github.com/haugene/docker-transmission-openvpn/releases) and
+downgrade to one of the 3.x versions instead.
 
 ## Quick Start
 
