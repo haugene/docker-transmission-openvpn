@@ -66,7 +66,7 @@ jobs:
           name: Download and install docker-buildx plugin
           command: |
             mkdir -p ~/.docker/cli-plugins
-            curl -sSL https://github.com/docker/buildx/releases/download/v0.4.2/buildx-v0.4.2.linux-amd64 -o ~/.docker/cli-plugins/docker-buildx
+            curl -sSL https://github.com/docker/buildx/releases/download/v0.5.1/buildx-v0.5.1.linux-amd64 -o ~/.docker/cli-plugins/docker-buildx
             chmod a+x ~/.docker/cli-plugins/docker-buildx
       - run:
           name: Login to Docker Hub
@@ -75,9 +75,8 @@ jobs:
       - run:
           name: Set up buildx and build/push images
           command: |
-            docker buildx create --name mybuilder
-            docker buildx use mybuilder
             docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+            docker buildx create --name multiarch --driver docker-container --use
             docker buildx ls
             docker buildx build -t << parameters.image-name >>:$IMAGE_TAG --progress plain \
               --platform linux/arm,linux/arm64,linux/amd64 \
