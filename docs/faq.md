@@ -9,6 +9,7 @@
 * [Container loses connection after some time](#container_loses_connection_after_some_time)
   * [Set the ping-exit option for OpenVPN and restart-flag in Docker](#set_the_ping-exit_option_for_openvpn_and_restart-flag_in_docker)
   * [Use a third party tool to monitor and restart the container](#use_a_third_party_tool_to_monitor_and_restart_the_container)
+* [Send Username Password via file](#send_username_password_via_file)
 * [AUTH: Received control message: AUTH_FAILED](#auth_received_control_message_auth_failed)
 
 ## The container runs, but I can't access the web ui
@@ -161,6 +162,64 @@ The container has a health check script that is run periodically. It will report
 if basic network connectivity is broken. You can write your own script and add it to cron, or you can use a tool like [https://github.com/willfarrell/docker-autoheal](https://github.com/willfarrell/docker-autoheal) to look for and restart unhealthy containers.
 
 This container has the `autoheal` label by default so it is compatible with the [willfarrell/autoheal image](https://hub.docker.com/r/willfarrell/autoheal/)
+
+## Send Username Password via file
+
+Depending on your setup, you may not want to send your vpn user/pass via environment variables (main reason being, it is accessible via docker inspect). If you prefer, there is a way to configure the container to use a file instead. 
+
+*Procedure*
+1. create a text file with username and password in it, each on a separate line: eg:
+For this example we will pretend, it is located at: `./openvpn-credentials.txt`
+```
+this_is_my_username
+this_is_my_passord
+```
+1. Set the Environment Variable for username/password to exactly: `**None**`
+
+1. Mount the file in this exact path: `/config/openvpn-credentials.txt`
+
+Config example:
+
+```
+$ docker run --cap-add=NET_ADMIN -d \
+              -v /your/storage/path/:/data \
+              -v ./openvpn-credentials.txt:/config/openvpn-credentials.txt \
+              -e OPENVPN_PROVIDER=PIA \
+              -e OPENVPN_CONFIG=france \
+              -e OPENVPN_USERNAME=**None** \
+              -e OPENVPN_PASSWORD=**None** \
+              -e LOCAL_NETWORK=192.168.0.0/16 \
+              --log-driver json-file \
+              --log-opt max-size=10m \
+              -p 9091:9091 \
+              haugene/transmission-openvpn
+```
+
+The example docker-compose.yml looks like this:
+
+```
+version: '3.3'
+services:
+    transmission-openvpn:
+        cap_add:
+            - NET_ADMIN
+        volumes:
+            - '/your/storage/path/:/data'
+            - './openvpn-credentials.txt:/config/openvpn-credentials.txt'
+        environment:
+            - OPENVPN_PROVIDER=PIA
+            - OPENVPN_CONFIG=france
+            - OPENVPN_USERNAME=**None**
+            - OPENVPN_PASSWORD=**None**
+            - LOCAL_NETWORK=192.168.0.0/16
+        logging:
+            driver: json-file
+            options:
+                max-size: 10m
+        ports:
+            - '9091:9091'
+        image: haugene/transmission-openvpn
+```
 
 ## AUTH: Received control message: AUTH_FAILED
 
