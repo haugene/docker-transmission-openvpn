@@ -252,5 +252,9 @@ if [[ -n "${LOCAL_NETWORK-}" ]]; then
   fi
 fi
 
+if [[ ${SELFHEAL:-false} != "false" ]]; then
+  /etc/scripts/selfheal.sh &
+fi
+
 # shellcheck disable=SC2086
 exec openvpn ${TRANSMISSION_CONTROL_OPTS} ${OPENVPN_OPTS} --config "${CHOSEN_OPENVPN_CONFIG}"
