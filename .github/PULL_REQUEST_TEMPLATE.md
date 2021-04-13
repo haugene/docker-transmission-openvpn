@@ -1,6 +1,10 @@
 <!--
   You are amazing! Thanks for contributing to our project!
   Please, DO NOT DELETE ANY TEXT from this template! (unless instructed).
+  Also, please create PRs to DEV branch, !!NOT!! MASTER branch. 
+  If necessary, when we review or such, 
+  make a comment if you feel this needs to go to master directly, 
+  otherwise we will merge to master when necesssary.
 -->
 ## Breaking change
 <!--
