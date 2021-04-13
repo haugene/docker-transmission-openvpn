@@ -25,7 +25,7 @@ CONTAINER_STATUS="starting"
 START_PERIOD_END=$(echo "$(date +%s) + ${START_PERIOD}" | bc -l)
 while true; do
   echo "SELFHEAL: Running health check..."
-  setsid timeout ${TIMEOUT} /etc/scripts/healthcheck.sh
+  timeout ${TIMEOUT} setsid /etc/scripts/healthcheck.sh > /dev/null
   STATUS=$?
   if [[ ${STATUS} -ne 0 ]]; then
     if [[ ${CONTAINER_STATUS} != "starting" ]] || [[ $(date +%s) -ge ${START_PERIOD_END} ]]; then
