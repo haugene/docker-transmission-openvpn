@@ -1,5 +1,13 @@
 #!/bin/bash
 
+# Handle SIGTERM
+sigterm() {
+    echo "Received SIGTERM, exiting..."
+    trap - SIGTERM
+    kill -- -$$
+}
+trap sigterm SIGTERM
+
 #Network check
 # Ping uses both exit codes 1 and 2. Exit code 2 cannot be used for docker health checks,
 # therefore we use this script to catch error code 2
