@@ -45,7 +45,7 @@ while true; do
   echo "SELFHEAL: Container is ${CONTAINER_STATUS}"
   if [[ ${CONTAINER_STATUS} == "unhealthy" ]]; then
     echo "SELFHEAL: Failed ${SELFHEAL_RETRIES} health checks, exiting..."
-    #kill 1
+    kill 1
     exit 1
   fi
   echo "SELFHEAL: Waiting for ${SELFHEAL_INTERVAL}..."
