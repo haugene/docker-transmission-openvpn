@@ -34,9 +34,11 @@ fi
 if [[ $CONFIG_MOD_PING == "1" ]]; then
     echo "Modification: Change ping options"
     # Remove any old options
-    sed -i "s/^ping.*//g" "$CONFIG"
+    sed -i "/^inactive.*$/d" "$CONFIG"
+    sed -i "/^ping.*$/d" "$CONFIG"
 
     # Add new ones
+    sed -i "\$q" "$CONFIG" # Ensure config ends with a line feed
     echo "inactive 3600" >> "$CONFIG"
     echo "ping 10" >> "$CONFIG"
     echo "ping-exit 60" >> "$CONFIG"
