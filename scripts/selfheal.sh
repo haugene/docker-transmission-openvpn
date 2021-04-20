@@ -53,6 +53,6 @@ while true; do
   case ${MESSAGE} in
     success) echo "SELFHEAL: Container is ${CONTAINER_STATUS}, health check succeeded." ;;
     failure) echo "SELFHEAL: Container is ${CONTAINER_STATUS}, health check failed, ${RETRIES_REMAINING} retries remaining." ;;
-    restart) echo "SELFHEAL: Container is ${CONTAINER_STATUS}, failed ${SELFHEAL_RETRIES} health checks, exiting..."; kill 1; exit 1  ;;
+    restart) echo "SELFHEAL: Container is ${CONTAINER_STATUS}, failed ${SELFHEAL_RETRIES} health checks, exiting..."; kill 1; exit 1 ;;
   esac
 done
