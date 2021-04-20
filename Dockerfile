@@ -23,7 +23,7 @@ COPY --from=TransmissionUIs /opt/transmission-ui /opt/transmission-ui
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y \
     dumb-init openvpn transmission-daemon transmission-cli privoxy \
-    tzdata dnsutils iputils-ping ufw openssh-client git jq curl wget unrar unzip bc \
+    tzdata dnsutils iputils-ping ufw openssh-client jq curl wget unrar unzip bc \
     && ln -s /usr/share/transmission/web/style /opt/transmission-ui/transmission-web-control \
     && ln -s /usr/share/transmission/web/images /opt/transmission-ui/transmission-web-control \
     && ln -s /usr/share/transmission/web/javascript /opt/transmission-ui/transmission-web-control \
