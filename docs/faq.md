@@ -33,7 +33,7 @@ PS: Be cautious of special characters in the username or password. We've had mul
 that and have not provided a fix yet. Escaping special characters could be an option, but the
 easiest solution is just to avoid them. Make the password longer instead ;)
 Or write it into `settings.json` manually as first described.
-Also, look up differences between how [yaml special characters](https://support.asg.com/mob/mvw/10_0/mv_ag/using_quotes_with_yaml_special_characters.htm) are escaped vs in shell
+Also, look up differences between how [yaml special characters](https://support.asg.com/mob/mvw/10_0/mv_ag/using_quotes_with_yaml_special_characters.htm) are escaped vs [in docker run](https://github.com/haugene/docker-transmission-openvpn/issues/1767)
 
 ## How do I verify that my traffic is using VPN
 
