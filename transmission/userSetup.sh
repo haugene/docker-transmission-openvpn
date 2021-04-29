@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # More/less taken from https://github.com/linuxserver/docker-baseimage-alpine/blob/3eb7146a55b7bff547905e0d3f71a26036448ae6/root/etc/cont-init.d/10-adduser
 
@@ -41,10 +41,18 @@ if [ -n "$PUID" ] && [ ! "$(id -u root)" -eq "$PUID" ]; then
             ${TRANSMISSION_INCOMPLETE_DIR} \
             ${TRANSMISSION_WATCH_DIR}
 
-        echo "Setting permission for files (644) and directories (755)"
-        chmod -R go=rX,u=rwX \
-            ${TRANSMISSION_DOWNLOAD_DIR} \
-            ${TRANSMISSION_INCOMPLETE_DIR} \
+        echo "Setting permissions for download and incomplete directories"
+        TRANSMISSION_UMASK_OCTAL=$(printf '%03g' $(printf '%o\n' $(jq .umask ${TRANSMISSION_HOME}/settings.json)))
+        DIR_PERMS=$(printf '%o\n' $((0777 & ~TRANSMISSION_UMASK_OCTAL)))
+        FILE_PERMS=$(printf '%o\n' $((0666 & ~TRANSMISSION_UMASK_OCTAL)))
+        echo "Mask: ${TRANSMISSION_UMASK_OCTAL}"
+        echo "Directories: ${DIR_PERMS}"
+        echo "Files: ${FILE_PERMS}"
+
+        find "${TRANSMISSION_DOWNLOAD_DIR}" "${TRANSMISSION_INCOMPLETE_DIR}" -type d \
+        -exec chmod $(printf '%o\n' $((0777 & ~TRANSMISSION_UMASK_OCTAL))) {} +
+        find "${TRANSMISSION_DOWNLOAD_DIR}" "${TRANSMISSION_INCOMPLETE_DIR}" -type  f \
+        -exec chmod $(printf '%o\n' $((0666 & ~TRANSMISSION_UMASK_OCTAL))) {} +
 
         echo "Setting permission for watch directory (775) and its files (664)"
         chmod -R o=rX,ug=rwX \
