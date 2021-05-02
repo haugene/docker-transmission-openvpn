@@ -1,5 +1,5 @@
 #!/bin/bash
-if [ "${PEER_DNS}" != "no" ]; then
+if [[ "${PEER_DNS,,}" == "true" ]]; then
         NS=
         NS_ROUTES=( )
         DOMAIN=
@@ -22,7 +22,7 @@ if [ "${PEER_DNS}" != "no" ]; then
                 i=$((${i} + 1))
         done
         if [ -n "${NS}" ] ; then
-		if [ "${PEER_DNS_PIN_ROUTES}" != "no" ]; then
+		if [[ "${PEER_DNS_PIN_ROUTES,,}" == "true" ]]; then
 			#  Explicitly pin DNS traffic out the tunnel if we received the NS from them.
 			for r in "${NS_ROUTES[@]}"; do
 				ip route add "$r" dev "${dev}"
