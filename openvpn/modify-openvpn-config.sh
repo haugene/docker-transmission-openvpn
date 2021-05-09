@@ -37,6 +37,9 @@ if [[ $CONFIG_MOD_PING == "1" ]]; then
     sed -i "/^inactive.*$/d" "$CONFIG"
     sed -i "/^ping.*$/d" "$CONFIG"
 
+    # Remove keep-alive option - it doesn't work in conjunction with ping option(s) which we're adding later
+    sed -i '/^keepalive.*$/d' "$CONFIG"
+
     # Add new ones
     sed -i "\$q" "$CONFIG" # Ensure config ends with a line feed
     echo "inactive 3600" >> "$CONFIG"
