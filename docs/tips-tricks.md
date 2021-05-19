@@ -84,3 +84,7 @@ $ sudo systemctl stop transmission-openvpn.service
 # Later ...
 $ sudo systemctl start transmission-openvpn.service
 ```
+#### Running with Traefik reverse proxy
+
+A working example of running this container behind a traefik reverse proxy can be found here:
+[Config](https://github.com/haugene/docker-transmission-openvpn/issues/1763#issuecomment-844404143)
