@@ -29,10 +29,10 @@ A possible evolution would be to check server's load to select the most availabl
 ### MULLVAD
 
 According to [(#1355)](https://github.com/haugene/docker-transmission-openvpn/issues/1355)
-ipv6 needs to be disabled for mullvad vpn
+ipv6 needs to be enabled for mullvad vpn
 this is an example for docker compose
 ```yaml
-# ipv6 must be disabled for Mullvad to work
+# ipv6 must be enabled for Mullvad to work
         sysctls:
             - "net.ipv6.conf.all.disable_ipv6=0"
 ```
