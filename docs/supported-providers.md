@@ -85,7 +85,7 @@ to set `OPENVPN_USERNAME` and `OPENVPN_PASSWORD` as this is required by the star
 They will not be read by the .ovpn file, so you can set them to whatever.
 
 If `-e OPENVPN_CONFIG=` variable has been omitted from the `docker run` command the .ovpn config file must be named default.ovpn.
-If you have an separate ca.crt, client.key or client.crt file, then refer to the section below instead.
+If you have a separate ca.crt, client.key or client.crt file, then refer to the section below instead.
 
 
 ## Using a local set of .ovpn files from provider
@@ -105,8 +105,8 @@ Compose sample:
 ```
             - OPENVPN_PROVIDER=custom
             - OPENVPN_CONFIG=ipvanish-UK-Maidenhead-lhr-c02
-            - OPENVPN_USERNAME=uourlogin
-            - OPENVPN_PASSWORD=yourpassword
+            - OPENVPN_USERNAME=user
+            - OPENVPN_PASSWORD=pass
 ```
 
 **Open the .OVPN file, and modify**
