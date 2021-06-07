@@ -31,7 +31,7 @@ us-buf.pvdata.host
 us-los.pvdata.host
 us-nyc4.pvdata.host
 us-nyc.pvdata.host
-193.180.119.2
+se-sto.pvdata.host
 EOF
 )
 
