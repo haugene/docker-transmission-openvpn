@@ -83,6 +83,9 @@ mkdir -p tcp \
 curl -sOJL "$PVPN_CONFIGS_URL"
 unzip -qo -d extracted *.zip
 
+# Fix Stockholm remote IP incorrect (2021 issue)
+find ./extracted -name '*-Stockholm-*.ovpn' -exec sed -i 's/193.180.119.2/se-sto.pvdata.host/' '{}' \;
+
 # Copy original PrivateVPN configuration files
 find ./extracted -name '*-TUN-1194.ovpn' -exec cp {} ./ \;
 find ./extracted -name '*-TUN-443.ovpn' -exec cp {} ./tcp/ \;
