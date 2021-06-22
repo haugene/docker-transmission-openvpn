@@ -13,7 +13,7 @@ curl -L https://torguard.net/downloads/OpenVPN-UDP.zip -o OpenVPN-UDP.zip \
   && unzip -j OpenVPN-UDP.zip && rm OpenVPN-UDP.zip
 
 # Remove TorGuard prefix of config files and ensure linux line endings
-rename 's/^TorGuard\.//' *.ovpn
+for old in TorGuard*.ovpn; do new=$(echo $old | sed -e 's/^TorGuard\.//'); mv "$old" "$new"; done
 
 # Convert CRLF to Linux
 sed -i "s/\r$//" *.ovpn
