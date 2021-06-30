@@ -13,7 +13,7 @@ PID=$(pidof transmission-daemon)
 kill "$PID"
 
 # Give transmission-daemon some time to shut down
-TRANSMISSION_TIMEOUT_SEC=${TRANSMISION_TIMEOUT_SEC:-5}
+TRANSMISSION_TIMEOUT_SEC=${TRANSMISSION_TIMEOUT_SEC:-5}
 for i in $(seq "$TRANSMISSION_TIMEOUT_SEC")
 do
     sleep 1
