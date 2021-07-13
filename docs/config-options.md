@@ -54,6 +54,15 @@ By default the startup script applies a default set of permissions and ownership
 | -------------------------- | -------------------------------------- | -------------------------------- |
 | `GLOBAL_APPLY_PERMISSIONS` | Disable setting of default permissions | `GLOBAL_APPLY_PERMISSIONS=false` |
 
+### Reflected watch directory
+
+Similar to Transmission's watch feature, this sets a watch directory for automatically adding torrents, but sets their download location relative to `TRANSMISSION_DOWNLOAD_DIR` to the same subdirectory position as the torrent file.  For example, a torrent added to a REFLECTED_WATCH_DIR set to /data/reflected_watch/ISOs would download to /data/completed/ISOs.
+
+
+| Variable             | Function                               | Example                                      |
+| ---------------------| -------------------------------------- | -------------------------------------------- |
+| `REFLECTED_WATCH_DIR`| Sets directory to reflectively watch   | `REFLECTED_WATCH_DIR=/data/reflected_watch`  |
+
 ### Alternative Web UIs
 
 This container comes bundled with some alternative Web UIs:

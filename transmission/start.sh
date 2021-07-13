@@ -89,6 +89,11 @@ if [[ -x /etc/openvpn/${OPENVPN_PROVIDER,,}/update-port.sh && -z $DISABLE_PORT_U
   exec /etc/openvpn/${OPENVPN_PROVIDER,,}/update-port.sh &
 fi
 
+if [[ ! -z "$REFLECTED_WATCH_DIR" ]]; then
+  echo "Reflectively watching"
+  exec /etc/scripts/reflected-watch.sh "$REFLECTED_WATCH_DIR" &
+fi
+
 # If transmission-post-start.sh exists, run it
 if [[ -x /scripts/transmission-post-start.sh ]]; then
   echo "Executing /scripts/transmission-post-start.sh"
