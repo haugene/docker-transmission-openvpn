@@ -1,4 +1,9 @@
 <!--
+  Please, vpn provider updates should ONLY be done at the new repo:
+  https://github.com/haugene/vpn-configs-contrib
+  No updates and such will be accepted here
+-->
+<!--
   You are amazing! Thanks for contributing to our project!
   Please, DO NOT DELETE ANY TEXT from this template! (unless instructed).
   Also, please create PRs to DEV branch, !!NOT!! MASTER branch. 
