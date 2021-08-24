@@ -27,7 +27,7 @@ fi
 if [[ $CONFIG_MOD_CA_CERTS == "1" ]]; then
     echo "Modification: Change ca certificate path"
     config_directory=$(dirname "$CONFIG")
-    sed -i "s#^ca #ca $config_directory/#g" "$CONFIG"
+    sed -i "s#^ca.*#ca $config_directory/#g" "$CONFIG"
 fi
 
 ## Option 3 - Update ping options to exit the container, so Docker will restart it
