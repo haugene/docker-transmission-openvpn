@@ -1,6 +1,5 @@
 name: Bug report
 description: Container is not behaving as expected, please make sure this is docker/transmission related and NOT provider related
-title: "[BUG] <title>"
 labels: [Bug]
 body:
 - type: checkboxes
