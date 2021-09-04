@@ -7,28 +7,31 @@ This container contains OpenVPN and Transmission with a configuration
 where Transmission is running only when OpenVPN has an active tunnel.
 It has built in support for many popular VPN providers to make the setup easier.
 
-## Before you continue
+## Read this first
 
-The documentation for this image is here:
+The documentation for this image is hosed on GitHub pages:
 
 https://haugene.github.io/docker-transmission-openvpn/
 
-Start there if you're having issues or questions about your container. Another great source of information is
-to [search for similar issues](https://github.com/haugene/docker-transmission-openvpn/issues?q=is%3Aissue+your+issue).
+If you can't find what you're looking for there, please have a look
+in the [discussions](https://github.com/haugene/docker-transmission-openvpn/discussions)
+as we're trying to that for general questions.
 
-We're also in the process of setting up GitHub Discussions for general help and Q&A sections. If you've tried
-everything else you can create an issue, but we might convert it to a discussion if it does not relate to an actual
-problem or feature request with the container itself.
+If you have found what you believe to be an issue or bug, create an issue and provide
+enough details for us to have a chance to reproduce it or undertand what's going on.
+**NB:** Be sure to search for similar issues (open and closed) before opening a new one.
 
-**Release 4.0:**
-We've recently released version 4.0 which brings the following major changes:
-* Image is based on Ubuntu instead of Alpine
-* OpenVPN config files are moved to a separate repository
-* Replaced Tinyproxy with Privoxy for our web proxy
+### Just started having problems?
 
-If you're experiencing issues with the new major version please open an issue for it. As a temporary workaround
-you can have a look at our [releases](https://github.com/haugene/docker-transmission-openvpn/releases) and
-downgrade to one of the 3.x versions instead.
+We've just merged a larger release from dev to the master branch.
+This means that the `latest` tag of this image now is version 4.0.
+
+If this release causes issues for you, try running the latest 3.x release:
+`haugene/transmission-openvpn:3.7.1`. Note that this is a temporary fix,
+there will not be any more releases on the 3.x line.
+
+Any instabilities with 4.0, please take it up in the 4.0 release discussion:
+[https://github.com/haugene/docker-transmission-openvpn/discussions/1936](https://github.com/haugene/docker-transmission-openvpn/discussions/1936)
 
 ## Quick Start
 
