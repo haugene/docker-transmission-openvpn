@@ -9,13 +9,13 @@ It has built in support for many popular VPN providers to make the setup easier.
 
 ## Read this first
 
-The documentation for this image is hosed on GitHub pages:
+The documentation for this image is hosted on GitHub pages:
 
 https://haugene.github.io/docker-transmission-openvpn/
 
 If you can't find what you're looking for there, please have a look
 in the [discussions](https://github.com/haugene/docker-transmission-openvpn/discussions)
-as we're trying to that for general questions.
+as we're trying to use that for general questions.
 
 If you have found what you believe to be an issue or bug, create an issue and provide
 enough details for us to have a chance to reproduce it or undertand what's going on.
