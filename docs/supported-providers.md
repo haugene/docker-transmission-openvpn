@@ -46,8 +46,7 @@ These providers are fetched from our [config repo](https://github.com/haugene/vp
 They have to be manually updated in that repo when the provider changes them but we're trying to keep them up to date.
 
 Note that we try to keep this list in sync but it is the files and folders in the config repo that ultimately
-is the most up to date list of configs and providers that are supported. You can also use your own config repo
-or extend/update the main repo by following the steps outlined in the [next section](#adding_or_updating_a_provider).
+is the most up to date list of configs and providers that are supported.
 
 
 | Provider Name             | Config Value (`OPENVPN_PROVIDER`) |
@@ -99,53 +98,27 @@ or extend/update the main repo by following the steps outlined in the [next sect
 | Windscribe                | `WINDSCRIBE`                      |
 | ZoogVPN                   | `ZOOGVPN`                         |
 
-## Adding or updating a provider
+## Use your own config without building the image
 
-TODO: Screenshots and examples of forking, adding and PR'ing
+If you have a .ovpn file from your VPN provider and you want to use it but you either don't
+know how to build the image yourself or you don't want to there is another way.
 
-You clone this repository and create a new folder under "openvpn" where you put the .ovpn files your provider gives you. Depending on the structure of these files you need to make some adjustments. For example if they come with a ca.crt file that is referenced in the config you need to update this reference to the path it will have inside the container (which is /etc/openvpn/...). You also have to set where to look for your username/password.
-
-There is a script called adjustConfigs.sh that could help you. After putting your .ovpn files in a folder, run that script with your folder name as parameter and it will try to do the changes described above. If you use it or not, reading it might give you some help in what you're looking to change in the .ovpn files.
-
-Once you've finished modifying configs, you build the container and run it with OPENVPN_PROVIDER set to the name of the folder of configs you just created (it will be lowercased to match the folder names). And that should be it!
-
-So, you've just added your own provider and you're feeling pretty good about it! Why don't you fork this repository, commit and push your changes and submit a pull request? Share your provider with the rest of us! :) Please submit your PR to the dev branch in that case.
-
-## Using a custom provider
-If you want to run the image with your own provider without building a new image, that is also possible. 
+Check out the [guide for this](https://github.com/haugene/vpn-configs-contrib/blob/main/CONTRIBUTING.md)
+in the config repo.
 
 ## Using a local single .ovpn file from provider
 For some providers, like AirVPN, the .ovpn files are generated per user and contains credentials. 
-They should not be added to a public image. This is what you do:
-
-Add a new volume mount to your `docker run` command that mounts your config file:
-`-v /path/to/your/config.ovpn:/etc/openvpn/custom/default.ovpn`
-
-Then you can set `OPENVPN_PROVIDER=CUSTOM`and the container will use the config you provided.
-
-NOTE: Your .ovpn config file probably contains a line that says `auth-user-pass`. This will prompt OpenVPN to ask for the
-username and password. As this is running in a scripted environment that is not possible. Change it for `auth-user-pass /config/openvpn-credentials.txt`
-which is the file where your `OPENVPN_USERNAME` and `OPENVPN_PASSWORD` variables will be written to.
-
-If you are using AirVPN or other provider with credentials in the config file, you still need
-to set `OPENVPN_USERNAME` and `OPENVPN_PASSWORD` as this is required by the startup script.
-They will not be read by the .ovpn file, so you can set them to whatever.
-
-If `-e OPENVPN_CONFIG=` variable has been omitted from the `docker run` command the .ovpn config file must be named default.ovpn.
-If you have a separate ca.crt, client.key or client.crt file, then refer to the section below instead.
-
-
-## Using a local set of .ovpn files from provider
-If you do not want the build to download config from the provider but actually load you own config locally, please follow these steps
+These files can not be hosted anywhere publicly visible. Then you can mount the files into the container
+and use them directly from your local host.
 
 **Grab all files from your provider** (usually a .zip file to download & unzip)
 
-**Copy them in a repository**, there should be .ovpn files and a ca.cert as well (example below /volume1/docker/transmission/ipvanish/)
+**Copy them into a folder on your Docker host**, there might be .ovpn files and ca.cert as well (example below /volume1/docker/ipvanish/)
 
 **Mount the volume**
 Compose sample:
 ```
-             - /volume1/docker/transmission/ipvanish/:/etc/openvpn/custom/
+             - /volume1/docker/ipvanish/:/etc/openvpn/custom/
 ```
 **Declare the Custom provider, the target server and login/password**
 Compose sample:
@@ -156,17 +129,12 @@ Compose sample:
             - OPENVPN_PASSWORD=pass
 ```
 
-**Open the .OVPN file, and modify**
+### If you only need to mount one file
 
-_ca ca.ipvanish.com.crt_
-into
-```
-ca /etc/openvpn/custom/ca.ipvanish.com.crt
-```
-_auth-user-pass_
-into
-```
-auth-user-pass /config/openvpn-credentials.txt
-```
+You might not need to mount a folder of configs. You may just have one config file you want to use.
+In that case you can just mount it directly. Mounting it as `default.ovpn` will let you omit `OPENVPN_CONFIG` as well.
 
-_NOTE: the file openvpn-credentials.txt should contain 2 lines with your login and password, but actually it is ignored and it reverts nicely to OPENVPN_USERNAME and OPENVPN_PASSWORD variables ! See issue 1497. I don't even have this file on my filesystem any longer)_
+Compose sample:
+```
+             - /volume1/docker/ipvanish/my-preferred-config-file.ovpn:/etc/openvpn/custom/default.ovpn
+```
