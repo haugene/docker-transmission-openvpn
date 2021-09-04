@@ -41,14 +41,14 @@ if [[ "transmission-web-control" = "$TRANSMISSION_WEB_UI" ]]; then
   export TRANSMISSION_WEB_HOME=/opt/transmission-ui/transmission-web-control
 fi
 
-if [[ "flood" = "$TRANSMISSION_WEB_UI" ]]; then
-  echo "ERROR: Using TRANSMISSION_WEB_UI=flood is deprecated. Use TRANSMISSION_WEB_UI=flood-for-transmission instead"
-  echo "INFO: Defaulting to vanilla Transmission UI"
-fi
-
 if [[ "flood-for-transmission" = "$TRANSMISSION_WEB_UI" ]]; then
   echo "Using Flood for Transmission UI, overriding TRANSMISSION_WEB_HOME"
   export TRANSMISSION_WEB_HOME=/opt/transmission-ui/flood-for-transmission
+fi
+
+if [[ "shift" = "$TRANSMISSION_WEB_UI" ]]; then
+  echo "Using Shift UI, overriding TRANSMISSION_WEB_HOME"
+  export TRANSMISSION_WEB_HOME=/opt/transmission-ui/shift
 fi
 
 echo "Updating Transmission settings.json with values from env variables"

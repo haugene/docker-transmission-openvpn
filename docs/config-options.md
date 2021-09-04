@@ -62,13 +62,14 @@ This container comes bundled with some alternative Web UIs:
 * [Kettu](https://github.com/endor/kettu)
 * [Transmission-Web-Control](https://github.com/ronggang/transmission-web-control/)
 * [Flood for Transmission](https://github.com/johman10/flood-for-transmission)
+* [Shift](https://github.com/killemov/Shift)
 
 To use one of them instead of the default Transmission UI you can set `TRANSMISSION_WEB_UI`
-to either `combustion`, `kettu`, `transmission-web-control` or `flood-for-transmission` respectively.
+to either `combustion`, `kettu`, `transmission-web-control`, `flood-for-transmission` or `shift` respectively.
 
 | Variable                | Function                         | Example                                                                                                                                       |
 | ----------------------- | -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| `TRANSMISSION_WEB_UI`   | Use the specified bundled web UI | `TRANSMISSION_WEB_UI=combustion` <br>`TRANSMISSION_WEB_UI=kettu` <br>`TRANSMISSION_WEB_UI=transmission-web-control` <br>`TRANSMISSION_WEB_UI=flood-for-transmission` |
+| `TRANSMISSION_WEB_UI`   | Use the specified bundled web UI | `TRANSMISSION_WEB_UI=combustion` <br>`TRANSMISSION_WEB_UI=kettu` <br>`TRANSMISSION_WEB_UI=transmission-web-control` <br>`TRANSMISSION_WEB_UI=flood-for-transmission` <br>`TRANSMISSION_WEB_UI=shift` |
 
 ### User configuration options
 
