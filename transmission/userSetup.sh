@@ -19,27 +19,27 @@ if [ -n "$PUID" ] && [ ! "$(id -u root)" -eq "$PUID" ]; then
 
     # Make sure directories exist before chown and chmod
     mkdir -p /config \
-        ${TRANSMISSION_HOME} \
-        ${TRANSMISSION_DOWNLOAD_DIR} \
-        ${TRANSMISSION_INCOMPLETE_DIR} \
-        ${TRANSMISSION_WATCH_DIR}
+        "${TRANSMISSION_HOME}" \
+        "${TRANSMISSION_DOWNLOAD_DIR}" \
+        "${TRANSMISSION_INCOMPLETE_DIR}" \
+        "${TRANSMISSION_WATCH_DIR}"
 
     echo "Enforcing ownership on transmission config directories"
     chown -R ${RUN_AS}:${RUN_AS} \
         /config \
-        ${TRANSMISSION_HOME}
+        "${TRANSMISSION_HOME}"
 
     echo "Applying permissions to transmission config directories"
     chmod -R go=rX,u=rwX \
         /config \
-        ${TRANSMISSION_HOME}
+        "${TRANSMISSION_HOME}"
 
     if [ "$GLOBAL_APPLY_PERMISSIONS" = true ] ; then
         echo "Setting owner for transmission paths to ${PUID}:${PGID}"
         chown -R ${RUN_AS}:${RUN_AS} \
-            ${TRANSMISSION_DOWNLOAD_DIR} \
-            ${TRANSMISSION_INCOMPLETE_DIR} \
-            ${TRANSMISSION_WATCH_DIR}
+            "${TRANSMISSION_DOWNLOAD_DIR}" \
+            "${TRANSMISSION_INCOMPLETE_DIR}" \
+            "${TRANSMISSION_WATCH_DIR}"
 
         echo "Setting permissions for download and incomplete directories"
         TRANSMISSION_UMASK_OCTAL=$(printf '%03g' $(printf '%o\n' $(jq .umask ${TRANSMISSION_HOME}/settings.json)))
@@ -56,7 +56,7 @@ if [ -n "$PUID" ] && [ ! "$(id -u root)" -eq "$PUID" ]; then
 
         echo "Setting permission for watch directory (775) and its files (664)"
         chmod -R o=rX,ug=rwX \
-            ${TRANSMISSION_WATCH_DIR}
+            "${TRANSMISSION_WATCH_DIR}"
     fi
 fi
 
