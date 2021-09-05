@@ -31,7 +31,7 @@ if [[ $CONFIG_MOD_CA_CERTS == "1" ]]; then
     # Some configs are already adjusted, need to handle both relative and absolute paths, like:
     # ca /etc/openvpn/mullvad/ca.crt
     # ca ca.ipvanish.com.crt
-    sed -E "s#ca\s+(.*/)*#ca $config_directory/#g" "$CONFIG"
+    sed -i -E "s#ca\s+(.*/)*#ca $config_directory/#g" "$CONFIG"
 fi
 
 ## Option 3 - Update ping options to exit the container, so Docker will restart it
