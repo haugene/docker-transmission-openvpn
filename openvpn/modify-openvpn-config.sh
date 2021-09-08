@@ -18,7 +18,7 @@ CONFIG_MOD_PING=${CONFIG_MOD_PING:-"1"}
 CONFIG_MOD_RESOLV_RETRY=${CONFIG_MOD_RESOLV_RETRY:-"1"}
 CONFIG_MOD_TLS_CERTS=${CONFIG_MOD_TLS_CERTS:-"1"}
 CONFIG_MOD_VERBOSITY=${CONFIG_MOD_VERBOSITY:-"1"}
-
+CONFIG_MOD_REMAP_USR1=${CONFIG_MOD_REMAP_USR1:-"1"}
 
 ## Option 1 - Change the auth-user-pass line to point to credentials file
 if [[ $CONFIG_MOD_USERPASS == "1" ]]; then
@@ -66,7 +66,7 @@ if [[ $CONFIG_MOD_RESOLV_RETRY == "1" ]]; then
     echo "resolv-retry 15" >> "$CONFIG"
 fi
 
-## Option 5 - Change the ca certificate path to point relative to the provider home
+## Option 5 - Change the tls-crypt path to point relative to the provider home
 if [[ $CONFIG_MOD_TLS_CERTS == "1" ]]; then
     echo "Modification: Change tls-crypt keyfile path"
     config_directory=$(dirname "$CONFIG")
@@ -77,7 +77,7 @@ if [[ $CONFIG_MOD_TLS_CERTS == "1" ]]; then
     sed -i -E "s#tls-crypt\s+(.*/)*#tls-crypt $config_directory/#g" "$CONFIG"
 fi
 
-## Option 6 - Update ping options to exit the container, so Docker will restart it
+## Option 6 - Update or set verbosity of openvpn logging
 if [[ $CONFIG_MOD_VERBOSITY == "1" ]]; then
     echo "Modification: Set output verbosity to 3"
     # Remove any old options
@@ -86,4 +86,16 @@ if [[ $CONFIG_MOD_VERBOSITY == "1" ]]; then
     # Add new ones
     sed -i "\$q" "$CONFIG" # Ensure config ends with a line feed
     echo "verb 3" >> "$CONFIG"
+fi
+
+## Option 7 - Remap the SIGUSR1 signal to SIGTERM
+## We don't want OpenVPN to restart within the container
+if [[ $CONFIG_MOD_REMAP_USR1 == "1" ]]; then
+    echo "Modification: Remap SIGUSR1 signal to SIGTERM, avoid OpenVPN restart loop"
+    # Remove any old options
+    sed -i "/^remap-usr1.*$/d" "$CONFIG"
+
+    # Add new ones
+    sed -i "\$q" "$CONFIG" # Ensure config ends with a line feed
+    echo "remap-usr1 SIGTERM" >> "$CONFIG"
 fi
