@@ -16,12 +16,15 @@ services:
   volumes:
     - /etc/localtime:/etc/localtime:ro
     - /home/traver/nasdownloadedmedia/:/data
-   # - /home/traver/transmission-openvpnclient/config/openvpn:/etc/openvpn
+    - /home/traver/transmission-openvpnclient/config/openvpn:/etc/openvpn
+    #copy your custom "default.ovpn" file here and copy the contents of "ipvanish" into the directory as well.
+    - /home/traver/transmission-openvpnclient/config/openvpn/custom:/etc/openvpn/custom
+  
   environment:
     - OPENVPN_PROVIDER=VPNUNLIMITED
     - OPENVPN_CONFIG=connect
-    #- OPENVPN_USERNAME=traveryates@gmail.com
-    #- OPENVPN_PASSWORD=a6e3se2ad
+    - OPENVPN_USERNAME=username
+    - OPENVPN_PASSWORD=password
     - OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60
     - LOCAL_NETWORK=192.168.79.0/24
  proxy:
