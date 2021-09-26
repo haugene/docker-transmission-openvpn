@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Requesting new features or changes
+    url: https://github.com/haugene/docker-transmission-openvpn/discussions
+    about: This is the discussion forum, please create a new topic, grouped under "Ideas"
+  - name: Requesting new providers/provider specific problems
+    url: https://github.com/haugene/vpn-configs-contrib/issues
+    about: This is the issue tracker for our backend. Please report issues with specific providers in the provider repo.

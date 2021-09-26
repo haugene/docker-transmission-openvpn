@@ -1,0 +1,115 @@
+name: Bug report
+description: Container is not behaving as expected, please make sure this is docker/transmission related and NOT provider related
+labels: [Bug]
+body:
+- type: checkboxes
+  attributes:
+    label: Is there a pinned issue for this?
+    description: Please read the pinned issues to see if they cover your issue first.
+    options:
+    - label: I have read the pinned issues and could not find my issue
+      required: true
+- type: checkboxes
+  attributes:
+    label: Is there an existing or similar issue/discussion for this?
+    description: Please search to see if an issue already exists for the bug you encountered.
+    options:
+    - label: I have searched the existing issues
+      required: true
+    - label: I have searched the existing discussions
+      required: true
+- type: checkboxes
+  attributes:
+    label: Is there any comment in the documentation for this?
+    description: Please read through the <a href="https://haugene.github.io/docker-transmission-openvpn/">documentation</a> first.
+    options:
+    - label: I have read the documentation, especially the FAQ and Troubleshooting parts
+      required: true
+- type: checkboxes
+  attributes:
+    label: Is this related to a provider? 
+    description: Please check the  <a href="https://github.com/haugene/vpn-configs-contrib/issues/">provider issues repo</a> for this. If this issue is related to a provider, please post it there.
+    options:
+    - label: I have checked the provider repo for issues
+      required: true
+    - label: My issue is NOT related to a provider
+      required: true
+- type: checkboxes
+  attributes:
+    label: Are you using the latest release? 
+    description: Please use the latest release.
+    options:
+    - label: I am using the latest release
+      required: true
+- type: checkboxes
+  attributes:
+    label: Have you tried using the dev branch latest?
+    description: Please try using dev branch if possible, if problem does no longer occur, please make a comment of any noticed changes.
+    options:
+    - label: I have tried using dev branch
+      required: false
+- type: textarea
+  attributes:
+    label: Config used
+    description: |
+      Please show what config you are using either with text or screenshots.
+      Make sure to remove your username and password!
+
+      Tip: You can attach images by clicking this area to highlight it and then dragging files in.
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: Current Behavior
+    description: A concise description of what you're experiencing.
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: Expected Behavior
+    description: A concise description of what you expected to happen.
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: How have you tried to solve the problem?
+    description: Steps taken to try and fix it.
+    placeholder: |
+     1) tried other release/build (which ones?)
+     2) verified container can resolve DNS (added --dns?)
+     3) check .ovpn is valid (outdated?)
+     4) check settings.json is valid (try with clean container?)
+     5) Checked issues #XXX and #XXX and tried XXX
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: Log output
+    description: |
+      Please show complete log output, either text or screenshot
+
+      Tip: You can attach images by clicking this area to highlight it and then dragging files in.
+  validations:
+    required: true    
+- type: textarea
+  attributes:
+    label: Environment
+    description: |
+      examples:
+        - **OS**: Ubuntu 20.04
+        - **Docker**: 13.14.0
+    value: |
+        - OS:
+        - Docker:
+    render: markdown
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: Anything else?
+    description: |
+      Links? References? Anything that will give us more context about the issue you are encountering!
+
+      Tip: You can attach images or log files by clicking this area to highlight it and then dragging files in.
+  validations:
+    required: false
