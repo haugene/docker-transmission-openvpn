@@ -38,10 +38,10 @@ RUN apt-get update && apt-get install -y \
 
 
 # Add configuration and scripts
-ADD openvpn/ /etc/openvpn/
-ADD transmission/ /etc/transmission/
-ADD scripts /etc/scripts/
-ADD privoxy/scripts /opt/privoxy/
+COPY openvpn/ /etc/openvpn/
+COPY transmission/ /etc/transmission/
+COPY scripts /etc/scripts/
+COPY privoxy/scripts /opt/privoxy/
 
 ENV OPENVPN_USERNAME=**None** \
     OPENVPN_PASSWORD=**None** \
@@ -76,7 +76,7 @@ HEALTHCHECK --interval=1m CMD /etc/scripts/healthcheck.sh
 ARG REVISION
 # Set env from build argument or default to empty string
 ENV REVISION=${REVISION:-""}
-LABEL org.opencontainers.image.source=https://github.com/tyates2020/docker-transmission-openvpn
+LABEL org.opencontainers.image.source=https://github.com/haugene/docker-transmission-openvpn
 LABEL org.opencontainers.image.revision=$REVISION
 
 # Compatability with https://hub.docker.com/r/willfarrell/autoheal/

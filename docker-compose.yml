@@ -1,7 +1,7 @@
 version: '2'
 services:
  transmission:
-  image: haugene/transmission-openvpn
+  image: tyates2020/transmission-openvpn
   cap_add:
     - NET_ADMIN
   devices:
@@ -11,33 +11,32 @@ services:
     - "9091:9091"
     - "8888:8888"
   dns:
-    - 8.8.8.8
+    - 192.168.79.20
     - 8.8.4.4
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    - /home/traver/nasdownloadedmedia/:/data
-    - /home/traver/transmission-openvpnclient/config/openvpn:/etc/openvpn
+    - /home/traver/nasdownloadedmedia/torrantdownloads:/data
     #copy your custom "default.ovpn" file here and copy the contents of "ipvanish" into the directory as well.
-    - /home/traver/transmission-openvpnclient/config/openvpn/custom:/etc/openvpn/custom
-  
+    - /home/traver/transmission-openvpnclient/openvpn/custom/:/etc/openvpn/custom/
+    - /home/traver/transmission-openvpnclient/config:/config 
   environment:
-    - OPENVPN_PROVIDER=VPNUNLIMITED
-    - OPENVPN_CONFIG=connect
-    - OPENVPN_USERNAME=username
-    - OPENVPN_PASSWORD=password
+    - OPENVPN_PROVIDER=custom
+    - OPENVPN_CONFIG=default
+    - OPENVPN_USERNAME=yourusername
+    - OPENVPN_PASSWORD=yourpassword
     - OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60
     - LOCAL_NETWORK=192.168.79.0/24
  proxy:
-  image: haugene/transmission-openvpn-proxy
+  image: tyates2020/transmission-openvpnclient_proxy
   links:
     - transmission
   ports:
     - 8089:8080
   volumes:
     - /etc/localtime:/etc/localtime:ro
-
+    - /home/traver/transmission-openvpnclient/config:/config
  rss:
-  image: haugene/transmission-rss
+  image: tyates2020/transmission-openvpnclient_rss
   links:
     - transmission
   environment:
