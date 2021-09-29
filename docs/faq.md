@@ -19,8 +19,8 @@
 ## How do I enable authentication in the web ui
 
 You can do this either by setting the appropriate fields in `settings.json` which is
-found in TRANSMISSION_HOME which defaults to `/data/transmission-home` so it will be available
-on your host where you mount the `/data` volume. Remember that Transmission overwrites the config
+found in TRANSMISSION_HOME which defaults to `/config/transmission-home` so it will be available
+on your host where you mount the `/config` volume. Remember that Transmission overwrites the config
 when it shuts down, so do this when the container is not running.
 
 Or you can set it using the convenience environment variables. They will then override the settings
