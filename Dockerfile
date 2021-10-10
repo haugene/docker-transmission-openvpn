@@ -24,7 +24,7 @@ VOLUME /config
 COPY --from=TransmissionUIs /opt/transmission-ui /opt/transmission-ui
 
 ARG DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get install -y \
+RUN add-apt-repository ppa:transmissionbt/ppa && apt-get update && apt-get install -y \
     dumb-init openvpn transmission-daemon transmission-cli privoxy \
     tzdata dnsutils iputils-ping ufw openssh-client git jq curl wget unrar unzip bc \
     && ln -s /usr/share/transmission/web/style /opt/transmission-ui/transmission-web-control \
