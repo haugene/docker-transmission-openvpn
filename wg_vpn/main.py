@@ -83,12 +83,16 @@ with open("/etc/wireguard/wg0.conf", "w") as config_file:
     config_file.write(wg_quick_config)
 
 print("\nStarting WireGuard...")
-vpn_start = subprocess.run(
-    ["wg-quick", "up", "wg0"],
-    stdout=subprocess.PIPE,
-    stderr=subprocess.STDOUT,
-    text=True,
-    check=True,
-)
-print(vpn_start.stdout)
-print("WireGuard connection successfully established")
+try:
+    vpn_start = subprocess.run(
+        ["wg-quick", "up", "wg0"],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+        check=True,
+    )
+    print(vpn_start.stdout)
+    print("WireGuard connection successfully established")
+except subprocess.CalledProcessError as e:
+    print(e.output)
+    raise e
