@@ -57,8 +57,11 @@ if [[ -z $OPENVPN_CONFIG_URL ]] && [[ "${OPENVPN_PROVIDER}" == "**None**" ]] || 
   echo "Exiting..." && exit 1
 fi
 echo "Using OpenVPN provider: ${VPN_PROVIDER^^}"
-
-if [[ -n $OPENVPN_CONFIG_URL ]]; then
+if [[ "${OPENVPN_PROVIDER}" == "CUSTOM" ]]; then
+  if [[ -x $VPN_PROVIDER_HOME/default.ovpn ]]; then
+    CHOSEN_OPENVPN_CONFIG=$VPN_PROVIDER_HOME/default.ovpn
+  fi
+elif [[ -n $OPENVPN_CONFIG_URL ]]; then
   echo "Found URL to single OpenVPN config, will download and use it."
   CHOSEN_OPENVPN_CONFIG=$VPN_PROVIDER_HOME/downloaded_config.ovpn
   curl -o "$CHOSEN_OPENVPN_CONFIG" -sSL "$OPENVPN_CONFIG_URL"
@@ -76,6 +79,9 @@ if [[ -z ${CHOSEN_OPENVPN_CONFIG} ]]; then
     if [[ -x $VPN_PROVIDER_HOME/configure-openvpn.sh ]]; then
       echo "Provider ${VPN_PROVIDER^^} has a bundled setup script. Defaulting to internal config"
       VPN_CONFIG_SOURCE=internal
+    elif [[ "${OPENVPN_PROVIDER}" == "CUSTOM" ]]; then
+      echo "CUSTOM provider specified but not using default.ovpn, will try to find a valid config mounted to $VPN_PROVIDER_HOME"
+      VPN_CONFIG_SOURCE=custom
     else
       echo "No bundled config script found for ${VPN_PROVIDER^^}. Defaulting to external config"
       VPN_CONFIG_SOURCE=external
