@@ -7,7 +7,7 @@ WIREGUARD_CONFIG_PATH = "/etc/wireguard/wg0.conf"
 USER_CONFIG_PATH = "/etc/transmission-vpn/wireguard/wg0.conf"
 
 vpn_provider = os.getenv("VPN_PROVIDER")
-if vpn_provider.lower() == "pia":
+if vpn_provider and vpn_provider.lower() == "pia":
     print("Running custom startup script for PIA")
     pia.setup()
 
