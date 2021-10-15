@@ -14,7 +14,7 @@ fi
 # Decide if we start with OpenVPN or wireguard
 ##
 if [[ $VPN_PROTOCOL == "wireguard" ]]; then
-  /usr/bin/python3 /etc/wg_vpn/main.py || exit 1
+  /usr/bin/python3 /opt/transmission-vpn/main.py || exit 1
   export TRANSMISSION_RUN_FOREGROUND="--foreground"
   python3 /etc/openvpn/persistEnvironment.py /etc/transmission/environment-variables.sh || exit 1
   /etc/transmission/start.sh 0 0 0 "$(grep Address < /etc/wireguard/wg0.conf | cut -d= -f2 | xargs)"

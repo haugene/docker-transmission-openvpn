@@ -1,6 +1,6 @@
 import requests
 from forcediphttpsadapter.adapters import ForcedIPHTTPSAdapter
-from models import *
+from .models import *
 
 
 def register_client(server: PiaServer, token: str, pub_key: str) -> PiaWireGuardConfig:
@@ -14,7 +14,7 @@ def register_client(server: PiaServer, token: str, pub_key: str) -> PiaWireGuard
     }
     response = session.get(
         f"https://{server.cn}:1337/addKey",
-        verify="/etc/wg_vpn/ca.rsa.4096.crt",
+        verify="providers/pia/ca.rsa.4096.crt",
         headers={"Host": server.cn},
         params=params,
         timeout=5,

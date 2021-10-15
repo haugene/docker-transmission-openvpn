@@ -27,21 +27,27 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y \
     dumb-init openvpn transmission-daemon transmission-cli privoxy wireguard python3-pip \
     tzdata dnsutils iputils-ping ufw openssh-client git jq curl wget unrar unzip bc openresolv \
+    && pip install requests[security] forcediphttpsadapter pydantic \
     && ln -s /usr/share/transmission/web/style /opt/transmission-ui/transmission-web-control \
     && ln -s /usr/share/transmission/web/images /opt/transmission-ui/transmission-web-control \
     && ln -s /usr/share/transmission/web/javascript /opt/transmission-ui/transmission-web-control \
     && ln -s /usr/share/transmission/web/index.html /opt/transmission-ui/transmission-web-control/index.original.html \
     && rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/* \
+    && mkdir -p /etc/wireguard \
     && groupmod -g 1000 users \
     && useradd -u 911 -U -d /config -s /bin/false abc \
     && usermod -G users abc
 
 
-# Add configuration and scripts
+# Add config, scripts and app
 ADD openvpn/ /etc/openvpn/
 ADD transmission/ /etc/transmission/
 ADD scripts /etc/scripts/
 ADD privoxy/scripts /opt/privoxy/
+ADD transmission-vpn/ /opt/transmission-vpn/
+ADD start.sh /etc/transmission-vpn/start.sh
+
+WORKDIR /opt/transmission-vpn/
 
 ENV OPENVPN_USERNAME=**None** \
     OPENVPN_PASSWORD=**None** \
@@ -88,11 +94,5 @@ LABEL autoheal=true
 EXPOSE 9091
 # Privoxy
 EXPOSE 8118
-
-RUN mkdir -p /etc/wireguard
-RUN pip install requests[security] forcediphttpsadapter pydantic
-
-ADD wg_vpn/ /etc/wg_vpn/
-ADD start.sh /etc/transmission-vpn/start.sh
 
 CMD ["dumb-init", "/etc/transmission-vpn/start.sh"]
