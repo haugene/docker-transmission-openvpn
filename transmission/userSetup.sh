@@ -17,6 +17,23 @@ if [ -n "$PUID" ] && [ ! "$(id -u root)" -eq "$PUID" ]; then
       chown ${RUN_AS}:${RUN_AS} /dev/stdout
     fi
 
+    if [[ "${TRANSMISSION_HOME%/*}" != "/config" ]]; then
+        echo "WARNING: TRANSMISSION_HOME mountpoint is not on default /config, this is not recommended."
+    fi
+
+    #If migration is enabled, attempt to move transmission-home
+    if [[ "$TRANSMISSION_HOME_MIGRATE" = true ]]; then
+        TRANSMISSION_HOME_SUBNAME=${TRANSMISSION_HOME##*/}
+        echo "Attempting to migrate old TRANSMISSION_HOME from /data/$TRANSMISSION_HOME_SUBNAME to /config/$TRANSMISSION_HOME_SUBNAME "
+        if [ -d "/data/$TRANSMISSION_HOME_SUBNAME" ] && [ ! -d "/config/$TRANSMISSION_HOME_SUBNAME" ]; then
+            mv "/data/$TRANSMISSION_HOME_SUBNAME" "/config/$TRANSMISSION_HOME_SUBNAME"
+            TRANSMISSION_HOME="/config/$TRANSMISSION_HOME_SUBNAME"
+            TRANSMISSION_HOME_MIGRATE=false
+        else
+            echo "Could not migrate, please check for existing folder in /config or missing folder in /data"
+        fi
+    fi
+
     # Make sure directories exist before chown and chmod
     mkdir -p /config \
         "${TRANSMISSION_HOME}" \
@@ -24,15 +41,13 @@ if [ -n "$PUID" ] && [ ! "$(id -u root)" -eq "$PUID" ]; then
         "${TRANSMISSION_INCOMPLETE_DIR}" \
         "${TRANSMISSION_WATCH_DIR}"
 
-    echo "Enforcing ownership on transmission config directories"
+    echo "Enforcing ownership on transmission config directory"
     chown -R ${RUN_AS}:${RUN_AS} \
-        /config \
-        "${TRANSMISSION_HOME}"
+        /config
 
-    echo "Applying permissions to transmission config directories"
+    echo "Applying permissions to transmission config directory"
     chmod -R go=rX,u=rwX \
-        /config \
-        "${TRANSMISSION_HOME}"
+        /config
 
     if [ "$GLOBAL_APPLY_PERMISSIONS" = true ] ; then
         echo "Setting owner for transmission paths to ${PUID}:${PGID}"
