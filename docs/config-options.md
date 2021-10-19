@@ -87,8 +87,10 @@ In previous versions of this container the settings were not persistent but was 
 This had the benefit of being very explicit and reproducable but you had to provide Transmission config as environment variables if you
 wanted them to stay that way between container restarts. This felt cumbersome to many.
 
-As of version 3.0 this is no longer true. Settings are now persisted in the `/config/transmission-home` folder in the container and as
+As of version 5.0 this is no longer true. Settings are now persisted in the `/config/transmission-home` folder in the container and as
 long as you mount `/config` you should be able to configure Transmission using the UI as you normally would.
+if you are using the container from earlier versions and have not changed the location of transmission-home to /config, you will see a warning message that the default has changed.
+You can either manually copy the folder to your /config mount or set TRANSMISSION_HOME_MIGRATE=true to allow the container to mv it for you when re-creating the container.
 
 You may still override Transmission options by setting environment variables if that's your thing.
 The variables are named after the transmission config they target but are prefixed with `TRANSMISSION_`, capitalized, and `-` is converted to `_`.
