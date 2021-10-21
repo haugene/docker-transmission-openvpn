@@ -25,6 +25,7 @@ if [ -n "$PUID" ] && [ ! "$(id -u root)" -eq "$PUID" ]; then
     fi
     #Old default transmission-home exists, use as fallback
     if [ -d "/data/transmission-home" ]; then
+        echo "WARNING: Deprecated. Found transmission-home folder in the /data mount, setting this as TRANSMISSION_HOME. This might break in future versions."
         TRANSMISSION_HOME="/data/transmission-home"
         echo "WARNING: old default TRANSMISSION_HOME found at: ${TRANSMISSION_HOME}"
         echo "We will fallback to this directory as long as the folder exists. Please consider moving it to /config"
