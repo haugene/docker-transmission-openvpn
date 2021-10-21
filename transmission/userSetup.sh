@@ -17,21 +17,17 @@ if [ -n "$PUID" ] && [ ! "$(id -u root)" -eq "$PUID" ]; then
       chown ${RUN_AS}:${RUN_AS} /dev/stdout
     fi
 
+    echo "TRANSMISSION_HOME is set to: ${TRANSMISSION_HOME}"
     if [[ "${TRANSMISSION_HOME%/*}" != "/config" ]]; then
-        echo "WARNING: TRANSMISSION_HOME mountpoint is not on default /config, this is not recommended."
+            echo "WARNING: TRANSMISSION_HOME mountpoint is not on default /config, this is not recommended."
+            echo "This warning will be displayed as long as TRANSMISSION_HOME is not set to /config mount."
+            echo "If you would like to migrate your existing TRANSMISSION_HOME, please stop the container, add volume /config and move the transmission-home directory there."
     fi
-
-    #If migration is enabled, attempt to move transmission-home
-    if [[ "$TRANSMISSION_HOME_MIGRATE" = true ]]; then
-        TRANSMISSION_HOME_SUBNAME=${TRANSMISSION_HOME##*/}
-        echo "Attempting to migrate old TRANSMISSION_HOME from /data/$TRANSMISSION_HOME_SUBNAME to /config/$TRANSMISSION_HOME_SUBNAME "
-        if [ -d "/data/$TRANSMISSION_HOME_SUBNAME" ] && [ ! -d "/config/$TRANSMISSION_HOME_SUBNAME" ]; then
-            mv "/data/$TRANSMISSION_HOME_SUBNAME" "/config/$TRANSMISSION_HOME_SUBNAME"
-            TRANSMISSION_HOME="/config/$TRANSMISSION_HOME_SUBNAME"
-            TRANSMISSION_HOME_MIGRATE=false
-        else
-            echo "Could not migrate, please check for existing folder in /config or missing folder in /data"
-        fi
+    #Old default transmission-home exists, use as fallback
+    if [ -d "/data/transmission-home" ]; then
+        TRANSMISSION_HOME="/data/transmission-home"
+        echo "WARNING: Deprecated. Found old default transmission-home folder in the /data mount, setting this as TRANSMISSION_HOME. This might break in future versions."
+        echo "We will fallback to this directory as long as the folder exists. Please consider moving it to /config"
     fi
 
     # Make sure directories exist before chown and chmod
