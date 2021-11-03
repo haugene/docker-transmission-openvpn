@@ -92,7 +92,7 @@ These are called CIDR addresses and you can read up on them. The short story is 
 while /16 will allow any value in the two last places. Be sure to only allow IPs that are in the [private IP ranges](https://en.wikipedia.org/wiki/Private_network).
 This option punches a hole in the VPN for the IPs that you specify. It is neccessary to reach your Web UI but narrower ranges are better than wide ones.
 
-With that said. If you know that you're on a "typical" network with your router at 192.168.1.1, then `LOCAL_NETWORK=192.168.1.0/24` is better than `LOCAL_NETWORK=192.168.0.0/16`. That way you only allow access form 192.168.1.x instead of 192.168.x.y.
+With that said. If you know that you're on a "typical" network with your router at 192.168.1.1, then `LOCAL_NETWORK=192.168.1.0/24` is better than `LOCAL_NETWORK=192.168.0.0/16`. That way you only allow access from 192.168.1.x instead of 192.168.x.y.
 
 There is an alternative to the LOCAL_NETWORK environment variable, and that is a reverse proxy in the same docker network as the vpn container.
 Because this topic is both quite complex and very important there is a separate page on [VPN and Networking](vpn-networking.md) in the container and it goes into depth on why this is.
