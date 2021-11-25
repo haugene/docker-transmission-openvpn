@@ -38,9 +38,9 @@ Also, look up differences between how [yaml special characters](https://support.
 
 ## How do I verify that my traffic is using VPN
 
-There are many ways of doing this, and I welcome you to add to this list if you have any suggestsions.
+There are many ways of doing this, and I welcome you to add to this list if you have any suggestions.
 
-You can exec into the container and throug the shell use `curl` to ask for your public IP. There are
+You can exec into the container and through the shell use `curl` to ask for your public IP. There are
 multiple endpoints for this but here are a few suggestions:
 
 * `curl http://ipinfo.io/ip`
@@ -173,7 +173,7 @@ Depending on your setup, you may not want to send your vpn user/pass via environ
 For this example we will pretend, it is located at: `./openvpn-credentials.txt`
 ```
 this_is_my_username
-this_is_my_passord
+this_is_my_password
 ```
 1. Set the Environment Variable for username/password to exactly: `**None**`
 
