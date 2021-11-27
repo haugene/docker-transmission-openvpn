@@ -3,28 +3,31 @@
 # Source our persisted env variables from container startup
 . /etc/transmission/environment-variables.sh
 
-# This script will be called with tun/tap device name as parameter 1, and local IP as parameter 4
-# See https://openvpn.net/index.php/open-source/documentation/manuals/65-openvpn-20x-manpage.html (--up cmd)
-echo "Up script executed with $*"
-if [[ "$4" = "" ]]; then
+# This script will be called with OpenVPN environment variables
+# See https://openvpn.net/community-resources/reference-manual-for-openvpn-2-4/#scripting-and-environmental-variables
+echo "Up script executed with device=$dev ifconfig_local=$ifconfig_local"
+if [[ "$ifconfig_local" = "" ]]; then
   echo "ERROR, unable to obtain tunnel address"
   echo "killing $PPID"
   kill -9 $PPID
   exit 1
 fi
 
+# Re-create `--up` command arguments to maintain compatibility with old user scripts
+USER_SCRIPT_ARGS=("$dev" "$tun_mtu" "$link_mtu" "$ifconfig_local" "$ifconfig_remote" "$script_context")
+
 # If transmission-pre-start.sh exists, run it
 if [[ -x /scripts/transmission-pre-start.sh ]]; then
   echo "Executing /scripts/transmission-pre-start.sh"
-  /scripts/transmission-pre-start.sh "$@"
+  /scripts/transmission-pre-start.sh "${USER_SCRIPT_ARGS[@]}"
   echo "/scripts/transmission-pre-start.sh returned $?"
 fi
 
-echo "Updating TRANSMISSION_BIND_ADDRESS_IPV4 to the ip of $1 : $4"
-export TRANSMISSION_BIND_ADDRESS_IPV4=$4
+echo "Updating TRANSMISSION_BIND_ADDRESS_IPV4 to the ip of $dev : $ifconfig_local"
+export TRANSMISSION_BIND_ADDRESS_IPV4=$ifconfig_local
 # Also update the persisted settings in case it is already set. First remove any old value, then add new.
 sed -i '/TRANSMISSION_BIND_ADDRESS_IPV4/d' /etc/transmission/environment-variables.sh
-echo "export TRANSMISSION_BIND_ADDRESS_IPV4=$4" >>/etc/transmission/environment-variables.sh
+echo "export TRANSMISSION_BIND_ADDRESS_IPV4=$ifconfig_local" >>/etc/transmission/environment-variables.sh
 
 if [[ "combustion" = "$TRANSMISSION_WEB_UI" ]]; then
   echo "Using Combustion UI, overriding TRANSMISSION_WEB_HOME"
@@ -92,7 +95,7 @@ fi
 # If transmission-post-start.sh exists, run it
 if [[ -x /scripts/transmission-post-start.sh ]]; then
   echo "Executing /scripts/transmission-post-start.sh"
-  /scripts/transmission-post-start.sh "$@"
+  /scripts/transmission-post-start.sh "${USER_SCRIPT_ARGS[@]}"
   echo "/scripts/transmission-post-start.sh returned $?"
 fi
 
