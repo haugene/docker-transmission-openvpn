@@ -54,6 +54,8 @@ if [[ "shift" = "$TRANSMISSION_WEB_UI" ]]; then
   export TRANSMISSION_WEB_HOME=/opt/transmission-ui/shift
 fi
 
+. /etc/transmission/userSetup.sh
+
 echo "Updating Transmission settings.json with values from env variables"
 # Ensure TRANSMISSION_HOME is created
 mkdir -p ${TRANSMISSION_HOME}
@@ -67,8 +69,6 @@ if [[ ! -e "/dev/random" ]]; then
   echo "INFO: /dev/random not found - symlink to /dev/urandom"
   ln -s /dev/urandom /dev/random
 fi
-
-. /etc/transmission/userSetup.sh
 
 if [[ "true" = "$DROP_DEFAULT_ROUTE" ]]; then
     echo "DROPPING DEFAULT ROUTE"
