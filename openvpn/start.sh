@@ -234,9 +234,9 @@ if [[ "${ENABLE_UFW,,}" == "true" ]]; then
   if [[ -n "${UFW_EXTRA_PORTS-}"  ]]; then
     for port in ${UFW_EXTRA_PORTS//,/ }; do
       if [[ "${UFW_ALLOW_GW_NET,,}" == "true" ]]; then
-        ufwAllowPortLong port ${GW_CIDR}
+        ufwAllowPortLong ${port} ${GW_CIDR}
       else
-        ufwAllowPortLong port ${GW}
+        ufwAllowPortLong ${port} ${GW}
       fi
     done
   fi
@@ -248,10 +248,10 @@ if [[ -n "${LOCAL_NETWORK-}" ]]; then
       echo "adding route to local network ${localNet} via ${GW} dev ${INT}"
       /sbin/ip route add "${localNet}" via "${GW}" dev "${INT}"
       if [[ "${ENABLE_UFW,,}" == "true" ]]; then
-        ufwAllowPortLong TRANSMISSION_RPC_PORT localNet
+        ufwAllowPortLong ${TRANSMISSION_RPC_PORT} ${localNet}
         if [[ -n "${UFW_EXTRA_PORTS-}" ]]; then
           for port in ${UFW_EXTRA_PORTS//,/ }; do
-            ufwAllowPortLong port localNet
+            ufwAllowPortLong ${port} ${localNet}
           done
         fi
       fi
