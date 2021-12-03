@@ -220,23 +220,23 @@ if [[ "${ENABLE_UFW,,}" == "true" ]]; then
     PEER_PORT="${TRANSMISSION_PEER_PORT}"
   fi
 
-  ufwAllowPort PEER_PORT
+  ufwAllowPort ${PEER_PORT}
 
   if [[ "${WEBPROXY_ENABLED,,}" == "true" ]]; then
-    ufwAllowPort WEBPROXY_PORT
+    ufwAllowPort ${WEBPROXY_PORT}
   fi
   if [[ "${UFW_ALLOW_GW_NET,,}" == "true" ]]; then
-    ufwAllowPortLong TRANSMISSION_RPC_PORT GW_CIDR
+    ufwAllowPortLong ${TRANSMISSION_RPC_PORT} ${GW_CIDR}
   else
-    ufwAllowPortLong TRANSMISSION_RPC_PORT GW
+    ufwAllowPortLong ${TRANSMISSION_RPC_PORT} ${GW}
   fi
 
   if [[ -n "${UFW_EXTRA_PORTS-}"  ]]; then
     for port in ${UFW_EXTRA_PORTS//,/ }; do
       if [[ "${UFW_ALLOW_GW_NET,,}" == "true" ]]; then
-        ufwAllowPortLong port GW_CIDR
+        ufwAllowPortLong port ${GW_CIDR}
       else
-        ufwAllowPortLong port GW
+        ufwAllowPortLong port ${GW}
       fi
     done
   fi
