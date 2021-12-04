@@ -182,7 +182,7 @@ fi
 
 ## Open port to any address
 function ufwAllowPort {
-  typeset -n portNum=${1}
+  portNum=${1}
   if [[ "${ENABLE_UFW,,}" == "true" ]] && [[ -n "${portNum-}" ]]; then
     echo "allowing ${portNum} through the firewall"
     ufw allow ${portNum}
@@ -191,7 +191,8 @@ function ufwAllowPort {
 
 ## Open port to specific address.
 function ufwAllowPortLong {
-  typeset -n portNum=${1} sourceAddress=${2}
+  portNum=${1}
+  sourceAddress=${2}
 
   if [[ "${ENABLE_UFW,,}" == "true" ]] && [[ -n "${portNum-}" ]] && [[ -n "${sourceAddress-}" ]]; then
     echo "allowing ${sourceAddress} through the firewall to port ${portNum}"
