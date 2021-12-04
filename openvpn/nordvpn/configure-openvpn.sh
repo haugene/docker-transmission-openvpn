@@ -1,4 +1,6 @@
-#! /bin/bash
+#!/bin/bash
+
+source /etc/openvpn/utils.sh
 
 NORDVPN_PROTOCOL=${NORDVPN_PROTOCOL:-UDP}
 export NORDVPN_PROTOCOL

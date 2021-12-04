@@ -2,6 +2,7 @@
 
 set -e
 TIME_FORMAT=`date "+%Y-%m-%d %H:%M:%S"`
+source /etc/openvpn/utils.sh
 
 log()  {
     printf "${TIME_FORMAT} %b\n" "$*" > /dev/stderr;

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source /etc/openvpn/utils.sh
+
 # Source our persisted env variables from container startup
 . /etc/transmission/environment-variables.sh
 

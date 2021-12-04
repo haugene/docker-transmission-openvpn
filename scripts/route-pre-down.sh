@@ -1,5 +1,7 @@
 #!/bin/bash
 # redirect stdout/stderr to a file
+source /etc/openvpn/utils.sh
+
 #exec &>>route-pre-down.log
 
 #Print Date

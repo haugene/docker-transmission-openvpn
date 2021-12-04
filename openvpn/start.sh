@@ -4,11 +4,13 @@
 # Get some initial setup out of the way.
 ##
 
+set -e
+
+source /etc/openvpn/utils.sh
+
 if [[ -n "$REVISION" ]]; then
   echo "Starting container with revision: $REVISION"
 fi
-
-[[ "${DEBUG}" == "true" ]] && set -x
 
 # If openvpn-pre-start.sh exists, run it
 if [[ -x /scripts/openvpn-pre-start.sh ]]; then
@@ -32,7 +34,7 @@ if ! nslookup ${HEALTH_CHECK_HOST:-"google.com"} 1>/dev/null 2>&1; then
 fi
 
 # If create_tun_device is set, create /dev/net/tun
-if [[ "${CREATE_TUN_DEVICE,,}" == "true" ]]; then
+if [[ "${CREATE_TUN_DEVICE,,}" == "true" ]] ; then
   echo "Creating TUN device /dev/net/tun"
   mkdir -p /dev/net
   mknod /dev/net/tun c 10 200

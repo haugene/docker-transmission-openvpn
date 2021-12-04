@@ -146,3 +146,11 @@ Once /scripts is mounted you'll need to write your custom code in the following 
 | /scripts/transmission-post-stop.sh  | This shell script will be executed after transmission stop   |
 
 Don't forget to include the #!/bin/bash shebang and to make the scripts executable using chmod a+x
+
+### Debugging
+
+By default, commands are not echoed to stdout before being processed. Setting DEBUG to any value other than the string false will trigger command echo (set -x) for all bash scripts.
+
+| Variable                              | Function |Example|
+| ----------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+|DEBUG|Echo all commands to stdout.|DEBUG=true|

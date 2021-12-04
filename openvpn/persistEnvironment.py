@@ -14,6 +14,7 @@ args = parser.parse_args()
 
 wanted_variables = {
     'OPENVPN_PROVIDER',
+    'DEBUG',
     'ENABLE_UFW',
     'PUID',
     'PGID',

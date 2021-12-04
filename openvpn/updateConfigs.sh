@@ -1,9 +1,9 @@
 #!/bin/bash
 
 set -e
+source /etc/openvpn/utils.sh
 
 # Parent script for updating OpenVPN configs
-
 # If the script is called from elsewhere
 cd "${0%/*}"
 
