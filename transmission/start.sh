@@ -1,5 +1,8 @@
 #!/bin/bash
 
+DEBUG=${DEBUG:-"false"}
+[[ ${DEBUG} != "false" ]] && set -x
+
 # Source our persisted env variables from container startup
 . /etc/transmission/environment-variables.sh
 

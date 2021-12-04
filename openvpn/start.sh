@@ -4,6 +4,10 @@
 # Get some initial setup out of the way.
 ##
 
+set -e
+
+DEBUG=${DEBUG:-"false"}
+[[ ${DEBUG} != "false" ]] && set -x
 if [[ -n "$REVISION" ]]; then
   echo "Starting container with revision: $REVISION"
 fi

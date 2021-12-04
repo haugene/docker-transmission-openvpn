@@ -1,9 +1,11 @@
-#! /bin/bash
+#!/bin/bash
 
 set -o nounset
 set -o errexit
 set -o pipefail
 
+DEBUG=${DEBUG:-"false"}
+[[ ${DEBUG} != "false" ]] && set -x
 VPN_CONFIG_SOURCE_TYPE="${VPN_CONFIG_SOURCE_TYPE:-github_zip}"
 
 # Set default GitHub config repo

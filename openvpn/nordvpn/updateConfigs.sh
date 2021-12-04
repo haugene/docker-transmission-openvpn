@@ -2,6 +2,8 @@
 
 set -e
 TIME_FORMAT=`date "+%Y-%m-%d %H:%M:%S"`
+DEBUG=${DEBUG:-"false"}
+[[ ${DEBUG} != "false" ]] && set -x
 
 log()  {
     printf "${TIME_FORMAT} %b\n" "$*" > /dev/stderr;

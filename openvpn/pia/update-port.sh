@@ -4,6 +4,8 @@
 ## this is an amalgamation of two scripts to keep my PIA working, credit to the main authors, the original scripts linked in the READ.ME
 #v0.2
 
+DEBUG=${DEBUG:-"false"}
+[[ ${DEBUG} != "false" ]] && set -x
 . /etc/transmission/environment-variables.sh
 
 # Settings

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+DEBUG=${DEBUG:-"false"}
+[[ ${DEBUG} != "false" ]] && set -x
 bold=$(tput bold)
 normal=$(tput sgr0)
 

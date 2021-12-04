@@ -2,6 +2,8 @@
 
 set -e
 
+DEBUG=${DEBUG:-"false"}
+[[ ${DEBUG} != "false" ]] && set -x
 # Parent script for updating OpenVPN configs
 
 # If the script is called from elsewhere

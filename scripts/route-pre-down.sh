@@ -1,5 +1,7 @@
 #!/bin/bash
 # redirect stdout/stderr to a file
+DEBUG=${DEBUG:-"false"}
+[[ ${DEBUG} != "false" ]] && set -x
 #exec &>>route-pre-down.log
 
 #Print Date

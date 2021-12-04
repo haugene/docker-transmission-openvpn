@@ -1,5 +1,8 @@
 #! /bin/bash
 
+DEBUG=${DEBUG:-"false"}
+[[ ${DEBUG} != "false" ]] && set -x
+
 # If transmission-pre-stop.sh exists, run it
 if [[ -x /scripts/transmission-pre-stop.sh ]]
 then

@@ -2,6 +2,8 @@
 
 set -e
 
+DEBUG=${DEBUG:-"false"}
+[[ ${DEBUG} != "false" ]] && set -x
 baseURL="https://www.ipvanish.com/software/configs"
 CONFIG_BUNDLE="configs.zip"
 

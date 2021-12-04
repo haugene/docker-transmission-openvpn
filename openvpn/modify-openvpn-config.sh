@@ -1,5 +1,8 @@
 #!/bin/bash
 
+DEBUG=${DEBUG:-"false"}
+[[ ${DEBUG} != "false" ]] && set -x
+
 if [ "$#" -ne 1 ]; then
     echo "Illegal number of parameters"
     exit 1

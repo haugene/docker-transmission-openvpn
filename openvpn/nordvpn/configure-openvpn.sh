@@ -1,4 +1,7 @@
-#! /bin/bash
+#!/bin/bash
+
+DEBUG=${DEBUG:-"false"}
+[[ ${DEBUG} != "false" ]] && set -x
 
 NORDVPN_PROTOCOL=${NORDVPN_PROTOCOL:-UDP}
 export NORDVPN_PROTOCOL

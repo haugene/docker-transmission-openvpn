@@ -1,5 +1,8 @@
 #!/bin/bash
 
+DEBUG=${DEBUG:-"false"}
+[[ ${DEBUG} != "false" ]] && set -x
+
 # Handle SIGTERM
 sigterm() {
     echo "Received SIGTERM, exiting..."

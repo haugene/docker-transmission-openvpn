@@ -2,6 +2,9 @@
 # Source our persisted env variables from container startup
 . /etc/transmission/environment-variables.sh
 
+DEBUG=${DEBUG:-"false"}
+[[ ${DEBUG} != "false" ]] && set -x
+
 if [[ "${PEER_DNS,,}" == "true" ]]; then
         NS=
         NS_ROUTES=( )
