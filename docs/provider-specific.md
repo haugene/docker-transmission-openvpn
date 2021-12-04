@@ -40,3 +40,42 @@ or add following line to docker run
 ```yaml
 --sysctl net.ipv6.conf.all.disable_ipv6=0
 ```
+
+### NJAL.LA
+
+[Njal.la](https://njal.la/vpn/) provides `.ovpn` configuration file. User
+needs to specify to enable ipv6.
+
+Here is a full example of `docker-compose.yml` file, assuming configuration file named `Njalla-VPN.ovpn`
+is under local `config` subdirectory.
+
+```yaml
+version: '3.3'
+services:
+    transmission-openvpn:
+      cap_add:
+        - NET_ADMIN
+      volumes:
+        - ./config/Njalla-VPN.ovpn:/etc/openvpn/custom/default.ovpn:rw
+        - ./data:/data:rw
+      dns:
+        - 1.1.1.1
+      devices:
+        - /dev/net/tun
+      sysctls:
+        # must enable ipv6 to have njal.la work
+        - net.ipv6.conf.all.disable_ipv6=0
+      environment:
+        - OPENVPN_PROVIDER=CUSTOM
+        - OPENVPN_USERNAME=user
+        - OPENVPN_PASSWORD=pass
+        - LOCAL_NETWORK=192.168.1.0/24
+        - HEALTH_CHECK_HOST=google.com
+      ports:
+         - '9091:9091'
+      logging:
+        driver: json-file
+        options:
+          max-size: 10m
+      image: haugene/transmission-openvpn:latest
+```
