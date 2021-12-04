@@ -1,7 +1,7 @@
 #!/bin/bash
 
-DEBUG=${DEBUG:-"false"}
-[[ ${DEBUG} != "false" ]] && set -x
+source /etc/openvpn/utils.sh
+
 bold=$(tput bold)
 normal=$(tput sgr0)
 

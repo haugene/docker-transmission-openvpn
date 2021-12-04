@@ -1,7 +1,6 @@
 #!/bin/bash
 
-DEBUG=${DEBUG:-"false"}
-[[ ${DEBUG} != "false" ]] && set -x
+source /etc/openvpn/utils.sh
 SELFHEAL_INTERVAL=${SELFHEAL_INTERVAL:-1m}
 SELFHEAL_TIMEOUT=${SELFHEAL_TIMEOUT:-30s}
 SELFHEAL_START_PERIOD=${SELFHEAL_START_PERIOD:-0s}

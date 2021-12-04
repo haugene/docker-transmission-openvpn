@@ -1,7 +1,6 @@
 #!/bin/bash
 
-DEBUG=${DEBUG:-"false"}
-[[ ${DEBUG} != "false" ]] && set -x
+source /etc/openvpn/utils.sh
 
 # Handle SIGTERM
 sigterm() {

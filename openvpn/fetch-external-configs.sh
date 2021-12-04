@@ -4,8 +4,8 @@ set -o nounset
 set -o errexit
 set -o pipefail
 
-DEBUG=${DEBUG:-"false"}
-[[ ${DEBUG} != "false" ]] && set -x
+source /etc/openvpn/utils.sh
+
 VPN_CONFIG_SOURCE_TYPE="${VPN_CONFIG_SOURCE_TYPE:-github_zip}"
 
 # Set default GitHub config repo

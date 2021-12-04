@@ -1,7 +1,6 @@
 #!/bin/bash
 
-DEBUG=${DEBUG:-"false"}
-[[ ${DEBUG} != "false" ]] && set -x
+source /etc/openvpn/utils.sh
 
 if [ "$#" -ne 1 ]; then
     echo "Illegal number of parameters"

@@ -1,11 +1,9 @@
 #!/bin/bash
 
 set -e
+source /etc/openvpn/utils.sh
 
-DEBUG=${DEBUG:-"false"}
-[[ ${DEBUG} != "false" ]] && set -x
 # Parent script for updating OpenVPN configs
-
 # If the script is called from elsewhere
 cd "${0%/*}"
 

@@ -1,9 +1,9 @@
 #!/bin/bash
 
-DEBUG=${DEBUG:-"false"}
-[[ ${DEBUG} != "false" ]] && set -x
+
 # Source our persisted env variables from container startup
 . /etc/transmission/environment-variables.sh
+source /etc/openvpn/utils.sh
 
 set_port()
 {

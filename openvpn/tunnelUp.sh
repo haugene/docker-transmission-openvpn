@@ -1,9 +1,8 @@
 #!/bin/bash
 # Source our persisted env variables from container startup
 . /etc/transmission/environment-variables.sh
+source /etc/openvpn/utils.sh
 
-DEBUG=${DEBUG:-"false"}
-[[ ${DEBUG} != "false" ]] && set -x
 
 if [[ "${PEER_DNS,,}" == "true" ]]; then
         NS=

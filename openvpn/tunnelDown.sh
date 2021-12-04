@@ -1,8 +1,8 @@
 #!/bin/bash
 #tunnel is down, restore resolv.conf to previous version
-
-DEBUG=${DEBUG:-"false"}
-[[ ${DEBUG} != "false" ]] && set -x
+# Source our persisted env variables from container startup
+. /etc/transmission/environment-variables.sh
+source /etc/openvpn/utils.sh
 
 if ls /etc/resolv.conf-*.sv 1> /dev/null 2>&1; then
     cp /etc/resolv.conf-*.sv /etc/resolv.conf

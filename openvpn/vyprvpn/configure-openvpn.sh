@@ -1,8 +1,8 @@
 #!/bin/bash
 # https://support.vyprvpn.com/hc/en-us/articles/360038096131-Where-can-I-find-the-OpenVPN-files-
 
-DEBUG=${DEBUG:-"false"}
-[[ ${DEBUG} != "false" ]] && set -x
+source /etc/openvpn/utils.sh
+
 if [[ -z "$VPN_PROVIDER_HOME" ]]; then
    echo "ERROR: Need to have VPN_PROVIDER_HOME set to call this script" && exit 1
 fi

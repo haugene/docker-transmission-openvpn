@@ -1,7 +1,7 @@
 #!/bin/bash
 # redirect stdout/stderr to a file
-DEBUG=${DEBUG:-"false"}
-[[ ${DEBUG} != "false" ]] && set -x
+source /etc/openvpn/utils.sh
+
 #exec &>>route-pre-down.log
 
 #Print Date

@@ -6,8 +6,8 @@
 # 1. Mount a custom config file to be used
 # 2. Use the built in template that supports one feed with regex filter
 #
-DEBUG=${DEBUG:-"false"}
-[[ ${DEBUG} != "false" ]] && set -x
+. /etc/transmission/environment-variables.sh
+source /etc/openvpn/utils.sh
 
 if [ -f /etc/transmission-rss.conf ] ; then
   echo "Found mounted /etc/transmission-rss.conf file"
