@@ -47,6 +47,8 @@ multiple endpoints for this but here are a few suggestions:
 * `curl http://ipecho.net/plain`
 * `curl icanhazip.com`
 
+Example command: `docker exec <container-name> curl --silent "http://ipinfo.io/ip"`
+
 Or you could use a test torrent service to download a torrent file and then you can get the IP from that tracker.
 
 * http://ipmagnet.services.cbcdn.com/
