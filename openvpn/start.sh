@@ -190,7 +190,7 @@ fi
 
 ## Open port to any address
 function ufwAllowPort {
-  typeset -n portNum=${1}
+  portNum=${1}
   if [[ "${ENABLE_UFW,,}" == "true" ]] && [[ -n "${portNum-}" ]]; then
     echo "allowing ${portNum} through the firewall"
     ufw allow ${portNum}
@@ -199,7 +199,8 @@ function ufwAllowPort {
 
 ## Open port to specific address.
 function ufwAllowPortLong {
-  typeset -n portNum=${1} sourceAddress=${2}
+  portNum=${1}
+  sourceAddress=${2}
 
   if [[ "${ENABLE_UFW,,}" == "true" ]] && [[ -n "${portNum-}" ]] && [[ -n "${sourceAddress-}" ]]; then
     echo "allowing ${sourceAddress} through the firewall to port ${portNum}"
@@ -228,23 +229,23 @@ if [[ "${ENABLE_UFW,,}" == "true" ]]; then
     PEER_PORT="${TRANSMISSION_PEER_PORT}"
   fi
 
-  ufwAllowPort PEER_PORT
+  ufwAllowPort ${PEER_PORT}
 
   if [[ "${WEBPROXY_ENABLED,,}" == "true" ]]; then
-    ufwAllowPort WEBPROXY_PORT
+    ufwAllowPort ${WEBPROXY_PORT}
   fi
   if [[ "${UFW_ALLOW_GW_NET,,}" == "true" ]]; then
-    ufwAllowPortLong TRANSMISSION_RPC_PORT GW_CIDR
+    ufwAllowPortLong ${TRANSMISSION_RPC_PORT} ${GW_CIDR}
   else
-    ufwAllowPortLong TRANSMISSION_RPC_PORT GW
+    ufwAllowPortLong ${TRANSMISSION_RPC_PORT} ${GW}
   fi
 
   if [[ -n "${UFW_EXTRA_PORTS-}"  ]]; then
     for port in ${UFW_EXTRA_PORTS//,/ }; do
       if [[ "${UFW_ALLOW_GW_NET,,}" == "true" ]]; then
-        ufwAllowPortLong port GW_CIDR
+        ufwAllowPortLong ${port} ${GW_CIDR}
       else
-        ufwAllowPortLong port GW
+        ufwAllowPortLong ${port} ${GW}
       fi
     done
   fi
@@ -256,15 +257,22 @@ if [[ -n "${LOCAL_NETWORK-}" ]]; then
       echo "adding route to local network ${localNet} via ${GW} dev ${INT}"
       /sbin/ip route add "${localNet}" via "${GW}" dev "${INT}"
       if [[ "${ENABLE_UFW,,}" == "true" ]]; then
-        ufwAllowPortLong TRANSMISSION_RPC_PORT localNet
+        ufwAllowPortLong ${TRANSMISSION_RPC_PORT} ${localNet}
         if [[ -n "${UFW_EXTRA_PORTS-}" ]]; then
           for port in ${UFW_EXTRA_PORTS//,/ }; do
-            ufwAllowPortLong port localNet
+            ufwAllowPortLong ${port} ${localNet}
           done
         fi
       fi
     done
   fi
+fi
+
+# If routes-post-start.sh exists, run it
+if [[ -x /scripts/routes-post-start.sh ]]; then
+  echo "Executing /scripts/routes-post-start.sh"
+  /scripts/routes-post-start.sh "$@"
+  echo "/scripts/routes-post-start.sh returned $?"
 fi
 
 if [[ ${SELFHEAL:-false} != "false" ]]; then

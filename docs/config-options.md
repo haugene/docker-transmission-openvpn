@@ -142,6 +142,7 @@ Once /scripts is mounted you'll need to write your custom code in the following 
 | /scripts/openvpn-post-config.sh     | This shell script will be executed after openvpn config      |
 | /scripts/transmission-pre-start.sh  | This shell script will be executed before transmission start |
 | /scripts/transmission-post-start.sh | This shell script will be executed after transmission start  |
+| /scripts/routes-post-start.sh       | This shell script will be executed after routes are added    |
 | /scripts/transmission-pre-stop.sh   | This shell script will be executed before transmission stop  |
 | /scripts/transmission-post-stop.sh  | This shell script will be executed after transmission stop   |
 
