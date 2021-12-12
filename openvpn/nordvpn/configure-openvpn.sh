@@ -182,7 +182,8 @@ download_hostname() {
   log "Downloading config: ${ovpnName}"
   log "Downloading from: ${nordvpn_cdn}"
   # VPN_PROVIDER_HOME defined is openvpn/start.sh
-  outfile="-o \"${VPN_PROVIDER_HOME}/${ovpnName}\""
+  outfile="-o "${VPN_PROVIDER_HOME}/${ovpnName}
+  #when testing script outside of container, display config instead of writing it.
   if [ ! -w ${VPN_PROVIDER_HOME} ]; then
     log "${VPN_PROVIDER_HOME} is not writable, outputing to stdout"
     unset outfile
