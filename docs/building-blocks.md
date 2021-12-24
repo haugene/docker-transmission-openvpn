@@ -12,7 +12,7 @@ OpenVPN configs to make it run as fast and secure as possible.
 
 ## It goes like this
 
-To understand how it works, this is the most important events
+To understand how it works, these are the most important events
 and who/what starts them.
 
 1. You start the container
@@ -21,7 +21,7 @@ and who/what starts them.
 
 When you start the container it is instructed to run a script
 to start OpenVPN. This is defined in [the Dockerfile](https://github.com/haugene/docker-transmission-openvpn/blob/master/Dockerfile).
-This script is responsible for doing initial setup and prepare what is needed for OpenVPN to run successfully.
+This script is responsible for doing initial setup and preparing what is needed for OpenVPN to run successfully.
 
 ## Starting OpenVPN
 
@@ -30,12 +30,12 @@ OpenVPN itself can be started with a single argument, and that is the config fil
 We also add a few more to tell it to start Transmission when the VPN tunnel is
 started and to stop Transmission when OpenVPN is stopped. That's it.
 
-Apart from that the script does some firewall config, vpn interface setup and possibly other
+Apart from that, the script does some firewall config, vpn interface setup and possibly other
 things based on your settings. There are also some reserved script names that a user can mount/add to
 the container to include their own scripts as a part of the setup or teardown of the container.
 
 Anyways! You have probably seen the docker run and docker-compose configuration examples
-and you've put two and two together: This is where environment variables comes in.
+and you've put two and two together: This is where environment variables come in.
 Setting environment variables is a common way to pass configuration options to containers
 and it is the way we have chosen to do it here.
 So far we've explained the need for `OPENVPN_PROVIDER` and `OPENVPN_CONFIG`. We use the
@@ -67,13 +67,13 @@ script which in turn will call the start scripts for
 
 The up script will be called with a number of parameters from OpenVPN, and among them is the IP of the tunnel interface.
 This IP is the one we've been assigned by DHCP from the OpenVPN server we're connecting to.
-We use this value to override Transmissions bind address, so we'll only listen for traffic from peers on the VPN interface.
+We use this value to override Transmission’s bind address, so we'll only listen for traffic from peers on the VPN interface.
 
-The startup script checks to see if one of the [alternative web ui's](config-options.md#alternative_web_uis) should be used for Transmission.
+The startup script checks to see if one of the [alternative web UIs](config-options.md#alternative_web_uis) should be used for Transmission.
 It also sets up the user that Transmission should be run as, based on the PUID and PGID passed by the user
 along with selecting preferred logging output and a few other tweaks.
 
-Before starting Transmission we also need to see if there are any settings that should be overridden.
+Before starting Transmission we also need to see if any settings should be overridden.
 One example of this is binding Transmission to the IP we've gotten from our VPN provider.
 Here we check if we find any environment variables that match a setting that we also see in settings.json.
 This is described in the [config section](config-options/#transmission_configuration_options).
@@ -89,9 +89,9 @@ After starting Transmission there is an optional step that some providers have;
 to get an open port and set it in Transmission. **Opening a port in your local router does not work**.
 I made that bold because it's a recurring theme. It's not intuitive until it is I guess.
 Since all your traffic is going through the VPN, which is kind of the point, the port you have to open is not on your router.
-Your router's external IP address is the destination of those packets. It is on your VPN providers end that it has to be opened.
-Some providers support this, other don't. We try to write scripts for those that do and that script will be executed
+Your router's external IP address is the destination of those packets. It is on your VPN provider’s end that it has to be opened.
+Some providers support this, others don't. We try to write scripts for those that do and that script will be executed
 after starting Transmission if it exists for your provider.
 
-At this point Transmission is running and everything is great!
+At this point, Transmission is running and everything is great!
 But you might not be able to access it, and that's the topic of the [networking section](vpn-networking.md).
