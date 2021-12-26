@@ -63,7 +63,7 @@ This means that Transmission will be started when OpenVPN has connected successf
 We are having OpenVPN call the [tunnelUp.sh](https://github.com/haugene/docker-transmission-openvpn/blob/master/openvpn/tunnelUp.sh)
 script which in turn will call the start scripts for
 [Transmission](https://github.com/haugene/docker-transmission-openvpn/blob/master/transmission/start.sh) and 
-[Privoxy](https://github.com/haugene/docker-transmission-openvpn/blob/master/privoxy/start.sh).
+[Privoxy](https://github.com/haugene/docker-transmission-openvpn/blob/master/privoxy/scripts/start.sh).
 
 The up script will be called with a number of parameters from OpenVPN, and among them is the IP of the tunnel interface.
 This IP is the one we've been assigned by DHCP from the OpenVPN server we're connecting to.
@@ -76,7 +76,7 @@ along with selecting preferred logging output and a few other tweaks.
 Before starting Transmission we also need to see if there are any settings that should be overridden.
 One example of this is binding Transmission to the IP we've gotten from our VPN provider.
 Here we check if we find any environment variables that match a setting that we also see in settings.json.
-This is described in the [config section](config-options/#transmission_configuration_options).
+This is described in the [config section](config-options.md#transmission_configuration_options).
 Setting a matching environment variable will then override the setting in Transmission.
 
 OpenVPN does not pass the environment variables it was started with to Transmission.
