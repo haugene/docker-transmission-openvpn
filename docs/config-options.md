@@ -4,7 +4,7 @@
 | ------------------ | --------------------------------- | ------------------------------------------------------------------------------------------------------- |
 | `OPENVPN_PROVIDER` | Sets the OpenVPN provider to use. | `OPENVPN_PROVIDER=provider`. Supported providers and their config values are listed in the table above. |
 | `OPENVPN_USERNAME` | Your OpenVPN username             | `OPENVPN_USERNAME=asdf`                                                                                 |
-| `OPENVPN_PASSWORD` | Your OpenVPN password, beware of special charcters. Docker run vs docker-compose (using yaml) interprete special characters differently, see  [Yaml special characters](https://support.asg.com/mob/mvw/10_0/mv_ag/using_quotes_with_yaml_special_characters.htm)             | `OPENVPN_PASSWORD=asdf`                                                                                 |
+| `OPENVPN_PASSWORD` | Your OpenVPN password, beware of special characters. Docker run vs docker-compose (using yaml) interprete special characters differently, see  [Yaml special characters](https://support.asg.com/mob/mvw/10_0/mv_ag/using_quotes_with_yaml_special_characters.htm)             | `OPENVPN_PASSWORD=asdf`                                                                                 |
 
 ### Network configuration options
 
