@@ -1,4 +1,4 @@
-# OpenVPN and Transmission with WebUI
+# OpenVPN (Edge) and Transmission with WebUI
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/fluxstate/transmission-vpn-edge.svg)](https://hub.docker.com/r/fluxstate/transmission-vpn-edge/)
 
@@ -39,7 +39,7 @@ $ docker run --cap-add=NET_ADMIN -d \
               --log-driver json-file \
               --log-opt max-size=10m \
               -p 9091:9091 \
-              fluxstate/transmission-vpn
+              fluxstate/transmission-vpn-edge
 ```
 
 ### Docker Compose
@@ -63,5 +63,5 @@ services:
                 max-size: 10m
         ports:
             - '9091:9091'
-        image: fluxstate/transmission-vpn
+        image: fluxstate/transmission-vpn-edge
 ```
