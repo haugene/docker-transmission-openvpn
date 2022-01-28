@@ -1,4 +1,39 @@
-FROM alpine:3.13 as TransmissionUIs
+FROM ubuntu:22.04 as TransmissionBuild
+
+RUN apt-get update && apt-get dist-upgrade -y \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    automake autoconf build-essential clang cmake devscripts libtool pkg-config \
+    intltool libcurl4-openssl-dev libglib2.0-dev libevent-dev libminiupnpc-dev \
+    libgtk-3-dev libappindicator3-dev \
+    && sed -i '/deb-src/s/^# //' /etc/apt/sources.list \
+    && curl -fsSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | gpg --dearmor | tee "/usr/share/keyrings/nodesource.gpg" \
+    && gpg --no-default-keyring --keyring "/usr/share/keyrings/nodesource.gpg" --list-keys \
+    && echo "deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_16.x hirsute main" | tee /etc/apt/sources.list.d/nodesource.list \
+    && apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get build-dep -y transmission \
+    && apt-get install nodejs \
+    && corepack enable \
+    && apt-get autoremove -y && apt clean && rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
+
+WORKDIR /opt/transmission
+RUN git clone --depth 1 --recurse-submodules --shallow-submodules https://github.com/transmission/transmission.git . \
+    && sed -i 's/libdeflate_zlib_compress/libdeflate_gzip_compress/g' libtransmission/rpc-server.cc \
+    && sed -i '/^.*lock"/a \ \ COMMAND ${CMAKE_COMMAND} -E create_symlink "${CMAKE_CURRENT_BINARY_DIR}/node_modules" "${CMAKE_CURRENT_SOURCE_DIR}/node_modules"' web/CMakeLists.txt \
+    && mkdir build \ && cd build \
+    && cmake .. \
+	-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+	-DENABLE_CLI=ON \
+	-DENABLE_GTK=OFF \
+	-DENABLE_QT=OFF \
+	-DENABLE_TESTS=OFF \
+	-DENABLE_WEB=ON \
+	-DINSTALL_DOC=OFF \
+	-DINSTALL_LIB=ON \
+	-DRUN_CLANG_TIDY=OFF \
+    && make
+
+
+FROM alpine:latest as TransmissionUIs
 
 RUN apk --no-cache add curl jq \
     && mkdir -p /opt/transmission-ui \
@@ -16,26 +51,34 @@ RUN apk --no-cache add curl jq \
     && mkdir /opt/transmission-ui/transmission-web-control \
     && curl -sL $(curl -s https://api.github.com/repos/ronggang/transmission-web-control/releases/latest | jq --raw-output '.tarball_url') | tar -C /opt/transmission-ui/transmission-web-control/ --strip-components=2 -xz
 
-FROM ubuntu:20.04
+
+FROM ubuntu:22.04
 
 VOLUME /data
 VOLUME /config
 
 COPY --from=TransmissionUIs /opt/transmission-ui /opt/transmission-ui
 
-ARG DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
     dumb-init openvpn transmission-daemon transmission-cli privoxy \
     tzdata dnsutils iputils-ping ufw openssh-client git jq curl wget unrar unzip bc \
     && ln -s /usr/share/transmission/web/style /opt/transmission-ui/transmission-web-control \
     && ln -s /usr/share/transmission/web/images /opt/transmission-ui/transmission-web-control \
     && ln -s /usr/share/transmission/web/javascript /opt/transmission-ui/transmission-web-control \
     && ln -s /usr/share/transmission/web/index.html /opt/transmission-ui/transmission-web-control/index.original.html \
-    && rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/* \
+    && apt-get autoremove -y && apt-get clean && rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/* \
     && groupmod -g 1000 users \
     && useradd -u 911 -U -d /config -s /bin/false abc \
     && usermod -G users abc
 
+COPY --from=TransmissionBuild /opt/transmission/build/cli/transmission-cli /usr/bin/transmission-cli
+COPY --from=TransmissionBuild /opt/transmission/build/daemon/transmission-daemon /usr/bin/transmission-daemon
+COPY --from=TransmissionBuild /opt/transmission/build/utils/transmission-create /usr/bin/transmission-create
+COPY --from=TransmissionBuild /opt/transmission/build/utils/transmission-edit /usr/bin/transmission-edit
+COPY --from=TransmissionBuild /opt/transmission/build/utils/transmission-remote /usr/bin/transmission-remote
+COPY --from=TransmissionBuild /opt/transmission/build/utils/transmission-show /usr/bin/transmission-show
+COPY --from=TransmissionBuild /opt/transmission/web/public_html /opt/transmission-ui/trweb
 
 # Add configuration and scripts
 ADD openvpn/ /etc/openvpn/
@@ -67,7 +110,7 @@ ENV OPENVPN_USERNAME=**None** \
     WEBPROXY_USERNAME= \
     WEBPROXY_PASSWORD= \
     LOG_TO_STDOUT=false \
-    HEALTH_CHECK_HOST=google.com \
+    HEALTH_CHECK_HOST=1.1.1.1 \
     SELFHEAL=false
 
 HEALTHCHECK --interval=1m CMD /etc/scripts/healthcheck.sh
