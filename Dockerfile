@@ -17,7 +17,6 @@ RUN apt-get update && apt-get dist-upgrade -y \
 
 WORKDIR /opt/transmission
 RUN git clone --depth 1 --recurse-submodules --shallow-submodules https://github.com/transmission/transmission.git . \
-    && sed -i 's/libdeflate_zlib_compress/libdeflate_gzip_compress/g' libtransmission/rpc-server.cc \
     && sed -i '/^.*lock"/a \ \ COMMAND ${CMAKE_COMMAND} -E create_symlink "${CMAKE_CURRENT_BINARY_DIR}/node_modules" "${CMAKE_CURRENT_SOURCE_DIR}/node_modules"' web/CMakeLists.txt \
     && mkdir build \ && cd build \
     && cmake .. \

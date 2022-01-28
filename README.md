@@ -1,6 +1,6 @@
 # OpenVPN and Transmission with WebUI
 
-[![Docker Pulls](https://img.shields.io/docker/pulls/haugene/transmission-openvpn.svg)](https://hub.docker.com/r/fluxstate/transmission-vpn/)
+[![Docker Pulls](https://img.shields.io/docker/pulls/fluxstate/transmission-vpn-edge.svg)](https://hub.docker.com/r/fluxstate/transmission-vpn-edge/)
 
 This container contains OpenVPN and Transmission 3.00Z+ with a configuration
 where Transmission is running only when OpenVPN has an active tunnel.
