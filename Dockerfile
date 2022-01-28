@@ -4,11 +4,11 @@ RUN apt-get update && apt-get dist-upgrade -y \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     automake autoconf build-essential clang cmake devscripts libtool pkg-config \
     intltool libcurl4-openssl-dev libglib2.0-dev libevent-dev libminiupnpc-dev \
-    libgtk-3-dev libappindicator3-dev \
+    libgtk-3-dev libappindicator3-dev xfslibs-dev \
     && sed -i '/deb-src/s/^# //' /etc/apt/sources.list \
     && curl -fsSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | gpg --dearmor | tee "/usr/share/keyrings/nodesource.gpg" \
     && gpg --no-default-keyring --keyring "/usr/share/keyrings/nodesource.gpg" --list-keys \
-    && echo "deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_16.x hirsute main" | tee /etc/apt/sources.list.d/nodesource.list \
+    && echo "deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_16.x impish main" | tee /etc/apt/sources.list.d/nodesource.list \
     && apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get build-dep -y transmission \
     && apt-get install nodejs \

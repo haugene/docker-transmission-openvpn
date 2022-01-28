@@ -1,4 +1,4 @@
-# OpenVPN (Edge) and Transmission with WebUI
+# OpenVPN and Transmission (Dev/Edge) with WebUI
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/fluxstate/transmission-vpn-edge.svg)](https://hub.docker.com/r/fluxstate/transmission-vpn-edge/)
 
