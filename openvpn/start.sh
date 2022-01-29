@@ -106,7 +106,7 @@ if [[ -z ${CHOSEN_OPENVPN_CONFIG} ]]; then
   fi
 fi
 
-if [[ -z ${CHOSEN_OPENVPN_CONFIG} ]]; then
+if [[ -z ${CHOSEN_OPENVPN_CONFIG:-""} ]]; then
   # We still don't have a config. The user might have set a config in OPENVPN_CONFIG.
   if [[ -n "${OPENVPN_CONFIG-}" ]]; then
     readarray -t OPENVPN_CONFIG_ARRAY <<< "${OPENVPN_CONFIG//,/$'\n'}"
