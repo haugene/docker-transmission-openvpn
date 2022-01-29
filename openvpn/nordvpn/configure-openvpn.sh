@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 #
 # get config name based on api recommendation + ENV Vars (NORDVPN_COUNTRY, NORDVPN_PROTOCOL, NORDVPN_CATEGORY)
 #
@@ -30,6 +30,10 @@ nordvpn_cdn="https://${nordvpn_dl}/configs/files"
 nordvpn_doc="https://haugene.github.io/docker-transmission-openvpn/provider-specific/#nordvpn"
 possible_protocol="tcp, udp"
 VPN_PROVIDER_HOME=${VPN_PROVIDER_HOME:-${MAIN_DIR}/nordvpn}
+NORDVPN_COUNTRY=${NORDVPN_COUNTRY:-""}
+NORDVPN_CATEGORY=${NORDVPN_CATEGORY:-""}
+NORDVPN_PROTOCOL=${NORDVPN_PROTOCOL:-""}
+NORDVPN_SERVER=${NORDVPN_SERVER:-""}
 
 # Functions
 # TESTS: set values to test API response.
