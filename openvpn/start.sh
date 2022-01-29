@@ -155,9 +155,13 @@ if [[ -x /scripts/openvpn-post-config.sh ]]; then
   echo "/scripts/openvpn-post-config.sh returned $?"
 fi
 
+#Handle secrets if found
+[[ -f /run/secrets/openvpn_user ]] && export OPENVPN_USERNAME=$(cat /run/secrets/openvpn_user) || true
+[[ -f /run/secrets/openvpn_pass ]] && export OPENVPN_PASSWORD=$(cat /run/secrets/openvpn_pass) || true
+
 # add OpenVPN user/pass
-if [[ "${OPENVPN_USERNAME}" == "**None**" ]] || [[ "${OPENVPN_PASSWORD}" == "**None**" ]] ; then
-  if [[ ! -f /config/openvpn-credentials.txt ]] ; then
+if [[ "${OPENVPN_USERNAME}" == "**None**" ]] || [[ "${OPENVPN_PASSWORD}" == "**None**" ]] || [[ -z "${OPENVPN_USERNAME}" ]] || [[ -z ${OPENVPN_PASSWORD} ]]; then
+  if [[ ! -f /config/openvpn-credentials.txt ]]; then
     echo "OpenVPN credentials not set. Exiting."
     exit 1
   fi
