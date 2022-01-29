@@ -17,15 +17,11 @@ services:
  transmission:
     ....
     secrets:
-        - openvpn_user
-        - openvpn_pass
+        - openvpn_creds
 
 secrets:
-    openvpn_user:
-        file: ./openvpn_user
-    openvpn_pass:
-        file: ./openvpn_pass
-
+    openvpn_creds:
+        file: ./openvpn_creds
 ```
 
 ### Network configuration options
