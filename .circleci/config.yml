@@ -1,73 +1,42 @@
 version: 2.1
-workflows:
 
-  # Defines a workflow for building and pushing updated documentation to GitHub pages
-  build-documentation:
-    jobs:
-      - build-and-deploy-gh-pages:
-          filters:
-            branches:
-              only: master
-  
-  # Defines workflow for when to build the different Docker images
-  build-docker-images:
-    jobs:
-      - build-with-buildx:
-          name: build-transmission-openvpn-images
-          context: dockerhub
-          image-name: haugene/transmission-openvpn
-          build-context: "."
-          filters:
-            branches:
-              only:
-                - dev
-                - master
-            tags:
-              only: /^\d+\.\d+.*/
-      - build-with-buildx:
-          name: build-reverse-proxy-images
-          context: dockerhub
-          image-name: haugene/transmission-openvpn-proxy
-          build-context: "proxy"
-          filters:
-            branches:
-              only:
-                - dev
-                - master
-            tags:
-              only: /^\d+\.\d+.*/
-      - build-with-buildx:
-          name: build-rss-plugin-images
-          context: dockerhub
-          image-name: haugene/transmission-rss
-          build-context: "plugins/rss"
-          filters:
-            branches:
-              only:
-                - dev
-                - master
-            tags:
-              only: /^\d+\.\d+.*/
+commands:
+  calculate-tag-name:
+    description: "Calculates the target tag name for Docker image"
+    steps:
+      - run:
+          name: Calculate tag to set for the built Docker image
+          command: |
+            if [ ! -z $CIRCLE_TAG ]; then
+              TAG_VERSION=$CIRCLE_TAG
+            elif [ "$CIRCLE_BRANCH" = "edge" ]; then
+              TAG_VERSION=latest
+            else
+              TAG_VERSION=$CIRCLE_BRANCH;
+            fi
 
-# Job definitions, used by the workflows.
+            echo "export IMAGE_TAG=$TAG_VERSION$TAG_DISTRO" >> $BASH_ENV
+
+
 jobs:
-  build-with-buildx:
+  build:
+    environment:
+      DOCKER_BUILDKIT: "1"
+    
+    machine:
+      image: ubuntu-2004:202111-02
+
     parameters:
       image-name:
         type: string
       build-context:
         type: string
-    machine:
-      image: ubuntu-2004:202010-01
+
     steps:
       - checkout
+      - setup_remote_docker:
+          version: 20.10.11
       - run: sudo apt update && sudo apt install -y qemu-user
-      - run:
-          name: Download and install docker-buildx plugin
-          command: |
-            mkdir -p ~/.docker/cli-plugins
-            curl -sSL https://github.com/docker/buildx/releases/download/v0.5.1/buildx-v0.5.1.linux-amd64 -o ~/.docker/cli-plugins/docker-buildx
-            chmod a+x ~/.docker/cli-plugins/docker-buildx
       - run:
           name: Login to Docker Hub
           command: echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
@@ -79,38 +48,47 @@ jobs:
             docker buildx create --name multiarch --driver docker-container --use
             docker buildx ls
             docker buildx build -t << parameters.image-name >>:$IMAGE_TAG --progress plain \
-              --platform linux/arm,linux/arm64,linux/amd64 \
+              --platform linux/arm64,linux/amd64 \
               --build-arg REVISION=$CIRCLE_SHA1 \
               --push << parameters.build-context >>
 
-  build-and-deploy-gh-pages:
-    docker:
-      - image: circleci/python:3.7
-    steps:
-      - checkout
-      - run:
-          name: "Set Git name for commits"
-          command: git config --global user.name "CircleCI"
-      - run:
-          name: "Install Mkdocs and Material theme"
-          command: pip install --user mkdocs mkdocs-material
-      - run:
-          name: "Build and push site"
-          command: mkdocs gh-deploy --message "Deployed {sha} with MkDocs version {version}. [skip ci]"
 
-commands:
-  calculate-tag-name:
-    description: "Calculates the target tag name for Docker image"
-    steps:
-      - run:
-          name: Calculate tag to set for the built Docker image
-          command: |
-            if [ ! -z $CIRCLE_TAG ]; then
-              TAG_VERSION=$CIRCLE_TAG
-            elif [ "$CIRCLE_BRANCH" = "master" ]; then
-              TAG_VERSION=latest
-            else
-              TAG_VERSION=$CIRCLE_BRANCH;
-            fi
+workflows:
 
-            echo "export IMAGE_TAG=$TAG_VERSION$TAG_DISTRO" >> $BASH_ENV
+  build-docker-images:
+    jobs:
+      - build:
+          name: build-transmission-vpn-edge-images
+          context: dockerhub
+          image-name: fluxstate/transmission-vpn-edge
+          build-context: "."
+          filters:
+            branches:
+              only:
+                - edge
+            tags:
+              only: /^\d+\.\d+.*/
+      
+      - build:
+          name: build-reverse-proxy-images
+          context: dockerhub
+          image-name: fluxstate/transmission-vpn-proxy-edge
+          build-context: "proxy"
+          filters:
+            branches:
+              only:
+                - edge
+            tags:
+              only: /^\d+\.\d+.*/
+      
+      - build:
+          name: build-rss-plugin-images
+          context: dockerhub
+          image-name: fluxstate/transmission-rss-edge
+          build-context: "plugins/rss"
+          filters:
+            branches:
+              only:
+                - edge
+            tags:
+              only: /^\d+\.\d+.*/
