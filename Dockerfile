@@ -1,10 +1,15 @@
 FROM ubuntu:22.04 as TransmissionBuild
 
-RUN apt-get update && apt-get dist-upgrade -y \
+ARG CACHEBUST=1
+RUN echo "$CACHEBUST"
+
+RUN --mount=id=apt,sharing=private,target=/var/cache/apt,type=cache \
+    --mount=id=aptlists,sharing=private,target=/var/lib/apt/lists,type=cache \
+    apt-get update && apt-get dist-upgrade -y \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     automake autoconf build-essential clang cmake devscripts libtool pkg-config \
     intltool libcurl4-openssl-dev libglib2.0-dev libevent-dev libminiupnpc-dev \
-    libgtk-3-dev libappindicator3-dev xfslibs-dev \
+    xfslibs-dev \
     && sed -i '/deb-src/s/^# //' /etc/apt/sources.list \
     && curl -fsSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | gpg --dearmor | tee "/usr/share/keyrings/nodesource.gpg" \
     && gpg --no-default-keyring --keyring "/usr/share/keyrings/nodesource.gpg" --list-keys \
@@ -12,15 +17,16 @@ RUN apt-get update && apt-get dist-upgrade -y \
     && apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get build-dep -y transmission \
     && apt-get install nodejs \
-    && corepack enable \
-    && apt-get autoremove -y && apt clean && rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
+    && corepack enable 
 
 WORKDIR /opt/transmission
-RUN git clone --depth 1 --recurse-submodules --shallow-submodules https://github.com/transmission/transmission.git . \
+ARG YARN_CACHE_FOLDER=/root/.yarn
+RUN --mount=id=yarn,target=/root/.yarn,type=cache \
+    git clone --depth 1 --recurse-submodules --shallow-submodules https://github.com/transmission/transmission.git . \
     && sed -i '/^.*lock"/a \ \ COMMAND ${CMAKE_COMMAND} -E create_symlink "${CMAKE_CURRENT_BINARY_DIR}/node_modules" "${CMAKE_CURRENT_SOURCE_DIR}/node_modules"' web/CMakeLists.txt \
     && mkdir build \ && cd build \
     && cmake .. \
-	-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+	-DCMAKE_BUILD_TYPE=Release \
 	-DENABLE_CLI=ON \
 	-DENABLE_GTK=OFF \
 	-DENABLE_QT=OFF \
@@ -58,7 +64,9 @@ VOLUME /config
 
 COPY --from=TransmissionUIs /opt/transmission-ui /opt/transmission-ui
 
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y && \
+RUN --mount=id=apt,sharing=private,target=/var/cache/apt,type=cache \
+    --mount=id=aptlists,sharing=private,target=/var/lib/apt/lists,type=cache \
+    apt-get update && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
     dumb-init openvpn transmission-daemon transmission-cli privoxy \
     tzdata dnsutils iputils-ping ufw openssh-client git jq curl wget unrar unzip bc \
@@ -66,7 +74,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y && 
     && ln -s /usr/share/transmission/web/images /opt/transmission-ui/transmission-web-control \
     && ln -s /usr/share/transmission/web/javascript /opt/transmission-ui/transmission-web-control \
     && ln -s /usr/share/transmission/web/index.html /opt/transmission-ui/transmission-web-control/index.original.html \
-    && apt-get autoremove -y && apt-get clean && rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/* \
+    && apt-get autoremove -y && rm -fr /var/log/* /tmp/* \
     && groupmod -g 1000 users \
     && useradd -u 911 -U -d /config -s /bin/false abc \
     && usermod -G users abc
@@ -94,6 +102,7 @@ ENV OPENVPN_USERNAME=**None** \
     TRANSMISSION_DOWNLOAD_DIR=/data/completed \
     TRANSMISSION_INCOMPLETE_DIR=/data/incomplete \
     TRANSMISSION_WATCH_DIR=/data/watch \
+    TRANSMISSION_WEB_HOME=/opt/transmission-ui/trweb \
     CREATE_TUN_DEVICE=true \
     ENABLE_UFW=false \
     UFW_ALLOW_GW_NET=false \
