@@ -1,7 +1,7 @@
 version: '2'
 services:
  transmission:
-  image: haugene/transmission-openvpn
+  image: fluxstate/transmission-vpn-edge
   cap_add:
     - NET_ADMIN
   devices:
@@ -23,7 +23,7 @@ services:
     - OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60
     - LOCAL_NETWORK=192.168.0.0/24
  proxy:
-  image: haugene/transmission-openvpn-proxy
+  image: fluxstate/transmission-vpn-proxy-edge
   links:
     - transmission
   ports:
@@ -32,7 +32,7 @@ services:
     - /etc/localtime:/etc/localtime:ro
 
  rss:
-  image: haugene/transmission-rss
+  image: fluxstate/transmission-rss-edge
   links:
     - transmission
   environment:
