@@ -35,6 +35,11 @@ commands:
 
   build-and-push:
     description: "Builds and pushes images."
+    parameters:
+      build-context:
+        type: string
+      image-name:
+        type: string
     steps:
       - run:
           name: Build and push images
@@ -52,16 +57,10 @@ defaults: &defaults
   machine:
     image: ubuntu-2004:202111-02
   parameters:
-    image-name:
-      type: string
     build-context:
       type: string
-
-build_parameters:
-  image-name:
-    type: string
-  build-context:
-    type: string
+    image-name:
+      type: string
 
 jobs:
   build:
@@ -71,7 +70,9 @@ jobs:
       - install-git
       - login-to-dockerhub
       - calculate-tag-name
-      - build-and-push
+      - build-and-push:
+          build-context: << parameters.build-context >>
+          image-name: << parameters.image-name >>
 
   build-arm:
     <<: *defaults
@@ -81,7 +82,9 @@ jobs:
       - install-git
       - login-to-dockerhub
       - calculate-tag-name
-      - build-and-push
+      - build-and-push:
+          build-context: << parameters.build-context >>
+          image-name: << parameters.image-name >>
 
 
 workflows:
