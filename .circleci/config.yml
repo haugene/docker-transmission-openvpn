@@ -24,7 +24,7 @@ commands:
     steps:
       - run:
           name: Install Git binary
-          command: sudo apt update && sudo apt install -y git
+          command: sudo apt-get update && DEBIAN_FRONTEND=noninteractive sudo apt-get install -y git
 
   login-to-dockerhub:
     description: "Logs into DockerHub."
@@ -100,7 +100,6 @@ workflows:
             branches:
               only:
                 - edge
-                - circleci-arm
             tags:
               only: /^\d+\.\d+.*/
       - build-arm:
@@ -125,7 +124,6 @@ workflows:
             branches:
               only:
                 - edge
-                - circleci-arm
             tags:
               only: /^\d+\.\d+.*/
       - build-arm:
@@ -137,7 +135,6 @@ workflows:
             branches:
               only:
                 - edge
-                - circleci-arm
             tags:
               only: /^\d+\.\d+.*/
 
@@ -150,7 +147,6 @@ workflows:
             branches:
               only:
                 - edge
-                - circleci-arm
             tags:
               only: /^\d+\.\d+.*/
       - build-arm:
@@ -162,6 +158,5 @@ workflows:
             branches:
               only:
                 - edge
-                - circleci-arm
             tags:
               only: /^\d+\.\d+.*/

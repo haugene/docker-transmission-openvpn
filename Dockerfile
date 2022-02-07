@@ -18,7 +18,7 @@ RUN --mount=id=apt,sharing=private,target=/var/cache/apt,type=cache \
     && gpg --no-default-keyring --keyring "/usr/share/keyrings/nodesource.gpg" --list-keys \
     && echo "deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_16.x impish main" | tee /etc/apt/sources.list.d/nodesource.list \
     && apt-get update \
-    && DEBIAN_FRONTEND=noninteractive apt-get build-dep -y transmission \
+    && DEBIAN_FRONTEND=noninteractive apt-get build-dep -y gifsicle optipng transmission \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs \
     && corepack enable
 
