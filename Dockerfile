@@ -18,7 +18,7 @@ RUN --mount=id=apt,sharing=private,target=/var/cache/apt,type=cache \
     && gpg --no-default-keyring --keyring "/usr/share/keyrings/nodesource.gpg" --list-keys \
     && echo "deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_16.x impish main" | tee /etc/apt/sources.list.d/nodesource.list \
     && apt-get update \
-    && DEBIAN_FRONTEND=noninteractive apt-get build-dep -y gifsicle optipng transmission \
+    && DEBIAN_FRONTEND=noninteractive apt-get build-dep -y transmission \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs \
     && corepack enable
 
@@ -27,6 +27,9 @@ ARG YARN_CACHE_FOLDER=/root/.yarn
 RUN --mount=id=yarn,target=/root/.yarn,type=cache \
     git clone --depth 1 --recurse-submodules --shallow-submodules https://github.com/transmission/transmission.git . \
     && sed -i '/^.*lock"/a \ \ COMMAND ${CMAKE_COMMAND} -E create_symlink "${CMAKE_CURRENT_BINARY_DIR}/node_modules" "${CMAKE_CURRENT_SOURCE_DIR}/node_modules"' web/CMakeLists.txt \
+    && sed -i '/yarn.lock/d' web/CMakeLists.txt \
+    && sed -i '/img-optimize-loader/d' web/package.json \
+    && rm web/yarn.lock \
     && mkdir build \ && cd build \
     && cmake .. \
 	-DCMAKE_BUILD_TYPE=Release \

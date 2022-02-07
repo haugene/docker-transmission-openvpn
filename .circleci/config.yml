@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  git-shallow-clone: guitarrapc/git-shallow-clone@2.4.0
+
 commands:
   calculate-tag-name:
     description: "Calculates the target tag name for Docker image."
@@ -17,7 +20,7 @@ commands:
             REVISION="$(git ls-remote https://github.com/transmission/transmission.git HEAD | awk '{print substr ($0, 0, 7)}')"
 
             echo "export IMAGE_TAG=$TAG_VERSION$TAG_DISTRO" >> $BASH_ENV
-            echo "export REVISION='${CIRCLE_SHA1}-${REVISION}'" >> $BASH_ENV
+            echo "export REVISION='${REVISION}-${CIRCLE_SHA1}'" >> $BASH_ENV
 
   install-git:
     description: "Installs Git binary."
@@ -66,7 +69,8 @@ jobs:
   build:
     <<: *defaults
     steps:
-      - checkout
+      - git-shallow-clone/checkout:
+          fetch_depth: 1
       - install-git
       - login-to-dockerhub
       - calculate-tag-name
@@ -78,7 +82,8 @@ jobs:
     <<: *defaults
     resource_class: arm.medium
     steps:
-      - checkout
+      - git-shallow-clone/checkout:
+          fetch_depth: 1
       - install-git
       - login-to-dockerhub
       - calculate-tag-name
