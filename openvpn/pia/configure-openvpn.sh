@@ -9,7 +9,7 @@ set -e
 # https://www.privateinternetaccess.com/openvpn/openvpn-strong-tcp.zip
 
 baseURL="https://www.privateinternetaccess.com/openvpn"
-PIA_OPENVPN_CONFIG_BUNDLE=${PIA_OPENVPN_CONFIG_BUNDLE:-"openvpn"}
+PIA_OPENVPN_CONFIG_BUNDLE=${PIA_OPENVPN_CONFIG_BUNDLE:-"openvpn-strong"}
 
 if [ -z "$VPN_PROVIDER_HOME" ]; then
     echo "ERROR: Need to have VPN_PROVIDER_HOME set to call this script" && exit 1
