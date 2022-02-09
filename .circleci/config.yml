@@ -116,7 +116,6 @@ workflows:
             branches:
               only:
                 - edge
-                - circleci-arm
             tags:
               only: /^\d+\.\d+.*/
 
