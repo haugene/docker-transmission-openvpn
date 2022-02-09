@@ -1,11 +1,14 @@
 version: 2.1
 
+orbs:
+  git-shallow-clone: guitarrapc/git-shallow-clone@2.4.0
+
 commands:
   calculate-tag-name:
-    description: "Calculates the target tag name for Docker image"
+    description: "Calculates the target tag name for Docker image."
     steps:
       - run:
-          name: Calculate tag to set for the built Docker image
+          name: Calculate tag to set for the built Docker image.
           command: |
             if [ ! -z $CIRCLE_TAG ]; then
               TAG_VERSION=$CIRCLE_TAG
@@ -17,44 +20,76 @@ commands:
             REVISION="$(git ls-remote https://github.com/transmission/transmission.git HEAD | awk '{print substr ($0, 0, 7)}')"
 
             echo "export IMAGE_TAG=$TAG_VERSION$TAG_DISTRO" >> $BASH_ENV
-            echo "export REVISION='${CIRCLE_SHA1}-${REVISION}'" >> $BASH_ENV 
+            echo "export REVISION='${REVISION}-${CIRCLE_SHA1}'" >> $BASH_ENV
 
+  install-git:
+    description: "Installs Git binary."
+    steps:
+      - run:
+          name: Install Git binary
+          command: sudo apt-get update && DEBIAN_FRONTEND=noninteractive sudo apt-get install -y git
 
-jobs:
-  build:
-    environment:
-      DEBIAN_FRONTEND: "noninteractive"
-      DOCKER_BUILDKIT: "1"
+  login-to-dockerhub:
+    description: "Logs into DockerHub."
+    steps:
+      - run:
+          name: Log into DockerHub.
+          command: echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
 
-    machine:
-      image: ubuntu-2004:202111-02
-
+  build-and-push:
+    description: "Builds and pushes images."
     parameters:
-      image-name:
-        type: string
       build-context:
         type: string
-
-    resource_class: large
-
+      image-name:
+        type: string
     steps:
-      - checkout
-      - run: sudo apt update && sudo apt install -y git qemu-user
       - run:
-          name: Login to Docker Hub
-          command: echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-      - calculate-tag-name
-      - run:
-          name: Set up buildx and build/push images
+          name: Build and push images
           command: |
-            docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-            docker buildx create --name multiarch --driver docker-container --use
-            docker buildx ls
             docker buildx build -t << parameters.image-name >>:$IMAGE_TAG --progress plain \
-              --platform linux/arm64,linux/amd64 \
               --build-arg CI=1 \
               --build-arg REVISION=$REVISION \
               --push << parameters.build-context >>
+
+
+defaults: &defaults
+  environment:
+    DEBIAN_FRONTEND: "noninteractive"
+    DOCKER_BUILDKIT: "1"
+  machine:
+    image: ubuntu-2004:202111-02
+  parameters:
+    build-context:
+      type: string
+    image-name:
+      type: string
+
+jobs:
+  build:
+    <<: *defaults
+    steps:
+      - git-shallow-clone/checkout:
+          fetch_depth: 1
+      - install-git
+      - login-to-dockerhub
+      - calculate-tag-name
+      - build-and-push:
+          build-context: << parameters.build-context >>
+          image-name: << parameters.image-name >>
+
+  build-arm:
+    <<: *defaults
+    resource_class: arm.medium
+    steps:
+      - git-shallow-clone/checkout:
+          fetch_depth: 1
+      - install-git
+      - login-to-dockerhub
+      - calculate-tag-name
+      - build-and-push:
+          build-context: << parameters.build-context >>
+          image-name: << parameters.image-name >>
 
 
 workflows:
@@ -62,6 +97,17 @@ workflows:
   build-docker-images:
     jobs:
       - build:
+          name: build-transmission-vpn-edge-images
+          context: dockerhub
+          image-name: fluxstate/transmission-vpn-edge
+          build-context: "."
+          filters:
+            branches:
+              only:
+                - edge
+            tags:
+              only: /^\d+\.\d+.*/
+      - build-arm:
           name: build-transmission-vpn-edge-images
           context: dockerhub
           image-name: fluxstate/transmission-vpn-edge
@@ -84,8 +130,30 @@ workflows:
                 - edge
             tags:
               only: /^\d+\.\d+.*/
+      - build-arm:
+          name: build-reverse-proxy-images
+          context: dockerhub
+          image-name: fluxstate/transmission-vpn-proxy-edge
+          build-context: "proxy"
+          filters:
+            branches:
+              only:
+                - edge
+            tags:
+              only: /^\d+\.\d+.*/
 
       - build:
+          name: build-rss-plugin-images
+          context: dockerhub
+          image-name: fluxstate/transmission-rss-edge
+          build-context: "plugins/rss"
+          filters:
+            branches:
+              only:
+                - edge
+            tags:
+              only: /^\d+\.\d+.*/
+      - build-arm:
           name: build-rss-plugin-images
           context: dockerhub
           image-name: fluxstate/transmission-rss-edge
