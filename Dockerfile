@@ -27,8 +27,6 @@ ARG YARN_CACHE_FOLDER=/root/.yarn
 RUN --mount=id=yarn,target=/root/.yarn,type=cache \
     git clone --depth 1 --recurse-submodules --shallow-submodules https://github.com/transmission/transmission.git . \
     && sed -i '/^.*lock"/a \ \ COMMAND ${CMAKE_COMMAND} -E create_symlink "${CMAKE_CURRENT_BINARY_DIR}/node_modules" "${CMAKE_CURRENT_SOURCE_DIR}/node_modules"' web/CMakeLists.txt \
-    && sed -i '/yarn.lock/d' web/CMakeLists.txt \
-    && sed -i '/img-optimize-loader/d' web/package.json \
     && rm web/yarn.lock \
     && mkdir build \ && cd build \
     && cmake .. \
