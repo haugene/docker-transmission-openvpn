@@ -50,6 +50,7 @@ commands:
             docker buildx build -t << parameters.image-name >>:$IMAGE_TAG --progress plain \
               --build-arg CI=1 \
               --build-arg REVISION=$REVISION \
+              --platform << parameters.platform >>
               --push << parameters.build-context >>
 
 
@@ -77,6 +78,7 @@ jobs:
       - build-and-push:
           build-context: << parameters.build-context >>
           image-name: << parameters.image-name >>
+          platform: "linux/amd64"
 
   build-arm:
     <<: *defaults
@@ -90,6 +92,7 @@ jobs:
       - build-and-push:
           build-context: << parameters.build-context >>
           image-name: << parameters.image-name >>
+          platform: "linux/arm64"
 
 
 workflows:
@@ -116,6 +119,7 @@ workflows:
             branches:
               only:
                 - edge
+                - "fix/circleci-arm"
             tags:
               only: /^\d+\.\d+.*/
 

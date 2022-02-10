@@ -10,7 +10,7 @@ RUN --mount=id=apt,sharing=private,target=/var/cache/apt,type=cache \
     apt-get update && \
     [ ! -n "$CI" ] && apt-get dist-upgrade -y || : && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    automake autoconf build-essential clang cmake devscripts libtool pkg-config \
+    automake autoconf build-essential clang-14 cmake devscripts libtool pkg-config \
     intltool libcurl4-openssl-dev libglib2.0-dev libevent-dev libminiupnpc-dev \
     xfslibs-dev \
     && sed -i '/deb-src/s/^# //' /etc/apt/sources.list \
