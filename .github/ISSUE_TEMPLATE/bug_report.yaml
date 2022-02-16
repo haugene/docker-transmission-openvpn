@@ -50,12 +50,24 @@ body:
       required: false
 - type: textarea
   attributes:
-    label: Config used
+    label: Docker run config used
     description: |
       Please show what config you are using either with text or screenshots.
       Make sure to remove your username and password!
 
       Tip: You can attach images by clicking this area to highlight it and then dragging files in.
+    placeholder: |
+      "docker run --cap-add=NET_ADMIN -d \
+            -v /your/storage/path/:/data \
+            -e OPENVPN_PROVIDER=PIA \
+            -e OPENVPN_CONFIG=france \
+            -e OPENVPN_USERNAME=user \
+            -e OPENVPN_PASSWORD=pass \
+            -e LOCAL_NETWORK=192.168.0.0/16 \
+            --log-driver json-file \
+            --log-opt max-size=10m \
+            -p 9091:9091 \
+            haugene/transmission-openvpn"
   validations:
     required: true
 - type: textarea
@@ -93,11 +105,14 @@ body:
     required: true    
 - type: textarea
   attributes:
-    label: Environment
+    label: HW/SW Environment
     description: |
-      examples:
+      Please describe your system environment
+    placeholder: |
         - **OS**: Ubuntu 20.04
         - **Docker**: 13.14.0
+        - **Intel NUC**
+        - **Synology NAS**
     value: |
         - OS:
         - Docker:
