@@ -155,19 +155,27 @@ if [[ -x /scripts/openvpn-post-config.sh ]]; then
   echo "/scripts/openvpn-post-config.sh returned $?"
 fi
 
-# add OpenVPN user/pass
-if [[ "${OPENVPN_USERNAME}" == "**None**" ]] || [[ "${OPENVPN_PASSWORD}" == "**None**" ]] ; then
-  if [[ ! -f /config/openvpn-credentials.txt ]] ; then
-    echo "OpenVPN credentials not set. Exiting."
-    exit 1
+mkdir -p /config
+#Handle secrets if found
+if [[ -f /run/secrets/openvpn_creds ]]; then
+  #write creds if no file or contents are not the same.
+  if [[ ! -f /config/openvpn-credentials.txt ]] || [[ "$(cat /run/secrets/openvpn_creds)" != "$(cat /config/openvpn-credentials.txt)" ]]; then
+    echo "Setting OpenVPN credentials..."
+    cp /run/secrets/openvpn_creds /config/openvpn-credentials.txt
   fi
-  echo "Found existing OPENVPN credentials at /config/openvpn-credentials.txt"
 else
-  echo "Setting OpenVPN credentials..."
-  mkdir -p /config
-  echo "${OPENVPN_USERNAME}" > /config/openvpn-credentials.txt
-  echo "${OPENVPN_PASSWORD}" >> /config/openvpn-credentials.txt
-  chmod 600 /config/openvpn-credentials.txt
+  # add OpenVPN user/pass
+  if [[ "${OPENVPN_USERNAME}" == "**None**" ]] || [[ "${OPENVPN_PASSWORD}" == "**None**" ]]; then
+    if [[ ! -f /config/openvpn-credentials.txt ]]; then
+      echo "OpenVPN credentials not set. Exiting."
+      exit 1
+    fi
+    echo "Found existing OPENVPN credentials at /config/openvpn-credentials.txt"
+  else
+    echo "Setting OpenVPN credentials..."
+    echo -e "${OPENVPN_USERNAME}\n${OPENVPN_PASSWORD}" > /config/openvpn-credentials.txt
+    chmod 600 /config/openvpn-credentials.txt
+  fi
 fi
 
 # add transmission credentials from env vars
