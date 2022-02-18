@@ -9,7 +9,7 @@
   Also, please create PRs to DEV branch, !!NOT!! MASTER branch. 
   If necessary, when we review or such, 
   make a comment if you feel this needs to go to master directly, 
-  otherwise we will merge to master when necesssary.
+  otherwise, we will merge to master when necessary.
 -->
 ## Breaking change
 <!--
@@ -17,7 +17,7 @@
   to tell them what breaks, how to make it work again and why we did this.
   This piece of text is published with the release notes, so it helps if you
   write it towards our users, not us.
-  Note: Leave this section emtpy if this PR is NOT a breaking change.
+  Note: Leave this section empty if this PR is NOT a breaking change.
 -->
 ```txt
 <placeholder>
@@ -45,13 +45,13 @@
 -->
 
 - [ ] Bugfix (non-breaking change which fixes an issue)
-- [ ] New feature (which adds functionality to a this container)
+- [ ] New feature (which adds functionality to this container)
 - [ ] Breaking change (fix/feature causing existing functionality to break)
 
 
 ## Additional information
 <!--
-  Details are important, and help maintainers processing your PR.
+  Details are important, and help maintainers process your PR.
   Please be sure to fill out additional details, if applicable.
 -->
 
