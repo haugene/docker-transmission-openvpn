@@ -8,7 +8,7 @@
 
 docker secrets are available to define OPENVPN_USER and OPENVPN_PASSWORD.
 * remove OPENVPN_USERNAME, OPENVPN_PASSWORD from environment.
-* write your credentials in two files: openvpn_user and openvpn_pass
+* write your credentials in one file: openvpn_creds
 * add to your compose yaml:
 
 ```yaml
