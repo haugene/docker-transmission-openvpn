@@ -122,7 +122,7 @@ For example:
 | `ratio-limit`                | `TRANSMISSION_RATIO_LIMIT`                |
 | `ratio-limit-enabled`        | `TRANSMISSION_RATIO_LIMIT_ENABLED`        |
 
-A full list of variables can be found in the Transmission documentation [here](https://github.com/transmission/transmission/wiki/Editing-Configuration-Files).
+A full list of variables can be found in the Transmission documentation [here](https://github.com/transmission/transmission/blob/main/docs/Editing-Configuration-Files.md#options).
 
 All variables overridden by environment variables will be logged during startup.
 
