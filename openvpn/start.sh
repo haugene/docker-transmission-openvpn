@@ -109,6 +109,11 @@ fi
 if [[ -z ${CHOSEN_OPENVPN_CONFIG:-""} ]]; then
   # We still don't have a config. The user might have set a config in OPENVPN_CONFIG.
   if [[ -n "${OPENVPN_CONFIG-}" ]]; then
+    # Read from file.
+    if [ -e /data/openvpn/OPENVPN_CONFIG ]; then
+      OPENVPN_CONFIG=$(cat /data/openvpn/OPENVPN_CONFIG)
+    fi
+
     readarray -t OPENVPN_CONFIG_ARRAY <<< "${OPENVPN_CONFIG//,/$'\n'}"
 
     ## Trim leading and trailing spaces from all entries. Inefficient as all heck, but works like a champ.
@@ -117,11 +122,23 @@ if [[ -z ${CHOSEN_OPENVPN_CONFIG:-""} ]]; then
       OPENVPN_CONFIG_ARRAY[${i}]="${OPENVPN_CONFIG_ARRAY[${i}]%"${OPENVPN_CONFIG_ARRAY[${i}]##*[![:space:]]}"}"
     done
 
-    # If there were multiple configs (comma separated), select one of them
+    # If there were multiple configs (comma separated), select one of them.
     if (( ${#OPENVPN_CONFIG_ARRAY[@]} > 1 )); then
-      OPENVPN_CONFIG_RANDOM=$((RANDOM%${#OPENVPN_CONFIG_ARRAY[@]}))
-      echo "${#OPENVPN_CONFIG_ARRAY[@]} servers found in OPENVPN_CONFIG, ${OPENVPN_CONFIG_ARRAY[${OPENVPN_CONFIG_RANDOM}]} chosen randomly"
-      OPENVPN_CONFIG="${OPENVPN_CONFIG_ARRAY[${OPENVPN_CONFIG_RANDOM}]}"
+      if [[ ${OPENVPN_CONFIG_SEQUENTIAL:-false} == "false" ]]; then
+        # Select randomly.
+        OPENVPN_CONFIG_RANDOM=$((RANDOM%${#OPENVPN_CONFIG_ARRAY[@]}))
+        echo "${#OPENVPN_CONFIG_ARRAY[@]} servers found in OPENVPN_CONFIG, ${OPENVPN_CONFIG_ARRAY[${OPENVPN_CONFIG_RANDOM}]} chosen randomly"
+        OPENVPN_CONFIG="${OPENVPN_CONFIG_ARRAY[${OPENVPN_CONFIG_RANDOM}]}"
+      else
+        # Select sequentially.
+        echo "${#OPENVPN_CONFIG_ARRAY[@]} servers found in OPENVPN_CONFIG, ${OPENVPN_CONFIG_ARRAY[0]} chosen sequentially"
+        OPENVPN_CONFIG="${OPENVPN_CONFIG_ARRAY[0]}"
+
+        # Reorder and save to file.
+        OPENVPN_CONFIG_ARRAY=("${OPENVPN_CONFIG_ARRAY[@]:1}" "${OPENVPN_CONFIG_ARRAY[@]::1}")
+        mkdir -p /data/openvpn/
+        printf "%s," "${OPENVPN_CONFIG_ARRAY[@]}" | sed "s/,$//" > /data/openvpn/OPENVPN_CONFIG
+      fi
     fi
 
     # Check that the chosen config exists.
