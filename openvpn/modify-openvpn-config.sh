@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source /etc/openvpn/utils.sh
+
 if [ "$#" -ne 1 ]; then
     echo "Illegal number of parameters"
     exit 1

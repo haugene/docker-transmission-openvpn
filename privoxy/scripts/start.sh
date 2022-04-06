@@ -1,7 +1,9 @@
 #!/bin/bash
 
+
 # Source our persisted env variables from container startup
 . /etc/transmission/environment-variables.sh
+source /etc/openvpn/utils.sh
 
 set_port()
 {
@@ -23,7 +25,9 @@ set_port()
   echo "Privoxy: Setting port to $1";
 
   # Set the port for the IPv4 interface
-  sed -i -E "s/^listen-address\s+127.*/listen-address 0.0.0.0:$1/" "$2"
+  adr=$(ip -4  a show eth0| grep -oP "(?<=inet )([^/]+)")
+  adr=${adr:-"0.0.0.0"}
+  sed -i -E "s/^listen-address\s+127.*/listen-address ${adr}:$1/" "$2"
 
   # Remove the listen-address for IPv6 for now. IPv6 compatibility should come later
   sed -i -E "s/^listen-address\s+\[\:\:1.*//" "$2"

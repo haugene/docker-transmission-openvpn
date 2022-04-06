@@ -9,31 +9,28 @@ services:
   restart: always
   ports:
     - "9091:9091"
-    - "8888:8888"
-  dns:
-    - 8.8.8.8
-    - 8.8.4.4
+    # - "8888:8888" # proxy support
   volumes:
-    - /etc/localtime:/etc/localtime:ro
-    - /your/storage/path/:/data
+    - /your/storage/path/:/data # where transmission will store the data
+    - /your/config/path/:/config # where transmission-home is stored
   environment:
     - OPENVPN_PROVIDER=PIA
     - OPENVPN_USERNAME=username
     - OPENVPN_PASSWORD=password
     - OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60
     - LOCAL_NETWORK=192.168.0.0/24
- proxy:
-  image: haugene/transmission-openvpn-proxy
-  links:
-    - transmission
-  ports:
-    - 8080:8080
-  volumes:
-    - /etc/localtime:/etc/localtime:ro
+ # proxy:
+ #  image: haugene/transmission-openvpn-proxy
+ #  links:
+ #    - transmission
+ #  ports:
+ #    - 8080:8080
+ #  volumes:
+ #    - /etc/localtime:/etc/localtime:ro
 
- rss:
-  image: haugene/transmission-rss
-  links:
-    - transmission
-  environment:
-    - RSS_URL=http://.../xxxxx.rss
+ # rss:
+ #  image: haugene/transmission-rss
+ #  links:
+ #    - transmission
+ #  environment:
+ #    - RSS_URL=http://.../xxxxx.rss

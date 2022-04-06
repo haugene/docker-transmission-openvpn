@@ -32,17 +32,22 @@ if not os.path.isfile(default_settings):
     )
 
 
-# Define which file to base the config on
-if os.path.isfile(transmission_settings):
+try:
+    print('Attempting to use existing settings.json for Transmission')
     configuration_baseline = transmission_settings
-    print('Using existing settings.json for Transmission', transmission_settings)
-else:
-    configuration_baseline = default_settings
-    print('Generating settings.json for Transmission from environment and defaults', default_settings)
 
-# Read config base
-with open(configuration_baseline, 'r') as input_file:
-    settings_dict = json.load(input_file)
+    with open(configuration_baseline, 'r') as input_file:
+        settings_dict = json.load(input_file)
+
+    print('Successfully used existing settings.json', transmission_settings)
+
+except (FileNotFoundError, json.JSONDecodeError):
+    configuration_baseline = default_settings
+    print('Could not read existing settings.json. Generating settings.json for '
+          'Transmission from environment and defaults', default_settings)
+
+    with open(configuration_baseline, 'r') as input_file:
+        settings_dict = json.load(input_file)
 
 
 def setting_as_env(setting: str) -> str:

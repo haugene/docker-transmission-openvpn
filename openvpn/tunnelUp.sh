@@ -1,6 +1,8 @@
 #!/bin/bash
 # Source our persisted env variables from container startup
 . /etc/transmission/environment-variables.sh
+source /etc/openvpn/utils.sh
+
 
 if [[ "${PEER_DNS,,}" == "true" ]]; then
         NS=
@@ -51,7 +53,7 @@ if [[ "${PEER_DNS,,}" == "true" ]]; then
         fi
 fi
 
-/etc/transmission/start.sh "$@"
+/etc/transmission/start.sh
 [[ -f /opt/privoxy/start.sh && -x /opt/privoxy/start.sh ]] && /opt/privoxy/start.sh
 
 exit 0

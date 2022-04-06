@@ -1,12 +1,12 @@
 # Debugging your setup
 
 The goal of this page is to provide a common set of tests that can be run to try to narrow down
-an issue with the container before you actually create a new issue for it. We see a lot of repeat
+an issue with the container before you create a new issue for it. We see a lot of repeat
 business in the issues section and spending time answering questions for individual setups takes
 away from improving the container and making it more stable in the first place.
 
 This guide should be improved over time but can hopefully help you point out the most common errors
-and provide some pointers on how to proceed. A short summary of what you've tried should be added to
+and provide some pointers on how to proceed. A summary of what you've tried should be added to
 the description if you can't figure out what's wrong with your setup and create an issue for it.
 
 ## Introduction and assumptions
@@ -16,13 +16,13 @@ commands to test it. If you're a docker-compose user then you can make a similar
 If you are using any of the NAS container orchestration UIs then you just have to mimic this behaviour
 as best you can. Note that you can ssh into the NAS and run commands directly.
 
-NOTE: The commands listed here uses the --rm flag which will remove the container from the host when it
+NOTE: The commands listed here use the --rm flag which will remove the container from the host when it
 shuts down. And as we're not mounting any volumes here, your host system will not be altered from running
 any of these commands. If any command breaks with this principle it will be noted.
 
 ## Checking that Docker works properly
 
-In order for this container to work you have to have a working Docker installation on your host.
+For this container to work, you have to have a working Docker installation on your host.
 
 We'll begin very simple with this command that will print a welcome message if Docker is properly installed.
 ```
@@ -30,17 +30,17 @@ docker run --rm hello-world
 ```
 
 Then we can try to run an alpine image, install curl and run curl to get your public IP.
-This verifies that Docker containers on your host has a working internet access
+This verifies that Docker containers on your host have working internet access
 and that they can look up hostnames with DNS.
 ```
 docker run --rm -it alpine sh -c "apk add curl && curl ipecho.net/plain"
 ```
 
-If you get an error with "Could not resolve host" then you have to look at the dns options in
+If you get an error with "Could not resolve host" then you have to look at the DNS options in
 [the Docker run reference](https://docs.docker.com/engine/reference/run/#network-settings).
 
-Finally we will check that your Docker daemon runs with a bridge network as the default network driver.
-The following command runs an alpine container and prints it's iptable routes. It probably outputs two
+Finally, we will check that your Docker daemon runs with a bridge network as the default network driver.
+The following command runs an alpine container and prints its iptable routes. It probably outputs two
 lines and one of them starts with `172.x.0.0/16 dev eth0` and the other one also references `172.x.0.1`.
 The 172 addresses are a sign that you're on a Docker bridge network. If your local IP like `192.168.x.y`
 shows up your container is running with host networking and the VPN container would affect the entire host
@@ -54,16 +54,16 @@ help getting Docker to work.
 
 ## Try running the container with an invalid setup
 
-We'll keep this brief because it's not the most useful step, but you can actually verify a bit anyways.
+We'll keep this brief because it's not the most useful step, but you can verify a bit anyways.
 
 Run this command (even if PIA is not your provider) and do not insert your real username/password:
 ```
 docker run --rm -it -e OPENVPN_PROVIDER=PIA -e OPENVPN_CONFIG=france -e OPENVPN_USERNAME=donald -e OPENVPN_PASSWORD=duck haugene/transmission-openvpn
 ```
 
-At this point the commands are getting longer. I'll start breaking them up into lines using \ to escape the line
+At this point, the commands are getting longer. I'll start breaking them up into lines using \ to escape the line
 breaks. For those that are new to shell commands; a \ at the end of the line will tell the shell to keep on
-reading as if it was on the same line. You can copy-paste this somewhere and put everythin on the same line
+reading as if it was on the same line. You can copy-paste this somewhere and put everything on the same line
 and remove the \ characters if you want to. The same command then becomes:
 ```
 docker run --rm -it \
@@ -123,7 +123,7 @@ LOCAL_NETWORK variable you cannot access Transmission that is running in the con
 any ports on your host either so Transmission is not reachable from outside of the container as of now.
 
 You don't need to expose Transmission outside of the container to contact it though. You can get another shell
-inside the same container that you are running and try to curl Transmission web ui from there.
+inside the same container that you are running and try to curl Transmission web UI from there.
 
 If this gets too complicated then you can skip to the next point, but please try to come back here
 if the next point fails. One thing is not being able to access Transmission which might be network related,
@@ -141,14 +141,14 @@ apparently doing well.
 ## Accessing Transmission Web UI
 
 If you've come this far we hopefully will be able to connect to the Transmission Web UI from your browser.
-In order to do this we have to know what LAN IP your system is on. The reason for this is a bit complex and
-is described in the [VPN networking](vpn-networking.md) section. The short version is that OpenVPN need to
+To do this we have to know what LAN IP your system is on. The reason for this is a bit complex and
+is described in the [VPN networking](vpn-networking.md) section. The short version is that OpenVPN needs to
 be able to differentiate between what traffic to tunnel and what to let go. Since the VPN is running on
 the Docker bridge network it is not able to detect computers on your LAN as actually being local devices.
 
-We'll base ourselves on the command from the previous sections, but to access Transmission we need to
+We'll base ourselves on the command from the previous sections, but to access Transmission, we need to
 expose the 9091 port to the host and tell the containers what IP ranges NOT to tunnel. Whatever you put
-in LOCAL_NETWORK will be trusted as a local network and traffic to those IPs will not be tunneled.
+in LOCAL_NETWORK will be trusted as a local network and traffic to those IPs will not be tunnelled.
 Here we will assume that you're on one of the common 192.168.x.y subnets.
 
 The command then becomes:
@@ -164,16 +164,16 @@ docker run --rm -it --cap-add=NET_ADMIN \
   haugene/transmission-openvpn
 ```
 
-With any luck you should now be able to access Transmission at [http://localhost:9091](http://localhost:9091)
+With any luck, you should now be able to access Transmission at [http://localhost:9091](http://localhost:9091)
 or whatever server IP where you have started the container.
 
-NOTE: If you're trying to run this beside another container you can use `-p 9092:9091` to bind 9092
+NOTE: If you're trying to run this alongside another container you can use `-p 9092:9091` to bind 9092
 on the host instead of 9091 and avoid port conflict.
 
 ## Now what?
 
 If this guide has failed at some point then you should create an issue for it. Please add the command
-that you ran and the logs that was produced.
+that you ran and the logs that were produced.
 
 If you're now able to access Transmission and it seems to work correctly then you should add a volume mount
 to the `/data` folder in the container. You'll then have a setup like what's shown on the
@@ -183,7 +183,7 @@ If you have another setup that does not work then you now have two versions to c
 that will lead you to find the error in your old setup. If the setup is the same but this version works then
 the error is in your state. Transmission stores its state in /data/transmission-home by default and
 it might have gotten corrupt. One simple thing to try is to delete the settings.json file that is found here.
-We do mess with that file and we might have corrupted it. Apart from that we do not change anything within
+We do mess with that file and we might have corrupted it. Apart from that, we do not change anything within
 the Transmission folder and any issues should be asked in Transmission forums.
 
 ## Conclusion

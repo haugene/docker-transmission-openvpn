@@ -42,6 +42,7 @@ services:
             - NET_ADMIN
         volumes:
             - '/your/storage/path/:/data'
+            - '/your/config/path/:/config'
         environment:
             - OPENVPN_PROVIDER=PIA
             - OPENVPN_CONFIG=france
