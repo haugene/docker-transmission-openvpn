@@ -11,3 +11,7 @@ Remember to add a port binding for your selected (or default) port when starting
 | ------------------ | ----------------------- | ----------------------- |
 | `WEBPROXY_ENABLED` | Enables the web proxy   | `WEBPROXY_ENABLED=true` |
 | `WEBPROXY_PORT`    | Sets the listening port | `WEBPROXY_PORT=8118`    |
+
+The listening address is the one found binded to the eth0 interface.
+
+`adr=$(ip -4  a show eth0| grep -oP "(?<=inet )([^/]+)")`

@@ -6,6 +6,24 @@
 | `OPENVPN_USERNAME` | Your OpenVPN username             | `OPENVPN_USERNAME=asdf`                                                                                 |
 | `OPENVPN_PASSWORD` | Your OpenVPN password, beware of special charcters. Docker run vs docker-compose (using yaml) interprete special characters differently, see  [Yaml special characters](https://support.asg.com/mob/mvw/10_0/mv_ag/using_quotes_with_yaml_special_characters.htm)             | `OPENVPN_PASSWORD=asdf`                                                                                 |
 
+docker secrets are available to define OPENVPN_USER and OPENVPN_PASSWORD.
+* remove OPENVPN_USERNAME, OPENVPN_PASSWORD from environment.
+* write your credentials in one file: openvpn_creds
+* add to your compose yaml:
+
+```yaml
+version: '3.8'
+services:
+ transmission:
+    ....
+    secrets:
+        - openvpn_creds
+
+secrets:
+    openvpn_creds:
+        file: ./openvpn_creds
+```
+
 ### Network configuration options
 
 | Variable            | Function                                                                                            | Example                                                                                                        |
@@ -13,7 +31,7 @@
 | `OPENVPN_CONFIG`    | Sets the OpenVPN endpoint to connect to.                                                            | `OPENVPN_CONFIG=UK Southampton`                                                                                |
 | `OPENVPN_OPTS`      | Will be passed to OpenVPN on startup                                                                | See [OpenVPN doc](https://openvpn.net/index.php/open-source/documentation/manuals/65-openvpn-20x-manpage.html) |
 | `LOCAL_NETWORK`     | Sets the local network that should have access. Accepts comma separated list.                       | `LOCAL_NETWORK=192.168.0.0/24`                                                                                 |
-| `CREATE_TUN_DEVICE` | Creates /dev/net/tun device inside the container, mitigates the need mount the device from the host | `CREATE_TUN_DEVICE=true`                                                                                       |
+| `CREATE_TUN_DEVICE` | Creates /dev/net/tun device inside the container, mitigates the need to mount the device from the host | `CREATE_TUN_DEVICE=true`                                                                                       |
 | `PEER_DNS`          | Controls whether to use the DNS provided by the OpenVPN endpoint. | To use your host DNS rather than what is provided by OpenVPN, set `PEER_DNS=false`.  This allows for potential DNS leakage. |
 | `PEER_DNS_PIN_ROUTES` | Controls whether to force traffic to peer DNS through the OpenVPN tunnel. | To disable this default, set `PEER_DNS_PIN_ROUTES=false`. |
 
@@ -48,7 +66,7 @@ Because your VPN connection can sometimes fail, Docker will run a health check o
 
 ### Permission configuration options
 
-By default the startup script applies a default set of permissions and ownership on the transmission download, watch and incomplete directories. The GLOBAL_APPLY_PERMISSIONS directive can be used to disable this functionality.
+By default, the startup script applies a default set of permissions and ownership on the transmission download, watch and incomplete directories. The GLOBAL_APPLY_PERMISSIONS directive can be used to disable this functionality.
 
 | Variable                   | Function                               | Example                          |
 | -------------------------- | -------------------------------------- | -------------------------------- |
@@ -73,8 +91,8 @@ to either `combustion`, `kettu`, `transmission-web-control`, `flood-for-transmis
 
 ### User configuration options
 
-By default everything will run as the root user. However, it is possible to change who runs the transmission process.
-You may set the following parameters to customize the user id that runs transmission.
+By default, everything will run as the root user. However, it is possible to change who runs the transmission process.
+You may set the following parameters to customize the user id that runs Transmission.
 
 | Variable | Function                                    | Example     |
 | -------- | ------------------------------------------- | ----------- |
@@ -87,8 +105,10 @@ In previous versions of this container the settings were not persistent but was 
 This had the benefit of being very explicit and reproducable but you had to provide Transmission config as environment variables if you
 wanted them to stay that way between container restarts. This felt cumbersome to many.
 
-As of version 3.0 this is no longer true. Settings are now persisted in the `/data/transmission-home` folder in the container and as
-long as you mount `/data` you should be able to configure Transmission using the UI as you normally would.
+As of version 5.0 this is no longer true. Settings are now persisted in the `/config/transmission-home` folder in the container and as
+long as you mount `/config` you should be able to configure Transmission using the UI as you normally would.
+if you are using the container from earlier versions and have not changed the location of transmission-home to /config, you will see a warning message that the default has changed.
+You can manually move the folder to your /config volume directory after stopping the container and adding the /config mount to your container setup (compose/run etc).
 
 You may still override Transmission options by setting environment variables if that's your thing.
 The variables are named after the transmission config they target but are prefixed with `TRANSMISSION_`, capitalized, and `-` is converted to `_`.
@@ -102,17 +122,17 @@ For example:
 | `ratio-limit`                | `TRANSMISSION_RATIO_LIMIT`                |
 | `ratio-limit-enabled`        | `TRANSMISSION_RATIO_LIMIT_ENABLED`        |
 
-A full list of variables can be found in the Transmission documentation [here](https://github.com/transmission/transmission/wiki/Editing-Configuration-Files).
+A full list of variables can be found in the Transmission documentation [here](https://github.com/transmission/transmission/blob/main/docs/Editing-Configuration-Files.md#options).
 
 All variables overridden by environment variables will be logged during startup.
 
 PS: `TRANSMISSION_BIND_ADDRESS_IPV4` will automatically be overridden to the IP assigned to your OpenVPN tunnel interface.
-This ensures that Transmission only listens for torrent traffic on the VPN interface and is part of the fail safe mechanisms.
+This ensures that Transmission only listens for torrent traffic on the VPN interface and is part of the fail-safe mechanisms.
 
 ### Dropping default route from iptables (advanced)
 
 Some VPNs do not override the default route, but rather set other routes with a lower metric.
-This might lead to the default route (your untunneled connection) to be used.
+This might lead to the default route (your untunneled connection) being used.
 
 To drop the default route set the environment variable `DROP_DEFAULT_ROUTE` to `true`.
 
@@ -120,15 +140,15 @@ _Note_: This is not compatible with all VPNs. You can check your iptables routin
 
 ### Changing logging locations
 
-By default Transmission will log to a file in `TRANSMISSION_HOME/transmission.log`.
+By default, Transmission will log to a file in `TRANSMISSION_HOME/transmission.log`.
 
 To log to stdout instead set the environment variable `LOG_TO_STDOUT` to `true`.
 
-_Note_: By default stdout is what container engines read logs from. Set this to true to have Tranmission logs in commands like `docker logs` and `kubectl logs`. OpenVPN currently only logs to stdout.
+_Note_: By default, stdout is what container engines read logs from. Set this to true to have Tranmission logs in commands like `docker logs` and `kubectl logs`. OpenVPN currently only logs to stdout.
 
 ### Custom scripts
 
-If you ever need to run custom code before or after transmission is executed or stopped, you can use the custom scripts feature.
+If you ever need to run custom code before or after Transmission is executed or stopped, you can use the custom scripts feature.
 Custom scripts are located in the /scripts directory which is empty by default.
 To enable this feature, you'll need to mount the /scripts directory.
 
@@ -140,7 +160,16 @@ Once /scripts is mounted you'll need to write your custom code in the following 
 | /scripts/openvpn-post-config.sh     | This shell script will be executed after openvpn config      |
 | /scripts/transmission-pre-start.sh  | This shell script will be executed before transmission start |
 | /scripts/transmission-post-start.sh | This shell script will be executed after transmission start  |
+| /scripts/routes-post-start.sh       | This shell script will be executed after routes are added    |
 | /scripts/transmission-pre-stop.sh   | This shell script will be executed before transmission stop  |
 | /scripts/transmission-post-stop.sh  | This shell script will be executed after transmission stop   |
 
 Don't forget to include the #!/bin/bash shebang and to make the scripts executable using chmod a+x
+
+### Debugging
+
+By default, commands are not echoed to stdout before being processed. Setting DEBUG to any value other than the string false will trigger command echo (set -x) for all bash scripts.
+
+| Variable                              | Function |Example|
+| ----------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+|DEBUG|Echo all commands to stdout.|DEBUG=true|

@@ -1,5 +1,8 @@
 #! /bin/bash
 
+. /etc/transmission/environment-variables.sh
+source /etc/openvpn/utils.sh
+
 # If transmission-pre-stop.sh exists, run it
 if [[ -x /scripts/transmission-pre-stop.sh ]]
 then

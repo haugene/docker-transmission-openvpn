@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source /etc/openvpn/utils.sh
+
 bold=$(tput bold)
 normal=$(tput sgr0)
 

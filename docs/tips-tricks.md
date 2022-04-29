@@ -12,7 +12,7 @@ If the VPN connection fails or the container for any other reason loses connecti
 [TODO](https://github.com/haugene/docker-transmission-openvpn/issues/1558): Relevant issues...
 
 #### Reach sleep or hybernation on your host if no torrents are active
-By befault Transmission will always [scrape](https://en.wikipedia.org/wiki/Tracker_scrape) trackers, even if all torrents have completed their activities, or they have been paused manually. This will cause Transmission to be always active, therefore never allow your host server to be inactive and go to sleep/hybernation/whatever. If this is something you want, you can add the following variable when creating the container. It will turn off a hidden setting in Tranmsission which will stop the application to scrape trackers for paused torrents. Transmission will become inactive, and your host will reach the desidered state.
+By default Transmission will always [scrape](https://en.wikipedia.org/wiki/Tracker_scrape) trackers, even if all torrents have completed their activities, or they have been paused manually. This will cause Transmission to be always active, therefore never allow your host server to be inactive and go to sleep/hybernation/whatever. If this is something you want, you can add the following variable when creating the container. It will turn off a hidden setting in Tranmsission which will stop the application to scrape trackers for paused torrents. Transmission will become inactive, and your host will reach the desidered state.
 ```
 -e "TRANSMISSION_SCRAPE_PAUSED_TORRENTS_ENABLED=false"
 ```

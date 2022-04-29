@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source /etc/openvpn/utils.sh
+
 # Handle SIGTERM
 sigterm() {
     echo "Received SIGTERM, exiting..."
