@@ -125,6 +125,7 @@ if [[ $CONFIG_MOD_FAILURE_SCRIPT == "1" ]]; then
   if [[ ${CONFIG_STATUS} == "failure" ]]; then
     CONFIG_DIRECTORY=$(dirname "${CONFIG}")
     CONFIG_FAILURE_SCRIPT="${CONFIG_DIRECTORY}/config-failure.sh"
+
     if [[ -x ${CONFIG_FAILURE_SCRIPT} ]]; then
       echo "Executing ${CONFIG_FAILURE_SCRIPT}"
       ${CONFIG_FAILURE_SCRIPT} "${CONFIG}"
