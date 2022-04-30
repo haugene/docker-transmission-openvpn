@@ -107,6 +107,7 @@ fi
 if [[ $CONFIG_MOD_FAILURE_SCRIPT == "1" ]]; then
   echo "Modification: Updating status for config failure detection"
 
+  # Get existing status
   CONFIG_STATUS=$(sed -n "s/^; status \(.*\)/\1/p" "${CONFIG}")
   if [[ ${CONFIG_STATUS} == "unknown" ]]; then
     CONFIG_STATUS="failure"
