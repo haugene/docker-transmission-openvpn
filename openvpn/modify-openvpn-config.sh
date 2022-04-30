@@ -3,7 +3,8 @@
 source /etc/openvpn/utils.sh
 
 if [ "$#" -ne 1 ]; then
-    echo "Illegal number of parameters"
+    
+    "Illegal number of parameters"
     exit 1
 fi
 CONFIG=$1
@@ -21,6 +22,7 @@ CONFIG_MOD_RESOLV_RETRY=${CONFIG_MOD_RESOLV_RETRY:-"1"}
 CONFIG_MOD_TLS_CERTS=${CONFIG_MOD_TLS_CERTS:-"1"}
 CONFIG_MOD_VERBOSITY=${CONFIG_MOD_VERBOSITY:-"1"}
 CONFIG_MOD_REMAP_USR1=${CONFIG_MOD_REMAP_USR1:-"1"}
+CONFIG_MOD_FAILURE_SCRIPT=${CONFIG_MOD_FAILURE_SCRIPT:-"1"}
 
 ## Option 1 - Change the auth-user-pass line to point to credentials file
 if [[ $CONFIG_MOD_USERPASS == "1" ]]; then
@@ -100,4 +102,30 @@ if [[ $CONFIG_MOD_REMAP_USR1 == "1" ]]; then
     # Add new ones
     sed -i "\$q" "$CONFIG" # Ensure config ends with a line feed
     echo "remap-usr1 SIGTERM" >> "$CONFIG"
+fi
+
+## Option 8 - Save config status and execute failure script if needed
+if [[ $CONFIG_MOD_FAILURE_SCRIPT == "1" ]]; then
+  echo "Modification: Updating status for config failure detection"
+
+  CONFIG_STATUS=$(sed -n "s/^; status \(.*\)/\1/p" "${CONFIG}")
+  if [[ ${CONFIG_STATUS} == "unknown" ]]; then
+    CONFIG_STATUS="failure"
+  elif [[ ${CONFIG_STATUS} != "failure" ]]; then
+    CONFIG_STATUS="unknown"
+  fi
+
+  # Remove any old options
+  sed -i "/^; status.*$/d" "${CONFIG}"
+  
+  # Add new ones
+  sed -i "\$q" "${CONFIG}" # Ensure config ends with a line feed
+  echo "; status ${CONFIG_STATUS}" >> "${CONFIG}"
+  
+  # Execute config failure script
+  if [[ ${CONFIG_STATUS} == "failure" ]]; then
+    CONFIG_DIRECTORY=$(dirname "${CONFIG}")
+    echo "Executing ${CONFIG_DIRECTORY}/config-failure.sh"
+    ${CONFIG_DIRECTORY}/config-failure.sh "${CONFIG}"
+  fi
 fi
