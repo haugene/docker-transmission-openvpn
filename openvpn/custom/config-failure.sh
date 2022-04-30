@@ -2,7 +2,7 @@
 
 CONFIG=$1
 
-echo "Config ${CONFIG} has failed, here might be a good place to check credentials"
+echo "Config ${CONFIG} has failed, here might be a good place to fix it, e.g. fetch updated credentials"
 
 # After config has been fixed, reset status to try again.
 CONFIG_STATUS="unknown"
