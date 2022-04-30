@@ -3,8 +3,7 @@
 source /etc/openvpn/utils.sh
 
 if [ "$#" -ne 1 ]; then
-    
-    "Illegal number of parameters"
+    echo "Illegal number of parameters"
     exit 1
 fi
 CONFIG=$1
