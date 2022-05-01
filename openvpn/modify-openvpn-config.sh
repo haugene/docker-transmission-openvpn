@@ -109,9 +109,9 @@ if [[ $CONFIG_MOD_FAILURE_SCRIPT == "1" ]]; then
 
   # Get existing status
   CONFIG_STATUS=$(sed -n "s/^; status \(.*\)/\1/p" "${CONFIG}")
-  if [[ ${CONFIG_STATUS} == "unknown" ]]; then
+  if [[ "${CONFIG_STATUS}" == "unknown" ]]; then
     CONFIG_STATUS="failure"
-  elif [[ ${CONFIG_STATUS} != "failure" ]]; then
+  elif [[ "${CONFIG_STATUS}" != "failure" ]]; then
     CONFIG_STATUS="unknown"
   fi
 
@@ -123,11 +123,11 @@ if [[ $CONFIG_MOD_FAILURE_SCRIPT == "1" ]]; then
   echo "; status ${CONFIG_STATUS}" >> "${CONFIG}"
   
   # Execute config failure script
-  if [[ ${CONFIG_STATUS} == "failure" ]]; then
+  if [[ "${CONFIG_STATUS}" == "failure" ]]; then
     CONFIG_DIRECTORY=$(dirname "${CONFIG}")
     CONFIG_FAILURE_SCRIPT="${CONFIG_DIRECTORY}/config-failure.sh"
 
-    if [[ -x ${CONFIG_FAILURE_SCRIPT} ]]; then
+    if [[ -x "${CONFIG_FAILURE_SCRIPT}" ]]; then
       echo "Executing ${CONFIG_FAILURE_SCRIPT}"
       ${CONFIG_FAILURE_SCRIPT} "${CONFIG}"
     fi
