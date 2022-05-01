@@ -5,7 +5,7 @@ source /etc/openvpn/utils.sh
 
 # Update config status to success.
 CONFIG_STATUS=$(sed -n "s/^; status \(.*\)/\1/p" "${CONFIG}")
-if [[ -n ${CONFIG_STATUS} ]]; then
+if [[ -n "${CONFIG_STATUS}" ]]; then
   CONFIG_STATUS="success"
   sed -i "/^; status.*$/d" "${CONFIG}"
   sed -i "\$q" "${CONFIG}" # Ensure config ends with a line feed
