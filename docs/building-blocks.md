@@ -94,5 +94,4 @@ Some providers support this, others don't. We try to write scripts for those tha
 after starting Transmission if it exists for your provider.
 
 At this point, Transmission is running and everything is great!
-
 But you might not be able to access it, and that's the topic of the [networking section](vpn-networking.md).
