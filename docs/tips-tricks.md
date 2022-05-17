@@ -9,7 +9,79 @@ If the VPN connection fails or the container for any other reason loses connecti
 
 #### Let other containers use VPN
 
-[TODO](https://github.com/haugene/docker-transmission-openvpn/issues/1558): Relevant issues...
+To let other containers use VPN you have to add them to the same Service network as your VPN container runs, you can do this by adding `network_mode: "service:transmission-openvpn"`. Additionally you have to set `depends_on` to the `transmission-openvpn` service to let docker-compose know that your new container should start **after** `transmission-openvpn` is up and running. As final step you can add `healthcheck` to you service.
+
+As an example, lets add [Jackett](https://github.com/linuxserver/docker-jackett) to the `transmission-openvpn` network based on example from [Running the container](run-container.md):
+
+```yaml
+version: '3.3'
+services:
+    transmission-openvpn:
+        cap_add:
+            - NET_ADMIN
+        volumes:
+            - '/your/storage/path/:/data'
+        environment:
+            - OPENVPN_PROVIDER=PIA
+            - OPENVPN_CONFIG=france
+            - OPENVPN_USERNAME=user
+            - OPENVPN_PASSWORD=pass
+            - LOCAL_NETWORK=192.168.0.0/16
+        logging:
+            driver: json-file
+            options:
+                max-size: 10m
+        ports:
+            - '9091:9091'
+            - '9117:9117'  # This is Jackett Port – managed by VPN Service Network
+        image: haugene/transmission-openvpn
+    jackett:
+        image: lscr.io/linuxserver/jackett:latest
+        container_name: jackett
+        environment:
+            - PUID=1000
+            - PGID=1000
+            - TZ=Europe/London
+            - AUTO_UPDATE=true #optional
+            - RUN_OPTS=<run options here> #optional
+        volumes:
+            - <path to data>:/config
+            - <path to blackhole>:/downloads
+        # You have to comment ports, they should be managed in transmission-openvpn section now.
+#       ports:
+#           - 9117:9117
+        restart: unless-stopped
+        network_mode: "service:transmission-openvpn" # Add to the transmission-openvpn Container Network
+        depends_on:
+            - transmission-openvpn # Set dependency on transmission-openvpn Container
+        healthcheck: # Here you will check if transmission is reachable from the Jackett container via localhost
+            test: curl -f http://localhost:9091 || exit 1
+            # Use this test if you protect your transmission with user and password 
+            # comment test above and un-comment line below.
+            #test: curl -f http://${TRANSMISSION_RPC_USERNAME}:${TRANSMISSION_RPC_PASSWORD}@localhost:9091 || exit 1
+            interval: 5m00s
+            timeout: 10s
+            retries: 2
+            start_period: 30s
+```
+
+##### Check if container is using VPN
+
+After container starts, simply call `curl` under your it to check your IP Address. E.g. for example with Jackett you will should your VPN IP address:
+
+```bash
+docker exec jackett curl -s https://api.ipify.org
+```
+
+You can also check that Jackett is attached to the VPN network by pinging it from the `transmission-openvpn` Container `localhost`:
+
+```bash
+docker exec transmission-vpn curl -Is http://localhost:9117
+HTTP/1.1 301 Moved Permanently
+Date: Tue, 17 May 2022 19:58:19 GMT
+Server: Kestrel
+Location: /UI/Dashboard
+```
 
 #### Reach sleep or hybernation on your host if no torrents are active
 By default Transmission will always [scrape](https://en.wikipedia.org/wiki/Tracker_scrape) trackers, even if all torrents have completed their activities, or they have been paused manually. This will cause Transmission to be always active, therefore never allow your host server to be inactive and go to sleep/hybernation/whatever. If this is something you want, you can add the following variable when creating the container. It will turn off a hidden setting in Tranmsission which will stop the application to scrape trackers for paused torrents. Transmission will become inactive, and your host will reach the desidered state.
