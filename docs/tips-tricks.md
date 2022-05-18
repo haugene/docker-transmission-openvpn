@@ -66,7 +66,7 @@ services:
 
 ##### Check if container is using VPN
 
-After container starts, simply call `curl` under your it to check your IP Address. E.g. for example with Jackett you will should your VPN IP address:
+After container starts, simply call `curl` under it to check your IP Address. E.g. for example with Jackett you should see your VPN IP address as output:
 
 ```bash
 docker exec jackett curl -s https://api.ipify.org
