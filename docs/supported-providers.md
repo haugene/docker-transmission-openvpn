@@ -81,6 +81,7 @@ is the most up to date list of configs and providers that are supported.
 | RA4W VPN                  | `RA4W`                            |
 | SaferVPN                  | `SAFERVPN`                        |
 | SlickVPN                  | `SLICKVPN`                        |
+| SlickVPNCore              | `SLICKVPNCORE`                    |
 | Smart DNS Proxy           | `SMARTDNSPROXY`                   |
 | SmartVPN                  | `SMARTVPN`                        |
 | Surfshark                 | `SURFSHARK`                       |
