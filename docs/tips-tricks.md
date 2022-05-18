@@ -62,12 +62,11 @@ services:
             interval: 5m00s
             timeout: 10s
             retries: 2
-            start_period: 30s
 ```
 
 ##### Check if container is using VPN
 
-After container starts, simply call `curl` under your it to check your IP Address. E.g. for example with Jackett you will should your VPN IP address:
+After container starts, simply call `curl` under it to check your IP Address. E.g. for example with Jackett you should see your VPN IP address as output:
 
 ```bash
 docker exec jackett curl -s https://api.ipify.org
@@ -85,7 +84,7 @@ Location: /UI/Dashboard
 
 #### Reach sleep or hybernation on your host if no torrents are active
 By default Transmission will always [scrape](https://en.wikipedia.org/wiki/Tracker_scrape) trackers, even if all torrents have completed their activities, or they have been paused manually. This will cause Transmission to be always active, therefore never allow your host server to be inactive and go to sleep/hybernation/whatever. If this is something you want, you can add the following variable when creating the container. It will turn off a hidden setting in Tranmsission which will stop the application to scrape trackers for paused torrents. Transmission will become inactive, and your host will reach the desidered state.
-```
+```bash
 -e "TRANSMISSION_SCRAPE_PAUSED_TORRENTS_ENABLED=false"
 ```
 
@@ -110,7 +109,7 @@ This service is assuming that there is a `bittorrent` user set up with a home di
 
 OpenVPN is set to exit if there is a connection failure. OpenVPN exiting triggers the container to also exit, then the `Restart=always` definition in the `transmission-openvpn.service` file tells systems to restart things again.
 
-```
+```bash
 [Unit]
 Description=haugene/transmission-openvpn docker container
 After=docker.service
@@ -144,14 +143,14 @@ WantedBy=multi-user.target
 
 Then enable and start the new service with:
 
-```
+```bash
 $ sudo systemctl enable /etc/systemd/system/transmission-openvpn.service
 $ sudo systemctl restart transmission-openvpn.service
 ```
 
 If it is stopped or killed in any fashion, systemd will restart the container. If you do want to shut it down, then run the following command and it will stay down until you restart it.
 
-```
+```bash
 $ sudo systemctl stop transmission-openvpn.service
 # Later ...
 $ sudo systemctl start transmission-openvpn.service
