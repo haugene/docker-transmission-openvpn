@@ -26,7 +26,7 @@ A possible evolution would be to check server's load to select the most availabl
 * use https://api.nordvpn.com/server/stats to collect cpu's load
 * select the more available server.
 
-### MULLVAD
+### MULLVAD & OVPN
 
 According to [(#1355)](https://github.com/haugene/docker-transmission-openvpn/issues/1355)
 ipv6 needs to be enabled for mullvad vpn
@@ -40,3 +40,5 @@ or add following line to docker run
 ```yaml
 --sysctl net.ipv6.conf.all.disable_ipv6=0
 ```
+
+The same is true for provider OVPN.
