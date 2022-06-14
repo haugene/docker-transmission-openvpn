@@ -76,7 +76,7 @@ HEALTHCHECK --interval=1m CMD /etc/scripts/healthcheck.sh
 ARG REVISION
 # Set env from build argument or default to empty string
 ENV REVISION=${REVISION:-""}
-LABEL org.opencontainers.image.source=https://github.com/haugene/docker-transmission-openvpn
+LABEL org.opencontainers.image.source=https://github.com/derekcentrico/docker-transmission-openvpn
 LABEL org.opencontainers.image.revision=$REVISION
 
 # Compatability with https://hub.docker.com/r/willfarrell/autoheal/
