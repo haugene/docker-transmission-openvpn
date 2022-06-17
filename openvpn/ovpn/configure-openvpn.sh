@@ -1,15 +1,10 @@
-#! /bin/bash
-
-# using snippet from vpn-configs-contrib/openvpn/ipvanish/configure-openvpn.sh
-
-#rework assuming I can make my own vars.  Example var usage:
-#      - OVPN_COUNTRY='us'
-#      - OVPN_PROTOCOL='udp'
-#      - OVPN_CONNECTION= 'standard' 
-
+#! /bin/bashs
 
 set -e
 
+if [ -z "$VPN_PROVIDER_HOME" ]; then
+    echo "ERROR: Need to have VPN_PROVIDER_HOME set to call this script" && exit 1
+fi
 
 validate_options () {
 		if [[ -n "$OVPN_CONNECTION" ]] && [[ $OVPN_CONNECTION =~ (multihop|standard) ]]; then
@@ -20,19 +15,6 @@ validate_options () {
 
 		return 0
 }
-
-
-while getopts "hl:t:p:" option
-do
-		case $option in
-				l) location=$OPTARG ;;
-				t) connection=$OPTARG ;; 
-				p) protocol=$OPTARG ;;
-				h|?) help; exit ;;
-		esac
-done
-
-validate_options || help_and_exit $?
 
 # in case the script is executed from another directory
 cd ${0%/*}
