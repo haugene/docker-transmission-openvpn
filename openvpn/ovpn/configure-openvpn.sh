@@ -1,4 +1,4 @@
-#! /bin/bashs
+#! /bin/bash
 
 set -e
 
@@ -19,7 +19,7 @@ validate_options () {
 # in case the script is executed from another directory
 cd ${0%/*}
 
-pattern=${OVPN_CONNECTION:-*}.${OVPN_COUNTRY:-*}.*.${OVPN_PROTOCOL:-*}.ovpn.com.ovpn
+pattern=$OVPN_CONNECTION.$OVPN_COUNTRY.*.$OVPN_PROTOCOL.ovpn.com.ovpn
 OPENVPN_CONFIG=$(ls $pattern | shuf | head -n1)
 
 if [[ -n "$OPENVPN_CONFIG" ]]; then 
