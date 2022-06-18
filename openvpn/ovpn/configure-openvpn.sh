@@ -31,7 +31,7 @@ validate_options () {
 
 cd /etc/openvpn/ovpn
 
-pattern=$OVPN_CONNECTION.$OVPN_COUNTRY.*.$OVPN_PROTOCOL.ovpn.com.ovpn
+pattern=$OVPN_CONNECTION.$OVPN_COUNTRY.*.$OVPN_PROTOCOL.ovpn.com
 OPENVPN_CONFIG=$(ls $pattern | shuf | head -n1)
 
 if [[ -n "$OPENVPN_CONFIG" ]]; then 
