@@ -27,7 +27,7 @@ validate_options () {
 }
 
 # in case the script is executed from another directory
-cd ${0%/*}
+#cd ${0%/*}
 
 pattern=$OVPN_CONNECTION.$OVPN_COUNTRY.*.$OVPN_PROTOCOL.ovpn.com.ovpn
 OPENVPN_CONFIG=$(ls $pattern | shuf | head -n1)
