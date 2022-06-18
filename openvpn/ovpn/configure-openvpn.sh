@@ -23,7 +23,6 @@ pattern=$OVPN_CONNECTION.$OVPN_COUNTRY.*.$OVPN_PROTOCOL.ovpn.com.ovpn
 OPENVPN_CONFIG=$(ls $pattern | shuf | head -n1)
 
 if [[ -n "$OPENVPN_CONFIG" ]]; then 
-#		export OPENVPN_CONFIG="${OPENVPN_CONFIG#.ovpn}"
 		ln -sf OPENVPN_CONFIG "$VPN_PROVIDER_HOME"/default.ovpn
 else
 		echo "There is no available config matching provided options!"
