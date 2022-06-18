@@ -2,6 +2,16 @@
 
 set -e
 
+OVPN_CONNECTION=$OVPN_CONNECTION
+export OVPN_CONNECTION
+
+OVPN_PROTOCOL=$OVPN_PROTOCOL
+export OVPN_PROTOCOL
+
+OVPN_PROTOCOL=$OVPN_COUNTRY
+export OVPN_COUNTRY
+
+
 if [ -z "$VPN_PROVIDER_HOME" ]; then
     echo "ERROR: Need to have VPN_PROVIDER_HOME set to call this script" && exit 1
 fi
