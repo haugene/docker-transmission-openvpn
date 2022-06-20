@@ -33,6 +33,9 @@ validate_options () {
 
 cd /etc/openvpn/ovpn
 
+# Delete all files for this provider, except scripts
+find /etc/openvpn/ovpn -type f ! -name "*.sh" -delete
+
 # Download and extract wanted bundle into temporary file
 echo "Downloading OpenVPN config bundle into temporary file $tmp_file"
 #svn export https://github.com/haugene/vpn-configs-contrib/tree/main/openvpn/"
