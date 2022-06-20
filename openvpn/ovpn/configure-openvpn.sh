@@ -33,6 +33,20 @@ validate_options () {
 
 cd /etc/openvpn/ovpn
 
+# Download and extract wanted bundle into temporary file
+echo "Downloading OpenVPN config bundle into temporary file $tmp_file"
+#svn export https://github.com/haugene/vpn-configs-contrib/tree/main/openvpn/"
+
+#wget -c https://github.com/haugene/vpn-configs-contrib/archive/refs/heads/main.zip 
+#test repo
+wget -c https://github.com/derekcentrico/vpn-configs-contrib/archive/refs/heads/main.zip 
+echo "Extract OpenVPN config bundle into $VPN_PROVIDER_HOME"
+unzip main.zip "vpn-configs-contrib-main/openvpn/ovpn/*"
+mv ./vpn-configs-contrib-main/openvpn/ovpn/* /etc/openvpn/ovpn
+rm ./vpn-configs-contrib-main/openvpn/ovpn/ -R
+rm main.zip
+
+
 #pattern=$OVPN_CONNECTION.$OVPN_COUNTRY.$OVPN_CITY.$OVPN_PROTOCOL
 #OPENVPN_CONFIG=$(ls $pattern | shuf | head -n1)
 
