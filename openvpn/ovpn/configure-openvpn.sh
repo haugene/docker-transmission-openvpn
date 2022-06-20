@@ -37,14 +37,14 @@ cd /etc/openvpn/ovpn
 echo "Downloading OpenVPN config bundle into temporary file $tmp_file"
 #svn export https://github.com/haugene/vpn-configs-contrib/tree/main/openvpn/"
 
-#wget -c https://github.com/haugene/vpn-configs-contrib/archive/refs/heads/main.zip 
+#wget -c https://github.com/haugene/vpn-configs-contrib/archive/refs/heads/main.zip  -P /tmp/
 #test repo
-wget -c https://github.com/derekcentrico/vpn-configs-contrib-ovpnwork/archive/refs/heads/main.zip 
+wget -c https://github.com/derekcentrico/vpn-configs-contrib-ovpnwork/archive/refs/heads/main.zip -P /tmp/
 echo "Extract OpenVPN config bundle into $VPN_PROVIDER_HOME"
-unzip main.zip "vpn-configs-contrib-main/openvpn/ovpn/*"
-mv ./vpn-configs-contrib-main/openvpn/ovpn/* /etc/openvpn/ovpn
-rm ./vpn-configs-contrib-main/openvpn/ovpn/ -R
-rm main.zip
+unzip /tmp/main.zip "vpn-configs-contrib-main/openvpn/ovpn/*"
+mv /tmp/vpn-configs-contrib-main/openvpn/ovpn/* /etc/openvpn/ovpn
+rm /tmp/vpn-configs-contrib-main/openvpn/ovpn/ -R
+rm /tmp/main.zip
 
 
 #pattern=$OVPN_CONNECTION.$OVPN_COUNTRY.$OVPN_CITY.$OVPN_PROTOCOL
