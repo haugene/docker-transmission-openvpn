@@ -39,7 +39,7 @@ echo "Downloading OpenVPN config bundle into temporary file $tmp_file"
 
 #wget -c https://github.com/haugene/vpn-configs-contrib/archive/refs/heads/main.zip 
 #test repo
-wget -c https://github.com/derekcentrico/vpn-configs-contrib/archive/refs/heads/main.zip 
+wget -c https://github.com/derekcentrico/vpn-configs-contrib-ovpnwork/archive/refs/heads/main.zip 
 echo "Extract OpenVPN config bundle into $VPN_PROVIDER_HOME"
 unzip main.zip "vpn-configs-contrib-main/openvpn/ovpn/*"
 mv ./vpn-configs-contrib-main/openvpn/ovpn/* /etc/openvpn/ovpn
