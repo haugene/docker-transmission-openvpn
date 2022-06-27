@@ -281,7 +281,9 @@ if [[ -n "${LOCAL_NETWORK-}" ]]; then
   if [[ -n "${GW-}" ]] && [[ -n "${INT-}" ]]; then
     for localNet in ${LOCAL_NETWORK//,/ }; do
       echo "adding route to local network ${localNet} via ${GW} dev ${INT}"
-      /sbin/ip route add "${localNet}" via "${GW}" dev "${INT}"
+      # Using `ip route replace` so that the command does not fail with
+      # `RTNETLINK answers: File exists` when the route already exists 
+      /sbin/ip route replace "${localNet}" via "${GW}" dev "${INT}"
       if [[ "${ENABLE_UFW,,}" == "true" ]]; then
         ufwAllowPortLong ${TRANSMISSION_RPC_PORT} ${localNet}
         if [[ -n "${UFW_EXTRA_PORTS-}" ]]; then
