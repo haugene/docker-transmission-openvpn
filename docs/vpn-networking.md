@@ -18,6 +18,7 @@ Alternatively you can reverse proxy the traffic through another container, as th
 $ docker run -d \
       --link <transmission-container>:transmission \
       -p 8080:8080 \
+      --name transmission-openvpn-proxy
       haugene/transmission-openvpn-proxy
 ```
 ## Access the RPC
