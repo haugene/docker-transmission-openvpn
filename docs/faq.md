@@ -36,6 +36,8 @@ easiest solution is just to avoid them. Make the password longer instead ;)
 Or write it into `settings.json` manually as first described.
 Also, look up differences between how [yaml special characters](https://support.asg.com/mob/mvw/10_0/mv_ag/using_quotes_with_yaml_special_characters.htm) are escaped vs [in docker run](https://github.com/haugene/docker-transmission-openvpn/issues/1767)
 
+Docker secrets are also supported for the rpc credentials. To use a secret, remove both the `TRANSMISSION_RPC_USERNAME` and `TRANSMISSION_RPC_PASSWORD` environment variables and add a secret named `rpc_creds`. The secret file must contain two lines, the first line is the username and the second line is the password. Then just add it as a secret to docker, and it will be picked up automatically. This is why the name of the secret is important.
+
 ## How do I verify that my traffic is using VPN
 
 There are many ways of doing this, and I welcome you to add to this list if you have any suggestions.

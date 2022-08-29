@@ -6,7 +6,8 @@
 | `OPENVPN_USERNAME` | Your OpenVPN username             | `OPENVPN_USERNAME=asdf`                                                                                 |
 | `OPENVPN_PASSWORD` | Your OpenVPN password, beware of special charcters. Docker run vs docker-compose (using yaml) interprete special characters differently, see  [Yaml special characters](https://support.asg.com/mob/mvw/10_0/mv_ag/using_quotes_with_yaml_special_characters.htm)             | `OPENVPN_PASSWORD=asdf`                                                                                 |
 
-docker secrets are available to define OPENVPN_USER and OPENVPN_PASSWORD.
+Docker secrets are available to define OPENVPN_USER and OPENVPN_PASSWORD.
+
 * remove OPENVPN_USERNAME, OPENVPN_PASSWORD from environment.
 * write your credentials in one file: openvpn_creds
 * add to your compose yaml:
