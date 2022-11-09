@@ -21,18 +21,6 @@ If you have found what you believe to be an issue or bug, create an issue and pr
 enough details for us to have a chance to reproduce it or undertand what's going on.
 **NB:** Be sure to search for similar issues (open and closed) before opening a new one.
 
-### Just started having problems?
-
-We've just merged a larger release from dev to the master branch.
-This means that the `latest` tag of this image now is version 4.0.
-
-If this release causes issues for you, try running the latest 3.x release:
-`haugene/transmission-openvpn:3.7.1`. Note that this is a temporary fix,
-there will not be any more releases on the 3.x line.
-
-Any instabilities with 4.0, please take it up in the 4.0 release discussion:
-[https://github.com/haugene/docker-transmission-openvpn/discussions/1936](https://github.com/haugene/docker-transmission-openvpn/discussions/1936)
-
 ## Quick Start
 
 These examples shows valid setups using PIA as provider for both
