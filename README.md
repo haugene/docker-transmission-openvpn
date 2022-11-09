@@ -23,9 +23,7 @@ enough details for us to have a chance to reproduce it or undertand what's going
 
 ### Just started having problems?
 
-Due to inactivity of the main developer(@haugene) we cannot create new releases.
-For now, please use the `:dev` branch if something isn't working or you want to be on the latest version.
-
+We've just merged a larger release from dev to the master branch.
 This means that the `latest` tag of this image now is version 4.0.
 
 If this release causes issues for you, try running the latest 3.x release:
@@ -54,7 +52,7 @@ $ docker run --cap-add=NET_ADMIN -d \
               --log-driver json-file \
               --log-opt max-size=10m \
               -p 9091:9091 \
-              haugene/transmission-openvpn:dev
+              haugene/transmission-openvpn
 ```
 
 ### Docker Compose
@@ -78,7 +76,7 @@ services:
                 max-size: 10m
         ports:
             - '9091:9091'
-        image: haugene/transmission-openvpn:dev
+        image: haugene/transmission-openvpn
 ```
 
 ## Please help out (about:maintenance)
