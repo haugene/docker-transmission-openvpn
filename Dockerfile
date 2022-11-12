@@ -46,6 +46,7 @@ ADD privoxy/scripts /opt/privoxy/
 ENV OPENVPN_USERNAME=**None** \
     OPENVPN_PASSWORD=**None** \
     OPENVPN_PROVIDER=**None** \
+    OPENVPN_OPTS= \
     GLOBAL_APPLY_PERMISSIONS=true \
     TRANSMISSION_HOME=/config/transmission-home \
     TRANSMISSION_RPC_PORT=9091 \
