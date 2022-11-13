@@ -1,11 +1,18 @@
-name: Image Builds
+name: Reusable workflow for building multi-arch images
+
 on:
-  push:
-    branches:
-      - github-actions
+  workflow_call:
+    inputs:
+      image-name:
+        required: true
+        type: string
+
+      build-context:
+        required: true
+        type: string
 
 jobs:
-  build-main-image:
+  setup-build-push:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -32,7 +39,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: |
-            haugene/transmission-openvpn
+            ${{ inputs.image-name }}
           tags: |
             type=edge
             type=ref,event=branch
@@ -45,7 +52,7 @@ jobs:
       - name: Build image
         uses: docker/build-push-action@v2
         with:
-          context: .
+          context: ${{ inputs.build-context }}
           platforms: linux/arm,linux/arm64,linux/amd64
           build-args: |
             REVISION=${{ github.sha }}

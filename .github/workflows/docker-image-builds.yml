@@ -1,0 +1,13 @@
+name: Image Builds
+on:
+  push:
+    branches:
+      - github-actions
+
+jobs:
+  build-main-image:
+    uses: ./.github/workflows/image-build-template-workflow.yml
+    with:
+      image-name: haugene/transmission-openvpn
+      build-context: '.'
+    secrets: inherit
