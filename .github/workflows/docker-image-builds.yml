@@ -2,7 +2,10 @@ name: Image Builds
 on:
   push:
     branches:
-      - github-actions
+      - master
+      - dev
+    tags:
+      - v.*
 
 jobs:
   build-main-images:
