@@ -67,6 +67,18 @@ services:
         image: haugene/transmission-openvpn
 ```
 
+## Image versioning
+
+We aim to create periodic fixed releases with a [semver](https://semver.org/) versioning scheme.
+The latest of the tagged fixed releases will also have the `latest` tag.
+
+A semver release will be tagged with `major`, `major.minor` and `major.minor.patch` versions so that you can lock
+the version at either level.
+
+We also have a tag called `edge` which will always be the latest commit on `master`, and `dev` which is the last commit on the `dev` branch.
+From time to time we can also have various `beta` branches and tags, but using either dev or beta tags is probably not for the average user
+and you should expect there to be occasional breakage or even the deletion of the tags upstream.
+
 ## Please help out (about:maintenance)
 This image was created for my own use, but sharing is caring, so it had to be open source.
 It has now gotten quite popular, and that's great! But keeping it up to date, providing support, fixes
