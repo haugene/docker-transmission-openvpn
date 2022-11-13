@@ -16,12 +16,51 @@ RUN apk --no-cache add curl jq \
     && mkdir /opt/transmission-ui/transmission-web-control \
     && curl -sL $(curl -s https://api.github.com/repos/ronggang/transmission-web-control/releases/latest | jq --raw-output '.tarball_url') | tar -C /opt/transmission-ui/transmission-web-control/ --strip-components=2 -xz
 
-FROM ubuntu:22.04
+
+FROM ubuntu:jammy AS base
+
+RUN set -ex; \
+    apt-get update; \
+    apt-get dist-upgrade -y; \
+    apt-get install -y --no-install-recommends \
+      tzdata \
+      iproute2 \
+      net-tools \
+      nano \
+      ca-certificates \
+      curl \
+      libcurl4-openssl-dev \
+      libdeflate-dev \
+      libevent-dev \
+      libfmt-dev \
+      libminiupnpc-dev \
+      libnatpmp-dev \
+      libpsl-dev \
+      libssl-dev
+
+FROM base as TransmissionBetaBuilder
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y curl \
+    build-essential automake autoconf libtool pkg-config intltool libcurl4-openssl-dev \
+    libglib2.0-dev libevent-dev libminiupnpc-dev libgtk-3-dev libappindicator3-dev libssl-dev cmake xz-utils
+
+
+RUN mkdir -p /home/transmission4/ && cd /home/transmission4/ \
+  && curl -L -o transmission4.tar.xz "https://github.com/transmission/transmission-releases/raw/master/transmission-4.0.0-beta.1%2Br98cf7d9b3c.tar.xz" \
+  && tar -xf transmission4.tar.xz && cd transmission-4.0.0* && mkdir build && cd build \
+  && cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo .. && make && make install
+
+
+FROM base
 
 VOLUME /data
 VOLUME /config
 
 COPY --from=TransmissionUIs /opt/transmission-ui /opt/transmission-ui
+COPY --from=TransmissionBetaBuilder /usr/local/bin /usr/local/bin
+COPY --from=TransmissionBetaBuilder /usr/local/share /usr/local/share
 
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y \
@@ -35,16 +74,6 @@ RUN apt-get update && apt-get install -y \
     && groupmod -g 1000 users \
     && useradd -u 911 -U -d /config -s /bin/false abc \
     && usermod -G users abc
-
-
-# Install 4.00 beta version
-RUN apt-get update && apt-get install -y build-essential automake autoconf libtool pkg-config intltool libcurl4-openssl-dev \
-    libglib2.0-dev libevent-dev libminiupnpc-dev libgtk-3-dev libappindicator3-dev libssl-dev cmake xz-utils
-
-RUN mkdir -p /home/transmission4/ && cd /home/transmission4/ \
-  && curl -L -o transmission4.tar.xz "https://github.com/transmission/transmission-releases/raw/master/transmission-4.0.0-beta.1%2Br98cf7d9b3c.tar.xz" \
-  && tar -xf transmission4.tar.xz && cd transmission-4.0.0* && mkdir build && cd build \
-  && cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo .. && make && make install
 
 
 # Add configuration and scripts
