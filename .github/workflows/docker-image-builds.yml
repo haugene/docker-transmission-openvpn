@@ -1,0 +1,30 @@
+name: Image Builds
+on:
+  push:
+    branches:
+      - master
+      - dev
+    tags:
+      - v.*
+
+jobs:
+  build-main-images:
+    uses: ./.github/workflows/image-build-template-workflow.yml
+    with:
+      image-name: haugene/transmission-openvpn
+      build-context: '.'
+    secrets: inherit
+
+  build-proxy-images:
+    uses: ./.github/workflows/image-build-template-workflow.yml
+    with:
+      image-name: haugene/transmission-openvpn-proxy
+      build-context: 'proxy'
+    secrets: inherit
+
+  build-rss-plugin-images:
+    uses: ./.github/workflows/image-build-template-workflow.yml
+    with:
+      image-name: haugene/transmission-rss
+      build-context: 'plugins/rss'
+    secrets: inherit
