@@ -17,7 +17,7 @@ RUN apk --no-cache add curl jq \
     && curl -sL $(curl -s https://api.github.com/repos/ronggang/transmission-web-control/releases/latest | jq --raw-output '.tarball_url') | tar -C /opt/transmission-ui/transmission-web-control/ --strip-components=2 -xz
 
 
-FROM ubuntu:jammy AS base
+FROM ubuntu:22.04 AS base
 
 RUN set -ex; \
     apt-get update; \

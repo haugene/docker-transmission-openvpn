@@ -259,6 +259,11 @@ if [[ "${ENABLE_UFW,,}" == "true" ]]; then
   sed -i -e s/IPV6=yes/IPV6=no/ /etc/default/ufw
   ufw enable
 
+
+# Ignore unset variables from here and out
+# The UFW stuff should be revisited at some point...
+set +u
+
   if [[ "${TRANSMISSION_PEER_PORT_RANDOM_ON_START,,}" == "true" ]]; then
     PEER_PORT="${TRANSMISSION_PEER_PORT_RANDOM_LOW}:${TRANSMISSION_PEER_PORT_RANDOM_HIGH}"
   else
