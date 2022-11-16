@@ -5,7 +5,7 @@ on:
       - master
       - dev
     tags:
-      - v.*
+      - 'v*'
 
 jobs:
   build-main-images:
