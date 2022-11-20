@@ -135,6 +135,11 @@ Compose sample:
 You might not need to mount a folder of configs. You may just have one config file you want to use.
 In that case you can just mount it directly. Mounting it as `default.ovpn` will let you omit `OPENVPN_CONFIG` as well.
 
+If you mount a ovpn file directly, then we can't edit it within the container using modify-openvpn-config.sh.
+
+This means, if you want those changes done by modify-openvpn-config.sh
+you'll need to manually execute the script before mounting and running the container.
+
 Compose sample:
 ```
              - /volume1/docker/ipvanish/my-preferred-config-file.ovpn:/etc/openvpn/custom/default.ovpn
