@@ -160,7 +160,8 @@ if [[ -z ${CHOSEN_OPENVPN_CONFIG:-""} ]]; then
 fi
 
 # dont run script on mounted OpenVPN configs (causes "Device or resource busy" errors)
-# due to the way sed -i works with inodes
+# due to sed -i wanting to create a new file (inode) and docker wont't allow you.
+# https://unix.stackexchange.com/a/404356
 if ! mountpoint -q "$CHOSEN_OPENVPN_CONFIG"; then
   MODIFY_CHOSEN_CONFIG="${MODIFY_CHOSEN_CONFIG:-true}"
   # The config file we're supposed to use is chosen, modify it to fit this container setup
