@@ -32,6 +32,7 @@ at some point, but this is a good place to start.
 ```
 $ docker run --cap-add=NET_ADMIN -d \
               -v /your/storage/path/:/data \
+              -v /your/config/path/:/config \
               -e OPENVPN_PROVIDER=PIA \
               -e OPENVPN_CONFIG=france \
               -e OPENVPN_USERNAME=user \
@@ -52,6 +53,7 @@ services:
             - NET_ADMIN
         volumes:
             - '/your/storage/path/:/data'
+            - '/your/config/path/:/config'
         environment:
             - OPENVPN_PROVIDER=PIA
             - OPENVPN_CONFIG=france

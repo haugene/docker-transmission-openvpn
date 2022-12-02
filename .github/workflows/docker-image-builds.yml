@@ -6,7 +6,7 @@ on:
       - dev
       - beta
     tags:
-      - v.*
+      - 'v[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
   build-main-images:

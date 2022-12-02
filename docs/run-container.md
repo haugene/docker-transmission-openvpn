@@ -21,6 +21,7 @@ The example Docker run command looks like this:
 ```
 $ docker run --cap-add=NET_ADMIN -d \
               -v /your/storage/path/:/data \
+              -v /your/config/path/:/config \
               -e OPENVPN_PROVIDER=PIA \
               -e OPENVPN_CONFIG=france \
               -e OPENVPN_USERNAME=user \
