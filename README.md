@@ -69,6 +69,13 @@ services:
         image: haugene/transmission-openvpn
 ```
 
+## Known issues
+
+If you've been running a stable setup that has recently started to fail, please check your logs.
+Are you seeing `curl: (6) getaddrinfo() thread failed to start` or `WARNING: initial DNS resolution test failed`?
+Then have a look at #2410 and [this comment](https://github.com/haugene/docker-transmission-openvpn/issues/2410#issuecomment-1319299598)
+in particular. There is a fix and a workaround available.
+
 ## Image versioning
 
 We aim to create periodic fixed releases with a [semver](https://semver.org/) versioning scheme.
