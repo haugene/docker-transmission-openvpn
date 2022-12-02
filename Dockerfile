@@ -48,7 +48,7 @@ RUN apt-get update && apt-get install -y curl \
 
 
 RUN mkdir -p /home/transmission4/ && cd /home/transmission4/ \
-  && curl -L -o transmission4.tar.xz "https://github.com/transmission/transmission-releases/raw/master/transmission-4.0.0-beta.1%2Br98cf7d9b3c.tar.xz" \
+  && curl -L -o transmission4.tar.xz "https://github.com/transmission/transmission-releases/blob/master/transmission-4.0.0-beta.2%2Brbceb368f1b.tar.xz" \
   && tar -xf transmission4.tar.xz && cd transmission-4.0.0* && mkdir build && cd build \
   && cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo .. && make && make install
 
