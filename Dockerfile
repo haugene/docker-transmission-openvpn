@@ -43,6 +43,10 @@ ADD transmission/ /etc/transmission/
 ADD scripts /etc/scripts/
 ADD privoxy/scripts /opt/privoxy/
 
+# Support legacy IPTables commands
+RUN update-alternatives --set iptables $(which iptables-legacy) && \
+    update-alternatives --set ip6tables $(which ip6tables-legacy)
+
 ENV OPENVPN_USERNAME=**None** \
     OPENVPN_PASSWORD=**None** \
     OPENVPN_PROVIDER=**None** \
