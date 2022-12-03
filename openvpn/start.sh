@@ -160,7 +160,7 @@ if [[ -z ${CHOSEN_OPENVPN_CONFIG:-""} ]]; then
 fi
 
 # log message and fail if attempting to mount config directly
-if ! mountpoint -q "$CHOSEN_OPENVPN_CONFIG"; then
+if mountpoint -q "$CHOSEN_OPENVPN_CONFIG"; then
   fatal_error "You're mounting a openvpn config directly, dont't do this it causes issues (see #2274). Mount the directory where the config is instead."
 fi
 
