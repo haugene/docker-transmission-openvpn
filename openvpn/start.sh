@@ -159,6 +159,11 @@ if [[ -z ${CHOSEN_OPENVPN_CONFIG:-""} ]]; then
   fi
 fi
 
+# log message and fail if attempting to mount config directly
+if mountpoint -q "$CHOSEN_OPENVPN_CONFIG"; then
+  fatal_error "You're mounting a openvpn config directly, dont't do this it causes issues (see #2274). Mount the directory where the config is instead."
+fi
+
 MODIFY_CHOSEN_CONFIG="${MODIFY_CHOSEN_CONFIG:-true}"
 # The config file we're supposed to use is chosen, modify it to fit this container setup
 if [[ "${MODIFY_CHOSEN_CONFIG,,}" == "true" ]]; then
