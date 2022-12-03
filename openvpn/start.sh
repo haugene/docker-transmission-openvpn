@@ -159,18 +159,16 @@ if [[ -z ${CHOSEN_OPENVPN_CONFIG:-""} ]]; then
   fi
 fi
 
-# dont run script on mounted OpenVPN configs (causes "Device or resource busy" errors)
-# due to sed -i wanting to create a new file (inode) and docker wont't allow you.
-# https://unix.stackexchange.com/a/404356
+# log message and fail if attempting to mount config directly
 if ! mountpoint -q "$CHOSEN_OPENVPN_CONFIG"; then
-  MODIFY_CHOSEN_CONFIG="${MODIFY_CHOSEN_CONFIG:-true}"
-  # The config file we're supposed to use is chosen, modify it to fit this container setup
-  if [[ "${MODIFY_CHOSEN_CONFIG,,}" == "true" ]]; then
-    # shellcheck source=openvpn/modify-openvpn-config.sh
-    /etc/openvpn/modify-openvpn-config.sh "$CHOSEN_OPENVPN_CONFIG"
-  fi
-else
-  log "You're using a mounted OpenVPN config, run modify-openvpn-config.sh before mounting it if needed."
+  fatal_error "You're mounting a openvpn config directly, dont't do this it causes issues (see #2274). Mount the directory where the config is instead."
+fi
+
+MODIFY_CHOSEN_CONFIG="${MODIFY_CHOSEN_CONFIG:-true}"
+# The config file we're supposed to use is chosen, modify it to fit this container setup
+if [[ "${MODIFY_CHOSEN_CONFIG,,}" == "true" ]]; then
+  # shellcheck source=openvpn/modify-openvpn-config.sh
+  /etc/openvpn/modify-openvpn-config.sh "$CHOSEN_OPENVPN_CONFIG"
 fi
 
 # If openvpn-post-config.sh exists, run it

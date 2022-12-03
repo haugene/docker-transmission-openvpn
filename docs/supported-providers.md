@@ -130,17 +130,12 @@ Compose sample:
             - OPENVPN_PASSWORD=pass
 ```
 
-### If you only need to mount one file
+### Do not mount single config file
 
-You might not need to mount a folder of configs. You may just have one config file you want to use.
-In that case you can just mount it directly. Mounting it as `default.ovpn` will let you omit `OPENVPN_CONFIG` as well.
+Do not mount a single config directly. The container will fail if you try, since it causes sed errors when modify-openvpn-config.sh is executed.
+Instead mount the directory where the config exists.
 
-If you mount a ovpn file directly, then we can't edit it within the container using modify-openvpn-config.sh.
-
-This means, if you want those changes done by modify-openvpn-config.sh
-you'll need to manually execute the script before mounting and running the container.
-
-Compose sample:
+```bash
+sed: cannot rename /etc/openvpn/custom/sedHeF3gS: Device or resource busy
 ```
-             - /volume1/docker/ipvanish/my-preferred-config-file.ovpn:/etc/openvpn/custom/default.ovpn
-```
+
