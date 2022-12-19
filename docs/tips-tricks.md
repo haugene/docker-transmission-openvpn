@@ -9,9 +9,9 @@ If the VPN connection fails or the container for any other reason loses connecti
 
 #### Let other containers use VPN
 
-To let other containers use VPN you have to add them to the same Service network as your VPN container runs, you can do this by adding `network_mode: "service:transmission-openvpn"`. Additionally you have to set `depends_on` to the `transmission-openvpn` service to let docker-compose know that your new container should start **after** `transmission-openvpn` is up and running. As final step you can add `healthcheck` to you service.
+To let other containers use VPN you have to add them to the same Service network as your VPN container runs, you can do this by adding `network_mode: "service:transmission-openvpn"`. Additionally, you have to set `depends_on` to the `transmission-openvpn` service to let docker-compose know that your new container should start **after** `transmission-openvpn` is up and running. As the final step, you can add `healthcheck` to your service.
 
-As an example, lets add [Jackett](https://github.com/linuxserver/docker-jackett) to the `transmission-openvpn` network based on example from [Running the container](run-container.md):
+As an example, let's add [Jackett](https://github.com/linuxserver/docker-jackett) to the `transmission-openvpn` network based on the example from [Running the container](run-container.md):
 
 ```yaml
 version: '3.3'
@@ -89,7 +89,7 @@ By default, Transmission will always [scrape](https://en.wikipedia.org/wiki/Trac
 ```
 
 #### Running it on a NAS
-Several popular NAS platforms supports Docker containers. You should be able to set up
+Several popular NAS platforms support Docker containers. You should be able to set up
 and configure this container using their web interfaces. As of version 3.0 of this image
 creates a TUN interface inside the container by default. This previously had to be mounted
 from the host which was an issue for some NAS servers. The assumption is that this should
@@ -97,11 +97,11 @@ now be fixed. If you have issues and the logs seem to blame "/dev/net/tun" in so
 then you might consider trying to mount a host device and see if that works better.
 Setting up a TUN device is probably easiest to accomplish by installing an OpenVPN package
 for the NAS. This should set up the device and you can mount it.
-There are some issues involved running it on Synology NAS, 
+There are some issues involved in running it on Synology NAS, 
 Please see following issue that discusses [solutions](https://github.com/haugene/docker-transmission-openvpn/issues/1542#issuecomment-793605649)
 
 #### Systemd Integration
-On many modern linux systems, including Ubuntu, systemd can be used to start the transmission-openvpn at boot time, and restart it after any failure.
+On many modern Linux systems, including Ubuntu, systemd can be used to start the transmission-openvpn at boot time, and restart it after any failure.
 
 Save the following as `/etc/systemd/system/transmission-openvpn.service`, and replace the OpenVPN PROVIDER/USERNAME/PASSWORD directives with your settings, and add any other directives that you're using.
 

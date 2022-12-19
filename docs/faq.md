@@ -79,7 +79,7 @@ but an invalid target route that would cause this error might be
 
 To check your value, you can use a [subnet calculator](https://www.calculator.net/ip-subnet-calculator.html). 
 * Enter your IP Address - the portion before the mask, `10.20.30.45` here
-* select the subnet that matches - the `/24` portion here
+* Select the subnet that matches - the `/24` portion here
 * Take the Network Address that is returned - `10.20.30.0` in this case 
 
 ## TUNSETIFF tun: Operation not permitted
@@ -174,7 +174,7 @@ Depending on your setup, you may not want to send your VPN user/pass via environ
 
 *Procedure*
 1. create a text file with username and password in it, each on a separate line: eg:
-For this example we will pretend, it is located at: `./openvpn-credentials.txt`
+For this example, we will assume it is located at `./openvpn-credentials.txt`
 ```
 this_is_my_username
 this_is_my_password
