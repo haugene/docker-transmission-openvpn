@@ -1,4 +1,4 @@
-# The basic building blocks
+﻿# The basic building blocks
 
 ## The goal
 
@@ -44,7 +44,7 @@ option as each provider should have a default config that will be used if none i
 
 With the config file identified we're ready to start OpenVPN, the only thing missing are probably
 a username and password. There are some free providers out there, but they are the exceptions to the rule.
-We have to inject the username/password into the config somehow. Again there are exceptions but the majority
+We must inject the username/password into the config somehow. Again there are exceptions but the majority
 of configs from regular providers contain a line with `auth-user-pass` which will make OpenVPN prompt for username
 and password when you start a connection. That will obviously not work for us, so we need to modify that option.
 If it's followed by a path to a file, it will read the first line of that file as username and the second line as password.

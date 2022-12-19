@@ -4,10 +4,10 @@ This causes trouble because OpenVPN will not be able to resolve the host to conn
 If you have this problem use Docker's --dns flag and try using Google's DNS servers by
 adding --dns 8.8.8.8 --dns 8.8.4.4 as parameters to the usual run command.
 
-#### Restart container if connection is lost
-If the VPN connection fails or the container for any other reason loses connectivity, you want it to recover from it. One way of doing this is to set environment variable `OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60` and use the --restart=always flag when starting the container. This way OpenVPN will exit if ping fails over a period of time which will stop the container and then the Docker deamon will restart it.
+#### Restart the container if the connection is lost
+If the VPN connection fails or the container for any other reason loses connectivity, you want it to recover from it. One way of doing this is to set the environment variable `OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60` and use the --restart=always flag when starting the container. This way OpenVPN will exit if ping fails over a period of time which will stop the container and then the Docker daemon will restart it.
 
-#### Let other containers use VPN
+#### Let other containers use the VPN
 
 To let other containers use VPN you have to add them to the same Service network as your VPN container runs, you can do this by adding `network_mode: "service:transmission-openvpn"`. Additionally, you have to set `depends_on` to the `transmission-openvpn` service to let docker-compose know that your new container should start **after** `transmission-openvpn` is up and running. As the final step, you can add `healthcheck` to your service.
 
@@ -56,17 +56,17 @@ services:
             - transmission-openvpn # Set dependency on transmission-openvpn Container
         healthcheck: # Here you will check if transmission is reachable from the Jackett container via localhost
             test: curl -f http://localhost:9091 || exit 1
-            # Use this test if you protect your transmission with user and password 
-            # comment test above and un-comment line below.
+            # Use this test if you protect your transmission with a username and password 
+            # comment the test above and un-comment the line below.
             #test: curl -f http://${TRANSMISSION_RPC_USERNAME}:${TRANSMISSION_RPC_PASSWORD}@localhost:9091 || exit 1
             interval: 5m00s
             timeout: 10s
             retries: 2
 ```
 
-##### Check if container is using VPN
+##### Check if the container is using VPN
 
-After container starts, simply call `curl` under it to check your IP Address. E.g. for example with Jackett you should see your VPN IP address as output:
+After the container starts, simply call `curl` under it to check your IP address, for example with Jackett you should see your VPN IP address as output:
 
 ```bash
 docker exec jackett curl -s https://api.ipify.org
@@ -98,7 +98,7 @@ then you might consider trying to mount a host device and see if that works bett
 Setting up a TUN device is probably easiest to accomplish by installing an OpenVPN package
 for the NAS. This should set up the device and you can mount it.
 There are some issues involved in running it on Synology NAS, 
-Please see following issue that discusses [solutions](https://github.com/haugene/docker-transmission-openvpn/issues/1542#issuecomment-793605649)
+Please see this issue that discusses [solutions](https://github.com/haugene/docker-transmission-openvpn/issues/1542#issuecomment-793605649)
 
 #### Systemd Integration
 On many modern Linux systems, including Ubuntu, systemd can be used to start the transmission-openvpn at boot time, and restart it after any failure.
@@ -107,7 +107,7 @@ Save the following as `/etc/systemd/system/transmission-openvpn.service`, and re
 
 This service is assuming that there is a `bittorrent` user set up with a home directory at `/home/bittorrent/`. The data directory will be mounted at `/home/bittorrent/data/`. This can be changed to whichever user and location you're using.
 
-OpenVPN is set to exit if there is a connection failure. OpenVPN exiting triggers the container to also exit, then the `Restart=always` definition in the `transmission-openvpn.service` file tells systems to restart things again.
+OpenVPN is set to exit if there is a connection failure. OpenVPN exiting triggers the container to also exit, and then the `Restart=always` definition in the `transmission-openvpn.service` file tells systems to restart things again.
 
 ```bash
 [Unit]
