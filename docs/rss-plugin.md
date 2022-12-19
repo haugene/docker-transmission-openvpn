@@ -7,7 +7,7 @@ $ docker run -d \
       --name "transmission-rss" \
       haugene/transmission-rss
 ```
-At first start a transission-rss.conf file will be created in /etc if no manual one is mounted
+At first start a transmission-rss.conf file will be created in /etc if no manual one is mounted
 A manual transmission-rss.conf file can be mounted into the container to add additional parameters, e.g. login details to rpc
 example:
 ```

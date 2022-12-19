@@ -67,8 +67,8 @@ the same options being sent to the Docker engine as the run statement before it.
 #### 1. The container assumes that you mount a folder to /data
 
 Technically you don't have to do this, but it is by far the most manageable way of getting
-the downloaded files onto your host system **and** Transmission will store it's state there.
-So if you don't mount this directory then you will loose all your torrents on image updates.
+the downloaded files onto your host system **and** Transmission will store its state there.
+So if you don't mount this directory then you will lose all your torrents on image updates.
 
 #### 2. It is not mandatory, but setting OPENVPN_CONFIG is good
 
@@ -92,7 +92,7 @@ The `LOCAL_NETWORK=192.168.0.0/16` tries to fix this for you, but it might not w
 If your local network is in the `10.x.y.z` space for example then you need to set `LOCAL_NETWORK=10.x.0.0/16` or `LOCAL_NETWORK=10.x.y.0/24`.
 These are called CIDR addresses and you can read up on them. The short story is that /24 will allow for any value in the last digit place
 while /16 will allow any value in the two last places. Be sure to only allow IPs that are in the [private IP ranges](https://en.wikipedia.org/wiki/Private_network).
-This option punches a hole in the VPN for the IPs that you specify. It is neccessary to reach your Web UI but narrower ranges are better than wide ones.
+This option punches a hole in the VPN for the IPs that you specify. It is necessary to reach your Web UI but narrower ranges are better than wide ones.
 
 With that said. If you know that you're on a "typical" network with your router at 192.168.1.1, then `LOCAL_NETWORK=192.168.1.0/24` is better than `LOCAL_NETWORK=192.168.0.0/16`. That way you only allow access from 192.168.1.x instead of 192.168.x.y.
 

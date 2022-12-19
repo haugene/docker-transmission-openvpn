@@ -4,7 +4,7 @@
 | ------------------ | --------------------------------- | ------------------------------------------------------------------------------------------------------- |
 | `OPENVPN_PROVIDER` | Sets the OpenVPN provider to use. | `OPENVPN_PROVIDER=provider`. Supported providers and their config values are listed in the table above. |
 | `OPENVPN_USERNAME` | Your OpenVPN username             | `OPENVPN_USERNAME=asdf`                                                                                 |
-| `OPENVPN_PASSWORD` | Your OpenVPN password, beware of special charcters. Docker run vs docker-compose (using yaml) interprete special characters differently, see  [Yaml special characters](https://support.asg.com/mob/mvw/10_0/mv_ag/using_quotes_with_yaml_special_characters.htm)             | `OPENVPN_PASSWORD=asdf`                                                                                 |
+| `OPENVPN_PASSWORD` | Your OpenVPN password, beware of special characters. Docker run vs docker-compose (using YAML) interpret special characters differently, see  [Yaml special characters](https://support.asg.com/mob/mvw/10_0/mv_ag/using_quotes_with_yaml_special_characters.htm)             | `OPENVPN_PASSWORD=asdf`                                                                                 |
 
 Docker secrets are available to define OPENVPN_USER and OPENVPN_PASSWORD.
 
@@ -103,7 +103,7 @@ You may set the following parameters to customize the user id that runs Transmis
 ### Transmission configuration options
 
 In previous versions of this container the settings were not persistent but was generated from environment variables on container startup.
-This had the benefit of being very explicit and reproducable but you had to provide Transmission config as environment variables if you
+This had the benefit of being very explicit and reproducible but you had to provide Transmission config as environment variables if you
 wanted them to stay that way between container restarts. This felt cumbersome to many.
 
 As of version 4.2 this is no longer true. Settings are now persisted in the `/config/transmission-home` folder in the container and as
@@ -145,7 +145,7 @@ By default, Transmission will log to a file in `TRANSMISSION_HOME/transmission.l
 
 To log to stdout instead set the environment variable `LOG_TO_STDOUT` to `true`.
 
-_Note_: By default, stdout is what container engines read logs from. Set this to true to have Tranmission logs in commands like `docker logs` and `kubectl logs`. OpenVPN currently only logs to stdout.
+_Note_: By default, stdout is what container engines read logs from. Set this to true to have Transmission logs in commands like `docker logs` and `kubectl logs`. OpenVPN currently only logs to stdout.
 
 ### Custom scripts
 

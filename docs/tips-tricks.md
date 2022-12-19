@@ -82,8 +82,8 @@ Server: Kestrel
 Location: /UI/Dashboard
 ```
 
-#### Reach sleep or hybernation on your host if no torrents are active
-By default Transmission will always [scrape](https://en.wikipedia.org/wiki/Tracker_scrape) trackers, even if all torrents have completed their activities, or they have been paused manually. This will cause Transmission to be always active, therefore never allow your host server to be inactive and go to sleep/hybernation/whatever. If this is something you want, you can add the following variable when creating the container. It will turn off a hidden setting in Tranmsission which will stop the application to scrape trackers for paused torrents. Transmission will become inactive, and your host will reach the desidered state.
+#### Reach sleep or hibernation on your host if no torrents are active
+By default, Transmission will always [scrape](https://en.wikipedia.org/wiki/Tracker_scrape) trackers, even if all torrents have completed their activities, or they have been paused manually. This will cause Transmission to be always active, therefore never allow your host server to be inactive and go to sleep/hibernation/whatever. If this is something you want, you can add the following variable when creating the container. It will turn off a hidden setting in Transmission which will stop the application to scrape trackers for paused torrents. Transmission will become inactive, and your host will reach the desired state.
 ```bash
 -e "TRANSMISSION_SCRAPE_PAUSED_TORRENTS_ENABLED=false"
 ```

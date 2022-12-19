@@ -18,7 +18,7 @@ in the [discussions](https://github.com/haugene/docker-transmission-openvpn/disc
 as we're trying to use that for general questions.
 
 If you have found what you believe to be an issue or bug, create an issue and provide
-enough details for us to have a chance to reproduce it or undertand what's going on.
+enough details for us to have a chance to reproduce it or understand what's going on.
 **NB:** Be sure to search for similar issues (open and closed) before opening a new one.
 
 ## Quick Start
