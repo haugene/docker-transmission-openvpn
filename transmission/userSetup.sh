@@ -61,9 +61,9 @@ if [ -n "$PUID" ] && [ ! "$(id -u root)" -eq "$PUID" ]; then
         echo "Files: ${FILE_PERMS}"
 
         find "${TRANSMISSION_DOWNLOAD_DIR}" "${TRANSMISSION_INCOMPLETE_DIR}" -type d \
-        -exec chmod "$DIR_PERMS" {} +
+        -exec chmod "${DIR_PERMS}" {} +
         find "${TRANSMISSION_DOWNLOAD_DIR}" "${TRANSMISSION_INCOMPLETE_DIR}" -type  f \
-        -exec chmod "$FILE_PERMS" {} +
+        -exec chmod "${FILE_PERMS}" {} +
 
         echo "Setting permission for watch directory (775) and its files (664)"
         chmod -R o=rX,ug=rwX \
