@@ -51,7 +51,7 @@ if [ -n "$PUID" ] && [ ! "$(id -u root)" -eq "$PUID" ]; then
             TRANSMISSION_UMASK=$(jq .umask ${TRANSMISSION_HOME}/settings.json)
         fi
 
-        TRANSMISSION_UMASK_OCTAL=$( printf "%o\n" "$TRANSMISSION_UMASK" )
+        TRANSMISSION_UMASK_OCTAL=$( printf "%o\n" "${TRANSMISSION_UMASK}" )
 
         DIR_PERMS=$( printf '%o\n' $(( 8#777 & ~TRANSMISSION_UMASK)) )
         FILE_PERMS=$( printf '%o\n' $(( 8#666 & ~TRANSMISSION_UMASK)) )
