@@ -197,17 +197,11 @@ else
 fi
 
 if [[ -f /run/secrets/rpc_creds ]]; then
-  #write creds if no file or contents are not the same.
-  if [[ ! -f /config/transmission-credentials.txt ]] || [[ "$(cat /run/secrets/rpc_creds)" != "$(cat /config/transmission-credentials.txt)" ]]; then
-    echo "Setting Transmission RPC credentials from docker secret..."
-    cp /run/secrets/rpc_creds /config/transmission-credentials.txt
-    export TRANSMISSION_RPC_USERNAME=$(head -1 /config/transmission-credentials.txt)
-    export TRANSMISSION_RPC_PASSWORD=$(tail -1 /config/transmission-credentials.txt)
-  fi
-else
-  echo "${TRANSMISSION_RPC_USERNAME}" > /config/transmission-credentials.txt
-  echo "${TRANSMISSION_RPC_PASSWORD}" >> /config/transmission-credentials.txt
+  export TRANSMISSION_RPC_USERNAME=$(head -1 /run/secrets/rpc_creds)
+  export TRANSMISSION_RPC_PASSWORD=$(tail -1 /run/secrets/rpc_creds)
 fi
+echo "${TRANSMISSION_RPC_USERNAME}" > /config/transmission-credentials.txt
+echo "${TRANSMISSION_RPC_PASSWORD}" >> /config/transmission-credentials.txt
 
 # Persist transmission settings for use by transmission-daemon
 export CONFIG="${CHOSEN_OPENVPN_CONFIG}"
