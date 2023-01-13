@@ -63,7 +63,7 @@ if [[ ${WEBPROXY_ENABLED} =~ YyTruetrue ]]; then
     cont_ip=$(ip -j a show dev eth0 | jq -r .[].addr_info[].local)
     if [[ ${proxy_ip} != ${cont_ip} ]]; then
       echo "Privoxy error: container ip (${cont_ip} has changed: privoxy listening to ${proxy_ip}, restarting privoxy."
-      pkill privoxy
+      pkill privoxy || true
       /opt/privoxy/start.sh
     fi
 fi
