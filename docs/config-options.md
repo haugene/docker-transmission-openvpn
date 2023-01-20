@@ -57,6 +57,16 @@ If TRANSMISSION_PEER_PORT_RANDOM_ON_START is enabled then it allows traffic to t
 | `UFW_EXTRA_PORTS`             | Allows the comma separated list of ports through the firewall. Respects UFW_ALLOW_GW_NET.                                   | `UFW_EXTRA_PORTS=9910,23561,443`   |
 | `UFW_DISABLE_IPTABLES_REJECT` | Prevents the use of `REJECT` in the `iptables` rules, for hosts without the `ipt_REJECT` module (such as the Synology NAS). | `UFW_DISABLE_IPTABLES_REJECT=true` |
 
+### Directory paths option
+
+By default, the script assigns the default download path /data/complete which might cause conflict with other containers attempting to use the same data volume mount
+depending on how your paths are setup.
+
+| Variable                    | Function                                                                  | Example                                               |
+| --------------------------- | ------------------------------------------------------------------------- | ----------------------------------------------------- |
+| `TRANSMISSION_DOWNLOAD_DIR` | This sets the default path where downloads are placed inside volume mount | `TRANSMISSION_DOWNLOAD_DIR=/data/downloads/completed` |
+| `TRANSMISSION_INCOMPLETE_DIR` | This sets the default path where currently downloading files are placed inside volume mount | `TRANSMISSION_INCOMPLETE_DIR=/data/downloads/incomplete` |
+
 ### Health check option
 
 Because your VPN connection can sometimes fail, Docker will run a health check on this container every 5 minutes to see if the container is still connected to the internet. By default, this check is done by pinging google.com once. You change the host that is pinged.
