@@ -55,7 +55,7 @@ if [[ ${TRANSMISSION} -ne 1 ]]; then
 	exit 1
 fi
 
-if [[ ${WEBPROXY_ENABLED} =~ YyTruetrue ]]; then
+if [[ ${WEBPROXY_ENABLED} =~ [yY][eE]?[Ss]?|[tT][Rr][Uu][eE] ]]; then
   if [[ ${PROXY} -eq 0 ]]; then
     echo "Privoxy warning: process was stopped, restarting."
   fi
