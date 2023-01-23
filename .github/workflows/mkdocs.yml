@@ -25,4 +25,4 @@ jobs:
           echo "mkdocs_version=$mkdocs" >> $GITHUB_ENV
 
       - name: Build and push site
-        run: mkdocs gh-deploy --message "Deployed ${{ github.sha }} with MkDocs version ${{ env.mkdocs_version }}. [skip ci]"
+        run: mkdocs gh-deploy --message "Deployed ${{ github.sha }} with MkDocs version ${{ env.mkdocs_version }}. [skip ci]" --force
