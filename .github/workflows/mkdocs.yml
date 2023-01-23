@@ -1,0 +1,28 @@
+name: MkDocs Deploy
+on:
+  push:
+    branches: 
+      - master
+
+jobs:
+  build-and-deploy-gh-pages:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.7
+
+      - name: Install Mkdocs and Material theme
+        run: pip install mkdocs mkdocs-material
+      
+      - name: Get MkDocs version
+        run: |
+          mkdocs=$(mkdocs --version | awk '{print $3}')
+          echo "mkdocs_version=$mkdocs" >> $GITHUB_ENV
+
+      - name: Build and push site
+        run: mkdocs gh-deploy --message "Deployed ${{ github.sha }} with MkDocs version ${{ env.mkdocs_version }}. [skip ci]" --force
