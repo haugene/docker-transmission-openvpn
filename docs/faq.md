@@ -8,8 +8,8 @@
 * [Error resolving host address](#error_resolving_host_address)
 * [Container loses connection after some time](#container_loses_connection_after_some_time)
   * [Set the ping-exit option for OpenVPN and restart-flag in Docker](#set_the_ping-exit_option_for_openvpn_and_restart-flag_in_docker)
-  * [Use a third party tool to monitor and restart the container](#use_a_third_party_tool_to_monitor_and_restart_the_container)
-* [Send Username Password via file](#send_username_password_via_file)
+  * [Use a third-party tool to monitor and restart the container](#use_a_third-party_tool_to_monitor_and_restart_the_container)
+* [Send Username Password via file](#send_username_and_password_via_a_file)
 * [AUTH: Received control message: AUTH_FAILED](#auth_received_control_message_auth_failed)
 
 ## The container runs, but I can't access the web UI
@@ -79,7 +79,7 @@ but an invalid target route that would cause this error might be
 
 To check your value, you can use a [subnet calculator](https://www.calculator.net/ip-subnet-calculator.html). 
 * Enter your IP Address - the portion before the mask, `10.20.30.45` here
-* select the subnet that matches - the `/24` portion here
+* Select the subnet that matches - the `/24` portion here
 * Take the Network Address that is returned - `10.20.30.0` in this case 
 
 ## TUNSETIFF tun: Operation not permitted
@@ -141,7 +141,7 @@ solve the problem for you if it is your local network that in some way is blocki
 
 ## Container loses connection after some time
 
-For some users, on some platforms, apparently, this is an issue. I have not encountered this myself - but there is no doubt that it's recurring.
+For some users, on some platforms, this is an issue. I have not encountered this myself - but there is no doubt that it's recurring.
 Why does the container lose connectivity? That we don't know and it could be many different reasons that manifest the same symptoms.
 We do however have some possible solutions.
 
@@ -168,13 +168,13 @@ if basic network connectivity is broken. You can write your own script and add i
 
 This container has the `autoheal` label by default so it is compatible with the [willfarrell/autoheal image](https://hub.docker.com/r/willfarrell/autoheal/)
 
-## Send Username Password via file
+## Send Username and Password via a file
 
 Depending on your setup, you may not want to send your VPN user/pass via environment variables (the main reason being, it is accessible via docker inspect). If you prefer, there is a way to configure the container to use a file instead. 
 
 *Procedure*
-1. create a text file with username and password in it, each on a separate line: eg:
-For this example we will pretend, it is located at: `./openvpn-credentials.txt`
+1. Create a text file with a username and password in it, each on a separate line.
+For this example, we will assume it is located at `./openvpn-credentials.txt`
 ```
 this_is_my_username
 this_is_my_password

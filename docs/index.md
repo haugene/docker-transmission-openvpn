@@ -5,9 +5,6 @@
 <p align="center">
   Docker container running Transmission torrent client with WebUI over an OpenVPN tunnel
   <br/><br/>
-  <a href="https://circleci.com/gh/haugene/docker-transmission-openvpn">
-    <img alt="pulls" src="https://img.shields.io/circleci/build/github/haugene/docker-transmission-openvpn" />
-  </a>
   <a href="https://hub.docker.com/r/haugene/transmission-openvpn/">
     <img alt="pulls" src="https://img.shields.io/docker/pulls/haugene/transmission-openvpn.svg" />
   </a>
