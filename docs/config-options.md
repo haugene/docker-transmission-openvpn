@@ -4,13 +4,13 @@
 | ------------------ | --------------------------------- | ------------------------------------------------------------------------------------------------------- |
 | `OPENVPN_PROVIDER` | Sets the OpenVPN provider to use. | `OPENVPN_PROVIDER=provider`. Supported providers and their config values are listed in the table above. |
 | `OPENVPN_USERNAME` | Your OpenVPN username             | `OPENVPN_USERNAME=asdf`                                                                                 |
-| `OPENVPN_PASSWORD` | Your OpenVPN password, beware of special charcters. Docker run vs docker-compose (using yaml) interprete special characters differently, see  [Yaml special characters](https://support.asg.com/mob/mvw/10_0/mv_ag/using_quotes_with_yaml_special_characters.htm)             | `OPENVPN_PASSWORD=asdf`                                                                                 |
+| `OPENVPN_PASSWORD` | Your OpenVPN password, beware of special characters. Docker run vs docker-compose (using YAML) interpret special characters differently, see  [Yaml special characters](https://support.asg.com/mob/mvw/10_0/mv_ag/using_quotes_with_yaml_special_characters.htm)             | `OPENVPN_PASSWORD=asdf`                                                                                 |
 
 Docker secrets are available to define OPENVPN_USER and OPENVPN_PASSWORD.
 
 * remove OPENVPN_USERNAME, OPENVPN_PASSWORD from environment.
 * write your credentials in one file: openvpn_creds
-* add to your compose yaml:
+* add to your compose YAML:
 
 ```yaml
 version: '3.8'
@@ -31,7 +31,7 @@ secrets:
 | ------------------- | --------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
 | `OPENVPN_CONFIG`    | Sets the OpenVPN endpoint to connect to.                                                            | `OPENVPN_CONFIG=UK Southampton`                                                                                |
 | `OPENVPN_OPTS`      | Will be passed to OpenVPN on startup                                                                | See [OpenVPN doc](https://openvpn.net/index.php/open-source/documentation/manuals/65-openvpn-20x-manpage.html) |
-| `LOCAL_NETWORK`     | Sets the local network that should have access. Accepts comma separated list.                       | `LOCAL_NETWORK=192.168.0.0/24`                                                                                 |
+| `LOCAL_NETWORK`     | Sets the local network that should have access. Accepts comma-separated list.                       | `LOCAL_NETWORK=192.168.0.0/24`                                                                                 |
 | `CREATE_TUN_DEVICE` | Creates /dev/net/tun device inside the container, mitigates the need to mount the device from the host | `CREATE_TUN_DEVICE=true`                                                                                       |
 | `PEER_DNS`          | Controls whether to use the DNS provided by the OpenVPN endpoint. | To use your host DNS rather than what is provided by OpenVPN, set `PEER_DNS=false`.  This allows for potential DNS leakage. |
 | `PEER_DNS_PIN_ROUTES` | Controls whether to force traffic to peer DNS through the OpenVPN tunnel. | To disable this default, set `PEER_DNS_PIN_ROUTES=false`. |
@@ -54,7 +54,7 @@ If TRANSMISSION_PEER_PORT_RANDOM_ON_START is enabled then it allows traffic to t
 | ----------------------------- | --------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- |
 | `ENABLE_UFW`                  | Enables the firewall                                                                                                        | `ENABLE_UFW=true`                  |
 | `UFW_ALLOW_GW_NET`            | Allows the gateway network through the firewall. Off defaults to only allowing the gateway.                                 | `UFW_ALLOW_GW_NET=true`            |
-| `UFW_EXTRA_PORTS`             | Allows the comma separated list of ports through the firewall. Respects UFW_ALLOW_GW_NET.                                   | `UFW_EXTRA_PORTS=9910,23561,443`   |
+| `UFW_EXTRA_PORTS`             | Allows the comma-separated list of ports through the firewall. Respects UFW_ALLOW_GW_NET.                                   | `UFW_EXTRA_PORTS=9910,23561,443`   |
 | `UFW_DISABLE_IPTABLES_REJECT` | Prevents the use of `REJECT` in the `iptables` rules, for hosts without the `ipt_REJECT` module (such as the Synology NAS). | `UFW_DISABLE_IPTABLES_REJECT=true` |
 
 ### Health check option
@@ -102,11 +102,11 @@ You may set the following parameters to customize the user id that runs Transmis
 
 ### Transmission configuration options
 
-In previous versions of this container the settings were not persistent but was generated from environment variables on container startup.
-This had the benefit of being very explicit and reproducable but you had to provide Transmission config as environment variables if you
+In previous versions of this container the settings were not persistent but were generated from environment variables on container startup.
+This had the benefit of being very explicit and reproducible but you had to provide Transmission config as environment variables if you
 wanted them to stay that way between container restarts. This felt cumbersome to many.
 
-As of version 4.2 this is no longer true. Settings are now persisted in the `/config/transmission-home` folder in the container and as
+As of version 4.2, this is no longer true. Settings are now persisted in the `/config/transmission-home` folder in the container and as
 long as you mount `/config` you should be able to configure Transmission using the UI as you normally would.
 If you are using the container from earlier versions and have not changed the location of transmission-home to /config, you will see a warning message that the default has changed.
 You can manually move the folder to your /config volume directory after stopping the container and adding the /config mount to your container setup (compose/run etc).
@@ -145,27 +145,27 @@ By default, Transmission will log to a file in `TRANSMISSION_HOME/transmission.l
 
 To log to stdout instead set the environment variable `LOG_TO_STDOUT` to `true`.
 
-_Note_: By default, stdout is what container engines read logs from. Set this to true to have Tranmission logs in commands like `docker logs` and `kubectl logs`. OpenVPN currently only logs to stdout.
+_Note_: By default, stdout is what container engines read logs from. Set this to true to have Transmission logs in commands like `docker logs` and `kubectl logs`. OpenVPN currently only logs to stdout.
 
 ### Custom scripts
 
 If you ever need to run custom code before or after Transmission is executed or stopped, you can use the custom scripts feature.
-Custom scripts are located in the /scripts directory which is empty by default.
-To enable this feature, you'll need to mount the /scripts directory.
+Custom scripts are located in the `/scripts` directory which is empty by default.
+To enable this feature, you'll need to mount the `/scripts` directory.
 
-Once /scripts is mounted you'll need to write your custom code in the following bash shell scripts:
+Once `/scripts` is mounted you'll need to write your custom code in the following bash shell scripts:
 
 | Script                              | Function                                                     |
 | ----------------------------------- | ------------------------------------------------------------ |
-| /scripts/openvpn-pre-start.sh       | This shell script will be executed before openvpn start      |
-| /scripts/openvpn-post-config.sh     | This shell script will be executed after openvpn config      |
-| /scripts/transmission-pre-start.sh  | This shell script will be executed before transmission start |
-| /scripts/transmission-post-start.sh | This shell script will be executed after transmission start  |
+| /scripts/openvpn-pre-start.sh       | This shell script will be executed before OpenVPN starts      |
+| /scripts/openvpn-post-config.sh     | This shell script will be executed after OpenVPN config      |
+| /scripts/transmission-pre-start.sh  | This shell script will be executed before transmission starts |
+| /scripts/transmission-post-start.sh | This shell script will be executed after transmission starts |
 | /scripts/routes-post-start.sh       | This shell script will be executed after routes are added    |
-| /scripts/transmission-pre-stop.sh   | This shell script will be executed before transmission stop  |
-| /scripts/transmission-post-stop.sh  | This shell script will be executed after transmission stop   |
+| /scripts/transmission-pre-stop.sh   | This shell script will be executed before transmission stops  |
+| /scripts/transmission-post-stop.sh  | This shell script will be executed after transmission stops   |
 
-Don't forget to include the #!/bin/bash shebang and to make the scripts executable using chmod a+x
+Don't forget to include the `#!/bin/bash` shebang and to make the scripts executable using `chmod a+x`
 
 ### Debugging
 

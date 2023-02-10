@@ -24,7 +24,7 @@ any of these commands. If any command breaks with this principle it will be note
 
 For this container to work, you have to have a working Docker installation on your host.
 
-We'll begin very simple with this command that will print a welcome message if Docker is properly installed.
+We'll begin very simply with this command that will print a welcome message if Docker is properly installed.
 ```
 docker run --rm hello-world
 ```
@@ -82,7 +82,7 @@ SIGTERM[soft,auth-failure] received, process exiting
 ```
 
 And this is not nothing. The container has made contact with the VPN server and they have agreed
-that you do not have provided correct authentication. So we're getting somewhere.
+that you have not provided correct authentication. So we're getting somewhere.
 
 ## Running with a valid configuration
 
@@ -91,15 +91,15 @@ This is what the container needs to be able to connect to VPN. The config is not
 all providers should have a default that is used if you don't set it. But I will set it here anyways as
 I think it's good to know where and what you're connecting to.
 
-The command is basically the same. I'm going to stick with PIA/france as I am a PIA user, but you should set
+The command is basically the same. I'm going to stick with PIA/France as I am a PIA user, but you should set
 one of the [supported providers](supported-providers.md) or provide your own config using the 
 [custom configuration option](supported-providers.md#using_a_custom_provider). Since I'm now expecting to connect
-successfully to my VPN provider I have to give the container elevated access to modify networking needed to
+successfully to my VPN provider, I have to give the container elevated access to modify networking needed to
 establish a VPN tunnel. I'll add the `--cap-add=NET_ADMIN` and you can read more about
 that [here](https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities).
 
 Also because I'm using PIA and they support port forwarding which is automatically configured in this 
-container I will disable that script for now. It's unnecessary at this point and I don't want to introduce
+container, I will disable that script for now. It's unnecessary at this point and I don't want to introduce
 more error sources than I have to.
 
 ```

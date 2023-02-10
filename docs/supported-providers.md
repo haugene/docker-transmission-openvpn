@@ -4,22 +4,22 @@ The container used to come bundled with a bunch of config files for a range of V
 This was fine when it was a handful or even a dozen supported providers, but as we approached
 50 providers and 10k configs there wasn't time for anything else than keeping them up to date.
 
-So we've tried to come up with a setup that is more maintainable. 
+So we've tried to come up with a more maintainable setup. 
 We have split the .ovpn configs out to a separate repository at:
 [https://github.com/haugene/vpn-configs-contrib](https://github.com/haugene/vpn-configs-contrib).
 
-All static configs that has to be manually updated will live there and be pulled on container startup.
+All static configs that have to be manually updated will live there and be pulled on container startup.
 We will try to set up a CODEOWNERS scheme and ask for more help from the community to keep them up to date.
 
-Some providers are still provided from the core project and those are the one that have implemented
+Some providers are still provided from the core project and those are the ones that have implemented
 a script for fetching the configs dynamically. Going forward we will allow code in this project, not config.
 
 So that is the story of how we now have two types of providers: `internal` and `external`.
-The benefit of making a very native support for external configs is that it is much simpler for a user to
+The benefit of having native support for external configs is that it is much simpler for a user to
 make a fork of the config repo and simply tell the container to use his or her fork. This way we can hopefully
-empower many more to help out with keeping our providers up to date and add new ones.
+empower many more to help out with keeping our providers up to date and adding new ones.
 
-## Out of the box supported providers
+## Out-of-the-box supported providers
 
 If you can't find your provider you are welcome to head over to the 
 [config repo](https://github.com/haugene/vpn-configs-contrib) to request it or add it yourself.
@@ -30,7 +30,7 @@ For more info on that see the [using a custom provider](#using_a_custom_provider
 
 ### Internal Providers
 
-These providers are implemented as script in this project and will automatically
+These providers are implemented as a script in this project and will automatically
 download new configs directly from the provider on container startup.
 
 | Provider Name             | Config Value (`OPENVPN_PROVIDER`) |
@@ -46,7 +46,7 @@ These providers are fetched from our [config repo](https://github.com/haugene/vp
 They have to be manually updated in that repo when the provider changes them but we're trying to keep them up to date.
 
 Note that we try to keep this list in sync but it is the files and folders in the config repo that ultimately
-is the most up to date list of configs and providers that are supported.
+is the most up-to-date list of configs and providers that are supported.
 
 
 | Provider Name             | Config Value (`OPENVPN_PROVIDER`) |
@@ -102,13 +102,13 @@ is the most up to date list of configs and providers that are supported.
 ## Use your own config without building the image
 
 If you have a .ovpn file from your VPN provider and you want to use it but you either don't
-know how to build the image yourself or you don't want to there is another way.
+know how to build the image yourself or if you don't want to there is another way.
 
 Check out the [guide for this](https://github.com/haugene/vpn-configs-contrib/blob/main/CONTRIBUTING.md)
 in the config repo.
 
-## Using a local single .ovpn file from provider
-For some providers, like AirVPN, the .ovpn files are generated per user and contains credentials. 
+## Using a local single .ovpn file from a provider
+For some providers, like AirVPN, the .ovpn files are generated per user and contain credentials. 
 These files can not be hosted anywhere publicly visible. Then you can mount the files into the container
 and use them directly from your local host.
 
