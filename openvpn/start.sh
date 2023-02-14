@@ -78,7 +78,7 @@ if [[ -z $OPENVPN_CONFIG_URL ]] && [[ "${OPENVPN_PROVIDER}" == "**None**" ]] || 
 fi
 echo "Using OpenVPN provider: ${VPN_PROVIDER^^}"
 if [[ "${VPN_PROVIDER}" == "custom" ]]; then
-  if [[ -x $VPN_PROVIDER_HOME/default.ovpn ]]; then
+  if [[ -f $VPN_PROVIDER_HOME/default.ovpn ]]; then
     CHOSEN_OPENVPN_CONFIG=$VPN_PROVIDER_HOME/default.ovpn
   fi
 elif [[ -n $OPENVPN_CONFIG_URL ]]; then
@@ -96,7 +96,7 @@ if [[ -z ${CHOSEN_OPENVPN_CONFIG} ]]; then
   echo "Running with VPN_CONFIG_SOURCE ${VPN_CONFIG_SOURCE}"
 
   if [[ "${VPN_CONFIG_SOURCE}" == "auto" ]]; then
-    if [[ -x $VPN_PROVIDER_HOME/configure-openvpn.sh ]]; then
+    if [[ -f $VPN_PROVIDER_HOME/configure-openvpn.sh ]]; then
       echo "Provider ${VPN_PROVIDER^^} has a bundled setup script. Defaulting to internal config"
       VPN_CONFIG_SOURCE=internal
     elif [[ "${VPN_PROVIDER}" == "custom" ]]; then
@@ -113,7 +113,7 @@ if [[ -z ${CHOSEN_OPENVPN_CONFIG} ]]; then
     ./etc/openvpn/fetch-external-configs.sh
   fi
 
-  if [[ -x $VPN_PROVIDER_HOME/configure-openvpn.sh ]]; then
+  if [[ -f $VPN_PROVIDER_HOME/configure-openvpn.sh ]]; then
     echo "Executing setup script for $OPENVPN_PROVIDER"
     # Preserve $PWD in case it changes when sourcing the script
     pushd -n "$PWD" > /dev/null
