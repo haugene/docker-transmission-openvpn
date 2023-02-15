@@ -16,7 +16,7 @@ RUN apk --no-cache add curl jq \
     && mkdir /opt/transmission-ui/transmission-web-control \
     && curl -sL $(curl -s https://api.github.com/repos/ronggang/transmission-web-control/releases/latest | jq --raw-output '.tarball_url') | tar -C /opt/transmission-ui/transmission-web-control/ --strip-components=2 -xz
 
-FROM ubuntu:22.04
+FROM ubuntu:20.04
 
 VOLUME /data
 VOLUME /config
@@ -24,7 +24,9 @@ VOLUME /config
 COPY --from=TransmissionUIs /opt/transmission-ui /opt/transmission-ui
 
 ARG DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y software-properties-common \
+    && add-apt-repository ppa:transmissionbt/ppa && apt-get update \
+    && apt-get install -y transmission-cli transmission-common transmission-daemon \
     dumb-init openvpn transmission-daemon transmission-cli privoxy \
     tzdata dnsutils iputils-ping ufw openssh-client git jq curl wget unrar unzip bc \
     && ln -s /usr/share/transmission/web/style /opt/transmission-ui/transmission-web-control \
