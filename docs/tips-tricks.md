@@ -83,6 +83,58 @@ Server: Kestrel
 Location: /UI/Dashboard
 ```
 
+## Example (Dante):
+As an example, let's add [Dante](https://www.inet.no/dante/) socks5 proxy to the `transmission-openvpn` network based on the example from [Running the container](run-container.md):
+
+```yaml
+version: '3.3'
+services:
+    transmission-openvpn:
+        cap_add:
+            - NET_ADMIN
+        volumes:
+            - '/your/storage/path/:/data'
+        environment:
+            - OPENVPN_PROVIDER=PIA
+            - OPENVPN_CONFIG=france
+            - OPENVPN_USERNAME=user
+            - OPENVPN_PASSWORD=pass
+            - LOCAL_NETWORK=192.168.0.0/16
+        logging:
+            driver: json-file
+            options:
+                max-size: 10m
+        ports:
+            - '9091:9091'
+            - '1080:1080'  # This is Dante Socks5 Port – managed by VPN Service Network
+        restart: unless-stopped
+        image: haugene/transmission-openvpn
+
+    socks5-proxy:
+        image: wernight/dante
+        restart: unless-stopped
+        network_mode: service:transmission-openvpn
+        depends_on:
+            - transmission-openvpn
+        command:
+            - /bin/sh
+            - -c
+            - |
+                echo "Waiting for VPN to connect . . ."
+                while ! ip link show tun0 >/dev/null 2>&1 || ! ip link show tun0 | grep -q "UP"; do sleep 1; done
+                echo "VPN connected. Starting proxy service . . ."
+                sed -i 's/^\(external:\).*/\1 tun0/' /etc/sockd.conf
+                sockd
+```
+
+### Test Dante socks5 proxy
+```bash
+curl -x socks5h://{docker-host-ip}:1080 http://ip.ip-check.net
+```
+
+### Bonus socks5 tip
+With the [Proxy SwitchyOmega](https://chrome.google.com/webstore/detail/proxy-switchyomega/padekgcemlokbadohgkifijomclgjgif) Chrome/Edge extension, you can configure specific websites on your local machine to route through your socks5 proxy server.
+
 # Reach sleep or hibernation on your host if no torrents are active
 By default, Transmission will always [scrape](https://en.wikipedia.org/wiki/Tracker_scrape) trackers, even if all torrents have completed their activities, or they have been paused manually. This will cause Transmission to be always active, therefore never allow your host server to be inactive and go to sleep/hibernation/whatever. If this is something you want, you can add the following variable when creating the container. It will turn off a hidden setting in Transmission which will stop the application to scrape trackers for paused torrents. Transmission will become inactive, and your host will reach the desired state.
 ```bash
