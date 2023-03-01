@@ -1,16 +1,17 @@
-#### Use Google DNS servers
+# Use Google DNS servers
 Some have encountered problems with DNS resolving inside the docker container.
 This causes trouble because OpenVPN will not be able to resolve the host to connect to.
 If you have this problem use Docker's --dns flag and try using Google's DNS servers by
 adding --dns 8.8.8.8 --dns 8.8.4.4 as parameters to the usual run command.
 
-#### Restart the container if the connection is lost
+# Restart the container if the connection is lost
 If the VPN connection fails or the container for any other reason loses connectivity, you want it to recover from it. One way of doing this is to set the environment variable `OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60` and use the --restart=always flag when starting the container. This way OpenVPN will exit if ping fails over a period of time which will stop the container and then the Docker daemon will restart it.
 
-#### Let other containers use the VPN
+# Let other containers use the VPN
 
 To let other containers use VPN you have to add them to the same Service network as your VPN container runs, you can do this by adding `network_mode: "service:transmission-openvpn"`. Additionally, you have to set `depends_on` to the `transmission-openvpn` service to let docker-compose know that your new container should start **after** `transmission-openvpn` is up and running. As the final step, you can add `healthcheck` to your service.
 
+## Example (Jackett):
 As an example, let's add [Jackett](https://github.com/linuxserver/docker-jackett) to the `transmission-openvpn` network based on the example from [Running the container](run-container.md):
 
 ```yaml
@@ -64,7 +65,7 @@ services:
             retries: 2
 ```
 
-##### Check if the container is using VPN
+### Check if the container is using VPN
 
 After the container starts, simply call `curl` under it to check your IP address, for example with Jackett you should see your VPN IP address as output:
 
@@ -82,13 +83,13 @@ Server: Kestrel
 Location: /UI/Dashboard
 ```
 
-#### Reach sleep or hibernation on your host if no torrents are active
+# Reach sleep or hibernation on your host if no torrents are active
 By default, Transmission will always [scrape](https://en.wikipedia.org/wiki/Tracker_scrape) trackers, even if all torrents have completed their activities, or they have been paused manually. This will cause Transmission to be always active, therefore never allow your host server to be inactive and go to sleep/hibernation/whatever. If this is something you want, you can add the following variable when creating the container. It will turn off a hidden setting in Transmission which will stop the application to scrape trackers for paused torrents. Transmission will become inactive, and your host will reach the desired state.
 ```bash
 -e "TRANSMISSION_SCRAPE_PAUSED_TORRENTS_ENABLED=false"
 ```
 
-#### Running it on a NAS
+# Running it on a NAS
 Several popular NAS platforms support Docker containers. You should be able to set up
 and configure this container using their web interfaces. As of version 3.0 of this image
 creates a TUN interface inside the container by default. This previously had to be mounted
@@ -100,7 +101,7 @@ for the NAS. This should set up the device and you can mount it.
 There are some issues involved in running it on Synology NAS, 
 Please see this issue that discusses [solutions](https://github.com/haugene/docker-transmission-openvpn/issues/1542#issuecomment-793605649)
 
-#### Systemd Integration
+# Systemd Integration
 On many modern Linux systems, including Ubuntu, systemd can be used to start the transmission-openvpn at boot time, and restart it after any failure.
 
 Save the following as `/etc/systemd/system/transmission-openvpn.service`, and replace the OpenVPN PROVIDER/USERNAME/PASSWORD directives with your settings, and add any other directives that you're using.
@@ -155,7 +156,7 @@ $ sudo systemctl stop transmission-openvpn.service
 # Later ...
 $ sudo systemctl start transmission-openvpn.service
 ```
-#### Running with Traefik reverse proxy
+# Running with Traefik reverse proxy
 
 A working example of running this container behind a traefik reverse proxy can be found here:
 [Config](https://github.com/haugene/docker-transmission-openvpn/issues/1763#issuecomment-844404143)
