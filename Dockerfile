@@ -48,8 +48,8 @@ RUN apt-get update && apt-get install -y curl \
 
 
 RUN mkdir -p /home/transmission4/ && cd /home/transmission4/ \
-  && curl -L -o transmission4.tar.xz "https://github.com/transmission/transmission/releases/download/4.0.0/transmission-4.0.0.tar.xz" \
-  && tar -xf transmission4.tar.xz && cd transmission-4.0.0* && mkdir build && cd build \
+  && curl -L -o transmission4.tar.xz "https://github.com/transmission/transmission/releases/download/4.0.1/transmission-4.0.1.tar.xz" \
+  && tar -xf transmission4.tar.xz && cd transmission-4.0.1* && mkdir build && cd build \
   && cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo .. && make && make install
 
 
