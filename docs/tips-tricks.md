@@ -212,3 +212,9 @@ $ sudo systemctl start transmission-openvpn.service
 
 A working example of running this container behind a traefik reverse proxy can be found here:
 [Config](https://github.com/haugene/docker-transmission-openvpn/issues/1763#issuecomment-844404143)
+
+#### Running this container with Podman
+
+The `podman run` command is almost identical to [the one mentioned in README.md](../README.md#docker-run) but with the following exception:
+
+Instead `--cap-add=NET_ADMIN` you have to specify `--cap-add=NET_ADMIN,NET_RAW,MKNOD`. `MKNOD` and `NET_ADMIN` are necessary so Podman can create the tunnel, `NET_RAW` is needed for `ping`.
