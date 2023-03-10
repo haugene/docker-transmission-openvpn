@@ -23,16 +23,37 @@ VOLUME /config
 
 COPY --from=TransmissionUIs /opt/transmission-ui /opt/transmission-ui
 
+
+# Install tools and dependencies
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y \
-    dumb-init openvpn transmission-daemon transmission-cli privoxy \
+    dumb-init openvpn privoxy \
     tzdata dnsutils iputils-ping ufw openssh-client git jq curl wget unrar unzip bc \
-    && ln -s /usr/share/transmission/web/style /opt/transmission-ui/transmission-web-control \
+    build-essential cmake libcurl4-openssl-dev libssl-dev python3
+
+
+# Download, compile, and install the latest transmission
+RUN curl -sL $(curl -s https://api.github.com/repos/transmission/transmission/releases/latest | jq --raw-output '.assets[] | select(.name | endswith("tar.xz")) | .browser_download_url') | tar -xJ
+RUN mv transmission-* transmission
+RUN mkdir transmission/build
+WORKDIR /transmission/build
+RUN cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_INSTALL_PREFIX=/usr .. \
+    && make -j8 \
+    && make install
+WORKDIR /
+RUN rm -rf transmission
+
+
+# Link web frontends in place
+RUN ln -s /usr/share/transmission/web/style /opt/transmission-ui/transmission-web-control \
     && ln -s /usr/share/transmission/web/images /opt/transmission-ui/transmission-web-control \
     && ln -s /usr/share/transmission/web/javascript /opt/transmission-ui/transmission-web-control \
     && ln -s /usr/share/transmission/web/index.html /opt/transmission-ui/transmission-web-control/index.original.html \
     && rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/* \
-    && groupmod -g 1000 users \
+
+
+# Add users and groups
+RUN groupmod -g 1000 users \
     && useradd -u 911 -U -d /config -s /bin/false abc \
     && usermod -G users abc
 
