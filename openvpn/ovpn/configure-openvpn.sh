@@ -41,11 +41,18 @@ echo "Downloading OpenVPN config bundle into temporary file $tmp_file"
 #svn not baked into docker, leave for another day
 #svn export https://github.com/haugene/vpn-configs-contrib/tree/main/openvpn/"
 
-wget -c https://github.com/haugene/vpn-configs-contrib/archive/refs/heads/main.zip  -P /tmp/
-echo "Extract OpenVPN config bundle into $VPN_PROVIDER_HOME"
-unzip /tmp/main.zip "vpn-configs-contrib-main/openvpn/ovpn/*" -d /tmp/
+#wget -c https://github.com/haugene/vpn-configs-contrib/archive/refs/heads/main.zip  -P /tmp/
+#echo "Extract OpenVPN config bundle into $VPN_PROVIDER_HOME"
+#unzip /tmp/main.zip "vpn-configs-contrib-main/openvpn/ovpn/*" -d /tmp/
+#mv /tmp/vpn-configs-contrib-main/openvpn/ovpn/* /etc/openvpn/ovpn
+#rm /tmp/vpn-configs-contrib-main/openvpn/ovpn/ -R
+
+cd /tmp/
+git clone https://github.com/haugene/vpn-configs-contrib.git 
 mv /tmp/vpn-configs-contrib-main/openvpn/ovpn/* /etc/openvpn/ovpn
-rm /tmp/vpn-configs-contrib-main/openvpn/ovpn/ -R
+rm /tmp/vpn-configs-contrib-main/ -R
+
+#rm /tmp/vpn-configs-contrib-main/
 
 #test repo
 #wget -c https://github.com/derekcentrico/vpn-configs-contrib-ovpnwork/archive/refs/heads/main.zip -P /tmp/
