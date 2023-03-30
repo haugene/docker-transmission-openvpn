@@ -46,11 +46,18 @@ echo "Downloading OpenVPN config bundle into temporary file $tmp_file"
 #unzip /tmp/main.zip "vpn-configs-contrib-main/openvpn/ovpn/*" -d /tmp/
 #mv /tmp/vpn-configs-contrib-main/openvpn/ovpn/* /etc/openvpn/ovpn
 #rm /tmp/vpn-configs-contrib-main/openvpn/ovpn/ -R
+#rm /tmp/main.zip
 
-cd /tmp/
+
+echo "creating temp folder"
+mkdir /tmp/ovpnxtract/
+echo "entering temp folder"
+cd /tmp/ovpnxtract/
 git clone https://github.com/haugene/vpn-configs-contrib.git 
-mv /tmp/vpn-configs-contrib-main/openvpn/ovpn/* /etc/openvpn/ovpn
-rm /tmp/vpn-configs-contrib-main/ -R
+echo "moving content"
+mv /tmp/ovpnxtract/vpn-configs-contrib/openvpn/ovpn/* /etc/openvpn/ovpn
+echo "deleting temp folder"
+rm -rf /tmp/ovpnxtract/
 
 #rm /tmp/vpn-configs-contrib-main/
 
@@ -60,7 +67,6 @@ rm /tmp/vpn-configs-contrib-main/ -R
 #mv /tmp/vpn-configs-contrib-ovpnwork-main/openvpn/ovpn/* /etc/openvpn/ovpn
 #rm /tmp/vpn-configs-contrib-ovpnwork-main/openvpn/ovpn/ -R
 
-rm /tmp/main.zip
 
 
 #pattern=$OVPN_CONNECTION.$OVPN_COUNTRY.$OVPN_CITY.$OVPN_PROTOCOL
