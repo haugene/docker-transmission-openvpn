@@ -38,7 +38,7 @@ RUN set -ex; \
       libpsl-dev \
       libssl-dev
 
-FROM base as TransmissionBetaBuilder
+FROM base as TransmissionBuilder
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -59,8 +59,8 @@ VOLUME /data
 VOLUME /config
 
 COPY --from=TransmissionUIs /opt/transmission-ui /opt/transmission-ui
-COPY --from=TransmissionBetaBuilder /usr/local/bin /usr/local/bin
-COPY --from=TransmissionBetaBuilder /usr/local/share /usr/local/share
+COPY --from=TransmissionBuilder /usr/local/bin /usr/local/bin
+COPY --from=TransmissionBuilder /usr/local/share /usr/local/share
 
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y \
