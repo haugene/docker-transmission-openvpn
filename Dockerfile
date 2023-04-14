@@ -16,16 +16,55 @@ RUN apk --no-cache add curl jq \
     && mkdir /opt/transmission-ui/transmission-web-control \
     && curl -sL $(curl -s https://api.github.com/repos/ronggang/transmission-web-control/releases/latest | jq --raw-output '.tarball_url') | tar -C /opt/transmission-ui/transmission-web-control/ --strip-components=2 -xz
 
-FROM ubuntu:22.04
+
+FROM ubuntu:22.04 AS base
+
+RUN set -ex; \
+    apt-get update; \
+    apt-get dist-upgrade -y; \
+    apt-get install -y --no-install-recommends \
+      tzdata \
+      iproute2 \
+      net-tools \
+      nano \
+      ca-certificates \
+      curl \
+      libcurl4-openssl-dev \
+      libdeflate-dev \
+      libevent-dev \
+      libfmt-dev \
+      libminiupnpc-dev \
+      libnatpmp-dev \
+      libpsl-dev \
+      libssl-dev
+
+FROM base as TransmissionBetaBuilder
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y curl \
+    build-essential automake autoconf libtool pkg-config intltool libcurl4-openssl-dev \
+    libglib2.0-dev libevent-dev libminiupnpc-dev libgtk-3-dev libappindicator3-dev libssl-dev cmake xz-utils
+
+
+RUN mkdir -p /home/transmission4/ && cd /home/transmission4/ \
+  && curl -L -o transmission4.tar.xz "https://github.com/transmission/transmission/releases/download/4.0.3/transmission-4.0.3.tar.xz" \
+  && tar -xf transmission4.tar.xz && cd transmission-4.0.3* && mkdir build && cd build \
+  && cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo .. && make && make install
+
+
+FROM base
 
 VOLUME /data
 VOLUME /config
 
 COPY --from=TransmissionUIs /opt/transmission-ui /opt/transmission-ui
+COPY --from=TransmissionBetaBuilder /usr/local/bin /usr/local/bin
+COPY --from=TransmissionBetaBuilder /usr/local/share /usr/local/share
 
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y \
-    dumb-init openvpn transmission-daemon transmission-cli privoxy \
+    dumb-init openvpn privoxy \
     tzdata dnsutils iputils-ping ufw openssh-client git jq curl wget unrar unzip bc \
     && ln -s /usr/share/transmission/web/style /opt/transmission-ui/transmission-web-control \
     && ln -s /usr/share/transmission/web/images /opt/transmission-ui/transmission-web-control \
