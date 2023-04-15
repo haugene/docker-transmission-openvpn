@@ -56,6 +56,16 @@ if [[ "shift" = "$TRANSMISSION_WEB_UI" ]]; then
   export TRANSMISSION_WEB_HOME=/opt/transmission-ui/shift
 fi
 
+case ${TRANSMISSION_LOG_LEVEL,,} in
+  "trace" | "debug" | "info" | "warn" | "error" | "critical")
+    echo "Will exec Transmission with '--log-level=${TRANSMISSION_LOG_LEVEL,,}' argument"
+    export TRANSMISSION_LOGGING="--log-level=${TRANSMISSION_LOG_LEVEL,,}"
+    ;;
+  *)
+    export TRANSMISSION_LOGGING=""
+    ;;
+esac
+
 . /etc/transmission/userSetup.sh
 
 echo "Updating Transmission settings.json with values from env variables"
@@ -85,7 +95,9 @@ else
 fi
 
 echo "STARTING TRANSMISSION"
-exec su --preserve-environment ${RUN_AS} -s /bin/bash -c "/usr/bin/transmission-daemon -g ${TRANSMISSION_HOME} --logfile $LOGFILE" &
+
+exec su --preserve-environment ${RUN_AS} -s /bin/bash -c "/usr/local/bin/transmission-daemon ${TRANSMISSION_LOGGING} -g ${TRANSMISSION_HOME} --logfile $LOGFILE" &
+
 
 # Configure port forwarding if applicable
 if [[ -x /etc/openvpn/${OPENVPN_PROVIDER,,}/update-port.sh && (-z $DISABLE_PORT_UPDATER || "false" = "$DISABLE_PORT_UPDATER") ]]; then
