@@ -37,23 +37,17 @@ cd /etc/openvpn/ovpn
 find /etc/openvpn/ovpn -type f ! -name "*.sh" -delete
 
 # Download and extract wanted bundle into temporary file
-echo "Downloading OpenVPN config bundle into temporary file $tmp_file"
-#svn not baked into docker, leave for another day
-#svn export https://github.com/haugene/vpn-configs-contrib/tree/main/openvpn/"
 
-wget -c https://github.com/haugene/vpn-configs-contrib/archive/refs/heads/main.zip  -P /tmp/
-echo "Extract OpenVPN config bundle into $VPN_PROVIDER_HOME"
-unzip /tmp/main.zip "vpn-configs-contrib-main/openvpn/ovpn/*" -d /tmp/
-mv /tmp/vpn-configs-contrib-main/openvpn/ovpn/* /etc/openvpn/ovpn
-rm /tmp/vpn-configs-contrib-main/openvpn/ovpn/ -R
+echo "creating temp folder"
+mkdir /tmp/ovpnxtract/
+echo "entering temp folder"
+cd /tmp/ovpnxtract/
+git clone https://github.com/haugene/vpn-configs-contrib.git 
+echo "moving content"
+mv /tmp/ovpnxtract/vpn-configs-contrib/openvpn/ovpn/* /etc/openvpn/ovpn
+echo "deleting temp folder"
+rm -rf /tmp/ovpnxtract/
 
-#test repo
-#wget -c https://github.com/derekcentrico/vpn-configs-contrib-ovpnwork/archive/refs/heads/main.zip -P /tmp/
-#unzip /tmp/main.zip "vpn-configs-contrib-ovpnwork-main/openvpn/ovpn/*" -d /tmp/
-#mv /tmp/vpn-configs-contrib-ovpnwork-main/openvpn/ovpn/* /etc/openvpn/ovpn
-#rm /tmp/vpn-configs-contrib-ovpnwork-main/openvpn/ovpn/ -R
-
-rm /tmp/main.zip
 
 
 #pattern=$OVPN_CONNECTION.$OVPN_COUNTRY.$OVPN_CITY.$OVPN_PROTOCOL
