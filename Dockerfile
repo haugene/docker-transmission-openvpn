@@ -61,15 +61,23 @@ VOLUME /data
 VOLUME /config
 
 COPY --from=TransmissionUIs /opt/transmission-ui /opt/transmission-ui
-COPY --from=transmissionBuilder /var/tmp/*.deb /var/tmp/
+COPY --from=TransmissionBuilder /var/tmp/*.deb /var/tmp/
 
+ARG TBT_VERSION=4.0.3
 ARG DEBIAN_FRONTEND=noninteractive
-RUN ls -alh /var/tmp/*.deb ;\
+
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+RUN echo "installing Transmission" && set -x \
+    && if [[ ${TBT_VERSION} =~ ^4 ]]; then \
+      ls -alh /var/tmp/*.deb ;\
       debfile=$(compgen -G /var/tmp/transmission_*_$(dpkg --print-architecture).deb); \
       if [[ -n ${debfile} ]]; then \
       echo "Installing transmission ${TBT_VERSION}" && dpkg -i ${debfile} ;\
       else echo "No /var/tmp/transmission_*_$(dpkg --print-architecture).deb found. Exiting" \
-      ; exit ; fi ;
+      ; exit ; fi ; \
+    else echo "Installing transmission from repository" \
+    && export TBT_VERSION=3.00 \
+    && apt-get install -y --no-install-recommends transmission-daemon transmission-cli; fi
 
 RUN apt-get update && apt-get install -y \
     dumb-init openvpn privoxy \
