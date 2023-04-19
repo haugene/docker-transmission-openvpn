@@ -12,6 +12,9 @@ GITHUB_CONFIG_SOURCE_REVISION="${GITHUB_CONFIG_SOURCE_REVISION:-main}"
 GITHUB_CONFIG_REPO_URL="https://github.com/${GITHUB_CONFIG_SOURCE_REPO}.git"
 config_repo=/config/vpn-configs-contrib
 
+# Add safe directory for repo folder
+git config --global --add safe.directory "${config_repo}"
+
 echo "Will get configs from ${GITHUB_CONFIG_REPO_URL}"
 # Check if git repo exists and clone or pull based on that
 if [[ -d ${config_repo} ]]; then
