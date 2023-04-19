@@ -19,7 +19,7 @@ CONFIG_MOD_CA_CERTS=${CONFIG_MOD_CA_CERTS:-"1"}
 CONFIG_MOD_PING=${CONFIG_MOD_PING:-"1"}
 CONFIG_MOD_RESOLV_RETRY=${CONFIG_MOD_RESOLV_RETRY:-"1"}
 CONFIG_MOD_TLS_CERTS=${CONFIG_MOD_TLS_CERTS:-"1"}
-CONFIG_MOD_VERBOSITY=${CONFIG_MOD_VERBOSITY:-"1"}
+CONFIG_MOD_VERBOSITY=${CONFIG_MOD_VERBOSITY:-"3"}
 CONFIG_MOD_REMAP_USR1=${CONFIG_MOD_REMAP_USR1:-"1"}
 CONFIG_MOD_FAILURE_SCRIPT=${CONFIG_MOD_FAILURE_SCRIPT:-"1"}
 
@@ -81,14 +81,17 @@ if [[ $CONFIG_MOD_TLS_CERTS == "1" ]]; then
 fi
 
 ## Option 6 - Update or set verbosity of openvpn logging
-if [[ $CONFIG_MOD_VERBOSITY == "1" ]]; then
-    echo "Modification: Set output verbosity to 3"
+if [[ $(( "$CONFIG_MOD_VERBOSITY" )) -gt 0 ]]; then
+    if [[ $(( "$CONFIG_MOD_VERBOSITY" )) -gt 9 ]]; then
+        CONFIG_MOD_VERBOSITY=9
+    fi
+    echo "Modification: Set output verbosity to ${CONFIG_MOD_VERBOSITY}"
     # Remove any old options
     sed -i "/^verb.*$/d" "$CONFIG"
 
     # Add new ones
     sed -i "\$q" "$CONFIG" # Ensure config ends with a line feed
-    echo "verb 3" >> "$CONFIG"
+    echo "verb ${CONFIG_MOD_VERBOSITY}" >> "$CONFIG"
 fi
 
 ## Option 7 - Remap the SIGUSR1 signal to SIGTERM

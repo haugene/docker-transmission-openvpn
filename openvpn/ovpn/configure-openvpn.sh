@@ -37,6 +37,7 @@ cd /etc/openvpn/ovpn
 find /etc/openvpn/ovpn -type f ! -name "*.sh" -delete
 
 # Download and extract wanted bundle into temporary file
+
 echo "creating temp folder"
 mkdir /tmp/ovpnxtract/
 echo "entering temp folder"
@@ -46,6 +47,7 @@ echo "moving content"
 mv /tmp/ovpnxtract/vpn-configs-contrib/openvpn/ovpn/* /etc/openvpn/ovpn
 echo "deleting temp folder"
 rm -rf /tmp/ovpnxtract/
+
 
 
 #pattern=$OVPN_CONNECTION.$OVPN_COUNTRY.$OVPN_CITY.$OVPN_PROTOCOL
