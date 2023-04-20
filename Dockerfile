@@ -41,16 +41,16 @@ RUN set -ex; \
       libpsl-dev \
       libssl-dev
 
-FROM base as TransmissionBuilder
-
-ARG DEBIAN_FRONTEND=noninteractive
 ARG TBT_VERSION=4.0.3
+ARG DEBIAN_FRONTEND=noninteractive
+FROM base as TransmissionBuilder
 
 RUN apt-get update && apt-get install -y curl \
     build-essential automake autoconf libtool pkg-config intltool libcurl4-openssl-dev \
     libglib2.0-dev libevent-dev libminiupnpc-dev libgtk-3-dev libappindicator3-dev libssl-dev cmake xz-utils checkinstall
 
 
+RUN echo $TBT_VERSION
 RUN mkdir -p /home/transmission4/ && cd /home/transmission4/ \
   && curl -L -o transmission4.tar.xz "https://github.com/transmission/transmission/releases/download/4.0.3/transmission-4.0.3.tar.xz" \
   && tar -xf transmission4.tar.xz && cd transmission-4.0.3* && mkdir build && cd build \
@@ -66,7 +66,9 @@ VOLUME /config
 COPY --from=TransmissionUIs /opt/transmission-ui /opt/transmission-ui
 COPY --from=TransmissionBuilder /var/tmp/*.deb /var/tmp/
 
-ARG DEBIAN_FRONTEND=noninteractive
+ARG DEBIAN_FRONTEND
+ARG TBT_VERSION
+RUN echo $TBT_VERSION
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN echo "installing Transmission" && set -x \
@@ -79,9 +81,8 @@ RUN echo "installing Transmission" && set -x \
       ; exit ; fi ; \
     else echo "Installing transmission from repository" \
     && export TBT_VERSION=3.00 \
-    && apt-get install -y --no-install-recommends transmission-daemon transmission-cli; fi
-
-RUN apt-get update && apt-get install -y \
+    && apt-get install -y --no-install-recommends transmission-daemon transmission-cli; fi \
+    && apt-get update && apt-get install -y \
     software-properties-common dumb-init openvpn privoxy \
     tzdata dnsutils iputils-ping ufw openssh-client git jq curl wget unrar unzip bc \
     && ln -s /usr/share/transmission/web/style /opt/transmission-ui/transmission-web-control \
