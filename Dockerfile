@@ -86,10 +86,9 @@ RUN echo "installing Transmission" && set -x \
 RUN apt-get update && apt-get install -y \
     dumb-init openvpn privoxy \
     tzdata dnsutils iputils-ping ufw openssh-client git jq curl wget unrar unzip bc \
-    && ln -s /usr/share/transmission/web/style /opt/transmission-ui/transmission-web-control \
-    && ln -s /usr/share/transmission/web/images /opt/transmission-ui/transmission-web-control \
-    && ln -s /usr/share/transmission/web/javascript /opt/transmission-ui/transmission-web-control \
-    && ln -s /usr/share/transmission/web/index.html /opt/transmission-ui/transmission-web-control/index.original.html \
+    && ln -s /usr/local/share/transmission/public_html/images /opt/transmission-ui/transmission-web-control \
+    && ln -s /usr/local/share/transmission/public_html/transmission-app.js /opt/transmission-ui/transmission-web-control/transmission-app.js \
+    && ln -s /usr/local/share/transmission/public_html/index.html /opt/transmission-ui/transmission-web-control/index.original.html \
     && rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/* \
     && groupmod -g 1000 users \
     && useradd -u 911 -U -d /config -s /bin/false abc \
