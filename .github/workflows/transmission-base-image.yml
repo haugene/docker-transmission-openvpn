@@ -1,0 +1,50 @@
+name: Transmission base image
+on:
+  push:
+    branches:
+      - wg
+    paths:
+      - 'base-image/**'
+
+jobs:
+  setup-build-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # QEMU emulator to build for other platforms
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      # Buildx automates creating the multi-arch manifest build
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      # Authenticate so that we can push to Docker Hub
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # Generate image tags and labels
+      - name: Generate Docker metadata
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: haugene/transmission-base
+          tags: |
+            type=sha
+
+      # Finally, build and push the images
+      - name: Build image
+        uses: docker/build-push-action@v4
+        with:
+          context: base-image
+          platforms: linux/arm,linux/arm64,linux/amd64
+          build-args: |
+            BASE_REVISION=${{ github.sha }}
+          push: false
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
