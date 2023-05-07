@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # More/less taken from https://github.com/linuxserver/docker-baseimage-alpine/blob/3eb7146a55b7bff547905e0d3f71a26036448ae6/root/etc/cont-init.d/10-adduser
-#source /etc/openvpn/utils.sh
+# source /etc/openvpn/utils.sh
 
 RUN_AS=root
 
