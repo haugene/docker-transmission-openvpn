@@ -4,7 +4,7 @@
 set -e
 
 if [[ -n "$REVISION" ]]; then
-  echo "Starting container with revision: $REVISION"
+  echo "Image revision: $REVISION"
 fi
 if [[ -n "$BASE_REVISION" ]]; then
   echo "Base image revision: $BASE_REVISION"
