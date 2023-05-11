@@ -245,7 +245,13 @@ function ufwAllowPort {
   portNum=${1}
   if [[ "${ENABLE_UFW,,}" == "true" ]] && [[ -n "${portNum-}" ]]; then
     echo "allowing ${portNum} through the firewall"
-    ufw allow ${portNum}
+    if [[ $portNum == *":"* ]];
+    then
+      ufw allow ${portNum}/tcp
+      ufw allow ${portNum}/udp
+    else
+      ufw allow ${portNum}
+    fi
   fi
 }
 
