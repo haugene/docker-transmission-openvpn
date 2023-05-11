@@ -59,7 +59,7 @@ if [[ ${WEBPROXY_ENABLED} =~ [yY][eE]?[Ss]?|[tT][Rr][Uu][eE] ]]; then
   if [[ ${PROXY} -eq 0 ]]; then
     echo "Privoxy warning: process was stopped, restarting."
   fi
-    proxy_ip=$(grep -oP "(?<=^listen-address).*$" /etc/privoxy/config | sed 's/ //g')
+    proxy_ip=$(grep -oP "(?<=^listen-address )[0-9\.]+" /etc/privoxy/config)
     cont_ip=$(ip -j a show dev eth0 | jq -r .[].addr_info[].local)
     if [[ ${proxy_ip} != ${cont_ip} ]]; then
       echo "Privoxy error: container ip (${cont_ip} has changed: privoxy listening to ${proxy_ip}, restarting privoxy."
