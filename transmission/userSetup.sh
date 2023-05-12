@@ -48,7 +48,7 @@ if [ -n "$PUID" ] && [ ! "$(id -u root)" -eq "$PUID" ]; then
         if [ -z "$TRANSMISSION_UMASK" ] ; then
             # fetch from settings.json if not defined in environment
             # because updateSettings.py is called after this script is run
-            TRANSMISSION_UMASK=$(jq .umask ${TRANSMISSION_HOME}/settings.json)
+            TRANSMISSION_UMASK=$(jq .umask ${TRANSMISSION_HOME}/settings.json | tr -d \" )
         fi
 
         TRANSMISSION_UMASK_OCTAL=$( printf "%o\n" "${TRANSMISSION_UMASK}" )
