@@ -1,4 +1,4 @@
-FROM alpine:3.13 as TransmissionUIs
+FROM alpine:latest as TransmissionUIs
 
 RUN apk --no-cache add curl jq \
     && mkdir -p /opt/transmission-ui \
