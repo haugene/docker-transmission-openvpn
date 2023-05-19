@@ -70,7 +70,7 @@ elif [[ "${VPN_CONFIG_SOURCE_TYPE}" == "github_clone" ]]; then
     fi
   else
     echo "Cloning ${GITHUB_CONFIG_REPO_URL} into ${config_repo}"
-    git clone -b "${GITHUB_CONFIG_SOURCE_REVISION}}" "${GITHUB_CONFIG_REPO_URL}" "${config_repo}"
+    git clone -b "${GITHUB_CONFIG_SOURCE_REVISION}" "${GITHUB_CONFIG_REPO_URL}" "${config_repo}"
   fi
 
   # Find the specified provider folder. Should be under <tmpDir>/<some-root-folder>/openvpn/<provider>
