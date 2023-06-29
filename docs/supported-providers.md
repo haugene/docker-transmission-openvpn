@@ -122,12 +122,21 @@ Compose sample:
              - /volume1/docker/ipvanish/:/etc/openvpn/custom/
 ```
 **Declare the Custom provider, the target server and login/password**
+Also important to note here is that `OPENVPN_CONFIG` value needs to be the name of the ovpn file wanting to be referenced in the `/etc/openvpn/custom` volume. In the example below the ovpn file name is `ipvanish-UK-Maidenhead-lhr-c02.ovpn` 
+
 Compose sample:
 ```
             - OPENVPN_PROVIDER=custom
             - OPENVPN_CONFIG=ipvanish-UK-Maidenhead-lhr-c02
             - OPENVPN_USERNAME=user
             - OPENVPN_PASSWORD=pass
+```
+Docker ENV vars sample: 
+```
+              -e OPENVPN_PROVIDER=custom \
+              -e OPENVPN_CONFIG=ipvanish-UK-Maidenhead-lhr-c02 \
+              -e OPENVPN_USERNAME=user \
+              -e OPENVPN_PASSWORD=pass \
 ```
 
 ### Do not mount single config file
