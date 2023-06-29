@@ -7,6 +7,8 @@ I'm [on it (#1558)](https://github.com/haugene/docker-transmission-openvpn/issue
 
 The update script is based on the NordVPN API. The API sends back the best recommended OpenVPN configuration file based on the filters given.
 
+You have to use your service credentials instead of your regular email and password. They can be found [here](https://my.nordaccount.com/dashboard/nordvpn/manual-configuration/).
+
 Available ENV variables in the container to define via the NordVPN API the file to use are:
 
 | Variable           | Function                                                                                                                                                            | Example                       |
