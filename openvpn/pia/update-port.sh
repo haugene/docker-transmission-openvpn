@@ -17,7 +17,7 @@ pia_client_id_file=/etc/transmission/pia_client_id
 transmission_settings_file=${TRANSMISSION_HOME}/settings.json
 
 if [[ -z "${TRANSMISSION_RPC_URL}" ]]; then
-    TRANSMISSION_RPC_URL="/transmission/"
+    TRANSMISSION_RPC_URL="$(grep "rpc-url" /etc/transmission/default-settings.json | sed -nr 's/^\W*?\"rpc-url\":\W?\"(.*)\",/\1/p')"
 fi
 TRANSMISSION_HOST="$(echo "http://localhost:${TRANSMISSION_RPC_PORT}${TRANSMISSION_RPC_URL}" | sed -E 's/(\/)$//g')"
 
