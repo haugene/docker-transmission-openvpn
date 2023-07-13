@@ -18,7 +18,7 @@ transmission_settings_file=${TRANSMISSION_HOME}/settings.json
 
 if [[ -z "${TRANSMISSION_RPC_URL}" ]]; then
     # Fetch the default setting for `rpc-url`.
-    TRANSMISSION_RPC_URL="$(sed -nr 's/^\W*?\"rpc-url\":\W?\"(.*)\",/\1/p' /etc/transmission/default-settings.json)"
+    TRANSMISSION_RPC_URL="$(jq -r '."rpc-url"' /etc/transmission/default-settings.json)"
 fi
 TRANSMISSION_HOST="$(echo "http://localhost:${TRANSMISSION_RPC_PORT}${TRANSMISSION_RPC_URL}" | sed -E 's/(\/)$//g')"
 
