@@ -171,7 +171,7 @@ This container has the `autoheal` label by default so it is compatible with the 
 
 ## Send Username and Password via a file
 
-Depending on your setup, you may not want to send your VPN user/pass via environment variables (the main reason being, it is accessible via docker inspect). If you prefer, there is are two methods of avoiding credentials to be set via environment variables:
+Depending on your setup, you may not want to send your VPN user/pass via environment variables (the main reason being, it is accessible via docker inspect). If you prefer, there are two methods of avoiding credentials to be set via environment variables:
  - Option 1: Configure the container to use a file. 
  - Option 2: Configure the container to use a `secret`. (Only available for Docker Swarm)
 
