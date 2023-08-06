@@ -27,7 +27,7 @@ set_port()
   # Set the port for the IPv4 interface
   adr=$(ip -4  a show eth0| grep -oP "(?<=inet )([^/]+)")
   adr=${adr:-"0.0.0.0"}
-  sed -i -E "s/^listen-address\s+(\b[0-9]{1,3}.){3}[0-9]{1,3}\b/listen-address ${adr}:$1/" "$2"
+  sed -i -E "s/^listen-address\s+(\b[0-9]{1,3}.){3}[0-9]{1,3}\b:\d+/listen-address ${adr}:$1/" "$2"
 
   # Remove the listen-address for IPv6 for now. IPv6 compatibility should come later
   sed -i -E "s/^listen-address\s+\[\:\:1.*//" "$2"
