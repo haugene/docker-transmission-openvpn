@@ -11,20 +11,20 @@ jobs:
   build-main-images:
     uses: ./.github/workflows/image-build-template-workflow.yml
     with:
-      image-name: derekcentrico/docker-transmission-openvpn
+      image-name: haugene/transmission-openvpn
       build-context: '.'
     secrets: inherit
 
   build-proxy-images:
     uses: ./.github/workflows/image-build-template-workflow.yml
     with:
-      image-name: derekcentrico/transmission-openvpn-proxy
+      image-name: haugene/transmission-openvpn-proxy
       build-context: 'proxy'
     secrets: inherit
 
   build-rss-plugin-images:
     uses: ./.github/workflows/image-build-template-workflow.yml
     with:
-      image-name: derekcentrico/transmission-rss
+      image-name: haugene/transmission-rss
       build-context: 'plugins/rss'
     secrets: inherit
