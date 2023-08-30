@@ -42,6 +42,7 @@ echo "creating temp folder"
 mkdir /tmp/ovpnxtract/
 echo "entering temp folder"
 cd /tmp/ovpnxtract/
+echo "cloning contrib git"
 git clone https://github.com/haugene/vpn-configs-contrib.git 
 echo "moving content"
 mv /tmp/ovpnxtract/vpn-configs-contrib/openvpn/ovpn/* /etc/openvpn/ovpn
