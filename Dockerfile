@@ -42,7 +42,7 @@ RUN set -ex; \
       libssl-dev
 
 
-FROM haugene/transmission-builder as TransmissionBuilder
+FROM haugene/transmission-builder:4.0.4 as TransmissionBuilder
 
 FROM base
 
