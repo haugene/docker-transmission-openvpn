@@ -1,4 +1,4 @@
-FROM alpine:3.13 as TransmissionUIs
+FROM alpine:latest as TransmissionUIs
 
 RUN apk --no-cache add curl jq \
     && mkdir -p /opt/transmission-ui \
@@ -14,7 +14,10 @@ RUN apk --no-cache add curl jq \
     && mv /opt/transmission-ui/kettu-master /opt/transmission-ui/kettu \
     && echo "Install Transmission-Web-Control" \
     && mkdir /opt/transmission-ui/transmission-web-control \
-    && curl -sL $(curl -s https://api.github.com/repos/ronggang/transmission-web-control/releases/latest | jq --raw-output '.tarball_url') | tar -C /opt/transmission-ui/transmission-web-control/ --strip-components=2 -xz
+    && curl -sL $(curl -s https://api.github.com/repos/ronggang/transmission-web-control/releases/latest | jq --raw-output '.tarball_url') | tar -C /opt/transmission-ui/transmission-web-control/ --strip-components=2 -xz \
+    && echo "Install Transmissionic" \
+    && wget -qO- https://github.com/6c65726f79/Transmissionic/releases/download/v1.8.0/Transmissionic-webui-v1.8.0.zip | unzip -q - \
+    && mv web /opt/transmission-ui/transmissionic
 
 
 FROM ubuntu:22.04 AS base
@@ -38,19 +41,22 @@ RUN set -ex; \
       libpsl-dev \
       libssl-dev
 
+
 FROM base as TransmissionBuilder
 
 ARG DEBIAN_FRONTEND=noninteractive
+ARG TBT_VERSION=4.0.4
 
 RUN apt-get update && apt-get install -y curl \
     build-essential automake autoconf libtool pkg-config intltool libcurl4-openssl-dev \
-    libglib2.0-dev libevent-dev libminiupnpc-dev libgtk-3-dev libappindicator3-dev libssl-dev cmake xz-utils
+    libglib2.0-dev libevent-dev libminiupnpc-dev libgtk-3-dev libappindicator3-dev libssl-dev cmake xz-utils checkinstall
 
 
 RUN mkdir -p /home/transmission4/ && cd /home/transmission4/ \
-  && curl -L -o transmission4.tar.xz "https://github.com/transmission/transmission/releases/download/4.0.3/transmission-4.0.3.tar.xz" \
-  && tar -xf transmission4.tar.xz && cd transmission-4.0.3* && mkdir build && cd build \
-  && cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo .. && make && make install
+  && curl -L -o transmission4.tar.xz "https://github.com/transmission/transmission/releases/download/4.0.4/transmission-4.0.4.tar.xz" \
+  && tar -xf transmission4.tar.xz && cd transmission-4.0.4* && mkdir build && cd build \
+  && cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo .. && make && make install \
+  && checkinstall -y -D --pkgname transmission  --pakdir /var/tmp --pkgversion=${TBT_VERSION}
 
 
 FROM base
@@ -59,17 +65,30 @@ VOLUME /data
 VOLUME /config
 
 COPY --from=TransmissionUIs /opt/transmission-ui /opt/transmission-ui
-COPY --from=TransmissionBuilder /usr/local/bin /usr/local/bin
-COPY --from=TransmissionBuilder /usr/local/share /usr/local/share
+COPY --from=TransmissionBuilder /var/tmp/*.deb /var/tmp/
 
+ARG TBT_VERSION=4.0.4
 ARG DEBIAN_FRONTEND=noninteractive
+
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+RUN echo "installing Transmission" && set -x \
+    && if [[ ${TBT_VERSION} =~ ^4 ]]; then \
+      ls -alh /var/tmp/*.deb ;\
+      debfile=$(compgen -G /var/tmp/transmission_*_$(dpkg --print-architecture).deb); \
+      if [[ -n ${debfile} ]]; then \
+      echo "Installing transmission ${TBT_VERSION}" && dpkg -i ${debfile} ;\
+      else echo "No /var/tmp/transmission_*_$(dpkg --print-architecture).deb found. Exiting" \
+      ; exit ; fi ; \
+    else echo "Installing transmission from repository" \
+    && export TBT_VERSION=3.00 \
+    && apt-get install -y --no-install-recommends transmission-daemon transmission-cli; fi
+
 RUN apt-get update && apt-get install -y \
     dumb-init openvpn privoxy \
     tzdata dnsutils iputils-ping ufw openssh-client git jq curl wget unrar unzip bc \
-    && ln -s /usr/share/transmission/web/style /opt/transmission-ui/transmission-web-control \
-    && ln -s /usr/share/transmission/web/images /opt/transmission-ui/transmission-web-control \
-    && ln -s /usr/share/transmission/web/javascript /opt/transmission-ui/transmission-web-control \
-    && ln -s /usr/share/transmission/web/index.html /opt/transmission-ui/transmission-web-control/index.original.html \
+    && ln -s /usr/local/share/transmission/public_html/images /opt/transmission-ui/transmission-web-control \
+    && ln -s /usr/local/share/transmission/public_html/transmission-app.js /opt/transmission-ui/transmission-web-control/transmission-app.js \
+    && ln -s /usr/local/share/transmission/public_html/index.html /opt/transmission-ui/transmission-web-control/index.original.html \
     && rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/* \
     && groupmod -g 1000 users \
     && useradd -u 911 -U -d /config -s /bin/false abc \
