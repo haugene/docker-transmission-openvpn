@@ -8,8 +8,15 @@ on:
       - upstream/transmission-version.txt
 
 jobs:
-  build-transmission:    
+  build-transmission:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        platform:
+          - linux/amd64
+          - linux/arm
+          - linux/arm64
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -48,7 +55,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: upstream/Dockerfile
-          platforms: linux/arm,linux/arm64,linux/amd64
+          platforms: ${{ matrix.platform }}
           build-args: |
             REVISION=${{ github.sha }}
             TBT_VERSION=${{ env.TBT_VERSION }}
