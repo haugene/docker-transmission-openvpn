@@ -54,7 +54,7 @@ jobs:
       - name: Build image
         uses: docker/build-push-action@v4
         with:
-          context: upstream/Dockerfile
+          context: upstream
           platforms: ${{ matrix.platform }}
           build-args: |
             REVISION=${{ github.sha }}
