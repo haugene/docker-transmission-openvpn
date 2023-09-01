@@ -49,7 +49,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: |
-            ${{ inputs.image-name }}
+            ${{ matrix.image-name }}
           tags: |
             type=edge
             type=ref,event=branch
