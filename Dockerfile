@@ -41,23 +41,7 @@ RUN set -ex; \
       libpsl-dev \
       libssl-dev
 
-
-FROM base as TransmissionBuilder
-
-ARG DEBIAN_FRONTEND=noninteractive
-ARG TBT_VERSION=4.0.4
-
-RUN apt-get update && apt-get install -y curl \
-    build-essential automake autoconf libtool pkg-config intltool libcurl4-openssl-dev \
-    libglib2.0-dev libevent-dev libminiupnpc-dev libgtk-3-dev libappindicator3-dev libssl-dev cmake xz-utils checkinstall
-
-
-RUN mkdir -p /home/transmission4/ && cd /home/transmission4/ \
-  && curl -L -o transmission4.tar.xz "https://github.com/transmission/transmission/releases/download/4.0.4/transmission-4.0.4.tar.xz" \
-  && tar -xf transmission4.tar.xz && cd transmission-4.0.4* && mkdir build && cd build \
-  && cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo .. && make && make install \
-  && checkinstall -y -D --pkgname transmission  --pakdir /var/tmp --pkgversion=${TBT_VERSION}
-
+FROM haugene/transmission-builder:4.0.4 as TransmissionBuilder
 
 FROM base
 

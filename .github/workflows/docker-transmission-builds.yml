@@ -1,22 +1,31 @@
-name: Reusable workflow for building multi-arch images
+name: Transmission Builds
 
 on:
-  workflow_call:
-    inputs:
-      image-name:
-        required: true
-        type: string
-
-      build-context:
-        required: true
-        type: string
+  push:
+    branches:
+      - dev
+    paths:
+      - upstream/transmission-version.txt
 
 jobs:
-  setup-build-push:
+  build-transmission:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        platform:
+          - linux/amd64
+          - linux/arm
+          - linux/arm64
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
+      # Get latest version of Transmission
+      - name: Get Transmission version
+        run: |
+          LATEST_VERSION=$(cat upstream/transmission-version.txt)
+          echo "TBT_VERSION=$LATEST_VERSION" >> $GITHUB_ENV
 
       # QEMU emulator to build for other platforms
       - name: Set up QEMU
@@ -33,29 +42,24 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # Generate image tags and labels
+      # Generate image tag and labels
       - name: Generate Docker metadata
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: |
-            ${{ inputs.image-name }}
-          tags: |
-            type=edge
-            type=ref,event=branch
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=semver,pattern={{major}}
+          images: haugene/transmission-builder
+          tags: type=match,pattern=(\d+.\d+.\d+),group=1,value=${{ env.TBT_VERSION }}
 
-      # Finally, build and push the images
+      # Finally, build and push the image
       - name: Build image
         uses: docker/build-push-action@v4
         with:
-          context: ${{ inputs.build-context }}
-          platforms: linux/arm,linux/arm64,linux/amd64
+          context: upstream
+          platforms: ${{ matrix.platform }}
           build-args: |
             REVISION=${{ github.sha }}
-          push: ${{ github.event_name != 'pull_request' }}
+            TBT_VERSION=${{ env.TBT_VERSION }}
+          push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha, scope=${{ github.workflow }}
