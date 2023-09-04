@@ -13,6 +13,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        image-name:
+          - haugene/transmission-openvpn
+          - haugene/transmission-openvpn-proxy
+          - haugene/transmission-rss
         include:
           - image-name: haugene/transmission-openvpn
             context: ./
