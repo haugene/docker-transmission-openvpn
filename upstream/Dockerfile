@@ -36,6 +36,6 @@ RUN set -ex; \
 
 RUN mkdir -p /home/transmission4/ && cd /home/transmission4/ \
     && curl -L -o transmission.tar.xz "https://github.com/transmission/transmission/releases/download/${TBT_VERSION}/transmission-${TBT_VERSION}.tar.xz" \
-    && tar -xf transmission4.tar.xz && cd "transmission-${TBT_VERSION}" && mkdir build && cd build \
+    && tar -xf transmission.tar.xz && cd "transmission-${TBT_VERSION}" && mkdir build && cd build \
     && cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo .. && make && make install \
     && checkinstall -y -D --pkgname transmission  --pakdir /var/tmp --pkgversion=${TBT_VERSION}
