@@ -1,6 +1,7 @@
 name: Transmission Builds
 
 on:
+  workflow_dispatch: {}
   push:
     branches:
       - dev
