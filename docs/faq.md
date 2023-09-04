@@ -168,11 +168,14 @@ if basic network connectivity is broken. You can write your own script and add i
 
 This container has the `autoheal` label by default so it is compatible with the [willfarrell/autoheal image](https://hub.docker.com/r/willfarrell/autoheal/)
 
+
 ## Send Username and Password via a file
 
-Depending on your setup, you may not want to send your VPN user/pass via environment variables (the main reason being, it is accessible via docker inspect). If you prefer, there is a way to configure the container to use a file instead. 
+Depending on your setup, you may not want to send your VPN user/pass via environment variables (the main reason being, it is accessible via docker inspect). If you prefer, there are two methods of avoiding credentials to be set via environment variables:
+ - Option 1: Configure the container to use a file. 
+ - Option 2: Configure the container to use a `secret`. (Only available for Docker Swarm)
 
-*Procedure*
+*Procedure for Option 1: Configuring the container to use a file*
 1. Create a text file with a username and password in it, each on a separate line.
 For this example, we will assume it is located at `./openvpn-credentials.txt`
 ```
@@ -225,6 +228,52 @@ services:
             - '9091:9091'
         image: haugene/transmission-openvpn
 ```
+
+*Procedure for Option 2: Configure the container to use a `secret`*
+
+Note: [Docker Secrets](https://docs.docker.com/engine/swarm/secrets/) are only available for Docker Swarm (`docker-compose`). If you run the container standalone, refer to Option 1.
+
+1. Create a text file with a username and password in it, each on a separate line.
+For this example, we will assume it is located at `./openvpn-credentials.txt`
+```
+this_is_my_username
+this_is_my_password
+```
+
+1. Mount the file as a secret like below. *The name of the secret must be exactly `openvpn_creds`, which will be exposed to the container at `/run/secrets/openvpn_creds`.
+
+The example docker-compose.yml looks like this:
+
+```
+version: '3.3'
+secrets:
+  openvpn_creds:
+    file: './openvpn-credentials.txt'
+services:
+    transmission-openvpn:
+        cap_add:
+            - NET_ADMIN
+        volumes:
+            - '/your/storage/path/:/data'
+        environment:
+            - OPENVPN_PROVIDER=PIA
+            - OPENVPN_CONFIG=france
+            - OPENVPN_USERNAME=**None**
+            - OPENVPN_PASSWORD=**None**
+            - LOCAL_NETWORK=192.168.0.0/16
+        logging:
+            driver: json-file
+            options:
+                max-size: 10m
+        secrets:
+            - openvpn_creds
+        ports:
+            - '9091:9091'
+        image: haugene/transmission-openvpn
+```
+
+Bonus tip: The same steps can be followed for `rpc_creds`, as shown in [[How do I enable authentication in the web ui](#how_do_i_enable_authentication_in_the_web_UI)].
+
 
 ## AUTH: Received control message: AUTH_FAILED
 
