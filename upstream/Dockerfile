@@ -33,7 +33,7 @@ RUN set -ex; \
       pkg-config \ 
       tzdata \
       xz-utils
-
+#This will build the transmission image to re-use in our container
 RUN mkdir -p /home/transmission4/ && cd /home/transmission4/ \
     && curl -L -o transmission4.tar.xz "https://github.com/transmission/transmission/releases/download/${TBT_VERSION}/transmission-${TBT_VERSION}.tar.xz" \
     && tar -xf transmission4.tar.xz && cd "transmission-${TBT_VERSION}" && mkdir build && cd build \
