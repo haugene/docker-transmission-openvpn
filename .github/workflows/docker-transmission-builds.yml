@@ -47,7 +47,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: haugene/transmission-build
+          images: haugene/transmission-builder
           tags: type=match,pattern=(\d+.\d+.\d+),group=1,value=${{ env.TBT_VERSION }}
 
       # Finally, build and push the image
