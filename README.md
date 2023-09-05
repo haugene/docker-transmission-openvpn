@@ -1,5 +1,7 @@
 # OpenVPN and Transmission with WebUI
 
+[![Docker Build](https://img.shields.io/github/actions/workflow/status/haugene/docker-transmission-openvpn/docker-image-builds.yml
+)](https://hub.docker.com/r/haugene/transmission-openvpn/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/haugene/transmission-openvpn.svg)](https://hub.docker.com/r/haugene/transmission-openvpn/)
 
 This container contains OpenVPN and Transmission with a configuration
