@@ -24,10 +24,6 @@ jobs:
             context: ./proxy
           - image-name: haugene/transmission-rss
             context: ./plugins/rss
-        platform:
-          - linux/amd64
-          - linux/arm
-          - linux/arm64
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -66,7 +62,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: ${{ matrix.context }}
-          platforms: ${{ matrix.platform }}
+          platforms: linux/amd64,linux/arm,linux/arm64
           build-args: |
             REVISION=${{ github.sha }}
           push: ${{ github.event_name != 'pull_request' }}

@@ -30,8 +30,7 @@ set_port()
   # Set the port for the IPv4 interface
   adr=$(ip -4  a show eth0| grep -oP "(?<=inet )([^/]+)")
   adr=${adr:-"0.0.0.0"}
-  sed -i -E "s/^listen-address\s+.*/listen-address ${adr}:$1/" "$2"
-
+  sed -i -E "s/^listen-address.*/listen-address ${adr}:$1/" "$2"
 }
 
 if [[ "${WEBPROXY_ENABLED}" = "true" ]]; then
