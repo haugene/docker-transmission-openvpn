@@ -229,7 +229,7 @@ echo "${TRANSMISSION_RPC_PASSWORD}" >> /config/transmission-credentials.txt
 export CONFIG="${CHOSEN_OPENVPN_CONFIG}"
 python3 /etc/openvpn/persistEnvironment.py /etc/transmission/environment-variables.sh
 
-TRANSMISSION_CONTROL_OPTS="--script-security 2 --route-up /etc/openvpn/tunnelUp.sh --route-pre-down /etc/openvpn/tunnelDown.sh"
+TRANSMISSION_CONTROL_OPTS="--route-up /etc/openvpn/tunnelUp.sh --route-pre-down /etc/openvpn/tunnelDown.sh"
 
 ## If we use UFW or the LOCAL_NETWORK we need to grab network config info
 if [[ "${ENABLE_UFW,,}" == "true" ]] || [[ -n "${LOCAL_NETWORK-}" ]]; then
