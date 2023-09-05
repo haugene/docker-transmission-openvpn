@@ -24,7 +24,7 @@ set_port()
 
   echo "Privoxy: Setting port to $1";
 
-  # Remove the listen-address for IPv6 for now. IPv6 compatibility should come later
+# Remove the listen-address for IPv6 for now. IPv6 compatibility should come later
   sed -i -E "s/^listen-address\s+\[\:\:1.*//" "$2"
 
   # Set the port for the IPv4 interface
