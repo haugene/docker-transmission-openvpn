@@ -39,7 +39,7 @@ jobs:
       # Generate image tag and labels
       - name: Generate Docker metadata
         id: meta
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           images: haugene/transmission-builder
           tags: type=match,pattern=(\d+.\d+.\d+),group=1,value=${{ env.TBT_VERSION }}
