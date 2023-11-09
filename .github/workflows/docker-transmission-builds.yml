@@ -23,7 +23,7 @@ jobs:
 
       # QEMU emulator to build for other platforms
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@v3
 
       # Buildx automates creating the multi-arch manifest build
       - name: Set up Docker Buildx
