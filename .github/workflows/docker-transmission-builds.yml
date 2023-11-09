@@ -27,7 +27,7 @@ jobs:
 
       # Buildx automates creating the multi-arch manifest build
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
 
       # Authenticate so that we can push to Docker Hub
       - name: Log in to Docker Hub
