@@ -39,7 +39,8 @@ RUN set -ex; \
       libminiupnpc-dev \
       libnatpmp-dev \
       libpsl-dev \
-      libssl-dev
+      libssl-dev \
+      natpmpc
 
 FROM haugene/transmission-builder:4.0.4 as TransmissionBuilder
 

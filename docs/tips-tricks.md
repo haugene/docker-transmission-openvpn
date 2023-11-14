@@ -213,7 +213,7 @@ $ sudo systemctl start transmission-openvpn.service
 A working example of running this container behind a traefik reverse proxy can be found here:
 [Config](https://github.com/haugene/docker-transmission-openvpn/issues/1763#issuecomment-844404143)
 
-#### Running this container with Podman
+# Running this container with Podman
 
 The `podman run` command is almost identical to [the one mentioned in README.md](../README.md#docker-run) but with the following exception:
 
