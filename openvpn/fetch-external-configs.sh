@@ -64,7 +64,7 @@ elif [[ "${VPN_CONFIG_SOURCE_TYPE}" == "github_clone" ]]; then
       git -C "${config_repo}" checkout "${GITHUB_CONFIG_SOURCE_REVISION}"
     else
       echo "Cloning ${GITHUB_CONFIG_REPO_URL} into ${config_repo}"
-      config_repo_old="${config_repo}" + "_old"
+      config_repo_old="${config_repo}_old"
       mv "${config_repo}" "${config_repo_old}"
       git clone -b "${GITHUB_CONFIG_SOURCE_REVISION}" "${GITHUB_CONFIG_REPO_URL}" "${config_repo}"
     fi
