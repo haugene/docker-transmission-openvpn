@@ -23,6 +23,8 @@ jobs:
             git config --global user.email "workflow@github.com"
             git config --global user.name "workflow runner"
             git add upstream/transmission-version.txt
+            git config user.email "transmission-bot@users.noreply.github.com"
+            git config user.name "Transmission-Bot"
             git commit -m "update transmission build version to ${LATEST_VERSION}"
             git push origin dev
           fi
