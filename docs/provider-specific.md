@@ -118,3 +118,74 @@ services:
           max-size: 10m
       image: haugene/transmission-openvpn:latest
 ```
+
+### PROTONVPN
+
+[PROTONVPN](https://protonvpn.com/support/linux-openvpn/#preparation) provides `.ovpn` configuration files. Just download the one you want to connect with and which allows p2p.
+
+### Prerequisites:
+User needs to have a payed account.
+
+1. download your protonvpn ovpn file from a destination which allows p2p.
+2. in the directory with your docker-compose file, create a directory: `mkdir protonvpn`
+3. copy your ovpn file (node-<country of choice>.protonvpn.net.udp.ovpn) from step 1 to the protonvpn directory
+4. add the environment vars below and add +pmp to your username if you want to use port forwarding.
+5. add the [update-port.sh](https://github.com/haugene/vpn-configs-contrib/blob/main/openvpn/protonvpn/update-port.sh) script for protonvpn from vpn-configs-contrib to the protonvpn directory of step 2.
+
+Here is a full example of `docker-compose.yml` file, assuming configuration file named `node-<country of choice>.protonvpn.net.udp`
+is under local `protonvpn` subdirectory.
+
+```yaml
+version: 3.7.1
+services:
+    transmission-openvpn:
+        container_name: TransmissionVPN
+        restart: on-failure:2
+        cap_add:
+            - NET_ADMIN
+        volumes:
+            - ./protonvpn/:/etc/openvpn/custom/
+            - /your/config/path/:/config # where transmission-home is stored
+            - /your/storage/path/:/data # where transmission will store the data
+        environment:
+            - OPENVPN_PROVIDER=custom
+            - OPENVPN_CONFIG=node-<country of choice>.protonvpn.net.udp
+            - OPENVPN_USERNAME=<username>+pmp
+            - OPENVPN_PASSWORD=<password>
+            - LOCAL_NETWORK=192.168.0.0/16
+        logging:
+            driver: json-file
+            options:
+                max-size: 10m
+        ports:
+            - 9091:9091
+        image: haugene/transmission-openvpn
+
+```
+
+
+After starting your conntainer, the `peer listening port` in transmission should be open after a minute or so. 
+
+If not you can jump in the container and run the script manually and see which error you get, or set the debug env variable: `- DEBUG=true` and look in the logging of your container for the output of the script `update-port.sh`
+
+
+To check which ip adress your vpn is currently connected to, run this script:
+```bash
+#!/bin/bash
+
+f_container_name()
+{
+docker ps --format "{{.Names}}"| grep -i transmission
+}
+
+f_find_all()
+{
+curl --silent ipinfo.io/$ext_ip
+}
+
+var_cont_name=$(f_container_name)
+ext_ip=$(docker exec $var_cont_name curl --silent "http://ipinfo.io/ip")
+echo "transmission vpn currently connected to IP adress: $ext_ip"
+echo "This ip adress is in the following country: "
+f_find_all
+```
