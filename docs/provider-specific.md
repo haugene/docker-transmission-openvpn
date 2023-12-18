@@ -121,7 +121,7 @@ services:
 
 ### PROTONVPN
 
-[PROTONVPN](https://protonvpn.com/support/linux-openvpn/#preparation) provides `.ovpn` configuration files. Just download the one you want to connect with and which allows p2p.
+[PROTONVPN](https://protonvpn.com/support/linux-openvpn/#preparation) provides `.ovpn` configuration files. Just download the one you want to connect with and which allows P2P.
 
 ### Prerequisites:
 User needs to have a payed account.
