@@ -169,7 +169,7 @@ After starting your container, the `peer listening port` in Transmission should 
 If not you can jump in the container and run the script manually and see which error you get, or set the debug env variable: `- DEBUG=true` and look in the logging of your container for the output of the script `update-port.sh`
 
 
-To check which ip adress your vpn is currently connected to, run this script:
+To check which IP address your VPN is currently connected to, run this script:
 ```bash
 #!/bin/bash
 
