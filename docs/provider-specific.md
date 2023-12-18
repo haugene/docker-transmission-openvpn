@@ -185,7 +185,7 @@ curl --silent ipinfo.io/$ext_ip
 
 var_cont_name=$(f_container_name)
 ext_ip=$(docker exec $var_cont_name curl --silent "http://ipinfo.io/ip")
-echo "transmission vpn currently connected to IP adress: $ext_ip"
-echo "This ip adress is in the following country: "
+echo "Transmission VPN currently connected to IP address: $ext_ip"
+echo "This IP address is in the following country: "
 f_find_all
 ```
