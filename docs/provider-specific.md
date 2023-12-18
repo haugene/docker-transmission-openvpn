@@ -164,7 +164,7 @@ services:
 ```
 
 
-After starting your conntainer, the `peer listening port` in transmission should be open after a minute or so. 
+After starting your container, the `peer listening port` in Transmission should be open after a minute or so. 
 
 If not you can jump in the container and run the script manually and see which error you get, or set the debug env variable: `- DEBUG=true` and look in the logging of your container for the output of the script `update-port.sh`
 
