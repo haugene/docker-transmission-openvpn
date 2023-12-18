@@ -124,7 +124,7 @@ services:
 [PROTONVPN](https://protonvpn.com/support/linux-openvpn/#preparation) provides `.ovpn` configuration files. Just download the one you want to connect with and which allows P2P.
 
 ### Prerequisites:
-User needs to have a payed account.
+User needs to have a paid account.
 
 1. download your protonvpn ovpn file from a destination which allows p2p.
 2. in the directory with your docker-compose file, create a directory: `mkdir protonvpn`
