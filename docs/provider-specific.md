@@ -126,7 +126,7 @@ services:
 ### Prerequisites:
 User needs to have a paid account.
 
-1. download your protonvpn ovpn file from a destination which allows p2p.
+1. download your ProtonVPN ovpn file from a destination which allows P2P.
 2. in the directory with your docker-compose file, create a directory: `mkdir protonvpn`
 3. copy your ovpn file (node-<country of choice>.protonvpn.net.udp.ovpn) from step 1 to the protonvpn directory
 4. add the environment vars below and add +pmp to your username if you want to use port forwarding.
