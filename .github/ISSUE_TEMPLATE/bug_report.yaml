@@ -28,7 +28,7 @@ body:
 - type: checkboxes
   attributes:
     label: Is this related to a provider? 
-    description: Please check the  <a href="https://github.com/haugene/vpn-configs-contrib/issues/">provider issues repo</a> for this. If this issue is related to a provider, please post it there. If your error is after this log output it has to do with provider script: ```Transmission startup script complete. 2024-02-24 19:24:37 Initialization Sequence Completed```
+    description: Please check the  <a href="https://github.com/haugene/vpn-configs-contrib/issues/">provider issues repo</a> for this. If this issue is related to a provider, please post it there. If your error is after this log output it has to do with provider script: 'Transmission startup script complete. 2024-02-24 19:24:37 Initialization Sequence Completed'
     options:
     - label: I have checked the provider repo for issues
       required: true
