@@ -45,6 +45,25 @@ $ docker run --cap-add=NET_ADMIN -d \
               haugene/transmission-openvpn
 ```
 
+### Podman run
+
+Beware: container is run as privileged, meaning it has full access to host OS.
+
+```
+$ podman run --privileged -d \
+              -v /your/storage/path/:/data \
+              -v /your/config/path/:/config \
+              -e OPENVPN_PROVIDER=PIA \
+              -e OPENVPN_CONFIG=france \
+              -e OPENVPN_USERNAME=user \
+              -e OPENVPN_PASSWORD=pass \
+              -e LOCAL_NETWORK=192.168.0.0/16 \
+              --log-driver k8s-file \
+              --log-opt max-size=10m \
+              -p 9091:9091 \
+              haugene/transmission-openvpn
+```
+
 ### Docker version 3.x Compose
 ```
 version: '3.3'
