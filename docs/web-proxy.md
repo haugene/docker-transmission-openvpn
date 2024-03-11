@@ -7,11 +7,12 @@ The default listening port is 8118. Note that only ports above 1024 can be speci
 and would otherwise require root permissions to run.
 Remember to add a port binding for your selected (or default) port when starting the container.
 
-| Variable           | Function                | Example                 |
-| ------------------ | ----------------------- | ----------------------- |
-| `WEBPROXY_ENABLED` | Enables the web proxy   | `WEBPROXY_ENABLED=true` |
-| `WEBPROXY_PORT`    | Sets the listening port | `WEBPROXY_PORT=8118`    |
+| Variable                | Function                | Example                         |
+| ----------------------- | ----------------------- | ------------------------------- |
+| `WEBPROXY_ENABLED`      | Enables the web proxy   | `WEBPROXY_ENABLED=true`         |
+| `WEBPROXY_PORT`         | Sets the listening port | `WEBPROXY_PORT=8118`            |
+| `WEBPROXY_BIND_ADDRESS` | Sets the listen address | `WEBPROXY_BIND_ADDRESS=0.0.0.0` |
 
-The listening address is the one found bound to the eth0 interface.
+The listening address is the one found bound to the eth0 interface unless `WEBPROXY_BIND_ADDRESS` is set.
 
 `adr=$(ip -4  a show eth0| grep -oP "(?<=inet )([^/]+)")`
