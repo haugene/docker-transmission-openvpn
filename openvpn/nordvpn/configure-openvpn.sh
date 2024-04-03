@@ -306,10 +306,8 @@ res="$(download_hostname ${selected})"
 log "OVPN: NORDVPN: selected: ${selected}, VPN_PROVIDER_HOME: ${VPN_PROVIDER_HOME}"
 # fix deprecated ciphers
 if [[ -f ${VPN_PROVIDER_HOME}/${selected}.ovpn ]]; then
-  #add data ciphers: DEPRECATED OPTION: --cipher set to 'AES-256-CBC' but missing in --data-ciphers (AES-256-GCM:AES-128-GCM).
-  if [[ 0 -le $(grep -c "cipher AES-256-CBC" ${VPN_PROVIDER_HOME}/${selected}.ovpn) ]] && [[ 0 -eq $(grep -c "data-ciphers AES-256-CBC" ${VPN_PROVIDER_HOME}/${selected}.ovpn) ]]; then
-      sed -i "/cipher AES-256-CBC/a data-ciphers AES-256-CBC" ${VPN_PROVIDER_HOME}/${selected}.ovpn
-  fi
+  # replace with a supported cipher. fixes: DEPRECATED OPTION: --cipher set to 'AES-256-CBC' but missing in --data-ciphers (AES-256-GCM:AES-128-GCM).
+  sed -i -e "s/cipher AES-256-CBC/cipher AES-256-GCM/g" ${VPN_PROVIDER_HOME}/${selected}.ovpn
 fi
 #handle tests results.
 if [[ -n ${NORDVPN_TESTS} ]]; then
