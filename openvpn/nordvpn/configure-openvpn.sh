@@ -307,7 +307,7 @@ log "OVPN: NORDVPN: selected: ${selected}, VPN_PROVIDER_HOME: ${VPN_PROVIDER_HOM
 # fix deprecated ciphers
 if [[ -f ${VPN_PROVIDER_HOME}/${selected}.ovpn ]]; then
   # replace with a supported cipher. fixes: DEPRECATED OPTION: --cipher set to 'AES-256-CBC' but missing in --data-ciphers (AES-256-GCM:AES-128-GCM).
-  sed -i -e "s/cipher AES-256-CBC/cipher AES-256-GCM/g" ${VPN_PROVIDER_HOME}/${selected}.ovpn
+  sed -i -e "s/cipher AES-256-CBC/cipher AES-256-GCM\ndata-ciphers AES-256-GCM/g" ${VPN_PROVIDER_HOME}/${selected}.ovpn
 fi
 #handle tests results.
 if [[ -n ${NORDVPN_TESTS} ]]; then
