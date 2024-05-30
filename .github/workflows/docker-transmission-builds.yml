@@ -6,7 +6,7 @@ on:
     branches:
       - dev
     paths:
-      - upstream/transmission-version.txt
+      - "upstream/transmission-version.txt"
 
 jobs:
   build-transmission:
