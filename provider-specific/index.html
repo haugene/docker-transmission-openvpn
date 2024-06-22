@@ -1,0 +1,896 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="http://haugene.github.io/docker-transmission-openvpn/provider-specific/">
+      
+      
+        <link rel="prev" href="../supported-providers/">
+      
+      
+        <link rel="next" href="../config-options/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.2.7">
+    
+    
+      
+        <title>Provider specific settings - docker-transmission-openvpn</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.046329b4.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#coming_soon" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="docker-transmission-openvpn" class="md-header__button md-logo" aria-label="docker-transmission-openvpn" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            docker-transmission-openvpn
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Provider specific settings
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/haugene/docker-transmission-openvpn/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="docker-transmission-openvpn" class="md-nav__button md-logo" aria-label="docker-transmission-openvpn" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    docker-transmission-openvpn
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/haugene/docker-transmission-openvpn/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../building-blocks/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Image Building Blocks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vpn-networking/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    VPN and Networking
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../run-container/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Running the container
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../supported-providers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Supported providers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Provider specific settings
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Provider specific settings
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#coming_soon" class="md-nav__link">
+    COMING SOON
+  </a>
+  
+    <nav class="md-nav" aria-label="COMING SOON">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nordvpn" class="md-nav__link">
+    NORDVPN
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ovpn" class="md-nav__link">
+    OVPN
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mullvad_ovpn" class="md-nav__link">
+    MULLVAD &amp; OVPN
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#njalla" class="md-nav__link">
+    NJAL.LA
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#protonvpn" class="md-nav__link">
+    PROTONVPN
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites:
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../config-options/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Configuration options
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Frequently asked questions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../debug/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Debug your setup
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tips-tricks/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tips & Tricks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rss-plugin/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    RSS plugin
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../web-proxy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Web Proxy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#coming_soon" class="md-nav__link">
+    COMING SOON
+  </a>
+  
+    <nav class="md-nav" aria-label="COMING SOON">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nordvpn" class="md-nav__link">
+    NORDVPN
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ovpn" class="md-nav__link">
+    OVPN
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mullvad_ovpn" class="md-nav__link">
+    MULLVAD &amp; OVPN
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#njalla" class="md-nav__link">
+    NJAL.LA
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#protonvpn" class="md-nav__link">
+    PROTONVPN
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites:
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+  <h1>Provider specific settings</h1>
+
+<h2 id="coming_soon">COMING SOON<a class="headerlink" href="#coming_soon" title="Permanent link">&para;</a></h2>
+<p><strong>NOTE:</strong> This page is just moved from it's previous location. A re-write is coming.
+I'm <a href="https://github.com/haugene/docker-transmission-openvpn/issues/1558">on it (#1558)</a></p>
+<h3 id="nordvpn">NORDVPN<a class="headerlink" href="#nordvpn" title="Permanent link">&para;</a></h3>
+<p>The update script is based on the NordVPN API. The API sends back the best recommended OpenVPN configuration file based on the filters given.</p>
+<p>You have to use your service credentials instead of your regular email and password. They can be found <a href="https://my.nordaccount.com/dashboard/nordvpn/manual-configuration/">here</a>.</p>
+<p>Available ENV variables in the container to define via the NordVPN API the file to use are:</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Function</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>NORDVPN_COUNTRY</code></td>
+<td>Two character country code. See <a href="https://api.nordvpn.com/v1/servers/countries">/servers/countries</a> for full list.</td>
+<td><code>NORDVPN_COUNTRY=US</code></td>
+</tr>
+<tr>
+<td><code>NORDVPN_CATEGORY</code></td>
+<td>Server type (P2P, Standard, etc). See <a href="https://api.nordvpn.com/v1/servers/groups">/servers/groups</a> for full list. Use either <code>title</code> or <code>identifier</code> from the list.</td>
+<td><code>NORDVPN_CATEGORY=legacy_p2p</code></td>
+</tr>
+<tr>
+<td><code>NORDVPN_PROTOCOL</code></td>
+<td>Either <code>tcp</code> or <code>udp</code>. (values identifier more available at https://api.nordvpn.com/v1/technologies, may need script adaptation)</td>
+<td><code>NORDVPN_PROTOCOL=tcp</code></td>
+</tr>
+<tr>
+<td><code>NORDVPN_SERVER</code></td>
+<td>Set VPN server FQDN to use, bypasses API recommendations and downloads server's config file.</td>
+<td>NORDVPN_SERVER= sg460.nordvpn.com</td>
+</tr>
+</tbody>
+</table>
+<p>The file is then downloaded using the API to find the best server according to the variables, here an albanian, using tcp:</p>
+<ul>
+<li>selecting server (limit answer to 1): [ANSWER]= https://api.nordvpn.com/v1/servers/recommendations?filters[country_id]=2&amp;filters[servers_technologies][identifier]=openvpn_tcp&amp;filters[servers_group][identifier]=legacy_group_category&amp;limit=1</li>
+<li>download selected server's config: https://downloads.nordcdn.com/configs/files/ovpn_[NORDVPN_PROTOCOL]/servers/[ANSWER.0.HOSTNAME][] =&gt; https://downloads.nordcdn.com/configs/files/ovpn_tcp/servers/al9.nordvpn.com.tcp.ovpn</li>
+</ul>
+<p>One optional ENV var NORDVPN_TESTS can take value from 1 to 4. Expected generic results are written to logs.</p>
+<table>
+<thead>
+<tr>
+<th>NORDVPN_TESTS</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Test when nothing is set: All NORDVPN_{COUNTRY, PROTOCOL, CATEGORY} are not set</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Test when category is not set: NORDVPN_{COUNTRY, PROTOCOL} are set, NORDVPN_CATEGORY is not set</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Test when api returns no result, send a warning with current parameters.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Test when NORDVPN_SERVER is set, config file should be downloaded.</td>
+</tr>
+</tbody>
+</table>
+<p>get list of servers and load:
+<code>curl --silent https://api.nordvpn.com/server/stats | jq '. | to_entries|sort_by(.value.percent) | "\(.[].key): \(.[].value.percent)"'</code></p>
+<p>get load of a specific server:
+<code>curl --silent https://api.nordvpn.com/server/stats/ca1509.nordvpn.com | jq '.percent'</code></p>
+<p>get list of available servers: <code>curl --silent https://api.nordvpn.com/server/stats | jq '. |to_entries | .[].key')</code></p>
+<h3 id="ovpn">OVPN<a class="headerlink" href="#ovpn" title="Permanent link">&para;</a></h3>
+<p>The selection script parses the file names of the available on the official contrib repo (https://github.com/haugene/vpn-configs-contrib/tree/main/openvpn/ovpn).</p>
+<p>OVPN utilizes ENV variables:</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Function</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>OVPN_PROTOCOL</code></td>
+<td>Specifies either TCP or UDP selection</td>
+<td><code>OVPN_PROTOCOL=udp</code></td>
+</tr>
+<tr>
+<td><code>OVPN_COUNTRY</code></td>
+<td>Specifies the country to connect to.</td>
+<td><code>OVPN_COUNTRY=us</code></td>
+</tr>
+<tr>
+<td><code>OVPN_CITY</code></td>
+<td>Specifies the city to connect to.</td>
+<td><code>OVPN_CITY=chicago</code></td>
+</tr>
+<tr>
+<td><code>OVPN_CONNECTION</code></td>
+<td>Uses either standard or multihop VPN connections.  Currntly, OVPN only supports UDP.</td>
+<td><code>OVPN_CONNECTION=multihop</code></td>
+</tr>
+</tbody>
+</table>
+<p>As of August 29, 2022, the following options are available:
+| Type          | Options                                                                                                                                                            | Example                       |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------- |
+| <code>multihop</code>  | toronto (ca), zurich (ch), chicago (us), new-york (us), any-city (se)         | <code>OVPN_COUNTRY=ca   OVPN_CITY=toronto</code>          |
+| <code>standard</code> | vienna (at), sydney (au), toronto (ca) , zurich (ch), erfurt (de), frankfurt (de), offenbach (de), copenhagen (dk), madrid (es), helsinki (fl), paris (fr), london (gb), milan (it), tokyo (jp), oslo (no), warsaw (pl), bucharest (ro), gothenburg (se), malmo (se), stockholm (se), sundsvall (se), singapore (sg), kyiv (ua), atlanta (us), los-angeles (us), miami (us), new-york (us), any-city (de), any-city (se), any-city (us) | <code>OVPN_COUNTRY=us   OVPN_CITY=new-york</code> |</p>
+<p>Review https://github.com/haugene/vpn-configs-contrib/tree/main/openvpn/ovpn for updates to country and city options.  </p>
+<h3 id="mullvad_ovpn">MULLVAD &amp; OVPN<a class="headerlink" href="#mullvad_ovpn" title="Permanent link">&para;</a></h3>
+<p>According to <a href="https://github.com/haugene/docker-transmission-openvpn/issues/1355">(#1355)</a>
+ipv6 needs to be enabled for mullvad vpn
+this is an example for docker compose</p>
+<pre><code class="language-yaml"># ipv6 must be enabled for Mullvad to work
+        sysctls:
+            - &quot;net.ipv6.conf.all.disable_ipv6=0&quot;
+</code></pre>
+<p>or add following line to docker run</p>
+<pre><code class="language-yaml">--sysctl net.ipv6.conf.all.disable_ipv6=0
+</code></pre>
+<p>The same is true for provider OVPN.</p>
+<h3 id="njalla">NJAL.LA<a class="headerlink" href="#njalla" title="Permanent link">&para;</a></h3>
+<p><a href="https://njal.la/vpn/">Njal.la</a> provides <code>.ovpn</code> configuration file. User
+needs to specify to enable ipv6.</p>
+<p>Here is a full example of <code>docker-compose.yml</code> file, assuming configuration file named <code>Njalla-VPN.ovpn</code>
+is under local <code>config</code> subdirectory.</p>
+<pre><code class="language-yaml">version: '3.3'
+services:
+    transmission-openvpn:
+      cap_add:
+        - NET_ADMIN
+      volumes:
+        - ./config/Njalla-VPN.ovpn:/etc/openvpn/custom/default.ovpn:rw
+        - ./data:/data:rw
+      dns:
+        - 1.1.1.1
+      devices:
+        - /dev/net/tun
+      sysctls:
+        # must enable ipv6 to have njal.la work
+        - net.ipv6.conf.all.disable_ipv6=0
+      environment:
+        - OPENVPN_PROVIDER=CUSTOM
+        - OPENVPN_USERNAME=user
+        - OPENVPN_PASSWORD=pass
+        - LOCAL_NETWORK=192.168.1.0/24
+        - HEALTH_CHECK_HOST=google.com
+      ports:
+         - '9091:9091'
+      logging:
+        driver: json-file
+        options:
+          max-size: 10m
+      image: haugene/transmission-openvpn:latest
+</code></pre>
+<h3 id="protonvpn">PROTONVPN<a class="headerlink" href="#protonvpn" title="Permanent link">&para;</a></h3>
+<p><a href="https://protonvpn.com/support/linux-openvpn/#preparation">PROTONVPN</a> provides <code>.ovpn</code> configuration files. Just download the one you want to connect with and which allows P2P.</p>
+<h3 id="prerequisites">Prerequisites:<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h3>
+<p>User needs to have a paid account.</p>
+<ol>
+<li>download your ProtonVPN ovpn file from a destination which allows P2P.</li>
+<li>in the directory with your docker-compose file, create a directory: <code>mkdir protonvpn</code></li>
+<li>copy your ovpn file (node-<country of choice>.protonvpn.udp.ovpn) from step 1 to the protonvpn directory</li>
+<li>add the environment vars below and add +pmp to your username if you want to use port forwarding.</li>
+<li>add the <a href="https://github.com/haugene/vpn-configs-contrib/blob/main/openvpn/protonvpn/update-port.sh">update-port.sh</a> script for ProtonVPN from vpn-configs-contrib to the protonvpn directory of step 2.</li>
+</ol>
+<p>Here is a full example of <code>docker-compose.yml</code> file, assuming configuration file named <code>node-&lt;country of choice&gt;.protonvpn.udp</code>
+is under local <code>protonvpn</code> subdirectory.</p>
+<pre><code class="language-yaml">version: 3.7.1
+services:
+    transmission-openvpn:
+        container_name: TransmissionVPN
+        restart: on-failure:2
+        cap_add:
+            - NET_ADMIN
+        volumes:
+            - ./protonvpn/:/etc/openvpn/custom/
+            - /your/config/path/:/config # where transmission-home is stored
+            - /your/storage/path/:/data # where transmission will store the data
+        environment:
+            - OPENVPN_PROVIDER=custom
+            - OPENVPN_CONFIG=node-&lt;country of choice&gt;.protonvpn.udp
+            - OPENVPN_USERNAME=&lt;username&gt;+pmp
+            - OPENVPN_PASSWORD=&lt;password&gt;
+            - LOCAL_NETWORK=192.168.0.0/16
+        logging:
+            driver: json-file
+            options:
+                max-size: 10m
+        ports:
+            - 9091:9091
+        image: haugene/transmission-openvpn
+
+</code></pre>
+<p>After starting your container, the <code>peer listening port</code> in Transmission should be open after a minute or so. </p>
+<p>If not you can jump in the container and run the script manually and see which error you get, or set the debug env variable: <code>- DEBUG=true</code> and look in the logging of your container for the output of the script <code>update-port.sh</code></p>
+<p>To check which IP address your VPN is currently connected to, run this script:</p>
+<pre><code class="language-bash">#!/bin/bash
+
+f_container_name()
+{
+docker ps --format &quot;{{.Names}}&quot;| grep -i transmission
+}
+
+f_find_all()
+{
+curl --silent ipinfo.io/$ext_ip
+}
+
+var_cont_name=$(f_container_name)
+ext_ip=$(docker exec $var_cont_name curl --silent &quot;http://ipinfo.io/ip&quot;)
+echo &quot;Transmission VPN currently connected to IP address: $ext_ip&quot;
+echo &quot;This IP address is in the following country: &quot;
+f_find_all
+</code></pre>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.dff1b7c8.min.js"></script>
+      
+    
+  </body>
+</html>

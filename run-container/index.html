@@ -1,0 +1,727 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="http://haugene.github.io/docker-transmission-openvpn/run-container/">
+      
+      
+        <link rel="prev" href="../vpn-networking/">
+      
+      
+        <link rel="next" href="../supported-providers/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.2.7">
+    
+    
+      
+        <title>Running the container - docker-transmission-openvpn</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.046329b4.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#running_the_container" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="docker-transmission-openvpn" class="md-header__button md-logo" aria-label="docker-transmission-openvpn" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            docker-transmission-openvpn
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Running the container
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/haugene/docker-transmission-openvpn/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="docker-transmission-openvpn" class="md-nav__button md-logo" aria-label="docker-transmission-openvpn" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    docker-transmission-openvpn
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/haugene/docker-transmission-openvpn/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../building-blocks/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Image Building Blocks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vpn-networking/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    VPN and Networking
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Running the container
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Running the container
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#starting_the_container" class="md-nav__link">
+    Starting the container
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#three_things_to_remember" class="md-nav__link">
+    Three things to remember
+  </a>
+  
+    <nav class="md-nav" aria-label="Three things to remember">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_the_container_assumes_that_you_mount_a_folder_to_data" class="md-nav__link">
+    1. The container assumes that you mount a folder to /data
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_it_is_not_mandatory_but_setting_openvpn_config_is_good" class="md-nav__link">
+    2. It is not mandatory, but setting OPENVPN_CONFIG is good
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_you_might_not_be_able_to_access_the_web_ui_on_the_first_try" class="md-nav__link">
+    3. You might not be able to access the Web UI on the first try
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../supported-providers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Supported providers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../provider-specific/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Provider specific settings
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../config-options/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Configuration options
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Frequently asked questions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../debug/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Debug your setup
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tips-tricks/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tips & Tricks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rss-plugin/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    RSS plugin
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../web-proxy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Web Proxy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#starting_the_container" class="md-nav__link">
+    Starting the container
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#three_things_to_remember" class="md-nav__link">
+    Three things to remember
+  </a>
+  
+    <nav class="md-nav" aria-label="Three things to remember">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_the_container_assumes_that_you_mount_a_folder_to_data" class="md-nav__link">
+    1. The container assumes that you mount a folder to /data
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_it_is_not_mandatory_but_setting_openvpn_config_is_good" class="md-nav__link">
+    2. It is not mandatory, but setting OPENVPN_CONFIG is good
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_you_might_not_be_able_to_access_the_web_ui_on_the_first_try" class="md-nav__link">
+    3. You might not be able to access the Web UI on the first try
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="running_the_container">Running the container<a class="headerlink" href="#running_the_container" title="Permanent link">&para;</a></h1>
+<p>Many platforms ship with a Docker runtime and have their own way of setting this up.
+I'm then thinking about NAS servers specifically, but also Unraid and others. In addition to this, we have
+container management solutions like <a href="https://www.portainer.io/">Portainer</a></p>
+<p>This page will only discuss the tooling that a Docker installation comes with. That means <code>docker run ..</code>
+and <code>docker-compose</code>. In the end, that is what the other managers do as well and it's the common ground here.
+I'm very happy to set up a platform-specific installation page and link to it from here.
+Open an issue or PR if you want to contribute with documentation for your favourite platform.</p>
+<p>The images available on the Docker Hub are multi-arch manifests. This means that they point to multiple images
+that are built for different CPU architectures like ARM for Raspberry Pi. You can <code>haugene/transmission-openvpn</code>
+on any of these architectures and Docker will get the correct one.</p>
+<h2 id="starting_the_container">Starting the container<a class="headerlink" href="#starting_the_container" title="Permanent link">&para;</a></h2>
+<p>The example Docker run command looks like this:</p>
+<pre><code>$ docker run --cap-add=NET_ADMIN -d \
+              -v /your/storage/path/:/data \
+              -v /your/config/path/:/config \
+              -e OPENVPN_PROVIDER=PIA \
+              -e OPENVPN_CONFIG=france \
+              -e OPENVPN_USERNAME=user \
+              -e OPENVPN_PASSWORD=pass \
+              -e LOCAL_NETWORK=192.168.0.0/16 \
+              --log-driver json-file \
+              --log-opt max-size=10m \
+              -p 9091:9091 \
+              haugene/transmission-openvpn
+</code></pre>
+<p>The example docker-compose.yml looks like this:</p>
+<pre><code>version: '3.3'
+services:
+    transmission-openvpn:
+        cap_add:
+            - NET_ADMIN
+        volumes:
+            - '/your/storage/path/:/data'
+            - '/your/config/path/:/config'
+        environment:
+            - OPENVPN_PROVIDER=PIA
+            - OPENVPN_CONFIG=france
+            - OPENVPN_USERNAME=user
+            - OPENVPN_PASSWORD=pass
+            - LOCAL_NETWORK=192.168.0.0/16
+        logging:
+            driver: json-file
+            options:
+                max-size: 10m
+        ports:
+            - '9091:9091'
+        image: haugene/transmission-openvpn
+</code></pre>
+<p>These configs are equivalent. Running <code>docker-compose up</code> with that compose file will result in
+the same options being sent to the Docker engine as the run statement before it.</p>
+<h2 id="three_things_to_remember">Three things to remember<a class="headerlink" href="#three_things_to_remember" title="Permanent link">&para;</a></h2>
+<h4 id="1_the_container_assumes_that_you_mount_a_folder_to_data">1. The container assumes that you mount a folder to /data<a class="headerlink" href="#1_the_container_assumes_that_you_mount_a_folder_to_data" title="Permanent link">&para;</a></h4>
+<p>Technically you don't have to do this, but it is by far the most manageable way of getting
+the downloaded files onto your host system <strong>and</strong> Transmission will store its state there.
+So if you don't mount this directory then you will lose all your torrents on image updates.</p>
+<h4 id="2_it_is_not_mandatory_but_setting_openvpn_config_is_good">2. It is not mandatory, but setting OPENVPN_CONFIG is good<a class="headerlink" href="#2_it_is_not_mandatory_but_setting_openvpn_config_is_good" title="Permanent link">&para;</a></h4>
+<p>If you don't set this then there should be a default config for each provider that is chosen, and that should work fine.
+The benefit of choosing yourself is that you can choose a region that is closer to you and that might be better for speed.
+I also believe that tinkering with this builds some familiarity with the image and some confidence and understanding for future debugging.</p>
+<p>We're now moving towards a setup where we download the configs for our providers when the container starts.
+That is great from a maintenance perspective, but it also means that we don't know the valid choices for the providers ahead of time.
+A tip for finding out is to set <code>OPENVPN_CONFIG=dummy</code> and start it. This will fail, but in the logs, it will print all the valid options.</p>
+<p>Pro tip: choose multiple servers. For example: <code>OPENVPN_CONFIG=france,sweden,austria,italy,belgium</code>
+This will ensure a location near you, but at the same time, it will allow some redundancy. Set Docker to restart the container
+automatically and you have a failover mechanism. The container chooses one of the configs at random when it starts and it will bounce
+from server to server until it finds one that works.</p>
+<h4 id="3_you_might_not_be_able_to_access_the_web_ui_on_the_first_try">3. You might not be able to access the Web UI on the first try<a class="headerlink" href="#3_you_might_not_be_able_to_access_the_web_ui_on_the_first_try" title="Permanent link">&para;</a></h4>
+<p>The <code>LOCAL_NETWORK=192.168.0.0/16</code> tries to fix this for you, but it might not work if your local LAN DHCP server hands out addresses outside that range.</p>
+<p>If your local network is in the <code>10.x.y.z</code> space for example then you need to set <code>LOCAL_NETWORK=10.x.0.0/16</code> or <code>LOCAL_NETWORK=10.x.y.0/24</code>.
+These are called CIDR addresses and you can read up on them. The short story is that /24 will allow for any value in the last digit place
+while /16 will allow any value in the two last places. Be sure to only allow IPs that are in the <a href="https://en.wikipedia.org/wiki/Private_network">private IP ranges</a>.
+This option punches a hole in the VPN for the IPs that you specify. It is necessary to reach your Web UI but narrower ranges are better than wide ones.</p>
+<p>With that said. If you know that you're on a "typical" network with your router at 192.168.1.1, then <code>LOCAL_NETWORK=192.168.1.0/24</code> is better than <code>LOCAL_NETWORK=192.168.0.0/16</code>. That way you only allow access from 192.168.1.x instead of 192.168.x.y.</p>
+<p>There is an alternative to the LOCAL_NETWORK environment variable, and that is a reverse proxy in the same docker network as the VPN container.
+Because this topic is both quite complex and very important there is a separate page on <a href="../vpn-networking/">VPN and Networking</a> in the container and it goes into depth on why this is.</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.dff1b7c8.min.js"></script>
+      
+    
+  </body>
+</html>

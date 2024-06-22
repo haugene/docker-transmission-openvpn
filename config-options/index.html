@@ -1,0 +1,1085 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="http://haugene.github.io/docker-transmission-openvpn/config-options/">
+      
+      
+        <link rel="prev" href="../provider-specific/">
+      
+      
+        <link rel="next" href="../faq/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.2.7">
+    
+    
+      
+        <title>Configuration options - docker-transmission-openvpn</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.046329b4.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#required_environment_options" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="docker-transmission-openvpn" class="md-header__button md-logo" aria-label="docker-transmission-openvpn" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            docker-transmission-openvpn
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Configuration options
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/haugene/docker-transmission-openvpn/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="docker-transmission-openvpn" class="md-nav__button md-logo" aria-label="docker-transmission-openvpn" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    docker-transmission-openvpn
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/haugene/docker-transmission-openvpn/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../building-blocks/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Image Building Blocks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vpn-networking/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    VPN and Networking
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../run-container/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Running the container
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../supported-providers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Supported providers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../provider-specific/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Provider specific settings
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Configuration options
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Configuration options
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#required_environment_options" class="md-nav__link">
+    Required environment options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#network_configuration_options" class="md-nav__link">
+    Network configuration options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#timezone_option" class="md-nav__link">
+    Timezone option
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#firewall_configuration_options" class="md-nav__link">
+    Firewall configuration options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#health_check_option" class="md-nav__link">
+    Health check option
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#permission_configuration_options" class="md-nav__link">
+    Permission configuration options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alternative_web_uis" class="md-nav__link">
+    Alternative Web UIs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#user_configuration_options" class="md-nav__link">
+    User configuration options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transmission_configuration_options" class="md-nav__link">
+    Transmission configuration options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dropping_default_route_from_iptables_advanced" class="md-nav__link">
+    Dropping default route from iptables (advanced)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#changing_logging_locations" class="md-nav__link">
+    Changing logging locations
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom_scripts" class="md-nav__link">
+    Custom scripts
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#debugging" class="md-nav__link">
+    Debugging
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Frequently asked questions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../debug/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Debug your setup
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tips-tricks/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tips & Tricks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rss-plugin/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    RSS plugin
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../web-proxy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Web Proxy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#required_environment_options" class="md-nav__link">
+    Required environment options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#network_configuration_options" class="md-nav__link">
+    Network configuration options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#timezone_option" class="md-nav__link">
+    Timezone option
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#firewall_configuration_options" class="md-nav__link">
+    Firewall configuration options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#health_check_option" class="md-nav__link">
+    Health check option
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#permission_configuration_options" class="md-nav__link">
+    Permission configuration options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alternative_web_uis" class="md-nav__link">
+    Alternative Web UIs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#user_configuration_options" class="md-nav__link">
+    User configuration options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transmission_configuration_options" class="md-nav__link">
+    Transmission configuration options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dropping_default_route_from_iptables_advanced" class="md-nav__link">
+    Dropping default route from iptables (advanced)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#changing_logging_locations" class="md-nav__link">
+    Changing logging locations
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom_scripts" class="md-nav__link">
+    Custom scripts
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#debugging" class="md-nav__link">
+    Debugging
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+  <h1>Configuration options</h1>
+
+<h3 id="required_environment_options">Required environment options<a class="headerlink" href="#required_environment_options" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Function</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>OPENVPN_PROVIDER</code></td>
+<td>Sets the OpenVPN provider to use.</td>
+<td><code>OPENVPN_PROVIDER=provider</code>. Supported providers and their config values are listed in the table above.</td>
+</tr>
+<tr>
+<td><code>OPENVPN_USERNAME</code></td>
+<td>Your OpenVPN username</td>
+<td><code>OPENVPN_USERNAME=asdf</code></td>
+</tr>
+<tr>
+<td><code>OPENVPN_PASSWORD</code></td>
+<td>Your OpenVPN password, beware of special characters. Docker run vs docker-compose (using YAML) interpret special characters differently, see  <a href="https://support.asg.com/mob/mvw/10_0/mv_ag/using_quotes_with_yaml_special_characters.htm">Yaml special characters</a></td>
+<td><code>OPENVPN_PASSWORD=asdf</code></td>
+</tr>
+</tbody>
+</table>
+<p>Docker secrets are available to define OPENVPN_USER and OPENVPN_PASSWORD.</p>
+<ul>
+<li>remove OPENVPN_USERNAME, OPENVPN_PASSWORD from environment.</li>
+<li>write your credentials in one file: openvpn_creds</li>
+<li>add to your compose YAML:</li>
+</ul>
+<pre><code class="language-yaml">version: '3.8'
+services:
+ transmission:
+    ....
+    secrets:
+        - openvpn_creds
+
+secrets:
+    openvpn_creds:
+        file: ./openvpn_creds
+</code></pre>
+<h3 id="network_configuration_options">Network configuration options<a class="headerlink" href="#network_configuration_options" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Function</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>OPENVPN_CONFIG</code></td>
+<td>Sets the OpenVPN endpoint to connect to.</td>
+<td><code>OPENVPN_CONFIG=UK Southampton</code></td>
+</tr>
+<tr>
+<td><code>OPENVPN_OPTS</code></td>
+<td>Will be passed to OpenVPN on startup</td>
+<td>See <a href="https://openvpn.net/index.php/open-source/documentation/manuals/65-openvpn-20x-manpage.html">OpenVPN doc</a></td>
+</tr>
+<tr>
+<td><code>LOCAL_NETWORK</code></td>
+<td>Sets the local network that should have access. Accepts comma-separated list.</td>
+<td><code>LOCAL_NETWORK=192.168.0.0/24</code></td>
+</tr>
+<tr>
+<td><code>CREATE_TUN_DEVICE</code></td>
+<td>Creates /dev/net/tun device inside the container, mitigates the need to mount the device from the host</td>
+<td><code>CREATE_TUN_DEVICE=true</code></td>
+</tr>
+<tr>
+<td><code>PEER_DNS</code></td>
+<td>Controls whether to use the DNS provided by the OpenVPN endpoint.</td>
+<td>To use your host DNS rather than what is provided by OpenVPN, set <code>PEER_DNS=false</code>.  This allows for potential DNS leakage.</td>
+</tr>
+<tr>
+<td><code>PEER_DNS_PIN_ROUTES</code></td>
+<td>Controls whether to force traffic to peer DNS through the OpenVPN tunnel.</td>
+<td>To disable this default, set <code>PEER_DNS_PIN_ROUTES=false</code>.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="timezone_option">Timezone option<a class="headerlink" href="#timezone_option" title="Permanent link">&para;</a></h3>
+<p>Set a custom timezone in tz database format. Look <a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones">here</a> for a list of valid timezones. Defaults to UTC.</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Function</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>TZ</code></td>
+<td>Set Timezone</td>
+<td><code>TZ=UTC</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="firewall_configuration_options">Firewall configuration options<a class="headerlink" href="#firewall_configuration_options" title="Permanent link">&para;</a></h3>
+<p>When enabled, the firewall blocks everything except traffic to the peer port and traffic to the rpc port from the LOCAL_NETWORK and the internal docker gateway.</p>
+<p>If TRANSMISSION_PEER_PORT_RANDOM_ON_START is enabled then it allows traffic to the range of peer ports defined by TRANSMISSION_PEER_PORT_RANDOM_HIGH and TRANSMISSION_PEER_PORT_RANDOM_LOW.</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Function</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ENABLE_UFW</code></td>
+<td>Enables the firewall</td>
+<td><code>ENABLE_UFW=true</code></td>
+</tr>
+<tr>
+<td><code>UFW_ALLOW_GW_NET</code></td>
+<td>Allows the gateway network through the firewall. Off defaults to only allowing the gateway.</td>
+<td><code>UFW_ALLOW_GW_NET=true</code></td>
+</tr>
+<tr>
+<td><code>UFW_EXTRA_PORTS</code></td>
+<td>Allows the comma-separated list of ports through the firewall. Respects UFW_ALLOW_GW_NET.</td>
+<td><code>UFW_EXTRA_PORTS=9910,23561,443</code></td>
+</tr>
+<tr>
+<td><code>UFW_DISABLE_IPTABLES_REJECT</code></td>
+<td>Prevents the use of <code>REJECT</code> in the <code>iptables</code> rules, for hosts without the <code>ipt_REJECT</code> module (such as the Synology NAS).</td>
+<td><code>UFW_DISABLE_IPTABLES_REJECT=true</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="health_check_option">Health check option<a class="headerlink" href="#health_check_option" title="Permanent link">&para;</a></h3>
+<p>Because your VPN connection can sometimes fail, Docker will run a health check on this container every 5 minutes to see if the container is still connected to the internet. By default, this check is done by pinging google.com once. You change the host that is pinged.</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Function</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>HEALTH_CHECK_HOST</code></td>
+<td>this host is pinged to check if the network connection still works</td>
+<td><code>google.com</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="permission_configuration_options">Permission configuration options<a class="headerlink" href="#permission_configuration_options" title="Permanent link">&para;</a></h3>
+<p>By default, the startup script applies a default set of permissions and ownership on the transmission download, watch and incomplete directories. The GLOBAL_APPLY_PERMISSIONS directive can be used to disable this functionality.</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Function</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GLOBAL_APPLY_PERMISSIONS</code></td>
+<td>Disable setting of default permissions</td>
+<td><code>GLOBAL_APPLY_PERMISSIONS=false</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="alternative_web_uis">Alternative Web UIs<a class="headerlink" href="#alternative_web_uis" title="Permanent link">&para;</a></h3>
+<p>This container comes bundled with some alternative Web UIs:</p>
+<ul>
+<li><a href="https://github.com/Secretmapper/combustion">Combustion UI</a></li>
+<li><a href="https://github.com/endor/kettu">Kettu</a></li>
+<li><a href="https://github.com/ronggang/transmission-web-control/">Transmission-Web-Control</a></li>
+<li><a href="https://github.com/johman10/flood-for-transmission">Flood for Transmission</a></li>
+<li><a href="https://github.com/killemov/Shift">Shift</a></li>
+<li><a href="https://github.com/6c65726f79/Transmissionic">Transmissionic</a></li>
+</ul>
+<p>To use one of them instead of the default Transmission UI you can set <code>TRANSMISSION_WEB_UI</code>
+to either <code>combustion</code>, <code>kettu</code>, <code>transmission-web-control</code>, <code>flood-for-transmission</code>, <code>shift</code> or <code>transmissionic</code> respectively.</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Function</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>TRANSMISSION_WEB_UI</code></td>
+<td>Use the specified bundled web UI</td>
+<td><code>TRANSMISSION_WEB_UI=combustion</code> <br><code>TRANSMISSION_WEB_UI=kettu</code> <br><code>TRANSMISSION_WEB_UI=transmission-web-control</code> <br><code>TRANSMISSION_WEB_UI=flood-for-transmission</code> <br><code>TRANSMISSION_WEB_UI=shift</code> <br><code>TRANSMISSION_WEB_UI=transmissionic</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="user_configuration_options">User configuration options<a class="headerlink" href="#user_configuration_options" title="Permanent link">&para;</a></h3>
+<p>By default, everything will run as the root user. However, it is possible to change who runs the transmission process.
+You may set the following parameters to customize the user id that runs Transmission.</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Function</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PUID</code></td>
+<td>Sets the user id who will run transmission</td>
+<td><code>PUID=1003</code></td>
+</tr>
+<tr>
+<td><code>PGID</code></td>
+<td>Sets the group id for the transmission user</td>
+<td><code>PGID=1003</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="transmission_configuration_options">Transmission configuration options<a class="headerlink" href="#transmission_configuration_options" title="Permanent link">&para;</a></h3>
+<p>In previous versions of this container the settings were not persistent but were generated from environment variables on container startup.
+This had the benefit of being very explicit and reproducible but you had to provide Transmission config as environment variables if you
+wanted them to stay that way between container restarts. This felt cumbersome to many.</p>
+<p>As of version 4.2, this is no longer true. Settings are now persisted in the <code>/config/transmission-home</code> folder in the container and as
+long as you mount <code>/config</code> you should be able to configure Transmission using the UI as you normally would.
+If you are using the container from earlier versions and have not changed the location of transmission-home to /config, you will see a warning message that the default has changed.
+You can manually move the folder to your /config volume directory after stopping the container and adding the /config mount to your container setup (compose/run etc).</p>
+<p>You may still override Transmission options by setting environment variables if that's your thing.
+The variables are named after the transmission config they target but are prefixed with <code>TRANSMISSION_</code>, capitalized, and <code>-</code> is converted to <code>_</code>.</p>
+<p>For example:</p>
+<table>
+<thead>
+<tr>
+<th>Transmission variable name</th>
+<th>Environment variable name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>speed-limit-up</code></td>
+<td><code>TRANSMISSION_SPEED_LIMIT_UP</code></td>
+</tr>
+<tr>
+<td><code>speed-limit-up-enabled</code></td>
+<td><code>TRANSMISSION_SPEED_LIMIT_UP_ENABLED</code></td>
+</tr>
+<tr>
+<td><code>ratio-limit</code></td>
+<td><code>TRANSMISSION_RATIO_LIMIT</code></td>
+</tr>
+<tr>
+<td><code>ratio-limit-enabled</code></td>
+<td><code>TRANSMISSION_RATIO_LIMIT_ENABLED</code></td>
+</tr>
+</tbody>
+</table>
+<p>A full list of variables can be found in the Transmission documentation <a href="https://github.com/transmission/transmission/blob/main/docs/Editing-Configuration-Files.md#options">here</a>.</p>
+<p>All variables overridden by environment variables will be logged during startup.</p>
+<p>PS: <code>TRANSMISSION_BIND_ADDRESS_IPV4</code> will automatically be overridden to the IP assigned to your OpenVPN tunnel interface.
+This ensures that Transmission only listens for torrent traffic on the VPN interface and is part of the fail-safe mechanisms.</p>
+<h3 id="dropping_default_route_from_iptables_advanced">Dropping default route from iptables (advanced)<a class="headerlink" href="#dropping_default_route_from_iptables_advanced" title="Permanent link">&para;</a></h3>
+<p>Some VPNs do not override the default route, but rather set other routes with a lower metric.
+This might lead to the default route (your untunneled connection) being used.</p>
+<p>To drop the default route set the environment variable <code>DROP_DEFAULT_ROUTE</code> to <code>true</code>.</p>
+<p><em>Note</em>: This is not compatible with all VPNs. You can check your iptables routing with the <code>ip r</code> command in a running container.</p>
+<h3 id="changing_logging_locations">Changing logging locations<a class="headerlink" href="#changing_logging_locations" title="Permanent link">&para;</a></h3>
+<p>By default, Transmission will log to a file in <code>TRANSMISSION_HOME/transmission.log</code>.</p>
+<p>To log to stdout instead set the environment variable <code>LOG_TO_STDOUT</code> to <code>true</code>.</p>
+<p><em>Note</em>: By default, stdout is what container engines read logs from. Set this to true to have Transmission logs in commands like <code>docker logs</code> and <code>kubectl logs</code>. OpenVPN currently only logs to stdout.</p>
+<h3 id="custom_scripts">Custom scripts<a class="headerlink" href="#custom_scripts" title="Permanent link">&para;</a></h3>
+<p>If you ever need to run custom code before or after Transmission is executed or stopped, you can use the custom scripts feature.
+Custom scripts are located in the <code>/scripts</code> directory which is empty by default.
+To enable this feature, you'll need to mount the <code>/scripts</code> directory.</p>
+<p>Once <code>/scripts</code> is mounted you'll need to write your custom code in the following bash shell scripts:</p>
+<table>
+<thead>
+<tr>
+<th>Script</th>
+<th>Function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>/scripts/openvpn-pre-start.sh</td>
+<td>This shell script will be executed before OpenVPN starts</td>
+</tr>
+<tr>
+<td>/scripts/openvpn-post-config.sh</td>
+<td>This shell script will be executed after OpenVPN config</td>
+</tr>
+<tr>
+<td>/scripts/transmission-pre-start.sh</td>
+<td>This shell script will be executed before transmission starts</td>
+</tr>
+<tr>
+<td>/scripts/transmission-post-start.sh</td>
+<td>This shell script will be executed after transmission starts</td>
+</tr>
+<tr>
+<td>/scripts/routes-post-start.sh</td>
+<td>This shell script will be executed after routes are added</td>
+</tr>
+<tr>
+<td>/scripts/transmission-pre-stop.sh</td>
+<td>This shell script will be executed before transmission stops</td>
+</tr>
+<tr>
+<td>/scripts/transmission-post-stop.sh</td>
+<td>This shell script will be executed after transmission stops</td>
+</tr>
+</tbody>
+</table>
+<p>Don't forget to include the <code>#!/bin/bash</code> shebang and to make the scripts executable using <code>chmod a+x</code></p>
+<h3 id="debugging">Debugging<a class="headerlink" href="#debugging" title="Permanent link">&para;</a></h3>
+<p>By default, commands are not echoed to stdout before being processed. Setting DEBUG to any value other than the string false will trigger command echo (set -x) for all bash scripts.</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Function</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DEBUG</td>
+<td>Echo all commands to stdout.</td>
+<td>DEBUG=true</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.dff1b7c8.min.js"></script>
+      
+    
+  </body>
+</html>
