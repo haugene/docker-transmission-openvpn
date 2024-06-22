@@ -14,6 +14,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PAT }}
+          ref: dev
 
       # Get latest version of Transmission
       - name: Get Transmission version
@@ -58,3 +61,14 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha, scope=${{ github.workflow }}
           cache-to: type=gha, scope=${{ github.workflow}}
+
+      - name: Update build-version.txt
+        run: |
+          echo "$LATEST_VERSION" > upstream/build-version.txt
+          git config --global user.email "workflow@github.com"
+          git config --global user.name "workflow runner"
+          git add upstream/build-version.txt
+          git config user.email "transmission-bot@users.noreply.github.com"
+          git config user.name "Transmission-Bot"
+          git commit -m "update image build version to ${LATEST_VERSION}"
+          git push origin dev

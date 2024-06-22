@@ -4,6 +4,16 @@ on:
     branches:
       - master
       - dev
+    paths-ignore:
+      - README.md
+      - docker-compose.yml
+      - mkdocs.yml
+      - .github/**
+      - docs/*
+      - images/*
+      - upstream/Dockerfile
+      - upstream/transmission-sha.txt
+      - upstream/transmission-version.txt
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+'
 
