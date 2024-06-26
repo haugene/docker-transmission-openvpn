@@ -46,7 +46,7 @@ jobs:
 
       # Finally, build and push the image
       - name: Build image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: upstream
           platforms: linux/amd64,linux/arm,linux/arm64
