@@ -3,6 +3,8 @@ on:
   push:
     branches: 
       - master
+    paths:
+      - docs/*
 
 jobs:
   build-and-deploy-gh-pages:
