@@ -64,11 +64,12 @@ jobs:
 
       - name: Update build-version.txt
         run: |
-          echo "$LATEST_VERSION" > upstream/build-version.txt
+          TBT_VERSION=${{ env.TBT_VERSION }}
+          echo "$TBT_VERSION" > upstream/build-version.txt
           git config --global user.email "workflow@github.com"
           git config --global user.name "workflow runner"
           git add upstream/build-version.txt
           git config user.email "transmission-bot@users.noreply.github.com"
           git config user.name "Transmission-Bot"
-          git commit -m "update image build version to ${LATEST_VERSION}"
+          git commit -m "update image build version to ${TBT_VERSION}"
           git push origin dev
