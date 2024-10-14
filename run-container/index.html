@@ -661,6 +661,7 @@ the same options being sent to the Docker engine as the run statement before it.
 the downloaded files onto your host system <strong>and</strong> Transmission will store its state there.
 So if you don't mount this directory then you will lose all your torrents on image updates.</p>
 <h4 id="2_it_is_not_mandatory_but_setting_openvpn_config_is_good">2. It is not mandatory, but setting OPENVPN_CONFIG is good<a class="headerlink" href="#2_it_is_not_mandatory_but_setting_openvpn_config_is_good" title="Permanent link">&para;</a></h4>
+<p>Example: <code>OPENVPN_CONFIG=france</code> For a list of available configs, see the <a href="https://github.com/haugene/vpn-configs-contrib/tree/main/openvpn">vpn-configs-contrib repository</a>. Do not include the .ovpn file ending. </p>
 <p>If you don't set this then there should be a default config for each provider that is chosen, and that should work fine.
 The benefit of choosing yourself is that you can choose a region that is closer to you and that might be better for speed.
 I also believe that tinkering with this builds some familiarity with the image and some confidence and understanding for future debugging.</p>
