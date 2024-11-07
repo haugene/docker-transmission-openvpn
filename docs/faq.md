@@ -53,7 +53,7 @@ Example command: `docker exec <container-name> curl --silent "http://ipinfo.io/i
 
 Or you could use a test torrent service to download a torrent file and then you can get the IP from that tracker.
 
-* http://ipmagnet.services.cbcdn.com/
+* https://github.com/cbdevnet/ipmagnet/
 * https://torguard.net/checkmytorrentipaddress.php
 
 ## RTNETLINK answers: File exists
