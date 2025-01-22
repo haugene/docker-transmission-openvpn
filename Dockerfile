@@ -12,9 +12,6 @@ RUN apk --no-cache add curl jq \
     && echo "Install kettu" \
     && wget -qO- https://github.com/endor/kettu/archive/master.tar.gz | tar xz -C /opt/transmission-ui \
     && mv /opt/transmission-ui/kettu-master /opt/transmission-ui/kettu \
-    && echo "Install Transmission-Web-Control" \
-    && mkdir /opt/transmission-ui/transmission-web-control \
-    && curl -sL $(curl -s https://api.github.com/repos/transmission-web-control/transmission-web-control/releases/latest | jq --raw-output '.assets[0].browser_download_url') | tar -C /opt/transmission-ui/transmission-web-control/ --strip-components=2 -xz \
     && echo "Install Transmissionic" \
     && wget -qO- https://github.com/6c65726f79/Transmissionic/releases/download/v1.8.0/Transmissionic-webui-v1.8.0.zip | unzip -q - \
     && mv web /opt/transmission-ui/transmissionic
@@ -103,10 +100,6 @@ RUN echo "Installing transmission ${TBT_VERSION}" \
         unrar \
         unzip \
         wget \
-  && ln -s /usr/local/share/transmission/public_html/images /opt/transmission-ui/transmission-web-control \
-  && ln -s /usr/local/share/transmission/public_html/transmission-app.js /opt/transmission-ui/transmission-web-control/transmission-app.js \
-  && ln -s /usr/local/share/transmission/public_html/index.html /opt/transmission-ui/transmission-web-control/index.original.html \
-  && apt-get clean -y \
   && rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/* \
   && groupmod -g 1001 ubuntu \
   && groupmod -g 1000 users \
