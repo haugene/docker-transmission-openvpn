@@ -17,6 +17,7 @@ Available ENV variables in the container to define via the NordVPN API the file 
 | `NORDVPN_CATEGORY` | Server type (P2P, Standard, etc). See [/servers/groups](https://api.nordvpn.com/v1/servers/groups) for full list. Use either `title` or `identifier` from the list. | `NORDVPN_CATEGORY=legacy_p2p` |
 | `NORDVPN_PROTOCOL` | Either `tcp` or `udp`. (values identifier more available at https://api.nordvpn.com/v1/technologies, may need script adaptation)                                    | `NORDVPN_PROTOCOL=tcp`        |
 | `NORDVPN_SERVER` | Set VPN server FQDN to use, bypasses API recommendations and downloads server's config file. | NORDVPN_SERVER= sg460.nordvpn.com|
+| `NORDVPN_DISABLE_ICMP_CHECK` | Disable ping check in case your ISP or network provider blocks ICMP requests. | `NORDVPN_DISABLE_ICMP_CHECK=true` |
 
 The file is then downloaded using the API to find the best server according to the variables, here an albanian, using tcp:
 
@@ -25,8 +26,8 @@ The file is then downloaded using the API to find the best server according to t
 
 One optional ENV var NORDVPN_TESTS can take value from 1 to 4. Expected generic results are written to logs.
 
-| NORDVPN_TESTS | Comment | 
-| --------------------- | --------------------- | 
+| NORDVPN_TESTS | Comment |
+| --------------------- | --------------------- |
 | 1 | Test when nothing is set: All NORDVPN_{COUNTRY, PROTOCOL, CATEGORY} are not set |
 | 2 | Test when category is not set: NORDVPN_{COUNTRY, PROTOCOL} are set, NORDVPN_CATEGORY is not set  |
 | 3 | Test when api returns no result, send a warning with current parameters.  |
@@ -60,7 +61,7 @@ As of August 29, 2022, the following options are available:
 | `standard` | vienna (at), sydney (au), toronto (ca) , zurich (ch), erfurt (de), frankfurt (de), offenbach (de), copenhagen (dk), madrid (es), helsinki (fl), paris (fr), london (gb), milan (it), tokyo (jp), oslo (no), warsaw (pl), bucharest (ro), gothenburg (se), malmo (se), stockholm (se), sundsvall (se), singapore (sg), kyiv (ua), atlanta (us), los-angeles (us), miami (us), new-york (us), any-city (de), any-city (se), any-city (us) | `OVPN_COUNTRY=us   OVPN_CITY=new-york` |
 
 
-Review https://github.com/haugene/vpn-configs-contrib/tree/main/openvpn/ovpn for updates to country and city options.  
+Review https://github.com/haugene/vpn-configs-contrib/tree/main/openvpn/ovpn for updates to country and city options.
 
 
 ### MULLVAD & OVPN
@@ -164,7 +165,7 @@ services:
 ```
 
 
-After starting your container, the `peer listening port` in Transmission should be open after a minute or so. 
+After starting your container, the `peer listening port` in Transmission should be open after a minute or so.
 
 If not you can jump in the container and run the script manually and see which error you get, or set the debug env variable: `- DEBUG=true` and look in the logging of your container for the output of the script `update-port.sh`
 
