@@ -101,7 +101,7 @@ fi
 
 echo "STARTING TRANSMISSION"
 
-exec su --preserve-environment ${RUN_AS} -s /bin/bash -c "/usr/local/bin/transmission-daemon ${TRANSMISSION_LOGGING} -g ${TRANSMISSION_HOME} --logfile $LOGFILE" &
+exec su --preserve-environment ${RUN_AS} -s /bin/bash -c "/usr/bin/transmission-daemon ${TRANSMISSION_LOGGING} -g ${TRANSMISSION_HOME} --logfile $LOGFILE" &
 
 
 # Configure port forwarding if applicable

@@ -16,63 +16,20 @@ RUN apk --no-cache add curl jq \
     && wget -qO- https://github.com/6c65726f79/Transmissionic/releases/download/v1.8.0/Transmissionic-webui-v1.8.0.zip | unzip -q - \
     && mv web /opt/transmission-ui/transmissionic
 
-
-FROM ubuntu:22.04 AS base
-
-RUN set -ex; \
-    apt-get update; \
-    apt-get dist-upgrade -y; \
-    apt-get install -y --no-install-recommends \
-      tzdata \
-      iproute2 \
-      net-tools \
-      nano \
-      ca-certificates \
-      curl \
-      libcurl4-openssl-dev \
-      libdeflate-dev \
-      libevent-dev \
-      libfmt-dev \
-      libminiupnpc-dev \
-      libnatpmp-dev \
-      libpsl-dev \
-      libssl-dev \
-      natpmpc
-
-FROM haugene/transmission-builder:4.0.5 as TransmissionBuilder
-
-FROM base
+# Build the image
+FROM ubuntu:24.04
 
 VOLUME /data
 VOLUME /config
 
 COPY --from=TransmissionUIs /opt/transmission-ui /opt/transmission-ui
-COPY --from=TransmissionBuilder /var/tmp/*.deb /var/tmp/
 
-ARG TBT_VERSION=4.0.5
 ARG DEBIAN_FRONTEND=noninteractive
-
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-RUN echo "installing Transmission" && set -x \
-    && if [[ ${TBT_VERSION} =~ ^4 ]]; then \
-      ls -alh /var/tmp/*.deb ;\
-      debfile=$(compgen -G /var/tmp/transmission_*_$(dpkg --print-architecture).deb); \
-      if [[ -n ${debfile} ]]; then \
-      echo "Installing transmission ${TBT_VERSION}" && dpkg -i ${debfile} ;\
-      else echo "No /var/tmp/transmission_*_$(dpkg --print-architecture).deb found. Exiting" \
-      ; exit ; fi ; \
-    else echo "Installing transmission from repository" \
-    && export TBT_VERSION=3.00 \
-    && apt-get install -y --no-install-recommends transmission-daemon transmission-cli; fi
-
 RUN apt-get update && apt-get install -y \
-    dumb-init openvpn privoxy \
-    tzdata dnsutils iputils-ping ufw openssh-client git jq curl wget unrar unzip bc \
-    && ln -s /usr/local/share/transmission/public_html/images /opt/transmission-ui/transmission-web-control \
-    && ln -s /usr/local/share/transmission/public_html/transmission-app.js /opt/transmission-ui/transmission-web-control/transmission-app.js \
-    && ln -s /usr/local/share/transmission/public_html/index.html /opt/transmission-ui/transmission-web-control/index.original.html \
+    dumb-init transmission-daemon openvpn privoxy \
+    tzdata dnsutils iputils-ping ufw iproute2 \
+    openssh-client git jq curl wget unrar unzip bc \
     && rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/* \
-    && groupmod -g 1000 users \
     && useradd -u 911 -U -d /config -s /bin/false abc \
     && usermod -G users abc
 
