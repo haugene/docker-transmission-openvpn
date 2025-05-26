@@ -1,4 +1,4 @@
-FROM alpine:latest as TransmissionUIs
+FROM alpine:latest AS TransmissionUIs
 
 RUN apk --no-cache add curl jq \
     && mkdir -p /opt/transmission-ui \
@@ -15,6 +15,14 @@ RUN apk --no-cache add curl jq \
     && echo "Install Transmissionic" \
     && wget -qO- https://github.com/6c65726f79/Transmissionic/releases/download/v1.8.0/Transmissionic-webui-v1.8.0.zip | unzip -q - \
     && mv web /opt/transmission-ui/transmissionic
+
+#copied transmission web control from local archive
+ADD transmission_web_control_1.6.33.tar.xz /opt/transmission-ui/
+
+RUN  echo "Install Transmission-Web-Control" \
+     && ln -fs /usr/local/share/transmission/public_html/images /opt/transmission-ui/transmission-web-control/ \
+     && ln -fs /usr/local/share/transmission/public_html/transmission-app.js /opt/transmission-ui/transmission-web-control/transmission-app.js \
+     && ln -fs /usr/local/share/transmission/public_html/index.html /opt/transmission-ui/transmission-web-control/index.original.html ;
 
 FROM ubuntu:24.04 AS base
 
@@ -42,7 +50,7 @@ RUN set -ex; \
         natpmpc \
   && apt-get clean -y
 
-FROM base as TransmissionBuilder
+FROM base AS TransmissionBuilder
 
 RUN apt-get update \
   && apt-get install -y --no-install-recommends \
