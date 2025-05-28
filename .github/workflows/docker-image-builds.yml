@@ -8,7 +8,8 @@ on:
       - README.md
       - docker-compose.yml
       - mkdocs.yml
-      - .github/**
+      - .github/**  # Ignore all GitHub related files
+      - '!.github/workflows/*'  # But not the workflow files
       - docs/*
       - images/*
     tags:
