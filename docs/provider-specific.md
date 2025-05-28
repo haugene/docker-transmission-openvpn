@@ -128,11 +128,11 @@ User needs to have a paid account.
 
 1. download your ProtonVPN ovpn file from a destination which allows P2P.
 2. in the directory with your docker-compose file, create a directory: `mkdir protonvpn`
-3. copy your ovpn file (node-<country of choice>.protonvpn.net.udp.ovpn) from step 1 to the protonvpn directory
+3. copy your ovpn file (node-<country of choice>.protonvpn.udp.ovpn) from step 1 to the protonvpn directory
 4. add the environment vars below and add +pmp to your username if you want to use port forwarding.
 5. add the [update-port.sh](https://github.com/haugene/vpn-configs-contrib/blob/main/openvpn/protonvpn/update-port.sh) script for ProtonVPN from vpn-configs-contrib to the protonvpn directory of step 2.
 
-Here is a full example of `docker-compose.yml` file, assuming configuration file named `node-<country of choice>.protonvpn.net.udp`
+Here is a full example of `docker-compose.yml` file, assuming configuration file named `node-<country of choice>.protonvpn.udp`
 is under local `protonvpn` subdirectory.
 
 ```yaml
@@ -149,7 +149,7 @@ services:
             - /your/storage/path/:/data # where transmission will store the data
         environment:
             - OPENVPN_PROVIDER=custom
-            - OPENVPN_CONFIG=node-<country of choice>.protonvpn.net.udp
+            - OPENVPN_CONFIG=node-<country of choice>.protonvpn.udp
             - OPENVPN_USERNAME=<username>+pmp
             - OPENVPN_PASSWORD=<password>
             - LOCAL_NETWORK=192.168.0.0/16
