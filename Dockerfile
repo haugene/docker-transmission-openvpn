@@ -82,7 +82,7 @@ ARG REVISION
 ENV REVISION=${REVISION:-""}
 
 # Compatability with https://hub.docker.com/r/willfarrell/autoheal/
-LABEL autoheal=true
+LABEL autoheal="true"
 
 # Expose ports and run
 
