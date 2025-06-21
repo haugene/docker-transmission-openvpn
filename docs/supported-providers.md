@@ -148,3 +148,25 @@ Instead mount the directory where the config exists.
 sed: cannot rename /etc/openvpn/custom/sedHeF3gS: Device or resource busy
 ```
 
+## Using custom OpenVPN config bundle for supported providers
+
+Many of the VPN provider integrations download a ZIP bundle of the OpenVPN configs from the provider when the container starts. You may want to provide your own config bundle ZIP as opposed to having the container download it. This may be useful if the download URL for the config bundle is blocked on your network.
+
+Currently, this is only supported for Private Internet Access. You can enable this by setting the appropriate env variable (PIA_CUSTOM_BUNDLE) to the location of the zip on the container, and then you must mount the file into the Docker container.
+
+Docker ENV vars sample:
+```
+              -v /localMachine/pia-config.zip:/etc/openvpn/pia_custom_bundle.zip:ro \
+              -e PIA_CUSTOM_BUNDLE=/etc/openvpn/pia_custom_bundle.zip \
+```
+
+Compose sample:
+```
+              environment:
+                - OPENVPN_PROVIDER=pia
+                - PIA_CUSTOM_BUNDLE=/etc/openvpn/pia_custom_bundle.zip
+              volumes:
+                - /localMachine/pia-config.zip:/etc/openvpn/pia_custom_bundle.zip:ro
+```
+
+To be clear, the ZIP should contain all the PIA OVPN files at the top-level. For example, if you set OPENVPN_CONFIG to uk_london, uk_london.ovpn should exist in the zip.
