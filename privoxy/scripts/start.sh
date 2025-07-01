@@ -25,12 +25,17 @@ set_port()
   echo "Privoxy: Setting port to $1";
 
 # Remove the listen-address for IPv6 for now. IPv6 compatibility should come later
-  sed -i -E "s/^listen-address\s+\[\:\:1.*//" "$2"
+  sed -i -E "s/^listen-address\s+\[\:\:1.*//" "$3"
 
   # Set the port for the IPv4 interface
-  adr=$(ip -4  a show eth0| grep -oP "(?<=inet )([^/]+)")
-  adr=${adr:-"0.0.0.0"}
-  sed -i -E "s/^listen-address.*/listen-address ${adr}:$1/" "$2"
+  if [[ "$2" = "" ]]; then
+    adr=$(ip -4  a show eth0| grep -oP "(?<=inet )([^/]+)")
+    adr=${adr:-"0.0.0.0"}
+  else
+    adr=$2
+  fi
+  echo "Privoxy: Setting listen address to $adr";
+  sed -i -E "s/^listen-address.*/listen-address ${adr}:$1/" "$3"
 }
 
 if [[ "${WEBPROXY_ENABLED}" = "true" ]]; then
@@ -40,7 +45,7 @@ if [[ "${WEBPROXY_ENABLED}" = "true" ]]; then
   PROXY_CONF=/etc/privoxy/config
   echo "Privoxy: Using config file at $PROXY_CONF"
 
-  set_port "${WEBPROXY_PORT}" "${PROXY_CONF}"
+  set_port "${WEBPROXY_PORT}" "${WEBPROXY_BIND_ADDRESS}" "${PROXY_CONF}"
 
   /usr/sbin/privoxy --pidfile /opt/privoxy/pidfile ${PROXY_CONF}
   sleep 1 # Give it one sec to start up, or at least create the pidfile

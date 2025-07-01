@@ -22,12 +22,17 @@ then
 fi
 
 # Check DNS resolution works
-nslookup $HOST > /dev/null
+nslookup -q=a $HOST > /dev/null
 STATUS=$?
 if [[ ${STATUS} -ne 0 ]]
 then
-    echo "DNS resolution failed"
-    exit 1
+    nslookup -q=aaaa $HOST > /dev/null
+    STATUS=$?
+    if [[ ${STATUS} -ne 0 ]]
+    then
+        echo "DNS resolution failed"
+        exit 1
+    fi
 fi
 
 ping -c 2 -w 10 $HOST # Get at least 2 responses and timeout after 10 seconds

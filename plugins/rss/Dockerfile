@@ -1,4 +1,4 @@
-FROM ruby:2-alpine
+FROM ruby:3-alpine
 
 # Image caching, put "never changing" layers first
 CMD ["/etc/transmission-rss/start.sh"]

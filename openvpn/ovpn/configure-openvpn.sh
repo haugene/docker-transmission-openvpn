@@ -37,7 +37,8 @@ cd /etc/openvpn/ovpn
 find /etc/openvpn/ovpn -type f ! -name "*.sh" -delete
 
 # Download and extract wanted bundle into temporary file
-
+echo "deleting temp folder"
+rm -rf /tmp/ovpnxtract/
 echo "creating temp folder"
 mkdir /tmp/ovpnxtract/
 echo "entering temp folder"

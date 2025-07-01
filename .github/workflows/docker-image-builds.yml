@@ -4,6 +4,14 @@ on:
     branches:
       - master
       - dev
+    paths-ignore:
+      - README.md
+      - docker-compose.yml
+      - mkdocs.yml
+      - .github/**  # Ignore all GitHub related files
+      - '!.github/workflows/*'  # But not the workflow files
+      - docs/*
+      - images/*
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+'
 
