@@ -5,6 +5,7 @@ on:
       - master
     paths:
       - docs/*
+      - .github/workflows/mkdocs.yml
 
 jobs:
   build-and-deploy-gh-pages:
