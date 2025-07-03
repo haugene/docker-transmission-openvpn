@@ -59,9 +59,10 @@ elif [[ "${VPN_CONFIG_SOURCE_TYPE}" == "github_clone" ]]; then
   if [[ -d ${config_repo} ]]; then
     GITHUB_CONFIG_SOURCE_LOCAL=$(git -C "${config_repo}" remote -v | head -1 | awk '{print $2}' | sed -e 's/https:\/\/github.com\///' -e 's/.git//')
     if [ "$GITHUB_CONFIG_SOURCE_LOCAL" == "$GITHUB_CONFIG_SOURCE_REPO" ]; then
-      echo "Repository is already cloned, checking for update"
-      git -C "${config_repo}" pull
-      git -C "${config_repo}" checkout "${GITHUB_CONFIG_SOURCE_REVISION}"
+      echo "Repository is already cloned, updating"
+      git -C "${config_repo}" fetch origin
+      git -C "${config_repo}" reset --hard origin/${GITHUB_CONFIG_SOURCE_REVISION}
+      git -C "${config_repo}" clean -fd
     else
       echo "Cloning ${GITHUB_CONFIG_REPO_URL} into ${config_repo}"
       config_repo_old="${config_repo}_old"
