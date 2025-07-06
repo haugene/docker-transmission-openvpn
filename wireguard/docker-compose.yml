@@ -1,0 +1,19 @@
+version: "3.9"
+services:
+  transmission-wg:
+    image: haugene/transmission-wireguard:wg
+    privileged: true
+    ports:
+      - "9091:9091"
+    volumes:
+      - /your/storage/path/:/data # where transmission will store the data
+      - /your/config/path/:/config # where transmission-home is stored
+      - /your/wireguard-configs/:/wg-config/ # example mount for wireguard configs
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - CONFIG_FILE=/wg-config/my_wg.conf  # A config file within your wireguard config mount
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m

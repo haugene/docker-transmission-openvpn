@@ -1,0 +1,13 @@
+name: Build wireguard image
+on:
+  push:
+    branches:
+      - wg
+
+jobs:
+  build-wireguard-image:
+    uses: ./.github/workflows/image-build-template-workflow.yml
+    with:
+      image-name: haugene/transmission-wireguard
+      build-context: 'wireguard'
+    secrets: inherit
