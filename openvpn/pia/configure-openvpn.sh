@@ -20,13 +20,21 @@ fi
 # Delete all files for PIA provider, except scripts
 find "$VPN_PROVIDER_HOME" -type f ! -name "*.sh" -delete
 
-# Download and extract wanted bundle into temporary file
-tmp_file=$(mktemp)
-echo "Downloading OpenVPN config bundle $PIA_OPENVPN_CONFIG_BUNDLE into temporary file $tmp_file"
-curl -sSL --cookie /dev/null "${baseURL}/${PIA_OPENVPN_CONFIG_BUNDLE}.zip" -o "$tmp_file"
+# Extract the ovpn config files into the provider config, either
+# by downloading it straight through privateinternetaccess.com or
+# the custom bundle zip if it exists
+if [ -n "$PIA_CUSTOM_BUNDLE" ] && [ -f "$PIA_CUSTOM_BUNDLE" ]; then
+    echo "Found custom PIA bundle at $PIA_CUSTOM_BUNDLE — using that instead of downloading"
+    unzip -qjo "$PIA_CUSTOM_BUNDLE" -d "$VPN_PROVIDER_HOME"
+else
+  # Download and extract wanted bundle into temporary file
+  tmp_file=$(mktemp)
+  echo "Downloading OpenVPN config bundle $PIA_OPENVPN_CONFIG_BUNDLE into temporary file $tmp_file"
+  curl -sSL --cookie /dev/null "${baseURL}/${PIA_OPENVPN_CONFIG_BUNDLE}.zip" -o "$tmp_file"
 
-echo "Extract OpenVPN config bundle into PIA directory $VPN_PROVIDER_HOME"
-unzip -qjo "$tmp_file" -d "$VPN_PROVIDER_HOME"
+  echo "Extract OpenVPN config bundle into PIA directory $VPN_PROVIDER_HOME"
+  unzip -qjo "$tmp_file" -d "$VPN_PROVIDER_HOME"
+fi
 
 # Select a random server as default.ovpn
 ln -sf "$(find "$VPN_PROVIDER_HOME" -name "*.ovpn" | shuf -n 1)" "$VPN_PROVIDER_HOME"/default.ovpn
