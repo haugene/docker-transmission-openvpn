@@ -91,4 +91,5 @@ EXPOSE 9091
 # Privoxy
 EXPOSE 8118
 
-CMD ["dumb-init", "/etc/openvpn/start.sh"]
+# Verbose log dumb-init to debug issue 2130
+CMD ["dumb-init", "-vv", "/etc/openvpn/start.sh"]
