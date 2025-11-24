@@ -44,6 +44,10 @@ ADD privoxy/scripts /opt/privoxy/
 RUN update-alternatives --set iptables $(which iptables-legacy) && \
     update-alternatives --set ip6tables $(which ip6tables-legacy)
 
+# Prevent error "Too many open files (24)"
+RUN echo "abc soft nofile 65536" > /etc/security/limits.d/transmission.conf && \
+    echo "abc hard nofile 1048576" >> /etc/security/limits.d/transmission.conf
+
 ENV OPENVPN_USERNAME=**None** \
     OPENVPN_PASSWORD=**None** \
     OPENVPN_PROVIDER=**None** \
