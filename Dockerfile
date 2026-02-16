@@ -14,7 +14,10 @@ RUN apk --no-cache add curl jq \
     && mv /opt/transmission-ui/kettu-master /opt/transmission-ui/kettu \
     && echo "Install Transmissionic" \
     && wget -qO- https://github.com/6c65726f79/Transmissionic/releases/download/v1.8.0/Transmissionic-webui-v1.8.0.zip | unzip -q - \
-    && mv web /opt/transmission-ui/transmissionic
+    && mv web /opt/transmission-ui/transmissionic \
+    && echo "Install TrguiNG" \
+    && mkdir /opt/transmission-ui/trguing \
+    && wget -qO- https://github.com/openscopeproject/TrguiNG/releases/download/v1.5.1/trguing-web-v1.5.1.zip | unzip -q -d /opt/transmission-ui/trguing -
 
 # Build the image
 FROM ubuntu:24.04
