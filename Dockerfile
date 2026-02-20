@@ -22,8 +22,6 @@ FROM ubuntu:24.04
 VOLUME /data
 VOLUME /config
 
-COPY --from=TransmissionUIs /opt/transmission-ui /opt/transmission-ui
-
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y \
     dumb-init transmission-daemon openvpn privoxy \
@@ -80,6 +78,8 @@ HEALTHCHECK --interval=1m CMD /etc/scripts/healthcheck.sh
 # Pass revision as a build arg, set it as env var
 ARG REVISION
 ENV REVISION=${REVISION:-""}
+
+COPY --from=TransmissionUIs /opt/transmission-ui /opt/transmission-ui
 
 # Compatability with https://hub.docker.com/r/willfarrell/autoheal/
 LABEL autoheal=true
