@@ -17,7 +17,7 @@ RUN apk --no-cache add curl jq \
     && mv web /opt/transmission-ui/transmissionic
 
 # Build the image
-FROM ubuntu:24.04
+FROM ubuntu:26.04
 
 VOLUME /data
 VOLUME /config
