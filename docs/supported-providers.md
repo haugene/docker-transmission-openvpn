@@ -70,7 +70,6 @@ is the most up-to-date list of configs and providers that are supported.
 | IronSocket                | `IRONSOCKET`                      |
 | Ivacy                     | `IVACY`                           |
 | IVPN                      | `IVPN`                            |
-| Mullvad                   | `MULLVAD`                         |
 | OctaneVPN                 | `OCTANEVPN`                       |
 | OVPN                      | `OVPN`                            |
 | Privado                   | `PRIVADO`                         |
