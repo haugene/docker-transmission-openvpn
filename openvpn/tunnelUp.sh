@@ -48,8 +48,8 @@ else
       DNS="${DNS}domain ${DOMAIN}\n"
     fi
     DNS="${DNS}${NS}"
-    if [ -e /etc/resolv.conf ] && [ ! -e /etc/resolv.conf-"${dev}".sv ]; then
-      cp /etc/resolv.conf /etc/resolv.conf-"${dev}".sv
+    if [ -e /etc/resolv.conf ] && [ ! -e /etc/resolv.conf.sv ]; then
+      cp /etc/resolv.conf /etc/resolv.conf.sv
     fi
     printf '%b' "$DNS" > /etc/resolv.conf
     chmod 644 /etc/resolv.conf
