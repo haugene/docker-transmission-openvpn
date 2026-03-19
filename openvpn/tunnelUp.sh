@@ -55,7 +55,7 @@ else
     chmod 644 /etc/resolv.conf
     echo "DNS: updated /etc/resolv.conf with VPN-provided DNS"
   else
-    echo "DNS: no DNS options received from VPN server"
+    echo "WARNING: no DNS options received from VPN server, /etc/resolv.conf was not updated"
   fi
 fi
 
