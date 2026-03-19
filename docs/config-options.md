@@ -35,6 +35,7 @@ secrets:
 | `CREATE_TUN_DEVICE` | Creates /dev/net/tun device inside the container, mitigates the need to mount the device from the host | `CREATE_TUN_DEVICE=true`                                                                                       |
 | `PEER_DNS`          | Controls whether to use the DNS provided by the OpenVPN endpoint. | To use your host DNS rather than what is provided by OpenVPN, set `PEER_DNS=false`.  This allows for potential DNS leakage. |
 | `PEER_DNS_PIN_ROUTES` | Controls whether to force traffic to peer DNS through the OpenVPN tunnel. | To disable this default, set `PEER_DNS_PIN_ROUTES=false`. |
+| `CONFIG_MOD_RESOLV_CONF_SCRIPTS` | Strips incompatible up/down resolv-conf scripts from provider configs (e.g. ProtonVPN). Enabled by default. | Set CONFIG_MOD_RESOLV_CONF_SCRIPTS=0 to disable this and keep host-level scripts. |
 
 ### Timezone option
 
