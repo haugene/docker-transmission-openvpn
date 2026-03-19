@@ -48,16 +48,14 @@ if [[ "${PEER_DNS,,}" == "true" ]]; then
                         DNS="${DNS}domain ${DOMAIN}\n"
                 fi
                 DNS="${DNS}${NS}"
-                if [ -x /sbin/resolvconf ] ; then
-                        printf "${DNS}" | /sbin/resolvconf -a "${dev}"
-                else
-                        # Preserve the existing resolv.conf
-                        if [ -e /etc/resolv.conf ] ; then
-                                cp /etc/resolv.conf /etc/resolv.conf-"${dev}".sv
-                        fi
-                        printf "${DNS}" > /etc/resolv.conf
-                        chmod 644 /etc/resolv.conf
+                # Preserve the existing resolv.conf before writing the DNS
+                # provided by the VPN peer directly to the file.
+                if [ -e /etc/resolv.conf ] ; then
+                        cp /etc/resolv.conf /etc/resolv.conf-"${dev}".sv
                 fi
+                echo "Updating /etc/resolv.conf with DNS settings from ${dev}"
+                printf "${DNS}" > /etc/resolv.conf
+                chmod 644 /etc/resolv.conf
         fi
 fi
 
