@@ -47,10 +47,10 @@ else
       DNS="${DNS}domain ${DOMAIN}\n"
     fi
     DNS="${DNS}${NS}"
-    if [ -e /etc/resolv.conf ]; then
+    if [ -e /etc/resolv.conf ] && [ ! -e /etc/resolv.conf-"${dev}".sv ]; then
       cp /etc/resolv.conf /etc/resolv.conf-"${dev}".sv
     fi
-    printf "${DNS}" > /etc/resolv.conf
+    printf '%b' "$DNS" > /etc/resolv.conf
     chmod 644 /etc/resolv.conf
     echo "DNS: updated /etc/resolv.conf with VPN-provided DNS"
   else
