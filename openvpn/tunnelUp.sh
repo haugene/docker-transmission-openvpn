@@ -53,8 +53,8 @@ if [[ "${PEER_DNS,,}" == "true" ]]; then
                 if [ -e /etc/resolv.conf ] ; then
                         cp /etc/resolv.conf /etc/resolv.conf-"${dev}".sv
                 fi
-                printf "Updating /etc/resolv.conf with DNS settings from %s\n" "${dev}"
-                printf "${DNS}" > /etc/resolv.conf
+                printf "Updating /etc/resolv.conf with DNS settings from %s\n" "${dev}" >&2
+                printf '%b' "${DNS}" > /etc/resolv.conf
                 chmod 644 /etc/resolv.conf
         fi
 fi
