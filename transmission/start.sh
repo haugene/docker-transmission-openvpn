@@ -42,7 +42,8 @@ if [[ "kettu" = "$TRANSMISSION_WEB_UI" ]]; then
 fi
 
 if [[ "transmission-web-control" = "$TRANSMISSION_WEB_UI" ]]; then
-  echo "ERROR: transmission-web-control was removed in v5.4.0. Falling back to default UI."
+  echo "Using Transmission Web Control UI, overriding TRANSMISSION_WEB_HOME"
+  export TRANSMISSION_WEB_HOME=/opt/transmission-ui/transmission-web-control
 fi
 
 if [[ "flood-for-transmission" = "$TRANSMISSION_WEB_UI" ]]; then
