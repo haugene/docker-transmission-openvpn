@@ -33,8 +33,7 @@ secrets:
 | `OPENVPN_OPTS`      | Will be passed to OpenVPN on startup                                                                | See [OpenVPN doc](https://openvpn.net/index.php/open-source/documentation/manuals/65-openvpn-20x-manpage.html) |
 | `LOCAL_NETWORK`     | Sets the local network that should have access. Accepts comma-separated list.                       | `LOCAL_NETWORK=192.168.0.0/24`                                                                                 |
 | `CREATE_TUN_DEVICE` | Creates /dev/net/tun device inside the container, mitigates the need to mount the device from the host | `CREATE_TUN_DEVICE=true`                                                                                       |
-| `PEER_DNS`          | Controls whether to use the DNS provided by the OpenVPN endpoint. | To use your host DNS rather than what is provided by OpenVPN, set `PEER_DNS=false`.  This allows for potential DNS leakage. |
-| `PEER_DNS_PIN_ROUTES` | Controls whether to force traffic to peer DNS through the OpenVPN tunnel. | To disable this default, set `PEER_DNS_PIN_ROUTES=false`. |
+| `OVERRIDE_DNS`      | Override the VPN-provided DNS servers. Use `OVERRIDE_DNS_1`, `OVERRIDE_DNS_2`, etc. for multiple servers. When set, VPN DNS will not be applied. | `OVERRIDE_DNS_1=8.8.8.8` `OVERRIDE_DNS_2=8.8.4.4`                                                             |
 
 ### Timezone option
 

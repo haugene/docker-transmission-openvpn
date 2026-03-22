@@ -36,13 +36,16 @@ if [[ -x /scripts/openvpn-pre-start.sh ]]; then
   echo "/scripts/openvpn-pre-start.sh returned $?"
 fi
 
-# Allow for overriding the DNS used directly in the /etc/resolv.conf
-if compgen -e | grep -q "OVERRIDE_DNS"; then
+# Allow for overriding the DNS used directly in the /etc/resolv.conf.
+# When active, tunnelUp.sh will skip overwriting resolv.conf with VPN DNS.
+unset OVERRIDE_DNS_ACTIVE
+if compgen -e | grep -Eq '^OVERRIDE_DNS($|_[0-9]+$)'; then
     echo "One or more OVERRIDE_DNS addresses found. Will use them to overwrite /etc/resolv.conf"
     echo "" > /etc/resolv.conf
-    for var in $(compgen -e | grep "OVERRIDE_DNS"); do
+    for var in $(compgen -e | grep -E '^OVERRIDE_DNS($|_[0-9]+$)' | sort); do
         echo "nameserver $(printenv "$var")" >> /etc/resolv.conf
     done
+    export OVERRIDE_DNS_ACTIVE=true
 fi
 
 # Test DNS resolution
