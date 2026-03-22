@@ -165,6 +165,8 @@ Once `/scripts` is mounted you'll need to write your custom code in the followin
 | /scripts/transmission-pre-stop.sh   | This shell script will be executed before transmission stops  |
 | /scripts/transmission-post-stop.sh  | This shell script will be executed after transmission stops   |
 
+`transmission-pre-start.sh` is run from OpenVPN's `--up` handler (it calls `/etc/transmission/start.sh`). OpenVPN waits for that script to finish, so anything slow here can block VPN connection setup.
+
 Don't forget to include the `#!/bin/bash` shebang and to make the scripts executable using `chmod a+x`
 
 ### Debugging
