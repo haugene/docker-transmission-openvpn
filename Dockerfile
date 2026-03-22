@@ -14,7 +14,11 @@ RUN apk --no-cache add curl jq \
     && mv /opt/transmission-ui/kettu-master /opt/transmission-ui/kettu \
     && echo "Install Transmissionic" \
     && wget -qO- https://github.com/6c65726f79/Transmissionic/releases/download/v1.8.0/Transmissionic-webui-v1.8.0.zip | unzip -q - \
-    && mv web /opt/transmission-ui/transmissionic
+    && mv web /opt/transmission-ui/transmissionic \
+    && echo "Install Transmission Web Control" \
+    && wget -qO- https://github.com/ronggang/transmission-web-control/archive/v1.6.1-update1.tar.gz | tar xz -C /opt/transmission-ui \
+    && mv /opt/transmission-ui/transmission-web-control-1.6.1-update1/src /opt/transmission-ui/transmission-web-control \
+    && rm -rf /opt/transmission-ui/transmission-web-control-1.6.1-update1
 
 # Build the image
 FROM ubuntu:26.04
