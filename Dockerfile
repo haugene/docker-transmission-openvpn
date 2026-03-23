@@ -6,7 +6,7 @@ RUN apk --no-cache add curl jq \
     && wget -qO- https://github.com/killemov/Shift/archive/master.tar.gz | tar xz -C /opt/transmission-ui \
     && mv /opt/transmission-ui/Shift-master /opt/transmission-ui/shift \
     && echo "Install Flood for Transmission" \
-    && wget -qO- https://github.com/johman10/flood-for-transmission/releases/download/2024-11-16T12-26-17/flood-for-transmission.tar.gz | tar xz -C /opt/transmission-ui \
+    && wget -qO- https://github.com/johman10/flood-for-transmission/releases/latest/download/flood-for-transmission.tar.gz | tar xz -C /opt/transmission-ui \
     && echo "Install Combustion" \
     && wget -qO- https://github.com/Secretmapper/combustion/archive/release.tar.gz | tar xz -C /opt/transmission-ui \
     && echo "Install kettu" \
@@ -17,15 +17,17 @@ RUN apk --no-cache add curl jq \
     && mv web /opt/transmission-ui/transmissionic \
     && echo "Install TrguiNG" \
     && mkdir /opt/transmission-ui/trguing \
-    && wget -qO- https://github.com/openscopeproject/TrguiNG/releases/download/v1.5.1/trguing-web-v1.5.1.zip | unzip -q -d /opt/transmission-ui/trguing -
+    && wget -qO- https://github.com/openscopeproject/TrguiNG/releases/download/v1.5.1/trguing-web-v1.5.1.zip | unzip -q -d /opt/transmission-ui/trguing - \
+    && echo "Install Transmission Web Control" \
+    && wget -qO- https://github.com/ronggang/transmission-web-control/archive/v1.6.1-update1.tar.gz | tar xz -C /opt/transmission-ui \
+    && mv /opt/transmission-ui/transmission-web-control-1.6.1-update1/src /opt/transmission-ui/transmission-web-control \
+    && rm -rf /opt/transmission-ui/transmission-web-control-1.6.1-update1
 
 # Build the image
-FROM ubuntu:24.04
+FROM ubuntu:26.04
 
 VOLUME /data
 VOLUME /config
-
-COPY --from=TransmissionUIs /opt/transmission-ui /opt/transmission-ui
 
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y \
@@ -66,8 +68,6 @@ ENV OPENVPN_USERNAME=**None** \
     UFW_DISABLE_IPTABLES_REJECT=false \
     PUID= \
     PGID= \
-    PEER_DNS=true \
-    PEER_DNS_PIN_ROUTES=true \
     DROP_DEFAULT_ROUTE= \
     WEBPROXY_ENABLED=false \
     WEBPROXY_PORT=8118 \
@@ -84,6 +84,8 @@ HEALTHCHECK --interval=1m CMD /etc/scripts/healthcheck.sh
 ARG REVISION
 ENV REVISION=${REVISION:-""}
 
+COPY --from=TransmissionUIs /opt/transmission-ui /opt/transmission-ui
+
 # Compatability with https://hub.docker.com/r/willfarrell/autoheal/
 LABEL autoheal=true
 
@@ -94,5 +96,4 @@ EXPOSE 9091
 # Privoxy
 EXPOSE 8118
 
-# Verbose log dumb-init to debug issue 2130
-CMD ["dumb-init", "-vv", "/etc/openvpn/start.sh"]
+CMD ["dumb-init", "/etc/openvpn/start.sh"]

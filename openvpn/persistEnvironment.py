@@ -23,8 +23,7 @@ wanted_variables = {
     'LOG_TO_STDOUT',
     'DISABLE_PORT_UPDATER',
     'TZ',
-    'PEER_DNS',
-    'PEER_DNS_PIN_ROUTES',
+    'OVERRIDE_DNS_ACTIVE',
     'CONFIG'
 }
 

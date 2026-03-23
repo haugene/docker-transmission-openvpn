@@ -132,6 +132,10 @@ The effect of this is that you lose Docker service discovery from the container 
 but you have cut out a middleman and potential point of error. I'm not sure why this sometimes is necessary but it has proven to fix
 the issue in some cases.
 
+**Note:** By default, once the VPN tunnel is established the container will automatically switch to DNS servers provided by the VPN,
+and pin routes for those servers through the tunnel to prevent DNS leaks. If you use `OVERRIDE_DNS`, the VPN-provided DNS will be
+skipped and your specified servers will be used instead. This means DNS traffic may not go through the VPN tunnel.
+
 **A possible third option**
 
 If you're facing the OpenVPN error (not curl) then your provider might have config files with IP addresses instead of DNS.
