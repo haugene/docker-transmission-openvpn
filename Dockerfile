@@ -21,7 +21,7 @@ RUN apk --no-cache add curl jq \
     && rm -rf /opt/transmission-ui/transmission-web-control-1.6.1-update1
 
 # Build the image
-FROM ubuntu:26.04
+FROM ubuntu:24.04
 
 VOLUME /data
 VOLUME /config
