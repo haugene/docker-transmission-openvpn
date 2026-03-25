@@ -31,6 +31,7 @@ RUN apt-get update && apt-get install -y \
     dumb-init transmission-daemon openvpn privoxy \
     tzdata dnsutils iputils-ping ufw iproute2 \
     openssh-client git jq curl wget unrar unzip bc \
+    libnatpmp-dev natpmpc \
     && rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/* \
     && useradd -u 911 -U -d /config -s /bin/false abc \
     && usermod -G users abc
