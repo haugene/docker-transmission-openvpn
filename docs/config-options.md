@@ -29,7 +29,7 @@ secrets:
 
 | Variable            | Function                                                                                            | Example                                                                                                        |
 | ------------------- | --------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| `OPENVPN_CONFIG`    | Sets the OpenVPN endpoint to connect to.                                                            | `OPENVPN_CONFIG=UK Southampton`                                                                                |
+| `OPENVPN_CONFIG`    | Sets the OpenVPN endpoint to connect to. Accepts a comma-separated list of items (one item is selected at random.)  | `OPENVPN_CONFIG=UK Southampton,UK Liverpool`                                                                                |
 | `OPENVPN_OPTS`      | Will be passed to OpenVPN on startup                                                                | See [OpenVPN doc](https://openvpn.net/index.php/open-source/documentation/manuals/65-openvpn-20x-manpage.html) |
 | `LOCAL_NETWORK`     | Sets the local network that should have access. Accepts comma-separated list.                       | `LOCAL_NETWORK=192.168.0.0/24`                                                                                 |
 | `CREATE_TUN_DEVICE` | Creates /dev/net/tun device inside the container, mitigates the need to mount the device from the host | `CREATE_TUN_DEVICE=true`                                                                                       |
