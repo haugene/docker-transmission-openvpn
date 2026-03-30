@@ -4,8 +4,8 @@
 . /etc/transmission/environment-variables.sh
 source /etc/openvpn/utils.sh
 
-if ls /etc/resolv.conf-*.sv 1> /dev/null 2>&1; then
-    cp /etc/resolv.conf-*.sv /etc/resolv.conf
+if [ -e /etc/resolv.conf.sv ]; then
+    cp /etc/resolv.conf.sv /etc/resolv.conf
     echo "resolv.conf was restored"
 else
     echo "resolv.conf backup not found, could not restore"

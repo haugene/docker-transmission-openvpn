@@ -14,10 +14,14 @@ RUN apk --no-cache add curl jq \
     && mv /opt/transmission-ui/kettu-master /opt/transmission-ui/kettu \
     && echo "Install Transmissionic" \
     && wget -qO- https://github.com/6c65726f79/Transmissionic/releases/download/v1.8.0/Transmissionic-webui-v1.8.0.zip | unzip -q - \
-    && mv web /opt/transmission-ui/transmissionic
+    && mv web /opt/transmission-ui/transmissionic \
+    && echo "Install Transmission Web Control" \
+    && wget -qO- https://github.com/ronggang/transmission-web-control/archive/v1.6.1-update1.tar.gz | tar xz -C /opt/transmission-ui \
+    && mv /opt/transmission-ui/transmission-web-control-1.6.1-update1/src /opt/transmission-ui/transmission-web-control \
+    && rm -rf /opt/transmission-ui/transmission-web-control-1.6.1-update1
 
 # Build the image
-FROM ubuntu:24.04
+FROM ubuntu:26.04
 
 VOLUME /data
 VOLUME /config
@@ -27,6 +31,8 @@ RUN apt-get update && apt-get install -y \
     dumb-init transmission-daemon openvpn privoxy \
     tzdata dnsutils iputils-ping ufw iproute2 \
     openssh-client git jq curl wget unrar unzip bc \
+    # natpmpc is used in port forwarding scripts
+    natpmpc \
     && rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/* \
     && useradd -u 911 -U -d /config -s /bin/false abc \
     && usermod -G users abc
@@ -61,8 +67,6 @@ ENV OPENVPN_USERNAME=**None** \
     UFW_DISABLE_IPTABLES_REJECT=false \
     PUID= \
     PGID= \
-    PEER_DNS=true \
-    PEER_DNS_PIN_ROUTES=true \
     DROP_DEFAULT_ROUTE= \
     WEBPROXY_ENABLED=false \
     WEBPROXY_PORT=8118 \

@@ -35,6 +35,7 @@ secrets:
 | `CREATE_TUN_DEVICE` | Creates /dev/net/tun device inside the container, mitigates the need to mount the device from the host | `CREATE_TUN_DEVICE=true`                                                                                       |
 | `PEER_DNS`          | Controls whether to use the DNS provided by the OpenVPN endpoint. | To use your host DNS rather than what is provided by OpenVPN, set `PEER_DNS=false`.  This allows for potential DNS leakage. |
 | `PEER_DNS_PIN_ROUTES` | Controls whether to force traffic to peer DNS through the OpenVPN tunnel. | To disable this default, set `PEER_DNS_PIN_ROUTES=false`. |
+| `OVERRIDE_DNS`      | Override the VPN-provided DNS servers. Use `OVERRIDE_DNS_1`, `OVERRIDE_DNS_2`, etc. for multiple servers. When set, VPN DNS will not be applied. | `OVERRIDE_DNS_1=8.8.8.8` `OVERRIDE_DNS_2=8.8.4.4` |                                                             
 | `CONFIG_MOD_RESOLV_CONF_SCRIPTS` | Strips incompatible up/down resolv-conf scripts from provider configs (e.g. ProtonVPN). Enabled by default. | Set CONFIG_MOD_RESOLV_CONF_SCRIPTS=0 to disable this and keep host-level scripts. |
 
 ### Timezone option
@@ -166,6 +167,8 @@ Once `/scripts` is mounted you'll need to write your custom code in the followin
 | /scripts/routes-post-start.sh       | This shell script will be executed after routes are added    |
 | /scripts/transmission-pre-stop.sh   | This shell script will be executed before transmission stops  |
 | /scripts/transmission-post-stop.sh  | This shell script will be executed after transmission stops   |
+
+`transmission-pre-start.sh` is run from OpenVPN's `--up` handler (it calls `/etc/transmission/start.sh`). OpenVPN waits for that script to finish, so anything slow here can block VPN connection setup.
 
 Don't forget to include the `#!/bin/bash` shebang and to make the scripts executable using `chmod a+x`
 
