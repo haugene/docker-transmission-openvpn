@@ -85,6 +85,17 @@ ENV REVISION=${REVISION:-""}
 
 COPY --from=TransmissionUIs /opt/transmission-ui /opt/transmission-ui
 
+# Merge stock UI into Transmission Web Control for "Original" toggle
+RUN set -eux; \
+    twc=/opt/transmission-ui/transmission-web-control; \
+    stock=/usr/share/transmission/public_html; \
+    tmp="$(mktemp -d)"; \
+    cp -a "$twc/." "$tmp/"; \
+    cp -a "$stock/." "$twc/"; \
+    mv "$twc/index.html" "$twc/index.original.html"; \
+    cp -a "$tmp/." "$twc/"; \
+    rm -rf "$tmp"
+
 # Compatability with https://hub.docker.com/r/willfarrell/autoheal/
 LABEL autoheal=true
 
