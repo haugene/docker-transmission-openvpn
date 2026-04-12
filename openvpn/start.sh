@@ -100,7 +100,7 @@ if [[ -z ${CHOSEN_OPENVPN_CONFIG} ]]; then
 
   if [[ "${VPN_CONFIG_SOURCE}" == "auto" ]]; then
     if [[ -f $VPN_PROVIDER_HOME/configure-openvpn.sh ]]; then
-      echo "Provider ${VPN_PROVIDER^^} has a bundled setup script. Defaulting to internal config"
+      echo "Provider ${VPN_PROVIDER^^} already has configure-openvpn.sh in ${VPN_PROVIDER_HOME}. Using it without fetching configs (internal)."
       VPN_CONFIG_SOURCE=internal
     elif [[ "${VPN_PROVIDER}" == "custom" ]]; then
       echo "CUSTOM provider specified but not using default.ovpn, will try to find a valid config mounted to $VPN_PROVIDER_HOME"

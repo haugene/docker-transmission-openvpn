@@ -6,7 +6,8 @@
 
 This container contains OpenVPN and Transmission with a configuration
 where Transmission is running only when OpenVPN has an active tunnel.
-It has built-in support for many popular VPN providers to make the setup easier.
+Provider-specific OpenVPN configs and setup scripts are maintained in
+[vpn-configs-contrib](https://github.com/haugene/vpn-configs-contrib) and fetched into the container at startup (see `VPN_CONFIG_SOURCE` / `GITHUB_CONFIG_SOURCE_REPO` in the docs).
 
 ## Read this first
 
