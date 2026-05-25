@@ -34,6 +34,8 @@ RUN apt-get update && apt-get install -y \
     dumb-init transmission-daemon openvpn privoxy \
     tzdata dnsutils iputils-ping ufw iproute2 \
     openssh-client git jq curl wget unrar unzip bc \
+    # natpmpc is used in port forwarding scripts
+    natpmpc \
     && rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/* \
     && useradd -u 911 -U -d /config -s /bin/false abc \
     && usermod -G users abc
@@ -85,6 +87,17 @@ ARG REVISION
 ENV REVISION=${REVISION:-""}
 
 COPY --from=TransmissionUIs /opt/transmission-ui /opt/transmission-ui
+
+# Merge stock UI into Transmission Web Control for "Original" toggle
+RUN set -eux; \
+    twc=/opt/transmission-ui/transmission-web-control; \
+    stock=/usr/share/transmission/public_html; \
+    tmp="$(mktemp -d)"; \
+    cp -a "$twc/." "$tmp/"; \
+    cp -a "$stock/." "$twc/"; \
+    mv "$twc/index.html" "$twc/index.original.html"; \
+    cp -a "$tmp/." "$twc/"; \
+    rm -rf "$tmp"
 
 # Compatability with https://hub.docker.com/r/willfarrell/autoheal/
 LABEL autoheal=true
