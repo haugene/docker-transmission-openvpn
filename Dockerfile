@@ -27,16 +27,10 @@ WORKDIR /build
 
 RUN sed -i 's/Types: deb/Types: deb deb-src/g' /etc/apt/sources.list.d/ubuntu.sources \
     && apt-get update \
-    && apt-get install -y dpkg-dev ca-certificates curl build-essential fakeroot devscripts \
+    && apt-get install -y dpkg-dev build-essential fakeroot devscripts git libb64-dev \
     && apt-get build-dep -y transmission \
-    && apt-get source --download-only transmission \
-    && curl -LO https://github.com/transmission/transmission/releases/download/4.1.2/transmission-4.1.2.tar.xz \
-    && tar -Jxvf transmission-4.1.2.tar.xz \
-    && cd transmission-4.1.2 \
-    && tar -Jxvf ../*.debian.tar.xz \
-    && rm debian/patches/revendor-libb64.patch \
-    && sed -i '/revendor-libb64/d' debian/patches/series \
-    && EMAIL=nobody@nobody dch --newversion 4.1.2 "Build 4.1.2" \
+    && git clone --branch debian/4.1.2+dfsg-1 --depth 1 https://salsa.debian.org/debian/transmission.git \
+    && cd transmission \
     && debuild -b -uc -us \
     && cd .. \
     && mkdir out \
@@ -57,6 +51,7 @@ RUN apt-get update && apt-get install -y \
     openssh-client git jq curl wget unrar unzip bc \
     # natpmpc is used in port forwarding scripts
     natpmpc \
+    libb64-0d \
     && dpkg -i /build/transmission-daemon*.deb /build/transmission-common*.deb \
     && rm -rf /build \
     && rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/* \
