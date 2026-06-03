@@ -27,10 +27,13 @@ WORKDIR /build
 
 RUN sed -i 's/Types: deb/Types: deb deb-src/g' /etc/apt/sources.list.d/ubuntu.sources \
     && apt-get update \
-    && apt-get install -y dpkg-dev build-essential fakeroot devscripts git libb64-dev \
+    && apt-get install -y dpkg-dev build-essential fakeroot devscripts ca-certificates curl libb64-dev \
     && apt-get build-dep -y transmission \
-    && git clone --branch debian/4.1.2+dfsg-1 --depth 1 https://salsa.debian.org/debian/transmission.git \
-    && cd transmission \
+    && curl -LO http://deb.debian.org/debian/pool/main/t/transmission/transmission_4.1.2+dfsg.orig.tar.xz \
+    && curl -LO http://deb.debian.org/debian/pool/main/t/transmission/transmission_4.1.2+dfsg-1.debian.tar.xz \
+    && tar -Jxvf transmission_4.1.2+dfsg.orig.tar.xz \
+    && cd transmission-4.1.2+dfsg \
+    && tar -Jxvf ../transmission_4.1.2+dfsg-1.debian.tar.xz \
     && debuild -b -uc -us \
     && cd .. \
     && mkdir out \
