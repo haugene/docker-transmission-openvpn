@@ -25,16 +25,16 @@ FROM ubuntu:26.04 as TransmissionBuild
 
 WORKDIR /build
 
-RUN sed -i 's/Types: deb/Types: deb deb-src/g' /etc/apt/sources.list.d/ubuntu.sources \
-    && apt-get update \
-    && apt-get install -y dpkg-dev build-essential fakeroot devscripts ca-certificates curl libb64-dev \
-    && apt-get build-dep -y transmission \
-    && curl -LO http://deb.debian.org/debian/pool/main/t/transmission/transmission_4.1.2+dfsg.orig.tar.xz \
-    && curl -LO http://deb.debian.org/debian/pool/main/t/transmission/transmission_4.1.2+dfsg-1.debian.tar.xz \
-    && tar -Jxvf transmission_4.1.2+dfsg.orig.tar.xz \
+RUN apt-get update \
+    && apt-get install -y dpkg-dev build-essential fakeroot devscripts equivs ca-certificates curl \
+    && curl -L --remote-name-all \
+        http://archive.ubuntu.com/ubuntu/pool/main/t/transmission/transmission_4.1.2+dfsg.orig.tar.xz \
+        http://archive.ubuntu.com/ubuntu/pool/main/t/transmission/transmission_4.1.2+dfsg-1ubuntu1.debian.tar.xz \
+        http://archive.ubuntu.com/ubuntu/pool/main/t/transmission/transmission_4.1.2+dfsg-1ubuntu1.dsc \
+    && dpkg-source -x transmission_*.dsc \
     && cd transmission-4.1.2+dfsg \
-    && tar -Jxvf ../transmission_4.1.2+dfsg-1.debian.tar.xz \
-    && debuild -b -uc -us \
+    && mk-build-deps -i -r --tool "apt-get -y" \
+    && debuild -i -us -uc -b \
     && cd .. \
     && mkdir out \
     && mv *.deb out
@@ -54,7 +54,6 @@ RUN apt-get update && apt-get install -y \
     openssh-client git jq curl wget unrar unzip bc \
     # natpmpc is used in port forwarding scripts
     natpmpc \
-    libb64-0d \
     && dpkg -i /build/transmission-daemon*.deb /build/transmission-common*.deb \
     && rm -rf /build \
     && rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/* \
