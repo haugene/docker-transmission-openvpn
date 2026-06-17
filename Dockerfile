@@ -33,7 +33,7 @@ RUN apt-get update \
         http://archive.ubuntu.com/ubuntu/pool/main/t/transmission/transmission_4.1.2+dfsg-1ubuntu1.dsc \
     && dpkg-source -x transmission_*.dsc \
     && cd transmission-4.1.2+dfsg \
-    && apt build-dep -y . \
+    && apt-get build-dep -y . \
     && debuild -i -us -uc -b \
     && cd .. \
     && mkdir out \
