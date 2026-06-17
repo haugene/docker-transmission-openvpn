@@ -26,14 +26,14 @@ FROM ubuntu:26.04 as TransmissionBuild
 WORKDIR /build
 
 RUN apt-get update \
-    && apt-get install -y dpkg-dev build-essential fakeroot devscripts equivs ca-certificates curl \
+    && apt-get install -y dpkg-dev build-essential fakeroot devscripts ca-certificates curl \
     && curl -L --remote-name-all \
         http://archive.ubuntu.com/ubuntu/pool/main/t/transmission/transmission_4.1.2+dfsg.orig.tar.xz \
         http://archive.ubuntu.com/ubuntu/pool/main/t/transmission/transmission_4.1.2+dfsg-1ubuntu1.debian.tar.xz \
         http://archive.ubuntu.com/ubuntu/pool/main/t/transmission/transmission_4.1.2+dfsg-1ubuntu1.dsc \
     && dpkg-source -x transmission_*.dsc \
     && cd transmission-4.1.2+dfsg \
-    && mk-build-deps -i -r --tool "apt-get -y" \
+    && apt build-dep -y . \
     && debuild -i -us -uc -b \
     && cd .. \
     && mkdir out \
