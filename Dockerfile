@@ -28,7 +28,7 @@ VOLUME /data
 VOLUME /config
 
 ARG DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get install -y \
+RUN apt-get -o "Dpkg::Use-Pty=0" update && apt-get -o "Dpkg::Use-Pty=0" install -y \
     dumb-init openvpn privoxy \
     tzdata dnsutils iputils-ping ufw iproute2 \
     openssh-client git jq curl wget unrar unzip bc \
