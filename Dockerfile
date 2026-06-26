@@ -76,6 +76,7 @@ ENV OPENVPN_USERNAME=**None** \
     WEBPROXY_PASSWORD= \
     LOG_TO_STDOUT=false \
     HEALTH_CHECK_HOST=google.com \
+    OPEN_FILES_LIMIT= \
     SELFHEAL=false
 
 HEALTHCHECK --interval=1m CMD /etc/scripts/healthcheck.sh

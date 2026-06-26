@@ -147,6 +147,18 @@ To log to stdout instead set the environment variable `LOG_TO_STDOUT` to `true`.
 
 _Note_: By default, stdout is what container engines read logs from. Set this to true to have Transmission logs in commands like `docker logs` and `kubectl logs`. OpenVPN currently only logs to stdout.
 
+### Open files limit
+
+Transmission needs one file descriptor per peer plus data, resume and log files. To avoid
+`Too many open files` errors, the container raises the open-files (`nofile` / `RLIMIT_NOFILE`)
+soft limit for the Transmission daemon before starting it.
+
+By default it raises the soft limit to the container's hard limit. You can override the target
+value with the `OPEN_FILES_LIMIT` environment variable, e.g. `OPEN_FILES_LIMIT=1048576`. Only the
+soft limit is ever touched - the hard limit assigned by the runtime is left alone and acts as the
+ceiling; see the [FAQ entry](faq.md#unable_to_save_resume_file_too_many_open_files) for how to
+raise it.
+
 ### Custom scripts
 
 If you ever need to run custom code before or after Transmission is executed or stopped, you can use the custom scripts feature.
