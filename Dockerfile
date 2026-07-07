@@ -20,7 +20,7 @@ RUN apk --no-cache add curl jq \
     && mv /opt/transmission-ui/transmission-web-control-1.6.1-update1/src /opt/transmission-ui/transmission-web-control \
     && rm -rf /opt/transmission-ui/transmission-web-control-1.6.1-update1
 
-# Build Transmission 4.1.2 from source until Ubuntu/Debian has it packaged
+# Build Transmission 4.1.3 from source until Ubuntu/Debian has it packaged
 FROM ubuntu:26.04 as TransmissionBuild
 
 WORKDIR /build
@@ -28,11 +28,11 @@ WORKDIR /build
 RUN apt-get update \
     && apt-get install -y dpkg-dev build-essential fakeroot devscripts ca-certificates curl \
     && curl -L --remote-name-all \
-        http://archive.ubuntu.com/ubuntu/pool/main/t/transmission/transmission_4.1.2+dfsg.orig.tar.xz \
-        http://archive.ubuntu.com/ubuntu/pool/main/t/transmission/transmission_4.1.2+dfsg-1ubuntu1.debian.tar.xz \
-        http://archive.ubuntu.com/ubuntu/pool/main/t/transmission/transmission_4.1.2+dfsg-1ubuntu1.dsc \
+        http://archive.ubuntu.com/ubuntu/pool/main/t/transmission/transmission_4.1.3+dfsg.orig.tar.xz \
+        http://archive.ubuntu.com/ubuntu/pool/main/t/transmission/transmission_4.1.3+dfsg-1ubuntu1.debian.tar.xz \
+        http://archive.ubuntu.com/ubuntu/pool/main/t/transmission/transmission_4.1.3+dfsg-1ubuntu1.dsc \
     && dpkg-source -x transmission_*.dsc \
-    && cd transmission-4.1.2+dfsg \
+    && cd transmission-4.1.3+dfsg \
     && apt-get build-dep -y . \
     && debuild -i -us -uc -b \
     && cd .. \
