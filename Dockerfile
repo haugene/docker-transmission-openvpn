@@ -20,15 +20,17 @@ RUN apk --no-cache add curl jq \
     && mv /opt/transmission-ui/transmission-web-control-1.6.1-update1/src /opt/transmission-ui/transmission-web-control \
     && rm -rf /opt/transmission-ui/transmission-web-control-1.6.1-update1
 
-# Build the image
-FROM ubuntu:26.04
+# Main image — Ubuntu + Transmission from the shared base
+# https://github.com/haugene/transmission-base
+# Dev-channel tag until main publishes 4.1.3-ubuntu26.04
+FROM haugene/transmission-base:4.1.3-ubuntu26.04-dev
 
 VOLUME /data
 VOLUME /config
 
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y \
-    dumb-init transmission-daemon openvpn privoxy \
+    dumb-init openvpn privoxy \
     tzdata dnsutils iputils-ping ufw iproute2 \
     openssh-client git jq curl wget unrar unzip bc \
     # natpmpc is used in port forwarding scripts
