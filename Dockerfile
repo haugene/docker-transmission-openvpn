@@ -97,7 +97,7 @@ RUN set -eux; \
     cp -a "$tmp/." "$twc/"; \
     rm -rf "$tmp"
 
-# Compatability with https://hub.docker.com/r/willfarrell/autoheal/
+# Compatibility with https://hub.docker.com/r/willfarrell/autoheal/
 LABEL autoheal=true
 
 # Expose ports and run
