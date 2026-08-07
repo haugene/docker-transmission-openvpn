@@ -140,7 +140,7 @@ This image was created for my own use, but sharing is caring, so it had to be op
 It has now gotten quite popular, and that's great! But keeping it up to date, providing support, fixes
 and new features take time. If you feel that you're getting a good tool and want to support it, there are a couple of options:
 
-A small montly amount through [![Donate with Patreon](images/patreon.png)](https://www.patreon.com/haugene) or
+A small monthly amount through [![Donate with Patreon](images/patreon.png)](https://www.patreon.com/haugene) or
 a one time donation with [![Donate with PayPal](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=73XHRSK65KQYC)
 
 All donations are greatly appreciated! Another great way to contribute is of course through code.
