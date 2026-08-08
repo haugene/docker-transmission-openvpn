@@ -28,7 +28,7 @@ VOLUME /data
 VOLUME /config
 
 ARG DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get install -y \
+RUN apt-get -o "Dpkg::Use-Pty=0" update && apt-get -o "Dpkg::Use-Pty=0" install -y \
     dumb-init openvpn privoxy \
     tzdata dnsutils iputils-ping ufw iproute2 \
     openssh-client git jq curl wget unrar unzip bc \
@@ -76,6 +76,7 @@ ENV OPENVPN_USERNAME=**None** \
     WEBPROXY_PASSWORD= \
     LOG_TO_STDOUT=false \
     HEALTH_CHECK_HOST=google.com \
+    OPEN_FILES_LIMIT= \
     SELFHEAL=false
 
 HEALTHCHECK --interval=1m CMD /etc/scripts/healthcheck.sh

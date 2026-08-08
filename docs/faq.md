@@ -11,6 +11,7 @@
   * [Use a third-party tool to monitor and restart the container](#use_a_third-party_tool_to_monitor_and_restart_the_container)
 * [Send Username Password via file](#send_username_and_password_via_a_file)
 * [AUTH: Received control message: AUTH_FAILED](#auth_received_control_message_auth_failed)
+* [Unable to save resume file: Too many open files](#unable_to_save_resume_file_too_many_open_files)
 
 ## The container runs, but I can't access the web UI
 
@@ -302,3 +303,36 @@ To verify this you can mount a volume to `/config` in the container. So for exam
 you will be able to check the contents of that text file. The first line should be your username, the second should be your password.
 
 This file is what's passed to OpenVPN. If your username/password is correct here then you should probably contact your provider.
+
+## Unable to save resume file: Too many open files
+
+Transmission opens one file descriptor per peer (`peer-limit-global`, default 240) plus data,
+resume and log files. If the process file-descriptor (`nofile` / `RLIMIT_NOFILE`) soft limit is
+too low (the classic default is 1024) you'll see errors like
+`Unable to save resume file: Too many open files`.
+
+The container raises this soft limit automatically (up to the container's hard limit) before
+starting transmission. You can override the target with the `OPEN_FILES_LIMIT` environment
+variable, e.g. `OPEN_FILES_LIMIT=1048576`.
+
+Note that the container only ever changes the **soft** limit, and can only raise it up to the
+**hard** limit it was given by the runtime - the hard limit is the ceiling and is never modified.
+If you still hit the limit, raise the hard limit on the runtime:
+
+* Docker run: `--ulimit nofile=1048576:1048576`
+* docker-compose:
+  ```yaml
+  ulimits:
+    nofile:
+      soft: 1048576
+      hard: 1048576
+  ```
+* Kubernetes: there is no native per-pod `nofile` field; set the containerd default
+  (`LimitNOFILE` on the containerd systemd unit) on the node. The pod's hard limit is inherited
+  from containerd, and the container raises the soft limit to match.
+
+You can verify the limits the running daemon actually has from inside the container:
+
+```
+pid=$(pgrep -x transmission-da); grep -i "open files" /proc/${pid:-1}/limits
+```
