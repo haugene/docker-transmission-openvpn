@@ -61,6 +61,11 @@ if [[ "transmissionic" = "$TRANSMISSION_WEB_UI" ]]; then
   export TRANSMISSION_WEB_HOME=/opt/transmission-ui/transmissionic
 fi
 
+if [[ "trguing" = "$TRANSMISSION_WEB_UI" ]]; then
+  echo "Using TrguiNG, overriding TRANSMISSION_WEB_HOME"
+  export TRANSMISSION_WEB_HOME=/opt/transmission-ui/trguing
+fi
+
 case ${TRANSMISSION_LOG_LEVEL,,} in
   "trace" | "debug" | "info" | "warn" | "error" | "critical")
     echo "Will exec Transmission with '--log-level=${TRANSMISSION_LOG_LEVEL,,}' argument"
