@@ -31,7 +31,10 @@ at some point, but this is a good place to start.
 ### Docker run
 
 ```
+$ docker network create --ipv6=false transmission_default   
+
 $ docker run --cap-add=NET_ADMIN -d \
+             --network transmission_default
               -v /your/storage/path/:/data \
               -v /your/config/path/:/config \
               -e OPENVPN_PROVIDER=PIA \
@@ -43,6 +46,7 @@ $ docker run --cap-add=NET_ADMIN -d \
               --log-opt max-size=10m \
               -p 9091:9091 \
               haugene/transmission-openvpn
+
 ```
 
 ### Podman run
@@ -50,7 +54,10 @@ $ docker run --cap-add=NET_ADMIN -d \
 Beware: container is run as privileged, meaning it has full access to host OS.
 
 ```
+$ podman network create --ipv6=false transmission_default
+
 $ podman run --privileged -d \
+             --network=transmission_default
               -v /your/storage/path/:/data \
               -v /your/config/path/:/config \
               -e OPENVPN_PROVIDER=PIA \
@@ -69,6 +76,8 @@ $ podman run --privileged -d \
 version: '3.3'
 services:
     transmission-openvpn:
+        networks: 
+          - transmission_default
         cap_add:
             - NET_ADMIN
         volumes:
@@ -87,6 +96,10 @@ services:
         ports:
             - '9091:9091'
         image: haugene/transmission-openvpn
+networks:
+  transmission_default:
+    name: transmission_default
+    enable_ipv6: false
 ```
 
 ### Docker version 2.x Compose
@@ -94,6 +107,8 @@ services:
 version: "2.0"
 services:
     transmission-openvpn:
+        networks: 
+          - transmission_default
         container_name: transmission
         cap_add:
             - NET_ADMIN
@@ -113,6 +128,10 @@ services:
         ports:
             - 9091:9091
         image: haugene/transmission-openvpn
+networks:
+  transmission_default:
+    name: transmission_default
+    enable_ipv6: false
 ```
 
 ## Known issues
@@ -122,6 +141,17 @@ Are you seeing `curl: (6) getaddrinfo() thread failed to start` or `WARNING: ini
 Then have a look at [#2410](https://github.com/haugene/docker-transmission-openvpn/issues/2410)
 and [this comment](https://github.com/haugene/docker-transmission-openvpn/issues/2410#issuecomment-1319299598)
 in particular. There is a fix and a workaround available.
+
+## Networking and IPv6
+
+Docker seems to by default use a dual stack (IPv4+IPv6) network.  Most VPN's are only providing and IPv4 address so the container
+still has the ability to connect to the internet directly and leak via IPv6.  To fix this you should disable the IPv6 networking 
+for the containers network via: com.docker.network.enable_ipv6=false
+
+To test if you are leaking via IPv6 you can use a service to check.  https://www.ipleak.net has a service available to check.  
+Scroll down and under Torrent Address Detection click "Activate" then copy the address given and add it to transmission and go back to the page.
+If you only see an IPv4 address that is provided by your VPN you are safe.  If you see and IPv6 address that is not based from the same location
+as your VPN provider you need to disable IPv6 in your containers network.
 
 ## Image versioning
 
