@@ -18,6 +18,13 @@ if [ -n "$PUID" ] && [ ! "$(id -u root)" -eq "$PUID" ]; then
       chown ${RUN_AS}:${RUN_AS} /dev/stdout
     fi
 
+    # fetch from settings.json if not defined in environment
+    for var_name in TRANSMISSION_DOWNLOAD_DIR TRANSMISSION_INCOMPLETE_DIR TRANSMISSION_WATCH_DIR TRANSMISSION_UMASK; do
+        if [[ ! -v $var_name ]]; then
+            setting_name=$(echo "${var_name#TRANSMISSION_}" | tr '[:upper:]_' '[:lower:]-')
+            declare "${var_name}=$(jq -r .\"${setting_name}\" ${TRANSMISSION_HOME}/settings.json)"
+        fi
+    done
 
     # Make sure directories exist before chown and chmod
     mkdir -p /config \
@@ -45,12 +52,6 @@ if [ -n "$PUID" ] && [ ! "$(id -u root)" -eq "$PUID" ]; then
 
         echo "Setting permissions for download and incomplete directories"
         
-        if [ -z "$TRANSMISSION_UMASK" ] ; then
-            # fetch from settings.json if not defined in environment
-            # because updateSettings.py is called after this script is run
-            TRANSMISSION_UMASK=$(jq .umask ${TRANSMISSION_HOME}/settings.json | tr -d \" )
-        fi
-
         TRANSMISSION_UMASK_OCTAL=$( printf "%o\n" "${TRANSMISSION_UMASK}" )
 
         DIR_PERMS=$( printf '%o\n' $(( 8#777 & ~TRANSMISSION_UMASK)) )
