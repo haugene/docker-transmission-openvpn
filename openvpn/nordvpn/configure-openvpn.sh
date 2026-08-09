@@ -207,7 +207,7 @@ download_hostname() {
     log "INFO: OVPN: ${VPN_PROVIDER_HOME} is not writable, outputing ${ovpnName} to stdout"
     outfile=""
   fi
-  curl -sSL ${nordvpn_cdn} ${outfile}
+  curl -sSL --fail ${nordvpn_cdn} ${outfile}
 }
 
 checkDNS() {
