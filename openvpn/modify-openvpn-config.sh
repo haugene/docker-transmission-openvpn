@@ -22,6 +22,7 @@ CONFIG_MOD_TLS_CERTS=${CONFIG_MOD_TLS_CERTS:-"1"}
 CONFIG_MOD_VERBOSITY=${CONFIG_MOD_VERBOSITY:-"3"}
 CONFIG_MOD_REMAP_USR1=${CONFIG_MOD_REMAP_USR1:-"1"}
 CONFIG_MOD_FAILURE_SCRIPT=${CONFIG_MOD_FAILURE_SCRIPT:-"1"}
+CONFIG_MOD_RESOLV_CONF_SCRIPTS=${CONFIG_MOD_RESOLV_CONF_SCRIPTS:-"1"}
 
 ## Option 1 - Change the auth-user-pass line to point to credentials file
 if [[ $CONFIG_MOD_USERPASS == "1" ]]; then
@@ -135,4 +136,14 @@ if [[ $CONFIG_MOD_FAILURE_SCRIPT == "1" ]]; then
       ${CONFIG_FAILURE_SCRIPT} "${CONFIG}"
     fi
   fi
+fi
+
+## Option 9 - Remove resolv up/down scripts which calls system resolv-conf updaters.
+## Provider configs (e.g. ProtonVPN) include these directives which are unavailable in containers
+## The container already handles this via PEER_DNS option in tunnelUp.sh
+if [[ $CONFIG_MOD_RESOLV_CONF_SCRIPTS == "1" ]]; then
+    if grep -qE "^(up|down)\s+/etc/openvpn/update-resolv-conf" "$CONFIG"; then
+        echo "Modification: Removing up/down resolv-conf scripts incompatible with containers"
+        sed -i -E "/^(up|down)\s+\/etc\/openvpn\/update-resolv-conf/d" "$CONFIG"
+    fi
 fi
