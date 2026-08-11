@@ -34,7 +34,7 @@ jobs:
             context: ./plugins/rss
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       # QEMU emulator to build for other platforms
       - name: Set up QEMU
