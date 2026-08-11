@@ -18,7 +18,9 @@ RUN apk --no-cache add curl jq \
     && echo "Install Transmission Web Control" \
     && wget -qO- https://github.com/ronggang/transmission-web-control/archive/v1.6.1-update1.tar.gz | tar xz -C /opt/transmission-ui \
     && mv /opt/transmission-ui/transmission-web-control-1.6.1-update1/src /opt/transmission-ui/transmission-web-control \
-    && rm -rf /opt/transmission-ui/transmission-web-control-1.6.1-update1
+    && rm -rf /opt/transmission-ui/transmission-web-control-1.6.1-update1 \
+    && echo "Install TrguiNG" \
+    && wget -qO- https://github.com/openscopeproject/TrguiNG/releases/download/v1.5.1/trguing-web-v1.5.1.zip | unzip -q -d /opt/transmission-ui/trguing -
 
 # Main image — Ubuntu + Transmission from the shared base
 # https://github.com/haugene/transmission-base
