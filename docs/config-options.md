@@ -29,7 +29,7 @@ secrets:
 
 | Variable            | Function                                                                                            | Example                                                                                                        |
 | ------------------- | --------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| `OPENVPN_CONFIG`    | Sets the OpenVPN endpoint to connect to.                                                            | `OPENVPN_CONFIG=UK Southampton`                                                                                |
+| `OPENVPN_CONFIG`    | Sets the OpenVPN endpoint to connect to. Accepts a comma-separated list of items (one item is selected at random.)  | `OPENVPN_CONFIG=UK Southampton,UK Liverpool`                                                                                |
 | `OPENVPN_OPTS`      | Will be passed to OpenVPN on startup                                                                | See [OpenVPN doc](https://openvpn.net/index.php/open-source/documentation/manuals/65-openvpn-20x-manpage.html) |
 | `LOCAL_NETWORK`     | Sets the local network that should have access. Accepts comma-separated list.                       | `LOCAL_NETWORK=192.168.0.0/24`                                                                                 |
 | `CREATE_TUN_DEVICE` | Creates /dev/net/tun device inside the container, mitigates the need to mount the device from the host | `CREATE_TUN_DEVICE=true`                                                                                       |
@@ -146,6 +146,18 @@ By default, Transmission will log to a file in `TRANSMISSION_HOME/transmission.l
 To log to stdout instead set the environment variable `LOG_TO_STDOUT` to `true`.
 
 _Note_: By default, stdout is what container engines read logs from. Set this to true to have Transmission logs in commands like `docker logs` and `kubectl logs`. OpenVPN currently only logs to stdout.
+
+### Open files limit
+
+Transmission needs one file descriptor per peer plus data, resume and log files. To avoid
+`Too many open files` errors, the container raises the open-files (`nofile` / `RLIMIT_NOFILE`)
+soft limit for the Transmission daemon before starting it.
+
+By default it raises the soft limit to the container's hard limit. You can override the target
+value with the `OPEN_FILES_LIMIT` environment variable, e.g. `OPEN_FILES_LIMIT=1048576`. Only the
+soft limit is ever touched - the hard limit assigned by the runtime is left alone and acts as the
+ceiling; see the [FAQ entry](faq.md#unable_to_save_resume_file_too_many_open_files) for how to
+raise it.
 
 ### Custom scripts
 

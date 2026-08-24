@@ -4,7 +4,7 @@ set -e
 
 source /etc/openvpn/utils.sh
 
-baseURL="https://configs.ipvanish.com/configs"
+baseURL="https://configs.ipvanish.com/openvpn/v2.6.0-0"
 CONFIG_BUNDLE="configs.zip"
 
 if [ -z "$VPN_PROVIDER_HOME" ]; then
@@ -17,7 +17,7 @@ find "$VPN_PROVIDER_HOME" -type f ! -name "*.sh" -delete
 # Download and extract wanted bundle into temporary file
 tmp_file=$(mktemp)
 echo "Downloading OpenVPN config bundle $CONFIG_BUNDLE into temporary file $tmp_file"
-curl -sSL "${baseURL}/${CONFIG_BUNDLE}" -o "$tmp_file"
+curl -sSL --fail "${baseURL}/${CONFIG_BUNDLE}" -o "$tmp_file"
 
 echo "Extract OpenVPN config bundle into $VPN_PROVIDER_HOME"
 unzip -qjo "$tmp_file" -d "$VPN_PROVIDER_HOME"

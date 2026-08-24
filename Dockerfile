@@ -20,15 +20,16 @@ RUN apk --no-cache add curl jq \
     && mv /opt/transmission-ui/transmission-web-control-1.6.1-update1/src /opt/transmission-ui/transmission-web-control \
     && rm -rf /opt/transmission-ui/transmission-web-control-1.6.1-update1
 
-# Build the image
-FROM ubuntu:24.04
+# Main image — Ubuntu + Transmission from the shared base
+# https://github.com/haugene/transmission-base
+FROM haugene/transmission-base:4.1.3-ubuntu26.04
 
 VOLUME /data
 VOLUME /config
 
 ARG DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get install -y \
-    dumb-init transmission-daemon openvpn privoxy \
+RUN apt-get -o "Dpkg::Use-Pty=0" update && apt-get -o "Dpkg::Use-Pty=0" install -y \
+    dumb-init openvpn privoxy \
     tzdata dnsutils iputils-ping ufw iproute2 \
     openssh-client git jq curl wget unrar unzip bc \
     # natpmpc is used in port forwarding scripts
@@ -75,6 +76,7 @@ ENV OPENVPN_USERNAME=**None** \
     WEBPROXY_PASSWORD= \
     LOG_TO_STDOUT=false \
     HEALTH_CHECK_HOST=google.com \
+    OPEN_FILES_LIMIT= \
     SELFHEAL=false
 
 HEALTHCHECK --interval=1m CMD /etc/scripts/healthcheck.sh
@@ -85,7 +87,18 @@ ENV REVISION=${REVISION:-""}
 
 COPY --from=TransmissionUIs /opt/transmission-ui /opt/transmission-ui
 
-# Compatability with https://hub.docker.com/r/willfarrell/autoheal/
+# Merge stock UI into Transmission Web Control for "Original" toggle
+RUN set -eux; \
+    twc=/opt/transmission-ui/transmission-web-control; \
+    stock=/usr/share/transmission/public_html; \
+    tmp="$(mktemp -d)"; \
+    cp -a "$twc/." "$tmp/"; \
+    cp -a "$stock/." "$twc/"; \
+    mv "$twc/index.html" "$twc/index.original.html"; \
+    cp -a "$tmp/." "$twc/"; \
+    rm -rf "$tmp"
+
+# Compatibility with https://hub.docker.com/r/willfarrell/autoheal/
 LABEL autoheal=true
 
 # Expose ports and run

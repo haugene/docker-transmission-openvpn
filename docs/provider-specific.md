@@ -42,18 +42,23 @@ get list of available servers: `curl --silent https://api.nordvpn.com/server/sta
 
 ### OVPN
 
-The selection script parses the file names of the available on the official contrib repo (https://github.com/haugene/vpn-configs-contrib/tree/main/openvpn/ovpn).
+OVPN is an external provider. Configs (and a small selection script) are fetched from the [contrib repo](https://github.com/haugene/vpn-configs-contrib/tree/main/openvpn/ovpn) on startup.
 
-OVPN utilizes ENV variables:
+Config selection precedence:
+
+1. **`OPENVPN_CONFIG`** — use a specific file by basename (without `.ovpn`), e.g. `OPENVPN_CONFIG=standard.us.chicago.udp`
+2. **`OVPN_*` convenience vars** — when `OPENVPN_CONFIG` is unset, these build the same filename as `{connection}.{country}.{city}.{protocol}`
+3. **Default** — if neither is set, `default.ovpn` is used (a standard UDP endpoint)
 
 | Variable           | Function                                                                                                                                                            | Example                       |
 | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------- |
-| `OVPN_PROTOCOL`  | Specifies either TCP or UDP selection                                                  | `OVPN_PROTOCOL=udp`          |
-| `OVPN_COUNTRY` | Specifies the country to connect to. | `OVPN_COUNTRY=us` |
-| `OVPN_CITY` | Specifies the city to connect to. | `OVPN_CITY=chicago` |
-| `OVPN_CONNECTION` | Uses either standard or multihop VPN connections.  Currntly, OVPN only supports UDP. | `OVPN_CONNECTION=multihop`        |
+| `OPENVPN_CONFIG` | Direct config basename (without `.ovpn`). Takes precedence over `OVPN_*`. | `OPENVPN_CONFIG=standard.us.chicago.udp` |
+| `OVPN_PROTOCOL`  | TCP or UDP                                                                                          | `OVPN_PROTOCOL=udp`          |
+| `OVPN_COUNTRY` | Country code | `OVPN_COUNTRY=us` |
+| `OVPN_CITY` | City slug | `OVPN_CITY=chicago` |
+| `OVPN_CONNECTION` | `standard` or `multihop` | `OVPN_CONNECTION=multihop`        |
 
-As of August 29, 2022, the following options are available:
+As of August 29, 2022, the following options are available (both TCP and UDP exist for most endpoints):
 | Type          | Options                                                                                                                                                            | Example                       |
 | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------- |
 | `multihop`  | toronto (ca), zurich (ch), chicago (us), new-york (us), any-city (se)         | `OVPN_COUNTRY=ca   OVPN_CITY=toronto`          |
