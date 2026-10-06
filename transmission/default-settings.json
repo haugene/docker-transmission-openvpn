@@ -11,6 +11,7 @@
     "blocklist-enabled": false,
     "blocklist-url": "http://www.example.com/blocklist",
     "cache-size-mb": 4,
+    "default-trackers": "",
     "dht-enabled": true,
     "download-dir": "/data/completed",
     "download-queue-enabled": true,

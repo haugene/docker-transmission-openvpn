@@ -72,6 +72,35 @@ By default, the startup script applies a default set of permissions and ownershi
 | -------------------------- | -------------------------------------- | -------------------------------- |
 | `GLOBAL_APPLY_PERMISSIONS` | Disable setting of default permissions | `GLOBAL_APPLY_PERMISSIONS=false` |
 
+### Default trackers
+
+Transmission adds the trackers in its `default-trackers` setting to every public torrent.
+Set `DEFAULT_TRACKERS_LISTS` to the URL of a tracker list (a text file with one announce URL per line) and the container
+downloads it on every start-up and sets `default-trackers`. To use multiple lists, give a comma- or space-separated list of URLs. If none of the lists can be downloaded the previous value is kept.
+
+**Note:** the downloaded trackers replace the whole `default-trackers` setting each time, which happens on every start-up
+and whenever the VPN connection is re-established. Trackers added manually through the web UI are lost.
+To keep your own trackers, put them in a list of your own and add it to `DEFAULT_TRACKERS_LISTS`. This can also be a
+file in the container, for example `file:///config/my-trackers.txt`.
+
+| Variable                 | Function                                                                                             | Example                                                                                                                                                                            |
+| ------------------------ | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `DEFAULT_TRACKERS_LISTS` | URL(s) of tracker list(s) to download into `default-trackers`. | `DEFAULT_TRACKERS_LISTS=https://example.com/some_trackers.txt` |
+
+You can also set the trackers yourself with `TRANSMISSION_DEFAULT_TRACKERS`, like any other
+[Transmission setting](#transmission-configuration-options). Its value is used as-is, so multiple trackers have to be
+separated by an empty line (two newlines), for example with a multi-line value in docker-compose:
+
+```yaml
+environment:
+  TRANSMISSION_DEFAULT_TRACKERS: |
+    udp://tracker.example.org:1337/announce
+
+    udp://tracker.example.net:6969/announce
+```
+
+If both are set, the trackers downloaded through `DEFAULT_TRACKERS_LISTS` take precedence. Only when none of the lists can be downloaded is `TRANSMISSION_DEFAULT_TRACKERS` used instead.
+
 ### Alternative Web UIs
 
 This container comes bundled with some alternative Web UIs:

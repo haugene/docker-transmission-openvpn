@@ -138,6 +138,12 @@ echo "STARTING TRANSMISSION" "command line:" "${transmission_cmd[*]@Q}"
 exec su --preserve-environment "${RUN_AS}" -s /bin/bash \
   -c "ulimit -S -n ${OPEN_FILES_LIMIT}; exec ${transmission_cmd[*]@Q}" &
 
+# Update the default trackers in the background, nothing goes through the tunnel until this script is done
+if [[ -n "${DEFAULT_TRACKERS_LISTS}" ]]; then
+  echo "Updating default trackers from ${DEFAULT_TRACKERS_LISTS} in the background"
+  /etc/transmission/updateDefaultTrackers.sh &
+fi
+
 # Configure port forwarding if applicable
 if [[ -f /etc/openvpn/${OPENVPN_PROVIDER,,}/update-port.sh && (-z $DISABLE_PORT_UPDATER || "false" = "$DISABLE_PORT_UPDATER") ]]; then
   echo "Provider ${OPENVPN_PROVIDER^^} has a script for automatic port forwarding. Will run it now."

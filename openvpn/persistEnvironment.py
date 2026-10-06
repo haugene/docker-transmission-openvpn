@@ -24,7 +24,8 @@ wanted_variables = {
     'DISABLE_PORT_UPDATER',
     'TZ',
     'OVERRIDE_DNS_ACTIVE',
-    'CONFIG'
+    'CONFIG',
+    'DEFAULT_TRACKERS_LISTS'
 }
 
 variables_to_persist = {}
