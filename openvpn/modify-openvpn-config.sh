@@ -140,7 +140,6 @@ fi
 
 ## Option 9 - Remove resolv up/down scripts which calls system resolv-conf updaters.
 ## Provider configs (e.g. ProtonVPN) include these directives which are unavailable in containers
-## The container already handles this via PEER_DNS option in tunnelUp.sh
 if [[ $CONFIG_MOD_RESOLV_CONF_SCRIPTS == "1" ]]; then
     if grep -qE "^(up|down)\s+/etc/openvpn/update-resolv-conf" "$CONFIG"; then
         echo "Modification: Removing up/down resolv-conf scripts incompatible with containers"
