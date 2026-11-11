@@ -36,7 +36,6 @@ secrets:
 | `PEER_DNS`          | Controls whether to use the DNS provided by the OpenVPN endpoint. | To use your host DNS rather than what is provided by OpenVPN, set `PEER_DNS=false`.  This allows for potential DNS leakage. |
 | `PEER_DNS_PIN_ROUTES` | Controls whether to force traffic to peer DNS through the OpenVPN tunnel. | To disable this default, set `PEER_DNS_PIN_ROUTES=false`. |
 | `OVERRIDE_DNS`      | Override the VPN-provided DNS servers. Use `OVERRIDE_DNS_1`, `OVERRIDE_DNS_2`, etc. for multiple servers. When set, VPN DNS will not be applied. | `OVERRIDE_DNS_1=8.8.8.8` `OVERRIDE_DNS_2=8.8.4.4` |                                                             
-| `CONFIG_MOD_RESOLV_CONF_SCRIPTS` | Strips incompatible up/down resolv-conf scripts from provider configs (e.g. ProtonVPN). Enabled by default. | Set CONFIG_MOD_RESOLV_CONF_SCRIPTS=0 to disable this and keep host-level scripts. |
 
 ### Timezone option
 
